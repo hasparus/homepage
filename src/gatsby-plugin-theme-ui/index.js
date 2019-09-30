@@ -27,7 +27,7 @@ export const theme = {
       'Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans, ' +
       'Droid Sans", "Helvetica Neue", sans-serif',
   },
-  fontSizes: [14, 20, 28, 40, 56, 80, 113],
+  fontSizes: [14, 16, 20, 24, 32, 48, 64, 72, 96],
   fontWeights: {
     body: 400,
     heading: 400,
@@ -41,6 +41,7 @@ export const theme = {
   // useCustomProperties: true,
   colors: {
     text: "#000",
+    mutedText: "#444",
     background: "#fff",
     primary: "#11e",
     secondary: "#c0c",
@@ -49,6 +50,7 @@ export const theme = {
     modes: {
       dark: {
         text: "#fff",
+        mutedText: "#ccc",
         background: "#000",
         primary: "#0fc",
         secondary: "#0cf",
@@ -62,13 +64,14 @@ export const theme = {
       fontFamily: "body",
       lineHeight: "body",
       fontWeight: "body",
+      fontSize: 1,
     },
     h1: {
       color: "text",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 6,
+      fontSize: 7,
       margin: "0.5em 0",
     },
     h2: {
@@ -115,6 +118,8 @@ export const theme = {
       fontFamily: "body",
       fontWeight: "body",
       lineHeight: "body",
+      width: "80ch",
+      maxWidth: "100%",
     },
     a: {
       color: "primary",
@@ -145,6 +150,15 @@ export const theme = {
     },
     img: {
       maxWidth: "100%",
+    },
+    blockquote: {
+      margin: 0,
+      padding: "0 1em",
+      borderLeft: ".25em solid highlight",
+      "*": {
+        color: "mutedText",
+        fontSize: 0,
+      },
     },
   },
 };

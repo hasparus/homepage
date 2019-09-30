@@ -60,9 +60,8 @@ exports.createPages = ({ graphql, actions }) => {
           return reject(result.errors);
         }
 
-        console.log(result.data);
 
-        result.data.allMdx.forEach(({ node }) => {
+        result.data.allMdx.nodes.forEach(node => {
           actions.createPage({
             path: node.fields.route,
             component: node.fileAbsolutePath,

@@ -9,6 +9,7 @@
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",
+    "debug": "nodemon --exec \"node --inspect-brk --no-lazy node_modules/gatsby/dist/bin/gatsby develop\"",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \""
   },
@@ -41,6 +42,7 @@
     "webpack-notifier": "^1.8.0"
   },
   "devDependencies": {
+    "nodemon": "^1.19.3",
     "prettier": "^1.18.2"
   },
   "repository": {
