@@ -1,0 +1,152 @@
+/**
+ * @param {string} fonts
+ */
+const font = fonts => {
+  if (process.env.NODE_ENV === "development") {
+    const xs = fonts.split(",");
+    /**
+     * I'd like to notice when fonts get broken.
+     * Comic Sans MS is a great tool for that.
+     */
+    return [...xs.slice(0, -1), "Comic Sans MS", xs[xs.length - 1]].join(",");
+  }
+  return fonts;
+};
+
+// https://github.com/system-ui/theme-specification
+export const theme = {
+  fonts: {
+    space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+    monospace: font(
+      "'Fira Code', 'Hack', 'Hasklig', 'Dank Mono', 'Inconsolata', 'Menlo', 'Consolas', monospace"
+    ),
+    body: font("'Open Sans', sans-serif"),
+    heading: font("'Passion One', cursive"),
+    system:
+      'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", ' +
+      'Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans, ' +
+      'Droid Sans", "Helvetica Neue", sans-serif',
+  },
+  fontSizes: [14, 20, 28, 40, 56, 80, 113],
+  fontWeights: {
+    body: 400,
+    heading: 400,
+    bold: 600,
+  },
+  lineHeights: {
+    body: 1.75,
+    heading: 1.25,
+  },
+  initialColorMode: "light",
+  // useCustomProperties: true,
+  colors: {
+    text: "#000",
+    background: "#fff",
+    primary: "#11e",
+    secondary: "#c0c",
+    highlight: "#e0e",
+    muted: "#f6f6ff",
+    modes: {
+      dark: {
+        text: "#fff",
+        background: "#000",
+        primary: "#0fc",
+        secondary: "#0cf",
+        highlight: "#f0c",
+        muted: "#011",
+      },
+    },
+  },
+  styles: {
+    root: {
+      fontFamily: "body",
+      lineHeight: "body",
+      fontWeight: "body",
+    },
+    h1: {
+      color: "text",
+      fontFamily: "heading",
+      lineHeight: "1.2",
+      fontWeight: "heading",
+      fontSize: 6,
+      margin: "0.5em 0",
+    },
+    h2: {
+      color: "text",
+      fontFamily: "heading",
+      lineHeight: "1.2",
+      fontWeight: "heading",
+      fontSize: 5,
+      margin: "0.5em 0",
+    },
+    h3: {
+      color: "text",
+      fontFamily: "heading",
+      lineHeight: "1.2",
+      fontWeight: "heading",
+      fontSize: 4,
+    },
+    h4: {
+      color: "text",
+      fontFamily: "heading",
+      lineHeight: "1.2",
+      fontWeight: "heading",
+      fontSize: 3,
+      margin: "0.5em 0",
+    },
+    h5: {
+      color: "text",
+      fontFamily: "heading",
+      lineHeight: "1.2",
+      fontWeight: "heading",
+      fontSize: 2,
+      margin: "0.5em 0",
+    },
+    h6: {
+      color: "text",
+      fontFamily: "heading",
+      lineHeight: "1.2",
+      fontWeight: "heading",
+      fontSize: 1,
+      margin: "0.5em 0",
+    },
+    p: {
+      color: "text",
+      fontFamily: "body",
+      fontWeight: "body",
+      lineHeight: "body",
+    },
+    a: {
+      color: "primary",
+    },
+    pre: {
+      fontFamily: "monospace",
+      overflowX: "auto",
+      code: {
+        color: "inherit",
+      },
+    },
+    code: {
+      fontFamily: "monospace",
+      fontSize: "inherit",
+    },
+    table: {
+      width: "100%",
+      borderCollapse: "separate",
+      borderSpacing: 0,
+    },
+    th: {
+      textAlign: "left",
+      borderBottomStyle: "solid",
+    },
+    td: {
+      textAlign: "left",
+      borderBottomStyle: "solid",
+    },
+    img: {
+      maxWidth: "100%",
+    },
+  },
+};
+
+export default theme;
