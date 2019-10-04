@@ -2,10 +2,7 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
 import { Styled, jsx, SxProps } from "theme-ui";
 
-import {
-  BlogPostsQuery,
-  BlogPostsQuery_allMdx_nodes_file_File,
-} from "./__generated__/BlogPostsQuery";
+import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 
 const Index = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
@@ -31,7 +28,9 @@ const Index = () => {
       <Styled.h1>Hello world!</Styled.h1>
       <Styled.p>Lorem ipsum dolor sit amet</Styled.p>
       <ol>
-        {allMdx.nodes.map(({ timeToRead, frontmatter, fields }, i) => {
+        {allMdx.nodes.map((node, i) => {
+          const { timeToRead, frontmatter, fields } = node!;
+
           return (
             <article key={i}>
               <header>
