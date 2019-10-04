@@ -1,3 +1,5 @@
+//@ts-check
+
 /**
  * @param {string} fonts
  */
@@ -27,7 +29,7 @@ export const theme = {
       'Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans, ' +
       'Droid Sans", "Helvetica Neue", sans-serif',
   },
-  fontSizes: [14, 16, 20, 24, 32, 48, 64, 72, 96],
+  fontSizes: [16, 18, 23, 27, 36, 54, 72, 81, 108],
   fontWeights: {
     body: 400,
     heading: 400,
