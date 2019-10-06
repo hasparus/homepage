@@ -1,4 +1,1 @@
-declare module "lodash-fp" {
-  import _ from "lodash";
-  export = _;
-}
+w;

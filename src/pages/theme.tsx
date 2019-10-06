@@ -1,68 +1,117 @@
 /** @jsx jsx */
-import { filter, collect } from "fp-ts/lib/Record";
+import { filter, collect, keys } from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Styled as s, jsx } from "theme-ui";
-import { theme, Root } from "../ui";
+import { Styled as s, jsx, useColorMode, useThemeUI } from "theme-ui";
+import { capitalize } from "lodash";
+import { theme, Root, ColorModes, colorModes, Button } from "../ui";
+import { isString, contrastingTextColor } from "../utils";
 
-const contrastingTextColor = (color: string /* 6 or 3 letter hex */) => {
-  const col =
-    color.length === 7
-      ? color.slice(1)
-      : color
-          .match(/#(\w)(\w)(\w)/)!
-          .slice(1, 4)
-          .map(ch => ch + ch)
-          .join("");
+function copyToClipboard(value: string | number) {
+  window.navigator.clipboard.writeText(String(value)).then(() => {
+    window.alert(`copied ${value} to clipboard`);
+  });
+}
 
-  console.log({ col });
+const ColorSquareList = (props: React.ComponentProps<"ul">) => (
+  <ul
+    sx={{
+      listStyle: "none",
+      display: "flex",
+      flexWrap: "wrap",
+      padding: 0,
+    }}
+    {...props}
+  />
+);
 
-  const [r, g, b] = col
-    .match(/(\w\w)(\w\w)(\w\w)/)!
-    .slice(1, 4)
-    .map(x => Number(`0x${x}`));
+const CopyableText: React.FC<{ children: React.ReactText }> = ({
+  children,
+}) => (
+  <Button
+    sx={{
+      cursor: "copy",
+    }}
+    onClick={() => copyToClipboard(children)}
+  >
+    {children}
+  </Button>
+);
 
-  /**
-   * @see http://alienryderflex.com/hsp.html
-   * @see https://medium.com/the-mvp/finally-a-definitive-way-to-make-gradients-beautiful-6b27af88f5f
-   */
-  const hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+type ThemeHeadingProps = {
+  as: "h1" | "h2" | "h3" | "h4" | "h5";
+};
+const ThemeHeading: React.FC<ThemeHeadingProps> = ({ as }) => {
+  const H = s[as];
+  return (
+    <H>
+      {as} {theme.fonts.heading.split(",")[0].slice(1, -1)}{" "}
+      {theme.fontSizes[theme.styles[as].fontSize]}px
+    </H>
+  );
+};
 
-  return hsp > 125 ? "black" : "white";
+type ColorSquareProps = {
+  name: string;
+  value: string;
+};
+
+const ColorSquare: React.FC<ColorSquareProps> = ({ name, value }) => {
+  return (
+    <li
+      key={name}
+      sx={{
+        boxSizing: "border-box",
+        width: 200,
+        height: 200,
+        p: "1em",
+        bg: name,
+        color: contrastingTextColor(value),
+      }}
+    >
+      <CopyableText>{name}</CopyableText>: <CopyableText>{value}</CopyableText>
+    </li>
+  );
 };
 
 const ThemePage = () => {
+  const [colorMode, setColorMode] = useColorMode<ColorModes>();
+
   return (
     <Root>
       <s.h1>Theme</s.h1>
       <section>
         <s.h2>Colors</s.h2>
-        <ul
-          sx={{
-            listStyle: "none",
-            display: "flex",
-            flexWrap: "wrap",
-            padding: 0,
-          }}
-        >
+        <s.h3 sx={{ m: 0 }}>{capitalize(colorMode)} Mode</s.h3>
+        {keys(colorModes).map(colorModeName => (
+          <Button
+            key={colorModeName}
+            sx={{
+              bg: "highlight",
+              p: 1,
+              mr: 2,
+            }}
+            onClick={() => setColorMode(colorModeName)}
+          >
+            {colorModeName}
+          </Button>
+        ))}
+        <ColorSquareList>
           {pipe(
-            theme.colors,
-            filter((x): x is string => typeof x === "string"),
+            colorModes[colorMode],
+            filter(isString),
             collect((colorName, colorValue) => (
-              <li
-                key={colorName}
-                sx={{ width: 200, height: 200, bg: colorValue }}
-              >
-                <s.div
-                  sx={{
-                    color: contrastingTextColor(colorValue),
-                  }}
-                >
-                  {colorName}: {colorValue}
-                </s.div>
-              </li>
+              <ColorSquare name={colorName} value={colorValue} />
             ))
           )}
-        </ul>
+        </ColorSquareList>
+      </section>
+      <section>
+        <s.h2>Typography</s.h2>
+        <ThemeHeading as="h1" />
+        <ThemeHeading as="h2" />
+        <ThemeHeading as="h3" />
+        <ThemeHeading as="h4" />
+        <ThemeHeading as="h5" />
       </section>
     </Root>
   );

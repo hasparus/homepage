@@ -11824,6 +11824,16 @@
               "defaultValue": null
             },
             {
+              "name": "allowNamespaces",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "pathCheck",
               "description": "",
               "type": {
@@ -12847,6 +12857,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "allowNamespaces",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -14364,6 +14386,12 @@
               "deprecationReason": null
             },
             {
+              "name": "pluginCreator___pluginOptions___allowNamespaces",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "pluginCreator___pluginOptions___pathCheck",
               "description": null,
               "isDeprecated": false,
@@ -15548,6 +15576,12 @@
             },
             {
               "name": "pluginOptions___name",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pluginOptions___allowNamespaces",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

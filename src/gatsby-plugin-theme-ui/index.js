@@ -1,4 +1,7 @@
-//@ts-check
+// @ts-check
+
+import { lighten, desaturate } from "polished";
+import { omit } from "lodash";
 
 /**
  * @param {string} fonts
@@ -15,7 +18,31 @@ const font = fonts => {
   return fonts;
 };
 
+export const colorModes = {
+  light: {
+    text: "#000",
+    gray: "#2B2C28",
+    background: "#fff",
+    primary: "#002FF4", // dark blue
+    secondary: "#99FFFC", // ice cold
+    highlight: desaturate(0.3, lighten(0.5, "#002FF4")),
+    muted: "#f6f6ff",
+  },
+  dark: {
+    text: "#fff",
+    gray: "#ccc",
+    background: "#000",
+    primary: "#0fc",
+    secondary: "#0cf",
+    highlight: "#f0c",
+    muted: "#011",
+  },
+};
+
 // https://github.com/system-ui/theme-specification
+// /**
+//  * @type {import("theme-ui").Theme}
+//  */
 export const theme = {
   fonts: {
     space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -42,24 +69,8 @@ export const theme = {
   initialColorMode: "light",
   // useCustomProperties: true,
   colors: {
-    text: "#000",
-    mutedText: "#444",
-    background: "#fff",
-    primary: "#11e",
-    secondary: "#c0c",
-    highlight: "#e0e",
-    muted: "#f6f6ff",
-    modes: {
-      dark: {
-        text: "#fff",
-        mutedText: "#ccc",
-        background: "#000",
-        primary: "#0fc",
-        secondary: "#0cf",
-        highlight: "#f0c",
-        muted: "#011",
-      },
-    },
+    ...colorModes.light,
+    modes: omit(colorModes, "light"),
   },
   styles: {
     root: {
