@@ -3,7 +3,7 @@ import { graphql, Link, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
-import { Root, Header, theme } from "../ui";
+import { Header, Root, theme } from "../ui";
 import { BlogpostDetails } from "../ui/BlogpostDetails";
 
 const IndexPage = () => {

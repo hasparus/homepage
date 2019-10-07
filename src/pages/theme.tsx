@@ -3,7 +3,7 @@ import { filter, collect, keys } from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Styled as s, jsx, useColorMode } from "theme-ui";
 import { last } from "lodash";
-import { theme, Root, ColorModes, colorModes, Button, Header } from "../ui";
+import { theme, ColorModes, colorModes, Header, Root, Button } from "../ui";
 import { isString, contrastingTextColor } from "../utils";
 
 function copyToClipboard(value: string | number) {
