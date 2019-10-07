@@ -78,24 +78,23 @@ const ThemePage = () => {
 
   return (
     <Root>
-      <Header />
+      <Header showHome />
       <s.h1>Theme</s.h1>
+      {keys(colorModes).map(colorModeName => (
+        <Button
+          key={colorModeName}
+          sx={{
+            bg: "highlight",
+            p: 1,
+            mr: 2,
+          }}
+          onClick={() => setColorMode(colorModeName)}
+        >
+          {colorModeName}
+        </Button>
+      ))}
       <section>
         <s.h2>Colors</s.h2>
-        <s.h3 sx={{ m: 0 }}>{capitalize(colorMode)} Mode</s.h3>
-        {keys(colorModes).map(colorModeName => (
-          <Button
-            key={colorModeName}
-            sx={{
-              bg: "highlight",
-              p: 1,
-              mr: 2,
-            }}
-            onClick={() => setColorMode(colorModeName)}
-          >
-            {colorModeName}
-          </Button>
-        ))}
         <ColorSquareList>
           {pipe(
             colorModes[colorMode],

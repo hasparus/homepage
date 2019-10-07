@@ -29,11 +29,11 @@ export const colorModes = {
   },
   dark: {
     text: "#fff",
-    gray: "#ccc",
-    background: "#000",
+    gray: "#00c0f0",
+    background: "#02030f",
     primary: "#0fc",
     secondary: "#0cf",
-    highlight: "#f0c",
+    highlight: "#fe00cb",
     muted: "#011",
   },
 };

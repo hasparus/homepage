@@ -40,7 +40,7 @@ const IndexPage = () => {
           return (
             <article key={i}>
               <header>
-                <s.h3 sx={{ marginBottom: "0.4375rem" }}>
+                <s.h3 sx={{ marginBottom: "0.4375rem", color: "text" }}>
                   {/* I'm not exactly sure that it's always a file */}
                   <Link
                     to={fields!.route!}
