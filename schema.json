@@ -431,7 +431,7 @@
                   "description": "",
                   "type": {
                     "kind": "INPUT_OBJECT",
-                    "name": "IntQueryOperatorInput",
+                    "name": "FloatQueryOperatorInput",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1651,7 +1651,7 @@
                   "description": "",
                   "type": {
                     "kind": "INPUT_OBJECT",
-                    "name": "IntQueryOperatorInput",
+                    "name": "FloatQueryOperatorInput",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -5275,7 +5275,7 @@
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "Float",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -7929,7 +7929,7 @@
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "IntQueryOperatorInput",
+                "name": "FloatQueryOperatorInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -18010,7 +18010,7 @@
               "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "Float",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -18595,7 +18595,7 @@
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "IntQueryOperatorInput",
+                "name": "FloatQueryOperatorInput",
                 "ofType": null
               },
               "defaultValue": null

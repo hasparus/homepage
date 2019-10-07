@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { filter, collect, keys } from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Styled as s, jsx, useColorMode, useThemeUI } from "theme-ui";
+import { Styled as s, jsx, useColorMode } from "theme-ui";
 import { capitalize } from "lodash";
-import { theme, Root, ColorModes, colorModes, Button } from "../ui";
+import { theme, Root, ColorModes, colorModes, Button, Header } from "../ui";
 import { isString, contrastingTextColor } from "../utils";
 
 function copyToClipboard(value: string | number) {
@@ -78,6 +78,7 @@ const ThemePage = () => {
 
   return (
     <Root>
+      <Header />
       <s.h1>Theme</s.h1>
       <section>
         <s.h2>Colors</s.h2>

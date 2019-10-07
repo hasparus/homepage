@@ -3,7 +3,8 @@ import { graphql, Link, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
-import { Root } from "../ui";
+import { Root, Header, theme } from "../ui";
+import { BlogpostDetails } from "../ui/BlogpostDetails";
 
 const IndexPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
@@ -26,8 +27,11 @@ const IndexPage = () => {
 
   return (
     <Root>
-      <s.h1>Hello world!</s.h1>
-      <s.p>Lorem ipsum dolor sit amet</s.p>
+      <Header />
+      <s.h1 sx={{ mt: 3, mb: 4 }}>haspar.us</s.h1>
+      <s.p>
+        Howdy! I'm Piotr Monwid-Olechnowicz and this is my personal blog.
+      </s.p>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { timeToRead, frontmatter, fields } = node!;
@@ -38,19 +42,17 @@ const IndexPage = () => {
               <header>
                 <s.h3 sx={{ marginBottom: "0.4375rem" }}>
                   {/* I'm not exactly sure that it's always a file */}
-                  <Link to={fields!.route!} sx={{ textDecoration: "none" }}>
+                  <Link
+                    to={fields!.route!}
+                    sx={{
+                      ...theme.styles.a,
+                      color: "currentColor",
+                    }}
+                  >
                     {title}
                   </Link>
                 </s.h3>
-                <small sx={{ fontSize: 0, display: "block" }}>
-                  {date &&
-                    new Date(date).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}{" "}
-                  · {timeToRead!} min read
-                </small>
+                <BlogpostDetails date={date} timeToRead={timeToRead!} />
               </header>
             </article>
           );

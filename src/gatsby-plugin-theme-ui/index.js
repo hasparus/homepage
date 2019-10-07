@@ -1,6 +1,5 @@
 // @ts-check
 
-import { lighten, desaturate } from "polished";
 import { omit } from "lodash";
 
 /**
@@ -20,13 +19,13 @@ const font = fonts => {
 
 export const colorModes = {
   light: {
-    text: "#000",
+    text: "#020202",
     gray: "#2B2C28",
     background: "#fff",
-    primary: "#002FF4", // dark blue
-    secondary: "#99FFFC", // ice cold
-    highlight: desaturate(0.3, lighten(0.5, "#002FF4")),
-    muted: "#f6f6ff",
+    primary: "#002FF4", // blue
+    secondary: "#FED766", // orange yellow
+    highlight: "#FEE9AB",
+    muted: "#D0D9FD",
   },
   dark: {
     text: "#fff",
@@ -67,7 +66,7 @@ export const theme = {
     heading: 1.25,
   },
   initialColorMode: "light",
-  // useCustomProperties: true,
+  useCustomProperties: true,
   colors: {
     ...colorModes.light,
     modes: omit(colorModes, "light"),
@@ -80,11 +79,13 @@ export const theme = {
       fontSize: 1,
     },
     h1: {
-      color: "text",
+      // color: "text",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 7,
+      fontSize: [5, 6, 7],
+      textAlign: ["center", "left", "left"],
+      py: [5, 0, 0],
       margin: "0.5em 0",
     },
     h2: {
@@ -96,14 +97,14 @@ export const theme = {
       margin: "0.5em 0",
     },
     h3: {
-      color: "text",
+      color: "gray",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
       fontSize: 4,
     },
     h4: {
-      color: "text",
+      color: "gray",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
@@ -120,7 +121,7 @@ export const theme = {
     },
     h6: {
       color: "text",
-      fontFamily: "heading",
+      fontFamily: "text",
       lineHeight: "1.2",
       fontWeight: "heading",
       fontSize: 1,
@@ -136,6 +137,10 @@ export const theme = {
     },
     a: {
       color: "primary",
+      textDecoration: "none",
+      ":focus, :hover": {
+        textDecoration: "underline",
+      },
     },
     pre: {
       fontFamily: "monospace",
@@ -164,10 +169,14 @@ export const theme = {
     img: {
       maxWidth: "100%",
     },
+    ul: {
+      pl: [3, "40px" /* default */],
+    },
     blockquote: {
       margin: 0,
       padding: "0 1em",
-      borderLeft: ".25em solid highlight",
+      borderLeft: ".25em solid",
+      borderColor: "highlight",
       "*": {
         color: "mutedText",
         fontSize: 0,
