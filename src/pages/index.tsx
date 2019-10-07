@@ -3,8 +3,9 @@ import { graphql, Link, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
-import { Header, Root, theme } from "../ui";
-import { BlogpostDetails } from "../ui/BlogpostDetails";
+import { Header, Root, theme } from "../components";
+import { BlogpostDetails } from "../components/BlogpostDetails";
+import Seo from "../components/Seo";
 
 const IndexPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
@@ -27,6 +28,7 @@ const IndexPage = () => {
 
   return (
     <Root>
+      <Seo titleTemplate="%s" />
       <Header />
       <s.h1 sx={{ mt: 3, mb: 4 }}>haspar.us</s.h1>
       <s.p>

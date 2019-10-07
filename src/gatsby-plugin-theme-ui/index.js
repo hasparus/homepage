@@ -67,6 +67,7 @@ export const theme = {
   },
   initialColorMode: "light",
   useCustomProperties: true,
+  useColorSchemeMediaQuery: true,
   colors: {
     ...colorModes.light,
     modes: omit(colorModes, "light"),

@@ -6,9 +6,10 @@
 
 module.exports = {
   siteMetadata: {
-    title: `hasparus homepage`,
-    author: `Piotr Monwid-Olechnowicz`,
-    description: `Description placeholder`,
+    title: "haspar.us",
+    titleTemplate: "%s — haspar.us",
+    author: "Piotr Monwid-Olechnowicz",
+    description: "A personal blog, mostly about software engineering",
     social: [
       {
         name: `Twitter`,
@@ -19,6 +20,9 @@ module.exports = {
         url: `https://github.com/hasparus`,
       },
     ],
+    url: "https://haspar.us", // No trailing slash allowed!
+    // image: "/images/snape.jpg", // Path to your image you placed in the 'static' folder
+    twitterUsername: "@hasparus",
   },
   plugins: [
     "gatsby-plugin-theme-ui",
@@ -67,5 +71,18 @@ module.exports = {
       },
     },
     "gatsby-plugin-codegen",
+    "gatsby-plugin-react-helmet",
+    "gatsby-plugin-robots-txt",
+    {
+      resolve: "gatsby-plugin-manifest",
+      options: {
+        name: "haspar.us",
+        short_name: "haspar.us",
+        start_url: "/",
+        background_color: "#fff",
+        theme_color: "#002FF4",
+        icon: "src/favicon.png",
+      },
+    },
   ],
 };
