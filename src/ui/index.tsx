@@ -16,6 +16,8 @@ export const Root = (
     sx={{
       maxWidth: "80ch",
       mx: "auto",
+      mt: 3,
+      mb: 6,
     }}
     {...props}
   />

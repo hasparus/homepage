@@ -11569,6 +11569,16 @@
                 "ofType": null
               },
               "defaultValue": null
+            },
+            {
+              "name": "timeToRead",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -12514,6 +12524,18 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "SitePageContextFrontmatter",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "timeToRead",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -14093,6 +14115,12 @@
             },
             {
               "name": "context___frontmatter___date",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "context___timeToRead",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

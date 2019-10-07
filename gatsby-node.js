@@ -1,5 +1,3 @@
-//@ts-check
-
 const WebpackNotifierPlugin = require("webpack-notifier");
 const path = require("path");
 const { toLower } = require("lodash");
@@ -47,6 +45,7 @@ exports.createPages = ({ graphql, actions }) => {
           allMdx {
             nodes {
               id
+              timeToRead
               fileAbsolutePath
               fields {
                 route
@@ -60,11 +59,11 @@ exports.createPages = ({ graphql, actions }) => {
           return reject(result.errors);
         }
 
-
         result.data.allMdx.nodes.forEach(node => {
           actions.createPage({
             path: node.fields.route,
             component: node.fileAbsolutePath,
+            context: { timeToRead: node.timeToRead },
           });
         });
       })

@@ -2,7 +2,7 @@
 import { filter, collect, keys } from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Styled as s, jsx, useColorMode } from "theme-ui";
-import { capitalize } from "lodash";
+import { last } from "lodash";
 import { theme, Root, ColorModes, colorModes, Button, Header } from "../ui";
 import { isString, contrastingTextColor } from "../utils";
 
@@ -42,10 +42,15 @@ type ThemeHeadingProps = {
 };
 const ThemeHeading: React.FC<ThemeHeadingProps> = ({ as }) => {
   const H = s[as];
+
+  const { fontSize } = theme.styles[as];
+  const fontSizeIndex =
+    typeof fontSize === "number" ? fontSize : last(fontSize)!;
+
   return (
     <H>
       {as} {theme.fonts.heading.split(",")[0].slice(1, -1)}{" "}
-      {theme.fontSizes[theme.styles[as].fontSize]}px
+      {theme.fontSizes[fontSizeIndex]}px
     </H>
   );
 };
