@@ -20,7 +20,7 @@ module.exports = {
         url: `https://github.com/hasparus`,
       },
     ],
-    url: "https://haspar.us", // No trailing slash allowed!
+    siteUrl: "https://haspar.us", // No trailing slash allowed!
     // image: "/images/snape.jpg", // Path to your image you placed in the 'static' folder
     twitterUsername: "@hasparus",
   },

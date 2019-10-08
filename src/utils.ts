@@ -26,7 +26,5 @@ export const contrastingTextColor = (color: string) => {
    */
   const hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
 
-  console.log("debug", color, hsp);
-
   return hsp > 125 ? "black" : "white";
 };
