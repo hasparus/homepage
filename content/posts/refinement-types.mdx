@@ -2,6 +2,7 @@
 title: Refinement Types
 spoiler: Tremendous type safety through the power of an if statement.
 date: 2019-10-07T05:15:24.699Z
+history: Verbose
 ---
 
 ## What are they?
@@ -38,11 +39,11 @@ of _**T**_ containing all values _**x**_ of type _**T**_ for which `P(x) === tru
   > numbers, numbers equal to some value n, and valid indexes for an array a,
   > respectively...
 
+## How can I use them? What will I gain?
+
 Refinement types are not supported on language level by TypeScript, but they're
 a concept from type theory -- They're just math and because of it we can use
 them and reap the benefits with just a little ~~hack~~ effort.
-
-## How can I use them? What will I gain?
 
 I've refined the **_number_** into **_Even_** during my
 [Wrocław TypeScript talk](https://github.com/hasparus/refinement-types-in-typescript).\
@@ -60,9 +61,9 @@ Assume we're building a form in which users can enter a list of emails into a
 textarea to send activation links to give their friends write permissions for
 the app (let's say it's a CMS).
 
-We validate these emails once, and if they're all valid, we save them, and
-later, few steps further in the form, we send our activation links. Few days
-later, we get a new requirement -- the user should be able to edit the data at
+We validate these emails once, and if they're all valid, we save them.
+Few steps further in the form, we send our activation links.
+Few days later, we get a new requirement -- the user should be able to edit the data at
 the last step of the form. Cool, the form is pretty long, we understand that it
 can be useful. Several lines of code and we're done. We go home happy about the
 good code we pushed. Next morning we see a new issue in the tracker --
