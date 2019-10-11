@@ -78,3 +78,24 @@ exports.createPages = ({ graphql, actions }) => {
     );
   });
 };
+
+exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
+  const typeDefs = /*graphql*/ `
+    type Mdx implements Node {
+      frontmatter: MdxFrontmatter
+    }
+
+    enum BlogpostHistory {
+      Verbose
+      DatesOnly
+    }
+
+    type MdxFrontmatter @dontInfer {
+      title: String!
+      spoiler: String!
+      date: Date!
+      history: BlogpostHistory
+    }
+  `;
+  createTypes(typeDefs);
+};

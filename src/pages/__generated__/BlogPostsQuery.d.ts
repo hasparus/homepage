@@ -9,8 +9,8 @@
 export interface BlogPostsQuery_allMdx_nodes_frontmatter {
   __typename: "MdxFrontmatter";
   title: string;
-  spoiler: string | null;
-  date: any | null;
+  spoiler: string;
+  date: any;
 }
 
 export interface BlogPostsQuery_allMdx_nodes_fields {
