@@ -82,7 +82,12 @@ module.exports = {
         allowNamespaces: true,
       },
     },
-    "gatsby-plugin-codegen",
+    {
+      resolve: "gatsby-plugin-codegen",
+      options: {
+        localSchemaFile: "gql-schema.json",
+      },
+    },
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-robots-txt",
     {

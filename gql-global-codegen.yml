@@ -1,0 +1,16 @@
+# gql-schema.json is emitted during `gatsby develop`
+# We're using `graphql-codegen` to generate global types (enums etc.) from it
+# Query types are generated with `gatsby-plugin-codegen`
+
+overwrite: true
+schema: ./gql-schema.json
+generates:
+  ./__generated__/global.d.ts:
+    plugins:
+      - "typescript"
+config:
+  scalars:
+    DateTime: Date
+  immutableTypes: true
+  namingConvention: keep
+  transformUnderscore: false
