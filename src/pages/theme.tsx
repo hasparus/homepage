@@ -82,7 +82,9 @@ const ColorSquare: React.FC<ColorSquareProps> = ({ name, value }) => {
 };
 
 const ThemePage = () => {
-  const [colorMode, setColorMode] = useColorMode<ColorModes>();
+  const [colorModeName, setColorMode] = useColorMode<ColorModes>();
+
+  const currentColorMode = colorModes[colorModeName];
 
   return (
     <Root>
@@ -93,6 +95,7 @@ const ThemePage = () => {
           key={colorModeName}
           sx={{
             bg: "highlight",
+            color: contrastingTextColor(currentColorMode.highlight),
             p: 1,
             mr: 2,
           }}
@@ -105,10 +108,14 @@ const ThemePage = () => {
         <s.h2>Colors</s.h2>
         <ColorSquareList>
           {pipe(
-            colorModes[colorMode],
+            currentColorMode,
             filter(isString),
             collect((colorName, colorValue) => (
-              <ColorSquare name={colorName} value={colorValue} />
+              <ColorSquare
+                key={colorName}
+                name={colorName}
+                value={colorValue}
+              />
             ))
           )}
         </ColorSquareList>

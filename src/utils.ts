@@ -5,7 +5,8 @@ export const isString = (x: unknown): x is string => typeof x === "string";
  * @example
  * contrastingTextColor("#fff") === "black";
  */
-export const contrastingTextColor = (color: string) => {
+
+export const isColorDark = (color: string) => {
   const col =
     color.length === 7
       ? color.slice(1)
@@ -26,7 +27,11 @@ export const contrastingTextColor = (color: string) => {
    */
   const hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
 
-  return hsp > 125 ? "black" : "white";
+  return hsp <= 125;
+};
+
+export const contrastingTextColor = (color: string) => {
+  return isColorDark(color) ? "white" : "black";
 };
 
 export function copyToClipboard(value: string | number) {

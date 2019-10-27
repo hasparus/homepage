@@ -29,8 +29,8 @@ export const colorModes = {
     text: "#020202",
     gray: "#2B2C28",
     background: "#fff",
-    primary: "#002FF4", // blue
-    secondary: "#FED766", // orange yellow
+    primary: "#002FF4",
+    secondary: "#FED766",
     highlight: "#FEE9AB",
     muted: "#edf1ff",
   },
@@ -40,7 +40,7 @@ export const colorModes = {
     background: "#02030f",
     primary: "#80a9ff",
     secondary: "#ffd680",
-    highlight: "#fe00cb",
+    highlight: "#ADDB67",
     muted: "#191F26",
   },
 };
