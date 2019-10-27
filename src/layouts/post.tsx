@@ -35,7 +35,7 @@ export default function PostLayout({
       <main>
         <article>
           <header>
-            <s.h1>{title}</s.h1>
+            <s.h1 sx={{ mb: 2 }}>{title}</s.h1>
             <BlogpostDetails date={date} timeToRead={timeToRead} />
           </header>
           {children}
