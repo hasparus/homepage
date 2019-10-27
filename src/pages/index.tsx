@@ -37,7 +37,7 @@ const IndexPage = () => {
       <main>
         {allMdx.nodes.map((node, i) => {
           const { timeToRead, frontmatter, fields } = node!;
-          const { date, title } = frontmatter || {};
+          const { title, spoiler, date } = frontmatter || {};
 
           return (
             <article key={i}>
@@ -56,6 +56,7 @@ const IndexPage = () => {
                 </s.h3>
                 <BlogpostDetails date={date} timeToRead={timeToRead!} />
               </header>
+              <s.p>{spoiler}</s.p>
             </article>
           );
         })}
