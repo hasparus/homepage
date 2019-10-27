@@ -3,6 +3,13 @@
 import { omit } from "lodash";
 
 /**
+ * @template T
+ * @param {T[]} xs
+ * @returns T
+ */
+const randomElement = xs => xs[Math.floor(Math.random() * xs.length)];
+
+/**
  * @param {string} fonts
  */
 const font = fonts => {
@@ -25,7 +32,7 @@ export const colorModes = {
     primary: "#002FF4", // blue
     secondary: "#FED766", // orange yellow
     highlight: "#FEE9AB",
-    muted: "#D0D9FD",
+    muted: "#edf1ff",
   },
   dark: {
     text: "#fff",
@@ -34,9 +41,49 @@ export const colorModes = {
     primary: "#0fc",
     secondary: "#0cf",
     highlight: "#fe00cb",
-    muted: "#011",
+    muted: "#191F26",
   },
 };
+
+// stolen from https://www.getpapercss.com/docs/utilities/borders/
+const sketchyBorders = [
+  {
+    borderBottomLeftRadius: "15px 255px",
+    borderBottomRightRadius: "225px 15px",
+    borderTopLeftRadius: "255px 15px",
+    borderTopRightRadius: "15px 225px",
+  },
+  {
+    borderBottomLeftRadius: "185px 25px",
+    borderBottomRightRadius: "20px 205px",
+    borderTopLeftRadius: "125px 25px",
+    borderTopRightRadius: "10px 205px",
+  },
+  {
+    borderBottomLeftRadius: "225px 15px",
+    borderBottomRightRadius: "15px 255px",
+    borderTopLeftRadius: "15px 225px",
+    borderTopRightRadius: "255px 15px",
+  },
+  {
+    borderBottomLeftRadius: "25px 115px",
+    borderBottomRightRadius: "155px 25px",
+    borderTopLeftRadius: "15px 225px",
+    borderTopRightRadius: "25px 150px",
+  },
+  {
+    borderBottomLeftRadius: "20px 115px",
+    borderBottomRightRadius: "15px 105px",
+    borderTopLeftRadius: "250px 15px",
+    borderTopRightRadius: "25px 80px",
+  },
+  {
+    borderBottomLeftRadius: "15px 225px",
+    borderBottomRightRadius: "20px 205px",
+    borderTopLeftRadius: "28px 125px",
+    borderTopRightRadius: "100px 30px",
+  },
+];
 
 // https://github.com/system-ui/theme-specification
 // /**
@@ -143,16 +190,20 @@ export const theme = {
         textDecoration: "underline",
       },
     },
-    pre: {
+    pre: () => ({
       fontFamily: "monospace",
       overflowX: "auto",
+      bg: "muted",
+      padding: "1em",
       code: {
         color: "inherit",
       },
-    },
+      ...randomElement(sketchyBorders),
+    }),
     code: {
       fontFamily: "monospace",
-      fontSize: "inherit",
+      fontSize: "0.8em",
+      bg: "muted",
     },
     table: {
       width: "100%",
