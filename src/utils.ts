@@ -28,3 +28,9 @@ export const contrastingTextColor = (color: string) => {
 
   return hsp > 125 ? "black" : "white";
 };
+
+export function copyToClipboard(value: string | number) {
+  window.navigator.clipboard.writeText(String(value)).then(() => {
+    window.alert(`copied ${value} to clipboard`);
+  });
+}

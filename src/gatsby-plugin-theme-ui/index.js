@@ -35,11 +35,11 @@ export const colorModes = {
     muted: "#edf1ff",
   },
   dark: {
-    text: "#fff",
-    gray: "#00c0f0",
+    text: "#f0f0f0",
+    gray: "#db7",
     background: "#02030f",
-    primary: "#0fc",
-    secondary: "#0cf",
+    primary: "#80a9ff",
+    secondary: "#ffd680",
     highlight: "#fe00cb",
     muted: "#191F26",
   },
@@ -193,10 +193,10 @@ export const theme = {
     pre: () => ({
       fontFamily: "monospace",
       overflowX: "auto",
-      bg: "muted",
       padding: "1em",
       code: {
         color: "inherit",
+        bg: "inherit",
       },
       ...randomElement(sketchyBorders),
     }),

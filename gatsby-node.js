@@ -21,6 +21,14 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
       name: "route",
       value: route,
     });
+
+    if (route.endsWith(".hidden")) {
+      actions.createNodeField({
+        node,
+        name: "isHidden",
+        value: true,
+      });
+    }
   }
 };
 

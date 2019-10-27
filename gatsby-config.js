@@ -41,6 +41,18 @@ module.exports = {
           },
           { resolve: `gatsby-remark-copy-linked-files` },
           { resolve: `gatsby-remark-smartypants` },
+          {
+            resolve: "gatsby-remark-vscode",
+            options: {
+              injectStyles: false,
+              colorTheme: "Night Owl (No Italics)",
+              extensions: [
+                { identifier: "hackwaly.ocaml", version: "0.6.43" },
+                { identifier: "sdras.night-owl", version: "1.1.3" },
+                { identifier: "2gua.rainbow-brackets", version: "0.0.6" },
+              ],
+            },
+          },
         ],
         remarkPlugins: [require(`remark-slug`)],
         defaultLayouts: {

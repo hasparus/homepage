@@ -1,46 +1,85 @@
 ---
-title: Refinement Types
-spoiler: Tremendous type safety through the power of an if statement.
-date: 2019-10-07T05:15:24.699Z
+title: Syntax Highlighting
+spoiler: A hidden example of syntax highligting
+date: 2019-10-27T15:15:24.699Z
 ---
 
-## What are they?
+### Hidden example
 
-_TLDR: type + predicate = refinement type_
+Lorem ipsum, dolor sit amet.
 
-We have a type called _**T**_ and a
-[predicate](<https://en.wikipedia.org/wiki/Predicate_(mathematical_logic)>) on
-_**T**_ ( `(x: T) => boolean` ) called _**P**_. \
-We can say that _**P**_ refines **T** into a type _**PT**_, where _**PT**_ is a subtype
-of _**T**_ containing all values _**x**_ of type _**T**_ for which `P(x) === true`.
+```tsx
+/** @jsx jsx */
+import { graphql, Link, useStaticQuery } from "gatsby";
+import { Styled as s, jsx } from "theme-ui";
 
-### Sources
+import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
+import { Header, Root, theme } from "../components";
+import { BlogpostDetails } from "../components/BlogpostDetails";
+import Seo from "../components/Seo";
 
-- [Wikipedia](https://en.wikipedia.org/wiki/Refinement_type)
+const IndexPage = () => {
+  const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
+    query BlogPostsQuery {
+      allMdx {
+        nodes {
+          timeToRead
+          frontmatter {
+            title
+            spoiler
+            date
+          }
+          fields {
+            route
+          }
+        }
+      }
+    }
+  `);
 
-  > In type theory, a refinement type is a type endowed with a predicate which
-  > is assumed to hold for any element of the refined type.
+  return (
+    <Root>
+      <Seo titleTemplate="%s" />
+      <Header />
+      <s.h1 sx={{ mt: 3, mb: 4 }}>haspar.us</s.h1>
+      <s.p>
+        Howdy! I'm Piotr Monwid-Olechnowicz and this is my personal blog.
+      </s.p>
+      <main>
+        {allMdx.nodes.map((node, i) => {
+          const { timeToRead, frontmatter, fields } = node!;
+          const { title, spoiler, date } = frontmatter || {};
 
-- [Refinement Types for TypeScript](https://goto.ucsd.edu/~pvekris/docs/pldi16.pdf)
+          return (
+            <article key={i}>
+              <header>
+                <s.h3 sx={{ marginBottom: "0.4375rem", color: "text" }}>
+                  {/* I'm not exactly sure that it's always a file */}
+                  <Link
+                    to={fields!.route!}
+                    sx={{
+                      ...theme.styles.a,
+                      color: "currentColor",
+                    }}
+                  >
+                    {title}
+                  </Link>
+                </s.h3>
+                <BlogpostDetails date={date} timeToRead={timeToRead!} />
+              </header>
+              <s.p>{spoiler}</s.p>
+            </article>
+          );
+        })}
+      </main>
+    </Root>
+  );
+};
 
-  > A basic refinement type is a basic type, e.g. number, refined with a logical
-  > formula from an SMT decidable logic.\
-  > For example, the types:
-  >
-  > ```
-  > type nat = { v: number | 0 ≤ v }
-  > type pos = { v: number | 0 < v }
-  > type natN<n> = { v: nat | v = n }
-  > type idx<a> = { v: nat | v < len(a) }
-  > ```
-  >
-  > describe (the set of values corresponding to) non-negative numbers, positive
-  > numbers, numbers equal to some value n, and valid indexes for an array a,
-  > respectively...
+export default IndexPage;
+```
 
-Refinement types are not supported on language level by TypeScript, but they're
-a concept from type theory -- They're just math and because of it we can use
-them and reap the benefits with just a little ~~hack~~ effort.
+Text below is taken from [/refinement-types](/refinement-types) blogpost
 
 ## How can I use them? What will I gain?
 

@@ -1,16 +1,19 @@
 /** @jsx jsx */
 import { filter, collect, keys } from "fp-ts/lib/Record";
+import { last } from "lodash";
+import { Link } from "gatsby";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Styled as s, jsx, useColorMode } from "theme-ui";
-import { last } from "lodash";
-import { theme, ColorModes, colorModes, Header, Root, Button } from "../components";
-import { isString, contrastingTextColor } from "../utils";
 
-function copyToClipboard(value: string | number) {
-  window.navigator.clipboard.writeText(String(value)).then(() => {
-    window.alert(`copied ${value} to clipboard`);
-  });
-}
+import {
+  theme,
+  ColorModes,
+  colorModes,
+  Header,
+  Root,
+  Button,
+} from "../components";
+import { isString, contrastingTextColor, copyToClipboard } from "../utils";
 
 const ColorSquareList = (props: React.ComponentProps<"ul">) => (
   <ul
@@ -117,6 +120,16 @@ const ThemePage = () => {
         <ThemeHeading as="h3" />
         <ThemeHeading as="h4" />
         <ThemeHeading as="h5" />
+      </section>
+      <section>
+        <s.h2>Links</s.h2>
+        <ul>
+          <li>
+            <Link sx={{ color: "primary" }} to="/syntax-test.hidden">
+              Syntax Highlighting Example
+            </Link>
+          </li>
+        </ul>
       </section>
     </Root>
   );

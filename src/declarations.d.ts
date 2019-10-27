@@ -1,1 +1,1 @@
-w;
+declare module "gatsby-plugin-mdx";

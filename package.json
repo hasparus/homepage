@@ -11,7 +11,8 @@
     "start": "npm run develop",
     "debug": "nodemon --exec \"node --inspect-brk --no-lazy node_modules/gatsby/dist/bin/gatsby develop\"",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \""
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/core": "^10.0.17",
@@ -34,6 +35,7 @@
     "gatsby-remark-copy-linked-files": "^2.1.23",
     "gatsby-remark-images": "^3.1.25",
     "gatsby-remark-smartypants": "^2.1.11",
+    "gatsby-remark-vscode": "^1.2.1",
     "gatsby-source-filesystem": "^2.1.28",
     "gatsby-transformer-sharp": "^2.2.19",
     "lodash": "^4.17.15",
