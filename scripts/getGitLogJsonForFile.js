@@ -1,12 +1,12 @@
-import { exec } from "child_process";
+const { exec } = require("child_process");
 
 const makeGitLogCommand = (params, filepath = "") =>
-  `git log --pretty=format:"${params.join(makeGitLogCommand.format.param)}${
-    makeGitLogCommand.format.line
-  }" ${filepath}`;
+  `git log --pretty=format:"${params.join(
+    PARAM_DELIMITER
+  )}${LINE_DELIMTER}" ${filepath}`;
 
 const random = Math.random() * 10e8;
-const LINE_DELIMTER = random.toString(36);
+const LINE_DELIMTER = random.toString(36).trim();
 const PARAM_DELIMITER = `-- ${random} --`;
 
 const prettyFormatPlaceholders = {
@@ -50,29 +50,39 @@ const prettyFormatPlaceholders = {
  *
  * @param {string} filepath
  * @param {Array<keyof PrettyFormatPlaceholders>} fields
+ * I think I can't do <T extends keyof PrettyFormatPlaceholders> here :(
+ * @returns {Promise<Record<keyof PrettyFormatPlaceholders, string>[]>}
  */
-export const getGitLogJsonForFile = (filepath, fields) => {
+const getGitLogJsonForFile = (filepath, fields) => {
   return new Promise((resolve, reject) => {
     const params = fields.map(key => prettyFormatPlaceholders[key]);
 
     const command = makeGitLogCommand(params, filepath);
-    exec(command, (err, stdout) => {
-      console.log({ err, stdout });
+    exec(command, { encoding: "utf-8" }, (err, stdout) => {
       if (err) {
         reject(err);
       } else {
         resolve(
           stdout
+            .trim()
             .split(LINE_DELIMTER)
             .filter(line => line.length)
             .map(line =>
-              line.split(PARAM_DELIMITER).reduce((obj, value, idx) => {
-                obj[fields[idx]] = value;
-                return obj;
-              }, {})
+              line
+                .trim()
+                .split(PARAM_DELIMITER)
+                .reduce((obj, value, idx) => {
+                  obj[fields[idx]] = value.startsWith("\n")
+                    ? value.slice(1)
+                    : value;
+
+                  return obj;
+                }, {})
             )
         );
       }
     });
   });
 };
+
+module.exports = { getGitLogJsonForFile };

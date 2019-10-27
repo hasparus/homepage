@@ -2018,7 +2018,7 @@
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "BlogpostHistoryQueryOperatorInput",
+                "name": "BlogpostHistoryTypeQueryOperatorInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -2139,7 +2139,7 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "BlogpostHistoryQueryOperatorInput",
+          "name": "BlogpostHistoryTypeQueryOperatorInput",
           "description": null,
           "fields": null,
           "inputFields": [
@@ -2148,7 +2148,7 @@
               "description": null,
               "type": {
                 "kind": "ENUM",
-                "name": "BlogpostHistory",
+                "name": "BlogpostHistoryType",
                 "ofType": null
               },
               "defaultValue": null
@@ -2158,7 +2158,7 @@
               "description": null,
               "type": {
                 "kind": "ENUM",
-                "name": "BlogpostHistory",
+                "name": "BlogpostHistoryType",
                 "ofType": null
               },
               "defaultValue": null
@@ -2171,7 +2171,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "BlogpostHistory",
+                  "name": "BlogpostHistoryType",
                   "ofType": null
                 }
               },
@@ -2185,7 +2185,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "ENUM",
-                  "name": "BlogpostHistory",
+                  "name": "BlogpostHistoryType",
                   "ofType": null
                 }
               },
@@ -2198,7 +2198,7 @@
         },
         {
           "kind": "ENUM",
-          "name": "BlogpostHistory",
+          "name": "BlogpostHistoryType",
           "description": null,
           "fields": null,
           "inputFields": null,
@@ -2535,6 +2535,16 @@
                 "ofType": null
               },
               "defaultValue": null
+            },
+            {
+              "name": "history",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BlogpostHistoryEntryFilterListInput",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -2606,6 +2616,78 @@
           "description": "The `Boolean` scalar type represents `true` or `false`.",
           "fields": null,
           "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "BlogpostHistoryEntryFilterListInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "elemMatch",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BlogpostHistoryEntryFilterInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "BlogpostHistoryEntryFilterInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "abbreviatedCommit",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "authorDate",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "DateQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "subject",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "body",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
           "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
@@ -3403,7 +3485,7 @@
               "args": [],
               "type": {
                 "kind": "ENUM",
-                "name": "BlogpostHistory",
+                "name": "BlogpostHistoryType",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3554,9 +3636,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3566,8 +3652,95 @@
               "description": null,
               "args": [],
               "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "history",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "BlogpostHistoryEntry",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "BlogpostHistoryEntry",
+          "description": null,
+          "fields": [
+            {
+              "name": "abbreviatedCommit",
+              "description": null,
+              "args": [],
+              "type": {
                 "kind": "SCALAR",
-                "name": "Boolean",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "authorDate",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Date",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "subject",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "body",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -3913,6 +4086,36 @@
             },
             {
               "name": "fields___isHidden",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "fields___history",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "fields___history___abbreviatedCommit",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "fields___history___authorDate",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "fields___history___subject",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "fields___history___body",
               "description": null,
               "isDeprecated": true,
               "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
@@ -9168,6 +9371,36 @@
             },
             {
               "name": "childMdx___fields___isHidden",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "childMdx___fields___history",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "childMdx___fields___history___abbreviatedCommit",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "childMdx___fields___history___authorDate",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "childMdx___fields___history___subject",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "childMdx___fields___history___body",
               "description": null,
               "isDeprecated": true,
               "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."

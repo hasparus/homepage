@@ -15,7 +15,7 @@ export interface BlogPostsQuery_allMdx_nodes_frontmatter {
 
 export interface BlogPostsQuery_allMdx_nodes_fields {
   __typename: "MdxFields";
-  route: string | null;
+  route: string;
 }
 
 export interface BlogPostsQuery_allMdx_nodes {
