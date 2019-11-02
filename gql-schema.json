@@ -12021,6 +12021,16 @@
                 "ofType": null
               },
               "defaultValue": null
+            },
+            {
+              "name": "tags",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -13133,6 +13143,18 @@
             },
             {
               "name": "history",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "tags",
               "description": null,
               "args": [],
               "type": {
@@ -14823,6 +14845,12 @@
             },
             {
               "name": "context___frontmatter___history",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "context___frontmatter___tags",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

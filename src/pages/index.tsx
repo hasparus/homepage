@@ -10,7 +10,10 @@ import Seo from "../components/Seo";
 const IndexPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
     query BlogPostsQuery {
-      allMdx(filter: { fields: { isHidden: { ne: true } } }) {
+      allMdx(
+        filter: { fields: { isHidden: { ne: true } } }
+        sort: { fields: [frontmatter___date], order: DESC }
+      ) {
         nodes {
           timeToRead
           frontmatter {

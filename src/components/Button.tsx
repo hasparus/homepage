@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import React from "react";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { SystemStyleObject, ResponsiveStyleValue } from "@styled-system/css";
 
 type ButtonVariant = "default" | "clear";
@@ -30,6 +31,7 @@ const buttonVariants: Record<
 
 export const Button = ({ variant = "default", ...rest }: ButtonProps) => (
   <button
+    type="button"
     sx={{
       display: "inline",
       padding: 0,

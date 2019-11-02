@@ -11,6 +11,9 @@ export const Root = (
       mx: "auto",
       mt: 3,
       mb: 6,
+      "*": {
+        boxSizing: "border-box",
+      },
     }}
     {...props}
   />

@@ -18,6 +18,7 @@ interface PostLayoutProps {
   path: string;
 }
 
+// eslint-disable-next-line import/no-default-export
 export default function PostLayout({
   children,
   pathContext,
@@ -34,7 +35,7 @@ export default function PostLayout({
       <Header showHome />
       <main>
         <article>
-          <header>
+          <header sx={{ mb: 4 }}>
             <s.h1 sx={{ mb: 2 }}>{title}</s.h1>
             <BlogpostDetails date={date} timeToRead={timeToRead} />
           </header>
