@@ -1,4 +1,5 @@
 // @ts-check
+/* eslint-disable sonarjs/no-duplicate-string */
 
 import { omit } from "lodash";
 
@@ -182,6 +183,13 @@ export const theme = {
       lineHeight: "body",
       width: "80ch",
       maxWidth: "100%",
+      code: {
+        fontFamily: "monospace",
+        fontSize: 0,
+        bg: "muted",
+        borderRadius: 1,
+        padding: ".1em .15em .05em",
+      },
     },
     a: {
       color: "primary",
@@ -202,8 +210,7 @@ export const theme = {
     }),
     code: {
       fontFamily: "monospace",
-      fontSize: "0.8em",
-      bg: "muted",
+      fontSize: 0,
     },
     table: {
       width: "100%",
@@ -237,4 +244,5 @@ export const theme = {
   },
 };
 
+// eslint-disable-next-line import/no-default-export
 export default theme;

@@ -1,0 +1,135 @@
+---
+title: You Deserve More than PropTypes
+spoiler: Use static typing instead. It does wonders.
+date: 2019-10-31T15:18:39Z
+history: Verbose
+tags: React, TypeScript
+---
+
+<Epistemic effort>
+  I've spent a good amount of time discussing it. I'm willing to engage in a
+  conversation if you'd like to teach me something new on the matter or prove me
+  wrong.
+</Epistemic>
+
+I'd like to be clear -- I'm not bashing [prop-types](https://www.npmjs.com/package/prop-types) --
+It's a really good library, but the last publish was 9 months ago.
+As I'm writing this, it's November 2019, and there are much better
+alternatives for prop types.
+
+I'm starting with reasons why I think PropTypes are not good enough and later
+I'm showing what TypeScript gives you to solve these problems and
+improve your React code even more on top of it.
+
+I've chosen TypeScript due to its popularity and my familiarity with it,
+but my arguments fit any language with first-class type composition you
+can use to build React apps (Flow, Reason, Kotlin, Scala).
+
+## Why?
+
+### It's easy to half-ass PropTypes
+
+I've seen hundreds of lines with `//eslint-disable-next-line react/forbid-prop-types`.
+I have seen few codebases where PropTypes are leveraged to their full potential.
+([Reach UI](https://github.com/reach/reach-ui/blob/master/packages/tabs/src/index.js#L68)
+is one of them.)
+
+I find exporting propTypes uncommon.
+Instead of using exported common types, developers either use PropTypes.object
+or copy PropTypes.shape from another component.
+
+Maybe it is hard to remember that you strip them out in production build and that's why
+the devs I've met don't want to make them too big and heavy?
+
+### PropTypes.func is just not enough
+
+Functions make stuff happen. They are pretty important.
+Types of functions are important too.
+Stating that a prop is just a function, doesn't document intent.
+You still need to read the implementation to get a slightest idea what's happening.
+
+<figure>
+
+```kt
+interface VideoListProps : RProps {
+    var videos: List<Video>
+    var selectedVideo: Video?
+    var onSelectVideo: (Video) -> Unit
+}
+```
+
+<figcaption>
+
+copied from [Kotlin React tutorial](https://play.kotlinlang.org/hands-on/Building%20Web%20Applications%20with%20React%20and%20Kotlin%20JS/05_Working_Together_Composing_Components)
+
+</figcaption>
+
+</figure>
+
+Take a look at the props above. `onSelectVideo` takes a video and returns a unit.
+This is a lot more information than "`onSelectVideo` is a function".
+We could argue that the name of the function should be enough,
+but what if a possibility to select multiple videos was added later,
+as an additional feature?
+If someone forgot to change the function name, `PropTypes.func` would still fit
+and some other poor fella would get surprised by a runtime error.
+
+### Optional is a bad default for application code
+
+I do agree that nullable by default is a good design choice for
+[GraphQL](https://github.com/graphql/graphql-spec/issues/63).
+GraphQL responses stitched from many data stores may return partial data.
+This is the complexity we have to handle.
+
+And I'd say, we have about enough of it. We should avoid introducing more complexity
+ourselves. Every optional field without a default of the same type increases
+cyclomatic complexity.
+
+Typing `isRequired` is yet another small decision for a programmer. The fact that stating
+that a prop is nullable is an easier way allows to accidentally introduce complexity.
+
+<figure>
+
+```js
+Person.propTypes = {
+  car: PropTypes.shape({
+    registrationNumber: PropTypes.string,
+    year: PropTypes.number,
+  }),
+};
+```
+
+<figcaption>
+
+source: [first blogpost](https://codeburst.io/validating-props-easily-with-react-proptypes-96e80208207)
+in google search results for "PropTypes isRequired"
+
+</figcaption>
+
+</figure>
+
+Does this person have a car? Maybe. I'm living in a big city, I don't have one too.
+But is an empty object `{}` really a valid car for our app?
+Do we display an error message here? Did we just forget to write `isRequired` or are we
+okay with cars without license plates?
+
+`isOptional` instead of `isRequired` would be a better API design.
+
+## TypeScript
+
+TypeScript is much better in describing React component props than PropTypes.
+
+Let's look at how it solves the problems I've mentioned before.
+
+- _easy to half-ass?_ -- add `strict: true` to your tsconfig.json,
+  stray from `any` and now you're forced to BLABLABLA
+  Also, it's pretty obvious, even before a morning coffee, that it has no runtime cost.
+
+BLABLABLA TODO BLABLABLA
+
+## Summary
+
+PropTypes are not _first class_. They're a library trying to implement what
+is often a language feature. If you're building an app, you don't need runtime typechecking.
+If you're using `prop-types`, try swapping them for TypeScript or Flow and
+[tweet me](https://twitter.com/hasparus) what you think.

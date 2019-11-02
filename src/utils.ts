@@ -36,6 +36,11 @@ export const contrastingTextColor = (color: string) => {
 
 export function copyToClipboard(value: string | number) {
   window.navigator.clipboard.writeText(String(value)).then(() => {
+    // eslint-disable-next-line no-alert
     window.alert(`copied ${value} to clipboard`);
   });
+}
+
+export function panic(message: string) {
+  throw new Error(message);
 }

@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 /**
  * Configure your Gatsby site with this file.
  *
@@ -50,11 +52,12 @@ module.exports = {
                 { identifier: "hackwaly.ocaml", version: "0.6.43" },
                 { identifier: "sdras.night-owl", version: "1.1.3" },
                 { identifier: "2gua.rainbow-brackets", version: "0.0.6" },
+                { identifier: "fwcd.kotlin", version: "0.2.10" },
               ],
             },
           },
         ],
-        remarkPlugins: [require(`remark-slug`)],
+        remarkPlugins: [require("remark-slug")],
         defaultLayouts: {
           default: require.resolve("./src/layouts/post.tsx"),
         },
