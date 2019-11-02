@@ -1,6 +1,9 @@
 {
   "extends": "chop-chop/prettier",
   "rules": {
-    "no-nested-ternary": "off"
+    "no-nested-ternary": "off",
+    "react/no-unescaped-entities": "off",
+    "react/no-array-index-key": "off",
+    "spaced-comment": "off"
   }
 }

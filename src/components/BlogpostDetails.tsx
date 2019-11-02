@@ -21,7 +21,14 @@ export const BlogpostDetails = ({
   timeToRead,
   ...rest
 }: BlogpostDetailsProps) => (
-  <small sx={{ fontSize: 0, display: "block" }} {...rest}>
+  <small
+    sx={{
+      fontSize: 0,
+      color: "gray",
+      display: "block",
+    }}
+    {...rest}
+  >
     {date &&
       new Date(date).toLocaleDateString(undefined, {
         year: "numeric",

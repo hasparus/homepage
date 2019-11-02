@@ -6,7 +6,7 @@ import { keys } from "fp-ts/lib/Record";
 
 import { colorModes } from "../gatsby-plugin-theme-ui";
 
-import { Button, ButtonProps } from "./Button";
+import { Button } from "./Button";
 import { ColorModes } from "./index";
 
 type HeaderLinkProps<As extends ElementType> = { as?: As } & Omit<

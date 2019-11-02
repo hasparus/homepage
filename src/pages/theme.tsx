@@ -90,18 +90,18 @@ const ThemePage = () => {
     <Root>
       <Header showHome />
       <s.h1>Theme</s.h1>
-      {keys(colorModes).map(colorModeName => (
+      {keys(colorModes).map(colorMode => (
         <Button
-          key={colorModeName}
+          key={colorMode}
           sx={{
             bg: "highlight",
             color: contrastingTextColor(currentColorMode.highlight),
             p: 1,
             mr: 2,
           }}
-          onClick={() => setColorMode(colorModeName)}
+          onClick={() => setColorMode(colorMode)}
         >
-          {colorModeName}
+          {colorMode}
         </Button>
       ))}
       <section>
@@ -142,4 +142,5 @@ const ThemePage = () => {
   );
 };
 
+// eslint-disable-next-line import/no-default-export
 export default ThemePage;

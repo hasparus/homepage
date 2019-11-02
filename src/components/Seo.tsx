@@ -29,7 +29,7 @@ type SeoProps = {
   article?: boolean;
 };
 
-const Seo = ({
+export const Seo = ({
   title,
   titleTemplate,
   description,
@@ -85,4 +85,3 @@ const Seo = ({
   />
 );
 
-export default Seo;

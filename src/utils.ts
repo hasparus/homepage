@@ -44,3 +44,6 @@ export function copyToClipboard(value: string | number) {
 export function panic(message: string) {
   throw new Error(message);
 }
+
+export const randomElement = <T>(xs: T[]): T =>
+  xs[Math.floor(Math.random() * xs.length)];

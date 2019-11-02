@@ -3,7 +3,7 @@ import { jsx, Styled as s } from "theme-ui";
 import React from "react";
 import { Header, Root } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
-import Seo from "../components/Seo";
+import { Seo } from "../components/Seo";
 
 interface PostLayoutProps {
   children: React.ReactNode;

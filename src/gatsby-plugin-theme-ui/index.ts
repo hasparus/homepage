@@ -3,17 +3,9 @@
 
 import { omit } from "lodash";
 
-/**
- * @template T
- * @param {T[]} xs
- * @returns T
- */
-const randomElement = xs => xs[Math.floor(Math.random() * xs.length)];
+import { randomElement } from "../utils";
 
-/**
- * @param {string} fonts
- */
-const font = fonts => {
+const font = (fonts: string) => {
   if (process.env.NODE_ENV === "development") {
     const xs = fonts.split(",");
     /**
@@ -85,6 +77,14 @@ const sketchyBorders = [
     borderTopRightRadius: "100px 30px",
   },
 ];
+
+const code = {
+  fontFamily: "monospace",
+  fontSize: 0,
+  bg: "muted",
+  borderRadius: 1,
+  padding: ".1em .15em .05em",
+};
 
 // https://github.com/system-ui/theme-specification
 // /**
@@ -183,13 +183,7 @@ export const theme = {
       lineHeight: "body",
       width: "80ch",
       maxWidth: "100%",
-      code: {
-        fontFamily: "monospace",
-        fontSize: 0,
-        bg: "muted",
-        borderRadius: 1,
-        padding: ".1em .15em .05em",
-      },
+      code,
     },
     a: {
       color: "primary",
@@ -208,10 +202,7 @@ export const theme = {
       },
       ...randomElement(sketchyBorders),
     }),
-    code: {
-      fontFamily: "monospace",
-      fontSize: 0,
-    },
+    code,
     table: {
       width: "100%",
       borderCollapse: "separate",
@@ -230,6 +221,7 @@ export const theme = {
     },
     ul: {
       pl: [3, "40px" /* default */],
+      code,
     },
     blockquote: {
       margin: 0,

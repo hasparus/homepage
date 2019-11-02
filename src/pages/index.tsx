@@ -5,7 +5,7 @@ import { Styled as s, jsx } from "theme-ui";
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 import { Header, Root, theme } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
-import Seo from "../components/Seo";
+import { Seo } from "../components/Seo";
 
 const IndexPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
@@ -45,7 +45,13 @@ const IndexPage = () => {
           return (
             <article key={i}>
               <header>
-                <s.h3 sx={{ marginBottom: "0.4375rem", color: "text" }}>
+                <s.h3
+                  sx={{
+                    marginBottom: "0.4375rem",
+                    marginTop: "3rem",
+                    color: "text",
+                  }}
+                >
                   {/* I'm not exactly sure that it's always a file */}
                   <Link
                     to={fields!.route!}
@@ -59,7 +65,7 @@ const IndexPage = () => {
                 </s.h3>
                 <BlogpostDetails date={date} timeToRead={timeToRead!} />
               </header>
-              <s.p>{spoiler}</s.p>
+              <s.p sx={{ mt: 1 }}>{spoiler}</s.p>
             </article>
           );
         })}
@@ -68,4 +74,5 @@ const IndexPage = () => {
   );
 };
 
+// eslint-disable-next-line import/no-default-export
 export default IndexPage;
