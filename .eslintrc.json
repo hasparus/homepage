@@ -1,3 +1,6 @@
 {
-  "extends": "chop-chop/prettier"
+  "extends": "chop-chop/prettier",
+  "rules": {
+    "no-nested-ternary": "off"
+  }
 }
