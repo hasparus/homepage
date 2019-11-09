@@ -192,6 +192,7 @@ export const theme = {
         textDecoration: "underline",
       },
     },
+    code,
     pre: () => ({
       fontFamily: "monospace",
       overflowX: "auto",
@@ -202,7 +203,6 @@ export const theme = {
       },
       ...randomElement(sketchyBorders),
     }),
-    code,
     table: {
       width: "100%",
       borderCollapse: "separate",
