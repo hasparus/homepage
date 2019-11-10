@@ -12,16 +12,16 @@ tags: React, TypeScript
   wrong.
 </Epistemic>
 
+I'm starting with reasons why I think PropTypes are not good enough, and later
+I'm showing what TypeScript gives you to solve these problems and
+improve your React code even more on top of it.
+
 I'd like to be clear -- I'm not bashing [prop-types](https://www.npmjs.com/package/prop-types) --
 It's a really good library, but the last publish was 9 months ago.
 As I'm writing this, it's November 2019, and there are much better
 alternatives for prop types.
 
-I'm starting with reasons why I think PropTypes are not good enough and later
-I'm showing what TypeScript gives you to solve these problems and
-improve your React code even more on top of it.
-
-I've chosen TypeScript due to its popularity and,
+I've chosen TypeScript because of its popularity,
 but my arguments fit any language with first-class type composition you
 can use to build React apps (Flow, Reason, Kotlin, Scala).
 
@@ -38,15 +38,15 @@ I find exporting propTypes uncommon.
 Instead of using exported common types, developers either use PropTypes.object
 or copy PropTypes.shape from another component.
 
-Maybe it is hard to remember that you strip them out in production build and that's why
-the devs I've met don't want to make them too big and heavy?
+Maybe it is hard to remember that you strip them out in production build,
+and that's why the devs I've met don't want to make them too big and heavy?
 
 ### PropTypes.func is just not enough
 
 Functions make stuff happen. They are pretty important.
 Types of functions are important too.
 Stating that a prop is just a function, doesn't document intent.
-You still need to read the implementation to get a slightest idea what's happening.
+You still need to read the implementation to get the slightest idea of what's happening.
 
 <figure>
 
@@ -71,8 +71,8 @@ This is a lot more information than "`onSelectVideo` is a function".
 We could argue that the name of the function should be enough,
 but what if a possibility to select multiple videos was added later,
 as an additional feature?
-If someone forgot to change the function name, `PropTypes.func` would still fit
-and some other poor fella would get surprised by a runtime error.
+If someone forgot to change the function name, `PropTypes.func` would still fit,
+and some other poor soul would get surprised by a runtime error.
 
 ### Optional is a bad default for application code
 
@@ -81,7 +81,7 @@ I do agree that nullable by default is a good design choice for
 GraphQL responses stitched from many data stores may return partial data.
 This is the complexity we have to handle.
 
-And I'd say, we have about enough of it. We should avoid introducing more complexity
+And I'd say we have about enough of it. We should avoid introducing more complexity
 ourselves. Every optional field without a default of the same type increases
 cyclomatic complexity.
 
@@ -108,9 +108,9 @@ in google search results for "PropTypes isRequired"
 
 </figure>
 
-Does this person have a car? Maybe. I'm living in a big city, I don't have one too.
+Does this person have a car? Maybe. I'm living in a big city; I don't have one too.
 But is an empty object `{}` really a valid car for our app?
-Do we display an error message here? Did we just forget to write `isRequired` or are we
+Do we display an error message here? Did we just forget to write `isRequired`, or are we
 okay with cars without license plates?
 
 `isOptional` instead of `isRequired` would be a better API design.
@@ -130,13 +130,10 @@ Let's look at how it solves the problems I've mentioned before.
   type Car = {
     registrationNumber: string;
     year?: number;
-  }
-  type PersonProps = {
-    car?: Car;
-  }
+  };
   ```
 
-And look what else we get!
+And look at what else we get!
 
 ## ComponentProps<"button">
 
@@ -144,28 +141,26 @@ I could talk about subtyping and Liskov Substitution Principle,
 but I'll simplify it a little bit. **If it's a button, it should be buttony.**
 Props you expect on a button should be accepted by all of your design
 system buttons. What do I expect?
-At least `onClick`, `onFocus`, `disabled`, `className` and `style`.
+At least `onClick`, `onFocus`, `disabled`, `className`, and `style`.
 We can handle all attributes of HTML [`<button>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
 element, including all [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)
 with a simple [spread](https://reactpatterns.com/#jsx-spread-attributes).
 
-<iframe
+<CodesandboxIframe
   src="https://codesandbox.io/embed/github/hasparus/componentprops-example/tree/master/?fontsize=14&hidenavigation=1"
-  style={{
-    width: "100%",
-    height: "500px",
-    border: 0,
-    borderRadius: "4px",
-    overflow: "hidden",
-  }}
   title="componentprops-example"
-  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 />
 
 Do you want **your Button** to be inferior to **a button**? I don't think so.
 
-## Omit??? BLABLABLA
+## Omit<LinkProps, 'to'>
+
+But what if my component comes "batteries included" and I don't want to accept all props
+of the component we're building upon? Only like... most of them? We can Omit what we don't
+like. Just like that.
+
+TODO: Simple Omit example
+TODO: Write about tagged union types
 
 ## Pick<Meeting, "date" | "organizer">
 
@@ -194,3 +189,8 @@ PropTypes are not _first class_. They're a library trying to implement what
 is often a language feature. If you're building an app, you don't need runtime typechecking.
 If you're using `prop-types`, try swapping them for TypeScript or Flow and
 [tweet me](https://twitter.com/hasparus) what you think.
+
+<CodesandboxIframe
+  src="https://codesandbox.io/embed/github/hasparus/componentprops-omit-tagged-union-button/tree/master/?fontsize=14&hidenavigation=1"
+  title="componentprops-omit-and-tagged-union"
+/>

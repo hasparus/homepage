@@ -2,11 +2,12 @@
 import { jsx } from "theme-ui";
 import { ComponentProps } from "react";
 
-import { EpistemicNote } from "../components";
+import { EpistemicNote, CodesandboxIframe } from "../components";
 
 // eslint-disable-next-line import/no-default-export
 export default {
   Epistemic: EpistemicNote,
+  CodesandboxIframe,
   figure: (props: ComponentProps<"figure">) => (
     <figure sx={{ margin: 0, "> pre": { mb: 2 } }} {...props} />
   ),
