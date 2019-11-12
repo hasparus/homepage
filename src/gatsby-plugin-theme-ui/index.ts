@@ -202,8 +202,8 @@ export const theme = {
       overflowX: "auto",
       padding: "1em",
       code: {
-        color: "inherit",
-        bg: "inherit",
+        color: "inherit !important", // 😭
+        bg: "inherit !important",
       },
       ...randomElement(sketchyBorders),
     }),
