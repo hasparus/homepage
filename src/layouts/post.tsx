@@ -24,6 +24,11 @@ export default function PostLayout({
   pathContext,
   path,
 }: PostLayoutProps) {
+  // HMR issue?
+  if (!pathContext.frontmatter) {
+    return null;
+  }
+
   const {
     frontmatter: { title, date, spoiler },
     timeToRead,
