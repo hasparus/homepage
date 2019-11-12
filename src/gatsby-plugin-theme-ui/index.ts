@@ -144,6 +144,10 @@ export const theme = {
       fontWeight: "heading",
       fontSize: 5,
       margin: "0.5em 0",
+      code: {
+        fontSize: "0.85em",
+        fontWeight: "bold",
+      },
     },
     h3: {
       color: "gray",

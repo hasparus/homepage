@@ -12498,6 +12498,26 @@
               "defaultValue": null
             },
             {
+              "name": "quotes",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "backticks",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "BooleanQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "injectStyles",
               "description": "",
               "type": {
@@ -13725,6 +13745,30 @@
             },
             {
               "name": "disableBgImageOnAlpha",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "quotes",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "backticks",
               "description": null,
               "args": [],
               "type": {
@@ -16358,6 +16402,18 @@
             },
             {
               "name": "pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pluginOptions___gatsbyRemarkPlugins___options___quotes",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pluginOptions___gatsbyRemarkPlugins___options___backticks",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
