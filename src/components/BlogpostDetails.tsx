@@ -2,6 +2,8 @@
 import { jsx } from "theme-ui";
 import { ComponentProps } from "react";
 
+import { fontSize } from "../gatsby-plugin-theme-ui";
+
 const cupOfCoffeeTime = 5; // minutes
 const burgerTime = cupOfCoffeeTime * Math.E; // stolen from overreacted.io
 const readingTimeEmoji = (minutes: number) => {
@@ -23,7 +25,7 @@ export const BlogpostDetails = ({
 }: BlogpostDetailsProps) => (
   <small
     sx={{
-      fontSize: 0,
+      fontSize: fontSize.small,
       color: "gray",
       display: "block",
     }}

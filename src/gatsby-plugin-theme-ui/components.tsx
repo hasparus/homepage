@@ -2,6 +2,7 @@
 import { jsx } from "theme-ui";
 import { ComponentProps } from "react";
 
+import { fontSize } from "../gatsby-plugin-theme-ui";
 import { EpistemicNote, CodesandboxIframe } from "../components";
 
 // eslint-disable-next-line import/no-default-export
@@ -13,7 +14,12 @@ export default {
   ),
   figcaption: (props: ComponentProps<"figcaption">) => (
     <figcaption
-      sx={{ fontSize: 0, fontStyle: "italic", px: 3, "> p": { margin: 0 } }}
+      sx={{
+        fontSize: fontSize.small,
+        fontStyle: "italic",
+        px: 3,
+        "> p": { margin: 0 },
+      }}
       {...props}
     />
   ),

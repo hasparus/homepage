@@ -5,6 +5,11 @@ import { omit } from "lodash";
 
 import { randomElement } from "../utils";
 
+export const fontSize = {
+  small: [0, 1],
+  normal: [1, 2],
+};
+
 const font = (fonts: string) => {
   if (process.env.NODE_ENV === "development") {
     const xs = fonts.split(",");
@@ -103,7 +108,7 @@ export const theme = {
       'Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans, ' +
       'Droid Sans", "Helvetica Neue", sans-serif',
   },
-  fontSizes: [16, 18, 23, 27, 36, 54, 72, 81, 108],
+  fontSizes: [14, 16, 18, 23, 27, 36, 54, 72, 81, 108],
   fontWeights: {
     body: 400,
     heading: 400,
@@ -125,43 +130,46 @@ export const theme = {
       fontFamily: "body",
       lineHeight: "body",
       fontWeight: "body",
-      fontSize: 1,
+      fontSize: fontSize.normal,
     },
     h1: {
       // color: "text",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: [5, 6, 7],
+      fontSize: [6, 7, 8],
       textAlign: ["center", "left", "left"],
       py: [5, 0, 0],
       margin: "0.5em 0",
+      wordBreak: "break-word",
     },
     h2: {
       color: "text",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 5,
+      fontSize: 6,
       margin: "0.5em 0",
       code: {
         fontSize: "0.85em",
         fontWeight: "bold",
       },
+      wordBreak: "break-word",
     },
     h3: {
       color: "gray",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 4,
+      fontSize: 5,
+      wordBreak: "break-word",
     },
     h4: {
       color: "gray",
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 3,
+      fontSize: 4,
       margin: "0.5em 0",
     },
     h5: {
@@ -169,7 +177,7 @@ export const theme = {
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 2,
+      fontSize: 3,
       margin: "0.5em 0",
     },
     h6: {
@@ -177,7 +185,7 @@ export const theme = {
       fontFamily: "text",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 1,
+      fontSize: 2,
       margin: "0.5em 0",
     },
     p: {
@@ -234,7 +242,7 @@ export const theme = {
       borderColor: "highlight",
       "*": {
         color: "mutedText",
-        fontSize: 0,
+        fontSize: fontSize.small,
       },
     },
   },

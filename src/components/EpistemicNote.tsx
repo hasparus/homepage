@@ -2,6 +2,7 @@
 import { jsx, Styled as s } from "theme-ui";
 import { ComponentPropsWithoutRef } from "react";
 
+import { fontSize } from "../gatsby-plugin-theme-ui";
 import { panic } from "../utils";
 
 type EpistemicNoteProps = ComponentPropsWithoutRef<typeof s.p> &
@@ -23,7 +24,7 @@ export const EpistemicNote = ({
       sx={{
         bg: "muted",
         p: 2,
-        fontSize: 0,
+        fontSize: fontSize.small,
         width: "100%",
         fontStyle: "italic",
       }}
