@@ -148,7 +148,7 @@ export const theme = {
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 6,
+      fontSize: [5, 6],
       margin: "0.5em 0",
       code: {
         fontSize: "0.85em",
@@ -161,7 +161,7 @@ export const theme = {
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 5,
+      fontSize: [4, 5],
       wordBreak: "break-word",
     },
     h4: {
@@ -169,7 +169,7 @@ export const theme = {
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 4,
+      fontSize: [3, 4],
       margin: "0.5em 0",
     },
     h5: {
@@ -177,7 +177,7 @@ export const theme = {
       fontFamily: "heading",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 3,
+      fontSize: [2, 3],
       margin: "0.5em 0",
     },
     h6: {
@@ -185,7 +185,7 @@ export const theme = {
       fontFamily: "text",
       lineHeight: "1.2",
       fontWeight: "heading",
-      fontSize: 2,
+      fontSize: [1, 2],
       margin: "0.5em 0",
     },
     p: {
