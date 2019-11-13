@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 const { exec } = require("child_process");
 
 const makeGitLogCommand = (params, filepath = "") =>

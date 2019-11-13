@@ -16,11 +16,11 @@ export interface BlogPostsQuery_allMdx_nodes_frontmatter {
 export interface BlogPostsQuery_allMdx_nodes_fields {
   __typename: "MdxFields";
   route: string;
+  readingTime: number;
 }
 
 export interface BlogPostsQuery_allMdx_nodes {
   __typename: "Mdx";
-  timeToRead: number | null;
   frontmatter: BlogPostsQuery_allMdx_nodes_frontmatter | null;
   fields: BlogPostsQuery_allMdx_nodes_fields | null;
 }

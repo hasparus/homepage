@@ -15,12 +15,12 @@ const readingTimeEmoji = (minutes: number) => {
 
 interface BlogpostDetailsProps extends ComponentProps<"small"> {
   date: Date | string;
-  timeToRead: number;
+  readingTime: number;
 }
 
 export const BlogpostDetails = ({
   date,
-  timeToRead,
+  readingTime,
   ...rest
 }: BlogpostDetailsProps) => (
   <small
@@ -37,6 +37,6 @@ export const BlogpostDetails = ({
         month: "short",
         day: "numeric",
       })}{" "}
-    · {readingTimeEmoji(timeToRead)} {timeToRead!} min read
+    · {readingTimeEmoji(readingTime)} {readingTime} min read
   </small>
 );

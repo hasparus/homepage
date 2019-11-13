@@ -2545,6 +2545,16 @@
                 "ofType": null
               },
               "defaultValue": null
+            },
+            {
+              "name": "readingTime",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
             }
           ],
           "interfaces": null,
@@ -3682,6 +3692,22 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "readingTime",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -4116,6 +4142,12 @@
             },
             {
               "name": "fields___history___body",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
+              "name": "fields___readingTime",
               "description": null,
               "isDeprecated": true,
               "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
@@ -9406,6 +9438,12 @@
               "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
             },
             {
+              "name": "childMdx___fields___readingTime",
+              "description": null,
+              "isDeprecated": true,
+              "deprecationReason": "Sorting on fields that need arguments to resolve is deprecated."
+            },
+            {
               "name": "childMdx___id",
               "description": null,
               "isDeprecated": true,
@@ -11962,7 +12000,7 @@
               "defaultValue": null
             },
             {
-              "name": "timeToRead",
+              "name": "readingTime",
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -13083,7 +13121,7 @@
               "deprecationReason": null
             },
             {
-              "name": "timeToRead",
+              "name": "readingTime",
               "description": null,
               "args": [],
               "type": {
@@ -14856,7 +14894,7 @@
               "deprecationReason": null
             },
             {
-              "name": "context___timeToRead",
+              "name": "context___readingTime",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

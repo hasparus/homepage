@@ -13,7 +13,7 @@ interface PostLayoutProps {
       spoiler: string;
       date: string;
     };
-    timeToRead: number;
+    readingTime: number;
   };
   path: string;
 }
@@ -31,7 +31,7 @@ export default function PostLayout({
 
   const {
     frontmatter: { title, date, spoiler },
-    timeToRead,
+    readingTime,
   } = pathContext;
 
   return (
@@ -42,7 +42,7 @@ export default function PostLayout({
         <article>
           <header sx={{ mb: 4 }}>
             <s.h1 sx={{ mb: 2 }}>{title}</s.h1>
-            <BlogpostDetails date={date} timeToRead={timeToRead} />
+            <BlogpostDetails date={date} readingTime={readingTime} />
           </header>
           {children}
         </article>

@@ -25,16 +25,35 @@ export type Scalars = {
 
 
 
-export enum BlogpostHistory {
+export type BlogpostHistoryEntry = {
+  readonly __typename?: 'BlogpostHistoryEntry',
+  readonly abbreviatedCommit?: Maybe<Scalars['String']>,
+  readonly authorDate: Scalars['Date'],
+  readonly subject?: Maybe<Scalars['String']>,
+  readonly body?: Maybe<Scalars['String']>,
+};
+
+export type BlogpostHistoryEntryFilterInput = {
+  readonly abbreviatedCommit?: Maybe<StringQueryOperatorInput>,
+  readonly authorDate?: Maybe<DateQueryOperatorInput>,
+  readonly subject?: Maybe<StringQueryOperatorInput>,
+  readonly body?: Maybe<StringQueryOperatorInput>,
+};
+
+export type BlogpostHistoryEntryFilterListInput = {
+  readonly elemMatch?: Maybe<BlogpostHistoryEntryFilterInput>,
+};
+
+export enum BlogpostHistoryType {
   Verbose = 'Verbose',
   DatesOnly = 'DatesOnly'
 }
 
-export type BlogpostHistoryQueryOperatorInput = {
-  readonly eq?: Maybe<BlogpostHistory>,
-  readonly ne?: Maybe<BlogpostHistory>,
-  readonly in?: Maybe<ReadonlyArray<Maybe<BlogpostHistory>>>,
-  readonly nin?: Maybe<ReadonlyArray<Maybe<BlogpostHistory>>>,
+export type BlogpostHistoryTypeQueryOperatorInput = {
+  readonly eq?: Maybe<BlogpostHistoryType>,
+  readonly ne?: Maybe<BlogpostHistoryType>,
+  readonly in?: Maybe<ReadonlyArray<Maybe<BlogpostHistoryType>>>,
+  readonly nin?: Maybe<ReadonlyArray<Maybe<BlogpostHistoryType>>>,
 };
 
 export type BooleanQueryOperatorInput = {
@@ -643,6 +662,13 @@ export enum FileFieldsEnum {
   childMdx___wordCount___sentences = 'childMdx___wordCount___sentences',
   childMdx___wordCount___words = 'childMdx___wordCount___words',
   childMdx___fields___route = 'childMdx___fields___route',
+  childMdx___fields___isHidden = 'childMdx___fields___isHidden',
+  childMdx___fields___history = 'childMdx___fields___history',
+  childMdx___fields___history___abbreviatedCommit = 'childMdx___fields___history___abbreviatedCommit',
+  childMdx___fields___history___authorDate = 'childMdx___fields___history___authorDate',
+  childMdx___fields___history___subject = 'childMdx___fields___history___subject',
+  childMdx___fields___history___body = 'childMdx___fields___history___body',
+  childMdx___fields___readingTime = 'childMdx___fields___readingTime',
   childMdx___id = 'childMdx___id',
   childMdx___parent___id = 'childMdx___parent___id',
   childMdx___parent___parent___id = 'childMdx___parent___parent___id',
@@ -1362,7 +1388,10 @@ export type MdxEdge = {
 
 export type MdxFields = {
   readonly __typename?: 'MdxFields',
-  readonly route?: Maybe<Scalars['String']>,
+  readonly route: Scalars['String'],
+  readonly isHidden: Scalars['Boolean'],
+  readonly history?: Maybe<ReadonlyArray<BlogpostHistoryEntry>>,
+  readonly readingTime: Scalars['Int'],
 };
 
 export enum MdxFieldsEnum {
@@ -1385,6 +1414,13 @@ export enum MdxFieldsEnum {
   wordCount___sentences = 'wordCount___sentences',
   wordCount___words = 'wordCount___words',
   fields___route = 'fields___route',
+  fields___isHidden = 'fields___isHidden',
+  fields___history = 'fields___history',
+  fields___history___abbreviatedCommit = 'fields___history___abbreviatedCommit',
+  fields___history___authorDate = 'fields___history___authorDate',
+  fields___history___subject = 'fields___history___subject',
+  fields___history___body = 'fields___history___body',
+  fields___readingTime = 'fields___readingTime',
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -1475,6 +1511,9 @@ export enum MdxFieldsEnum {
 
 export type MdxFieldsFilterInput = {
   readonly route?: Maybe<StringQueryOperatorInput>,
+  readonly isHidden?: Maybe<BooleanQueryOperatorInput>,
+  readonly history?: Maybe<BlogpostHistoryEntryFilterListInput>,
+  readonly readingTime?: Maybe<IntQueryOperatorInput>,
 };
 
 export type MdxFilterInput = {
@@ -1501,7 +1540,7 @@ export type MdxFrontmatter = {
   readonly title: Scalars['String'],
   readonly spoiler: Scalars['String'],
   readonly date: Scalars['Date'],
-  readonly history?: Maybe<BlogpostHistory>,
+  readonly history?: Maybe<BlogpostHistoryType>,
 };
 
 
@@ -1516,7 +1555,7 @@ export type MdxFrontmatterFilterInput = {
   readonly title?: Maybe<StringQueryOperatorInput>,
   readonly spoiler?: Maybe<StringQueryOperatorInput>,
   readonly date?: Maybe<DateQueryOperatorInput>,
-  readonly history?: Maybe<BlogpostHistoryQueryOperatorInput>,
+  readonly history?: Maybe<BlogpostHistoryTypeQueryOperatorInput>,
 };
 
 export type MdxGroupConnection = {
@@ -2071,12 +2110,12 @@ export type SitePageConnectiongroupArgs = {
 export type SitePageContext = {
   readonly __typename?: 'SitePageContext',
   readonly frontmatter?: Maybe<SitePageContextFrontmatter>,
-  readonly timeToRead?: Maybe<Scalars['Int']>,
+  readonly readingTime?: Maybe<Scalars['Int']>,
 };
 
 export type SitePageContextFilterInput = {
   readonly frontmatter?: Maybe<SitePageContextFrontmatterFilterInput>,
-  readonly timeToRead?: Maybe<IntQueryOperatorInput>,
+  readonly readingTime?: Maybe<IntQueryOperatorInput>,
 };
 
 export type SitePageContextFrontmatter = {
@@ -2085,6 +2124,7 @@ export type SitePageContextFrontmatter = {
   readonly spoiler?: Maybe<Scalars['String']>,
   readonly date?: Maybe<Scalars['Date']>,
   readonly history?: Maybe<Scalars['String']>,
+  readonly tags?: Maybe<Scalars['String']>,
 };
 
 export type SitePageContextFrontmatterFilterInput = {
@@ -2092,6 +2132,7 @@ export type SitePageContextFrontmatterFilterInput = {
   readonly spoiler?: Maybe<StringQueryOperatorInput>,
   readonly date?: Maybe<DateQueryOperatorInput>,
   readonly history?: Maybe<StringQueryOperatorInput>,
+  readonly tags?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -2197,7 +2238,8 @@ export enum SitePageFieldsEnum {
   context___frontmatter___spoiler = 'context___frontmatter___spoiler',
   context___frontmatter___date = 'context___frontmatter___date',
   context___frontmatter___history = 'context___frontmatter___history',
-  context___timeToRead = 'context___timeToRead',
+  context___frontmatter___tags = 'context___frontmatter___tags',
+  context___readingTime = 'context___readingTime',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -2247,6 +2289,7 @@ export enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___path = 'pluginCreator___pluginOptions___path',
   pluginCreator___pluginOptions___name = 'pluginCreator___pluginOptions___name',
   pluginCreator___pluginOptions___allowNamespaces = 'pluginCreator___pluginOptions___allowNamespaces',
+  pluginCreator___pluginOptions___localSchemaFile = 'pluginCreator___pluginOptions___localSchemaFile',
   pluginCreator___pluginOptions___short_name = 'pluginCreator___pluginOptions___short_name',
   pluginCreator___pluginOptions___start_url = 'pluginCreator___pluginOptions___start_url',
   pluginCreator___pluginOptions___background_color = 'pluginCreator___pluginOptions___background_color',
@@ -2459,10 +2502,14 @@ export enum SitePluginFieldsEnum {
   pluginOptions___gatsbyRemarkPlugins___options___tracedSVG = 'pluginOptions___gatsbyRemarkPlugins___options___tracedSVG',
   pluginOptions___gatsbyRemarkPlugins___options___loading = 'pluginOptions___gatsbyRemarkPlugins___options___loading',
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha',
+  pluginOptions___gatsbyRemarkPlugins___options___injectStyles = 'pluginOptions___gatsbyRemarkPlugins___options___injectStyles',
+  pluginOptions___gatsbyRemarkPlugins___options___colorTheme = 'pluginOptions___gatsbyRemarkPlugins___options___colorTheme',
+  pluginOptions___gatsbyRemarkPlugins___options___extensions = 'pluginOptions___gatsbyRemarkPlugins___options___extensions',
   pluginOptions___defaultLayouts___default = 'pluginOptions___defaultLayouts___default',
   pluginOptions___path = 'pluginOptions___path',
   pluginOptions___name = 'pluginOptions___name',
   pluginOptions___allowNamespaces = 'pluginOptions___allowNamespaces',
+  pluginOptions___localSchemaFile = 'pluginOptions___localSchemaFile',
   pluginOptions___short_name = 'pluginOptions___short_name',
   pluginOptions___start_url = 'pluginOptions___start_url',
   pluginOptions___background_color = 'pluginOptions___background_color',
@@ -2598,6 +2645,7 @@ export type SitePluginPluginOptions = {
   readonly path?: Maybe<Scalars['String']>,
   readonly name?: Maybe<Scalars['String']>,
   readonly allowNamespaces?: Maybe<Scalars['Boolean']>,
+  readonly localSchemaFile?: Maybe<Scalars['String']>,
   readonly short_name?: Maybe<Scalars['String']>,
   readonly start_url?: Maybe<Scalars['String']>,
   readonly background_color?: Maybe<Scalars['String']>,
@@ -2623,6 +2671,7 @@ export type SitePluginPluginOptionsFilterInput = {
   readonly path?: Maybe<StringQueryOperatorInput>,
   readonly name?: Maybe<StringQueryOperatorInput>,
   readonly allowNamespaces?: Maybe<BooleanQueryOperatorInput>,
+  readonly localSchemaFile?: Maybe<StringQueryOperatorInput>,
   readonly short_name?: Maybe<StringQueryOperatorInput>,
   readonly start_url?: Maybe<StringQueryOperatorInput>,
   readonly background_color?: Maybe<StringQueryOperatorInput>,
@@ -2659,6 +2708,24 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptions = {
   readonly tracedSVG?: Maybe<Scalars['Boolean']>,
   readonly loading?: Maybe<Scalars['String']>,
   readonly disableBgImageOnAlpha?: Maybe<Scalars['Boolean']>,
+  readonly injectStyles?: Maybe<Scalars['Boolean']>,
+  readonly colorTheme?: Maybe<Scalars['String']>,
+  readonly extensions?: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions>>>,
+};
+
+export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions = {
+  readonly __typename?: 'SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions',
+  readonly identifier?: Maybe<Scalars['String']>,
+  readonly version?: Maybe<Scalars['String']>,
+};
+
+export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterInput = {
+  readonly identifier?: Maybe<StringQueryOperatorInput>,
+  readonly version?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterListInput = {
+  readonly elemMatch?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterInput>,
 };
 
 export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
@@ -2673,6 +2740,9 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   readonly tracedSVG?: Maybe<BooleanQueryOperatorInput>,
   readonly loading?: Maybe<StringQueryOperatorInput>,
   readonly disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>,
+  readonly injectStyles?: Maybe<BooleanQueryOperatorInput>,
+  readonly colorTheme?: Maybe<StringQueryOperatorInput>,
+  readonly extensions?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterListInput>,
 };
 
 export type SitePluginSortInput = {

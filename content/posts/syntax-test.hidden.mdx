@@ -23,7 +23,6 @@ const IndexPage = () => {
     query BlogPostsQuery {
       allMdx {
         nodes {
-          timeToRead
           frontmatter {
             title
             spoiler
@@ -31,6 +30,7 @@ const IndexPage = () => {
           }
           fields {
             route
+            readingTime
           }
         }
       }
@@ -47,7 +47,7 @@ const IndexPage = () => {
       </s.p>
       <main>
         {allMdx.nodes.map((node, i) => {
-          const { timeToRead, frontmatter, fields } = node!;
+          const { frontmatter, fields } = node!;
           const { title, spoiler, date } = frontmatter || {};
 
           return (
@@ -65,7 +65,7 @@ const IndexPage = () => {
                     {title}
                   </Link>
                 </s.h3>
-                <BlogpostDetails date={date} timeToRead={timeToRead!} />
+                <BlogpostDetails date={date} timeToRead={fields!.readingTime} />
               </header>
               <s.p>{spoiler}</s.p>
             </article>

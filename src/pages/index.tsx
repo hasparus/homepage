@@ -15,7 +15,6 @@ const IndexPage = () => {
         sort: { fields: [frontmatter___date], order: DESC }
       ) {
         nodes {
-          timeToRead
           frontmatter {
             title
             spoiler
@@ -23,6 +22,7 @@ const IndexPage = () => {
           }
           fields {
             route
+            readingTime
           }
         }
       }
@@ -39,7 +39,7 @@ const IndexPage = () => {
       </s.p>
       <main>
         {allMdx.nodes.map((node, i) => {
-          const { timeToRead, frontmatter, fields } = node!;
+          const { frontmatter, fields } = node!;
           const { title, spoiler, date } = frontmatter || {};
 
           return (
@@ -63,7 +63,7 @@ const IndexPage = () => {
                     {title}
                   </Link>
                 </s.h3>
-                <BlogpostDetails date={date} timeToRead={timeToRead!} />
+                <BlogpostDetails date={date} readingTime={fields!.readingTime} />
               </header>
               <s.p sx={{ mt: 1 }}>{spoiler}</s.p>
             </article>
