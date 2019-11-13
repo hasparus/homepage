@@ -85,10 +85,15 @@ const sketchyBorders = [
 
 const code = {
   fontFamily: "monospace",
-  fontSize: 0,
+  fontSize: fontSize.small,
   bg: "muted",
   borderRadius: 1,
   padding: ".1em .15em .05em",
+};
+
+const codeInHeading = {
+  fontSize: "0.85em",
+  fontWeight: "bold",
 };
 
 // https://github.com/system-ui/theme-specification
@@ -150,10 +155,7 @@ export const theme = {
       fontWeight: "heading",
       fontSize: [5, 6],
       margin: "0.5em 0",
-      code: {
-        fontSize: "0.85em",
-        fontWeight: "bold",
-      },
+      code: codeInHeading,
       wordBreak: "break-word",
     },
     h3: {
@@ -162,6 +164,7 @@ export const theme = {
       lineHeight: "1.2",
       fontWeight: "heading",
       fontSize: [4, 5],
+      code: codeInHeading,
       wordBreak: "break-word",
     },
     h4: {

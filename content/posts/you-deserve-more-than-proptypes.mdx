@@ -117,15 +117,14 @@ okay with cars without license plates?
 
 ## type Props = ?
 
-TypeScript is much better in describing React component props than PropTypes.
-
+TypeScript is much better in describing React component props than PropTypes. \
 Let's look at how it solves the problems I've mentioned before.
 
-- _easy to half-ass?_ -- add `strict: true` to your tsconfig.json,
-  stray from `any` and now you're forced to BLABLABLA
+- _easy to half-ass?_ -- Add `strict: true` to your tsconfig.json,
+  stray from `any` and now you're forced to maintain a decent level of type safety.
   Also, it's pretty obvious, even before a morning coffee, that it has no runtime cost.
-- _typing functions?_ -- `(selected: Video) => void`
-- _optional by default?_ -- you gotta stick this `?` every time you want an optional property
+- _typing functions?_ -- `(selected: Video) => void`. Pretty easy, amiright?
+- _optional by default?_ -- You gotta stick this `?` every time you want an optional property.
 
   <figure>
 
@@ -142,7 +141,7 @@ Let's look at how it solves the problems I've mentioned before.
 
 And look at what else we get!
 
-## ComponentProps<`"`button`"`>
+### ComponentProps<`"`button`"`>
 
 I could talk about subtyping and Liskov Substitution Principle,
 but I'll simplify it a little bit. \
@@ -176,7 +175,7 @@ interface ButtonProps extends ComponentProps<"button"> {
 
 Do you want **your Button** to be inferior to **a button**? I don't think so.
 
-## Omit<LinkProps, `"`to`"`>
+### Omit<LinkProps, `"`to`"`>
 
 But what if my component comes "batteries included" and I don't want to accept all props
 of the component I'm building upon? Only like... most of them? We can Omit what we don't
@@ -188,7 +187,7 @@ interface JoinMeetingButton
     Pick<Meeting, "id"> {}
 ```
 
-## Union Types
+### Union Types
 
 My anchors and buttons look the same in the mockups.
 
@@ -228,7 +227,7 @@ function Button({ className: propsClassName, ...rest }: ButtonProps) {
 [playroom]: https://github.com/seek-oss/playroom
 [jsx in zeplin]: https://blog.zeplin.io/introducing-connected-components-components-in-design-and-code-in-harmony-aa894ed5bd95
 
-## Pick<Meeting, `"`date`"` | `"`organizer`"`>
+### Pick<Meeting, `"`date`"` | `"`organizer`"`>
 
 We can select properties from our types with `Pick`.
 
