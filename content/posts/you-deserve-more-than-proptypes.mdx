@@ -76,9 +76,9 @@ and some other poor soul would get surprised by a runtime error.
 
 ### Optional is a bad default for application code
 
-I do agree that nullable by default is a good design choice for
-[GraphQL](https://github.com/graphql/graphql-spec/issues/63).
-GraphQL responses stitched from many data stores may return partial data.
+I do agree that nullable by default is a good design choice in some cases.
+GraphQL is a [perfect example].
+Responses stitched from many data stores may return partial data.
 This is the complexity we have to handle.
 
 And I'd say we have about enough of it. We should avoid introducing more complexity
@@ -87,6 +87,8 @@ cyclomatic complexity.
 
 Typing `isRequired` is yet another small decision for a programmer. The fact that stating
 that a prop is nullable is an easier way allows to accidentally introduce complexity.
+
+[perfect example]: https://github.com/graphql/graphql-spec/issues/63
 
 <figure>
 
@@ -108,7 +110,7 @@ in google search results for "PropTypes isRequired"
 
 </figure>
 
-Does this person have a car? Maybe. I'm living in a big city; I don't have one too.
+Does this person have a car? Maybe. I live in a big city; I don't have one too.
 But is an empty object `{}` really a valid car for our app?
 Do we display an error message here? Did we just forget to write `isRequired`, or are we
 okay with cars without license plates?
