@@ -85,9 +85,6 @@ And I'd say we have about enough of it. We should avoid introducing more complex
 ourselves. Every optional field without a default of the same type increases
 cyclomatic complexity.
 
-Typing `isRequired` is yet another small decision for a programmer. The fact that stating
-that a prop is nullable is an easier way allows to accidentally introduce complexity.
-
 [perfect example]: https://github.com/graphql/graphql-spec/issues/63
 
 <figure>
@@ -115,6 +112,8 @@ But is an empty object `{}` really a valid car for our app?
 Do we display an error message here? Did we just forget to write `isRequired`, or are we
 okay with cars without license plates?
 
+Typing `isRequired` is yet another small decision for a programmer. The fact that stating
+that a prop is nullable is an easier way allows to accidentally introduce complexity.
 `isOptional` instead of `isRequired` would be a better API design.
 
 ## type Props = ?
