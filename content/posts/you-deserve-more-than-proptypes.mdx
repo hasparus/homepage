@@ -29,10 +29,10 @@ can use to build React apps (Flow, Reason, Kotlin, Scala).
 
 ### It's easy to half-ass PropTypes
 
-I've seen hundreds of lines with `//eslint-disable-next-line react/forbid-prop-types`.
-I have seen few codebases where PropTypes are leveraged to their full potential.
-([Reach UI](https://github.com/reach/reach-ui/blob/master/packages/tabs/src/index.js#L68)
-is one of them.)
+I've seen too many of lines with `//eslint-disable-next-line react/forbid-prop-types`.
+Few codebases leverage PropTypes to their full potential -- mostly libraries (see [Reach UI tabs]).
+
+[reach ui tabs]: https://github.com/reach/reach-ui/blob/master/packages/tabs/src/index.js#L68
 
 I find exporting propTypes uncommon.
 Instead of using exported common types, developers either use PropTypes.object
@@ -190,14 +190,11 @@ interface JoinMeetingButton
 
 ### Union Types
 
-My anchors and buttons look the same in the mockups.
+The anchors and the buttons often look the same in the mockups, but they are different
+kinds of animals. We want to reuse the styling and behavior between them and make choosing
+the right one for the job effortless.
 
-Any difference between HTMLAnchorElement and HTMLButtonElement is an implementation detail.
-My designer colleague shouldn't worry about it when he sees some [JSX in Zeplin]
-or prototypes in [Playroom]. Neither should my developer colleague when he wants to reuse
-some UI logic.
-
-I can use [union types] to build a Button component which renders an anchor, given a `href`
+We can use [union types] to build a Button component which renders an anchor, given a `href`
 prop and renders a `<button>` otherwise.
 
 [union types]: https://www.typescriptlang.org/docs/handbook/advanced-types.html#union-types
