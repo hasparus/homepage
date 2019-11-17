@@ -52,7 +52,6 @@ const IndexPage = () => {
                     color: "text",
                   }}
                 >
-                  {/* I'm not exactly sure that it's always a file */}
                   <Link
                     to={fields!.route!}
                     sx={{
