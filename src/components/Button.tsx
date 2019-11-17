@@ -29,7 +29,11 @@ const buttonVariants: Record<
   },
 };
 
-export const Button = ({ variant = "default", ...rest }: ButtonProps) => (
+export const Button = ({
+  variant = "default",
+  className,
+  ...rest
+}: ButtonProps) => (
   <button
     type="button"
     sx={{
@@ -42,6 +46,7 @@ export const Button = ({ variant = "default", ...rest }: ButtonProps) => (
       border: "none",
       ...buttonVariants[variant],
     }}
+    className={`js-only ${className}`}
     {...rest}
   />
 );
