@@ -1327,6 +1327,26 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "port",
+                  "description": "",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "IntQueryOperatorInput",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "host",
+                  "description": "",
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "StringQueryOperatorInput",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "polyfill",
                   "description": "",
                   "type": {
@@ -17013,6 +17033,16 @@
               "defaultValue": null
             },
             {
+              "name": "htmlAttributes",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "SiteSiteMetadataHtmlAttributesFilterInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "twitterUsername",
               "description": "",
               "type": {
@@ -17066,6 +17096,27 @@
             },
             {
               "name": "url",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "SiteSiteMetadataHtmlAttributesFilterInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "lang",
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -17159,6 +17210,30 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "SiteSiteMetadata",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "port",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "host",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -17335,6 +17410,18 @@
               "deprecationReason": null
             },
             {
+              "name": "htmlAttributes",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "SiteSiteMetadataHtmlAttributes",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "twitterUsername",
               "description": null,
               "args": [],
@@ -17371,6 +17458,29 @@
             },
             {
               "name": "url",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SiteSiteMetadataHtmlAttributes",
+          "description": null,
+          "fields": [
+            {
+              "name": "lang",
               "description": null,
               "args": [],
               "type": {
@@ -17439,6 +17549,26 @@
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "SiteSiteMetadataFilterInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "port",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "host",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -18090,7 +18220,25 @@
               "deprecationReason": null
             },
             {
+              "name": "siteMetadata___htmlAttributes___lang",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "siteMetadata___twitterUsername",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "port",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "host",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

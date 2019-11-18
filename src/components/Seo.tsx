@@ -13,6 +13,9 @@ const query = graphql`
         titleTemplate
         defaultDescription: description
         siteUrl
+        htmlAttributes {
+          lang
+        }
         # defaultImage: image
         twitterUsername
       }
@@ -50,6 +53,7 @@ export const Seo = ({
       return (
         <>
           <Helmet
+            htmlAttributes={siteMetadata.htmlAttributes}
             title={seo.title}
             titleTemplate={titleTemplate || siteMetadata.titleTemplate}
           >
@@ -84,4 +88,3 @@ export const Seo = ({
     }}
   />
 );
-

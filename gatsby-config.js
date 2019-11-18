@@ -23,6 +23,7 @@ module.exports = {
       },
     ],
     siteUrl: "https://haspar.us", // No trailing slash allowed!
+    htmlAttributes: { lang: "en" },
     // image: "/images/snape.jpg", // Path to your image you placed in the 'static' folder
     twitterUsername: "@hasparus",
   },
