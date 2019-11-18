@@ -107,7 +107,7 @@ export const theme = {
       "'Fira Code', 'Hack', 'Hasklig', 'Dank Mono', 'Inconsolata', 'Menlo', 'Consolas', monospace"
     ),
     body: font("'Open Sans', sans-serif"),
-    heading: font("'Passion One', cursive"),
+    heading: font("'Passion One', sans-serif"),
     system:
       'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", ' +
       'Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans, ' +
