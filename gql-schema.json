@@ -12536,6 +12536,16 @@
               "defaultValue": null
             },
             {
+              "name": "icon",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "injectStyles",
               "description": "",
               "type": {
@@ -13768,6 +13778,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "icon",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -16396,6 +16418,12 @@
             },
             {
               "name": "pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "pluginOptions___gatsbyRemarkPlugins___options___icon",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

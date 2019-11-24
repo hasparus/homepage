@@ -91,9 +91,24 @@ const code = {
   padding: ".1em .15em .05em",
 };
 
-const codeInHeading = {
-  fontSize: "0.85em",
-  fontWeight: "bold",
+const headingStyles = {
+  fontFamily: "heading",
+  fontWeight: "heading",
+  lineHeight: "1.2",
+
+  code: {
+    fontSize: "0.85em",
+    fontWeight: "bold",
+  },
+
+  ".anchor": {
+    visibility: "hidden",
+  },
+  ":focus, :hover": {
+    ".anchor": {
+      visibility: "visible",
+    },
+  },
 };
 
 // https://github.com/system-ui/theme-specification
@@ -136,12 +151,22 @@ export const theme = {
       lineHeight: "body",
       fontWeight: "body",
       fontSize: fontSize.normal,
+      ".anchor": {
+        p: ["2px", "4px"],
+        verticalAlign: "text-top",
+        height: "1em",
+        display: "inline-flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginLeft: ["-16px", "-28px"],
+        svg: {
+          width: ["12px", "20px"],
+          height: ["12px", "20px"],
+        },
+      },
     },
     h1: {
-      // color: "text",
-      fontFamily: "heading",
-      lineHeight: "1.2",
-      fontWeight: "heading",
+      ...headingStyles,
       fontSize: [6, 7, 8],
       textAlign: ["center", "left", "left"],
       py: [5, 0, 0],
@@ -149,45 +174,34 @@ export const theme = {
       wordBreak: "break-word",
     },
     h2: {
+      ...headingStyles,
       color: "text",
-      fontFamily: "heading",
-      lineHeight: "1.2",
-      fontWeight: "heading",
       fontSize: [5, 6],
       margin: "0.5em 0",
-      code: codeInHeading,
       wordBreak: "break-word",
     },
     h3: {
+      ...headingStyles,
       color: "gray",
-      fontFamily: "heading",
-      lineHeight: "1.2",
-      fontWeight: "heading",
       fontSize: [4, 5],
-      code: codeInHeading,
       wordBreak: "break-word",
     },
     h4: {
+      ...headingStyles,
       color: "gray",
-      fontFamily: "heading",
-      lineHeight: "1.2",
-      fontWeight: "heading",
       fontSize: [3, 4],
       margin: "0.5em 0",
     },
     h5: {
+      ...headingStyles,
       color: "text",
-      fontFamily: "heading",
-      lineHeight: "1.2",
-      fontWeight: "heading",
       fontSize: [2, 3],
       margin: "0.5em 0",
     },
     h6: {
+      ...headingStyles,
       color: "text",
       fontFamily: "text",
-      lineHeight: "1.2",
-      fontWeight: "heading",
       fontSize: [1, 2],
       margin: "0.5em 0",
     },

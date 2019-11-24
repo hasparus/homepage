@@ -33,7 +33,7 @@ const IndexPage = () => {
     <Root>
       <Seo titleTemplate="%s" />
       <Header />
-      <s.h1 sx={{ mt: 3, mb: 4 }}>haspar.us</s.h1>
+      <s.h1 sx={{ mt: 4, mb: 2 }}>haspar.us</s.h1>
       <s.p>
         Howdy! I'm Piotr Monwid-Olechnowicz and this is my personal blog.
       </s.p>
@@ -62,7 +62,10 @@ const IndexPage = () => {
                     {title}
                   </Link>
                 </s.h3>
-                <BlogpostDetails date={date} readingTime={fields!.readingTime} />
+                <BlogpostDetails
+                  date={date}
+                  readingTime={fields!.readingTime}
+                />
               </header>
               <s.p sx={{ mt: 1 }}>{spoiler}</s.p>
             </article>
