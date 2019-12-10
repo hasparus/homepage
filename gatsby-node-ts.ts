@@ -1,4 +1,8 @@
-import { GatsbyNode, CreateSchemaCustomizationArgs, PluginOptions } from "gatsby";
+import {
+  GatsbyNode,
+  CreateSchemaCustomizationArgs,
+  PluginOptions,
+} from "gatsby";
 import WebpackNotifierPlugin from "webpack-notifier";
 import { toLower } from "lodash";
 import { createFilePath } from "gatsby-source-filesystem";
@@ -9,9 +13,9 @@ import { getGitLogJsonForFile } from "./scripts/getGitLogJsonForFile";
 import * as generated from "./__generated__/global";
 
 function assert(condition: any, message?: string): asserts condition {
-	if (!condition) {
-			throw new AssertionError({ message })
-	}
+  if (!condition) {
+    throw new AssertionError({ message });
+  }
 }
 
 /**
@@ -50,7 +54,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = ({
       name: "readingTime",
       value: Math.ceil(readingTime(mdxNode.rawBody).minutes),
     });
-    
+
     const blogpostHistoryType = mdxNode?.frontmatter?.history;
     if (blogpostHistoryType) {
       getGitLogJsonForFile("content/posts/refinement-types.mdx", [
@@ -89,7 +93,9 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = ({
 /**
  * Update default Webpack configuration
  */
-export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ actions }) => {
+export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
+  actions,
+}) => {
   actions.setWebpackConfig({
     plugins: [
       new WebpackNotifierPlugin({
@@ -99,8 +105,11 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ act
   });
 };
 
-export const createPages: GatsbyNode['createPages'] = ({ graphql, actions }) => {
-  return new Promise((resolve, reject) => { 
+export const createPages: GatsbyNode["createPages"] = ({
+  graphql,
+  actions,
+}) => {
+  return new Promise((resolve, reject) => {
     resolve(
       graphql<{ allMdx: generated.MdxConnection }>(`
         query CreatePagesQuery {
@@ -118,12 +127,14 @@ export const createPages: GatsbyNode['createPages'] = ({ graphql, actions }) => 
       `).then(result => {
         if (result.errors) {
           console.error(result.errors);
-          return reject(result.errors);
+          reject(result.errors);
+          return;
         }
 
+        // eslint-disable-next-line no-unused-expressions
         result.data?.allMdx?.nodes.forEach(node => {
           assert(node && node.fields && node.fields.route);
-          
+
           actions.createPage({
             path: node.fields.route,
             component: node.fileAbsolutePath,
@@ -135,9 +146,10 @@ export const createPages: GatsbyNode['createPages'] = ({ graphql, actions }) => 
   });
 };
 
-export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = async ({
-  actions: { createTypes } 
-}: CreateSchemaCustomizationArgs, _: PluginOptions) => {
+export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] = async (
+  { actions: { createTypes } }: CreateSchemaCustomizationArgs,
+  _: PluginOptions
+) => {
   const typeDefs = /*graphql*/ `
     type Mdx implements Node {
       frontmatter: MdxFrontmatter
