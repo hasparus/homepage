@@ -6210,7 +6210,11 @@ eslint-config-airbnb@^18.0.1:
     object.assign "^4.1.0"
     object.entries "^1.1.0"
 
+<<<<<<< HEAD
 eslint-config-chop-chop@^1.2.5:
+=======
+eslint-config-chop-chop@^1.2.6:
+>>>>>>> 5ab89e1... Run deliver post through Grammarly
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/eslint-config-chop-chop/-/eslint-config-chop-chop-1.2.6.tgz#1f9a6bf65ace6ee209aca37a85ae172404690295"
   integrity sha512-eJutm0n7tYnwA15raHtgmKeGYQGokfnYLjzSZiUEHM+cSIxCtx34+xJ9WgPkjRh6eIacbuiYSBu6GgiGHET+Yw==
@@ -16594,7 +16598,7 @@ vfile-location@^2.0.0:
   resolved "https://registry.yarnpkg.com/vfile-location/-/vfile-location-2.0.6.tgz#8a274f39411b8719ea5728802e10d9e0dff1519e"
   integrity sha512-sSFdyCP3G6Ka0CEmN83A2YCMKIieHx0EDaj5IDP4g1pa5ZJ4FJDvpO0WODLxo4LUX4oe52gmSCK7Jw4SBghqxA==
 
-vfile-message@*, vfile-message@^2.0.0:
+vfile-message@*, vfile-message@^2.0.0, vfile-message@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/vfile-message/-/vfile-message-2.0.2.tgz#75ba05090ec758fa8420f2c11ce049bcddd8cf3e"
   integrity sha512-gNV2Y2fDvDOOqq8bEe7cF3DXU6QgV4uA9zMR2P8tix11l1r7zju3zry3wZ8sx+BEfuO6WQ7z2QzfWTvqHQiwsA==
