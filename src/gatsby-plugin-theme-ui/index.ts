@@ -249,7 +249,7 @@ export const theme = {
       maxWidth: "100%",
     },
     ul: {
-      pl: [3, 4],
+      pl: [3, "40px" /* default */],
       code,
     },
     blockquote: {
