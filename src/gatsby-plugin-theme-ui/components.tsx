@@ -3,13 +3,14 @@ import { jsx, Styled as s } from "theme-ui";
 import { ComponentProps } from "react";
 
 import { fontSize } from "../gatsby-plugin-theme-ui";
-import { EpistemicNote, CodesandboxIframe, ReadingList } from "../components";
+import { EpistemicNote, CodesandboxIframe, ReadingList, BoxedText } from "../components";
 
 // eslint-disable-next-line import/no-default-export
 export default {
   Epistemic: EpistemicNote,
   CodesandboxIframe,
   ReadingList,
+  BoxedText,
 
   figure: (props: ComponentProps<"figure">) => (
     <figure sx={{ margin: 0, "> pre": { mb: 2 } }} {...props} />

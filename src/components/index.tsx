@@ -12,3 +12,4 @@ export * from "./Root";
 export * from "./EpistemicNote";
 export * from "./CodesandboxIframe";
 export * from "./ReadingList";
+export * from "./BoxedText";

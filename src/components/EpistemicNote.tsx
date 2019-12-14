@@ -1,11 +1,10 @@
 /** @jsx jsx */
-import { jsx, Styled as s } from "theme-ui";
-import { ComponentPropsWithoutRef } from "react";
+import { jsx } from "theme-ui";
 
-import { fontSize } from "../gatsby-plugin-theme-ui";
 import { panic } from "../utils";
+import { BoxedText, BoxedTextProps } from "./BoxedText";
 
-type EpistemicNoteProps = ComponentPropsWithoutRef<typeof s.p> &
+type EpistemicNoteProps = BoxedTextProps &
   ({ effort: true; status?: never } | { effort?: never; status: true });
 export const EpistemicNote = ({
   children,
@@ -20,17 +19,8 @@ export const EpistemicNote = ({
     : panic("impossible");
 
   return (
-    <s.p
-      sx={{
-        bg: "muted",
-        p: 2,
-        fontSize: fontSize.small,
-        width: "100%",
-        fontStyle: "italic",
-      }}
-      {...rest}
-    >
+    <BoxedText {...rest}>
       Epistemic {type}: {children}
-    </s.p>
+    </BoxedText>
   );
 };
