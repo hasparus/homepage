@@ -45,7 +45,7 @@ export const alreadyRead: ReadingList = {
     [
       "Making sense of MVP and why I prefer Earliest Testable/Usable/Lovable",
       "https://blog.crisp.se/2016/01/25/henrikkniberg/making-sense-of-mvp",
-      "A quick and fun post about MVP and misconception around it, " +
+      "MVP and misconceptions around it, " +
         "filled with delightful illustrations and real-life examples.",
     ],
   ],
@@ -53,7 +53,7 @@ export const alreadyRead: ReadingList = {
     [
       "Act Your Age",
       "https://ericsink.com/Act_Your_Age.html",
-      "Short piece in which Eric Sink writes about the chasm between Early Adopters " +
+      "Eric Sink writes about the chasm between Early Adopters " +
         "and Pragmatists and describes a Pragmatist in Pain, who you need to sponsor " +
         "your product across the chasm.",
     ],
