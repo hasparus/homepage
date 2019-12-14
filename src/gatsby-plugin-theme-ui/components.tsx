@@ -1,9 +1,14 @@
 /** @jsx jsx */
-import { jsx, Styled as s } from "theme-ui";
+import { jsx } from "theme-ui";
 import { ComponentProps } from "react";
 
 import { fontSize } from "../gatsby-plugin-theme-ui";
-import { EpistemicNote, CodesandboxIframe, ReadingList, BoxedText } from "../components";
+import {
+  EpistemicNote,
+  CodesandboxIframe,
+  ReadingList,
+  BoxedText,
+} from "../components";
 
 // eslint-disable-next-line import/no-default-export
 export default {
