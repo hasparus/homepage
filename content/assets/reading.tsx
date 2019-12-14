@@ -66,7 +66,7 @@ export const futureReading: ReadingList = {
       "Structure and Interpretation of Computer Programs",
       "https://books.google.pl/books?id=1DrQngEACAAJ&dq=Structure+and+Interpretation+of+Computer+Programs&hl=en&sa=X&ved=0ahUKEwj-ptHaxLXmAhUEjosKHap9A1oQ6AEIKTAA",
       "I have some bad memories with the last textbook I've read " +
-        "(Cormen's Introduction to Algorithms), but I've head a lot of good " +
+        "(Cormen's Introduction to Algorithms), but I've heard a lot of good " +
         "reviews of SICP. I'm planning to read it in Q1 2020.",
     ],
   ],
