@@ -1,19 +1,18 @@
 /** @jsx jsx */
 import { jsx, Styled as s } from "theme-ui";
 import React from "react";
+
 import { Header, Root } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
 import { Seo } from "../components/Seo";
+import { Mdx, File } from "../../__generated__/global";
 
 interface PostLayoutProps {
   children: React.ReactNode;
   pathContext: {
-    frontmatter: {
-      title: string;
-      spoiler: string;
-      date: string;
-    };
+    frontmatter: Mdx["frontmatter"];
     readingTime: number;
+    socialImage: File;
   };
   path: string;
 }
@@ -32,11 +31,18 @@ export default function PostLayout({
   const {
     frontmatter: { title, date, spoiler },
     readingTime,
+    socialImage,
   } = pathContext;
 
   return (
     <Root>
-      <Seo article title={title} description={spoiler} pathname={path} />
+      <Seo
+        article
+        title={title}
+        description={spoiler}
+        pathname={path}
+        image={socialImage.childImageSharp?.original || undefined}
+      />
       <Header showHome />
       <main>
         <article>

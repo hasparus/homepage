@@ -1,3 +1,5 @@
+import { AssertionError } from "assert";
+
 export const isString = (x: unknown): x is string => typeof x === "string";
 
 /**
@@ -47,3 +49,9 @@ export function panic(message: string) {
 
 export const randomElement = <T>(xs: T[]): T =>
   xs[Math.floor(Math.random() * xs.length)];
+
+export function assert(condition: any, message?: string): asserts condition {
+  if (!condition) {
+    throw new AssertionError({ message });
+  }
+}
