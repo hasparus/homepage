@@ -172,6 +172,7 @@ export const theme = {
       py: [5, 0, 0],
       margin: "0.5em 0",
       wordBreak: "break-word",
+      lineHeight: 1.1,
     },
     h2: {
       ...headingStyles,
