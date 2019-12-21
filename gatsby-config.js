@@ -1,5 +1,12 @@
 /* eslint-disable global-require */
 
+const deployUrl = process.env.DEPLOY_PRIME_URL || "";
+const siteUrl =
+  deployUrl && !deployUrl.includes("master--")
+    ? deployUrl
+    : // No trailing slash allowed!
+      "https://haspar.us";
+
 module.exports = {
   siteMetadata: {
     title: "haspar.us",
@@ -16,8 +23,7 @@ module.exports = {
         url: `https://github.com/hasparus`,
       },
     ],
-    // No trailing slash allowed!
-    siteUrl: process.env.DEPLOY_PRIME_URL || "https://haspar.us",
+    siteUrl,
     htmlAttributes: { lang: "en" },
     // image: "/images/snape.jpg", // Path to your image you placed in the 'static' folder
     twitterUsername: "@hasparus",
