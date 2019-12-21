@@ -58,6 +58,12 @@ export const alreadyRead: ReadingList = {
         "your product across the chasm.",
     ],
   ],
+  "Tanya Reilly": [
+    [
+      "Being Glue",
+      "https://noidea.dog/#/glue/"
+    ]
+  ]
 };
 
 export const futureReading: ReadingList = {
