@@ -46,7 +46,7 @@ const Lines = (props: React.ComponentProps<"svg">) => {
   });
 
   return (
-    <svg opacity="0.175" {...props}>
+    <svg opacity="0.18" {...props}>
       {xMax > 8 &&
         series.map((dateValue, i) => {
           return (
@@ -55,10 +55,10 @@ const Lines = (props: React.ComponentProps<"svg">) => {
                 data={dateValue}
                 x={d => xScale(x(d))}
                 y={d => yScale(y(d))}
-                strokeWidth={2}
+                strokeWidth={3}
                 curve={i % 2 === 0 ? curveMonotoneX : undefined}
                 sx={{
-                  stroke: "gray",
+                  stroke: "secondary",
                 }}
               />
             </Group>
@@ -86,7 +86,7 @@ export function BlogpostSocialPreview({
   return (
     <article
       sx={{
-        px: 3,
+        p: 5,
         width: "100%",
         height: "100%",
         overflow: "hidden",
@@ -106,15 +106,15 @@ export function BlogpostSocialPreview({
           zIndex: -1,
         }}
       />
-      <s.h1 sx={{ fontSize: [8, 8, 8], color: "text", mb: 2 }}>{title}</s.h1>
+      <s.h1 sx={{ fontSize: [8, 8, 8], color: "text", mt: 0, mb: 2 }}>
+        {title}
+      </s.h1>
       <BlogpostDetails
         date={date}
         readingTime={readingTime}
         sx={{
           fontSize: [5, 5, 5],
           fontWeight: "bold",
-          position: "absolute",
-          bottom: 3,
         }}
       />
     </article>
