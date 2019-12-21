@@ -1,31 +1,39 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import {
   GatsbyNode,
   CreateSchemaCustomizationArgs,
   PluginOptions,
+  Actions,
+  Node,
+  ParentSpanPluginArgs,
 } from "gatsby";
 import WebpackNotifierPlugin from "webpack-notifier";
 import { toLower } from "lodash";
 import { createFilePath } from "gatsby-source-filesystem";
 import readingTime from "reading-time";
-import { AssertionError } from "assert";
+import puppeteer, { Browser } from "puppeteer";
+import fs from "fs-extra";
+import path from "path";
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { createFileNode as baseCreateFileNode } from "gatsby-source-filesystem/create-file-node";
 
 import { getGitLogJsonForFile } from "./scripts/getGitLogJsonForFile";
 import * as generated from "./__generated__/global";
-
-function assert(condition: any, message?: string): asserts condition {
-  if (!condition) {
-    throw new AssertionError({ message });
-  }
-}
+import { assert } from "./src/utils";
+import { makeSocialCard } from "./scripts/makeSocialCard";
 
 /**
  * Intercept and modify the GraphQL schema
  */
-export const onCreateNode: GatsbyNode["onCreateNode"] = ({
-  node,
-  getNode,
-  actions: { createNodeField },
-}) => {
+export const onCreateNode: GatsbyNode["onCreateNode"] = async args => {
+  const {
+    node,
+    getNode,
+    actions: { createNodeField },
+  } = args;
+
   if (node.internal.type === "Mdx") {
     const mdxNode = (node as unknown) as generated.Mdx;
 
@@ -55,38 +63,9 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = ({
       value: Math.ceil(readingTime(mdxNode.rawBody).minutes),
     });
 
-    const blogpostHistoryType = mdxNode?.frontmatter?.history;
-    if (blogpostHistoryType) {
-      getGitLogJsonForFile("content/posts/refinement-types.mdx", [
-        "abbreviatedCommit",
-        "authorDate",
-        "subject",
-        "body",
-      ])
-        .then(history => {
-          switch (blogpostHistoryType) {
-            case "Verbose":
-              createNodeField({
-                node,
-                name: "history",
-                value: history,
-              });
-              break;
-            case "DatesOnly":
-              createNodeField({
-                node,
-                name: "history",
-                value: history.map(entry => ({ authorDate: entry.authorDate })),
-              });
-              break;
-            default:
-              break;
-          }
-        })
-        .catch(err => {
-          console.error("Failed to build blogpost history for", route, err);
-        });
-    }
+    const mdxArgs = { ...args, node: mdxNode };
+    createBlogpostHistoryNodeField(mdxArgs, route);
+    await createSocialImageNodeField(mdxArgs);
   }
 };
 
@@ -120,6 +99,15 @@ export const createPages: GatsbyNode["createPages"] = ({
               fields {
                 route
                 readingTime
+                socialImage {
+                  childImageSharp {
+                    original {
+                      width
+                      height
+                      src
+                    }
+                  }
+                }
               }
             }
           }
@@ -138,7 +126,7 @@ export const createPages: GatsbyNode["createPages"] = ({
           actions.createPage({
             path: node.fields.route,
             component: node.fileAbsolutePath,
-            context: { readingTime: node.fields.readingTime },
+            context: node.fields,
           });
         });
       })
@@ -185,3 +173,104 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
   `;
   createTypes(typeDefs);
 };
+
+async function createFileNode(
+  filePath: string,
+  createNode: Actions["createNode"],
+  createNodeId: unknown,
+  parentNodeId: unknown
+) {
+  const fileNode = await baseCreateFileNode(filePath, createNodeId);
+  fileNode.parent = parentNodeId;
+  createNode(fileNode, {
+    name: `gatsby-source-filesystem`,
+  });
+  return fileNode;
+}
+
+let browser: Browser;
+
+export async function onPreInit() {
+  browser = await puppeteer.launch({ headless: true });
+}
+
+export async function onPostBuild() {
+  await browser.close();
+}
+
+interface CreateMdxNodeArgs extends ParentSpanPluginArgs {
+  node: generated.Mdx;
+}
+
+function createBlogpostHistoryNodeField(
+  { node, actions: { createNodeField } }: CreateMdxNodeArgs,
+  route: string
+) {
+  const blogpostHistoryType = node?.frontmatter?.history;
+  if (blogpostHistoryType) {
+    getGitLogJsonForFile("content/posts/refinement-types.mdx", [
+      "abbreviatedCommit",
+      "authorDate",
+      "subject",
+      "body",
+    ])
+      .then(history => {
+        switch (blogpostHistoryType) {
+          case "Verbose":
+            createNodeField({
+              node: (node as unknown) as Node,
+              name: "history",
+              value: history,
+            });
+            break;
+          case "DatesOnly":
+            createNodeField({
+              node: (node as unknown) as Node,
+              name: "history",
+              value: history.map(entry => ({ authorDate: entry.authorDate })),
+            });
+            break;
+          default:
+            break;
+        }
+      })
+      .catch(err => {
+        console.error("Failed to build blogpost history for", route, err);
+      });
+  }
+}
+
+async function createSocialImageNodeField({
+  node,
+  store,
+  createNodeId,
+  actions: { createNodeField, createNode },
+}: CreateMdxNodeArgs) {
+  const { program } = store.getState();
+
+  const cacheDir = path.resolve(`${program.directory}/.cache/social/`);
+  await fs.ensureDir(cacheDir);
+
+  try {
+    const ogImage = await makeSocialCard(
+      cacheDir,
+      browser,
+      (node as unknown) as generated.Mdx
+    );
+
+    const ogImageNode = await createFileNode(
+      ogImage,
+      createNode,
+      createNodeId,
+      node.id
+    );
+
+    createNodeField({
+      name: "socialImage___NODE",
+      node: (node as unknown) as Node,
+      value: ogImageNode.id,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+}

@@ -4,6 +4,7 @@ import { StaticQuery, graphql } from "gatsby";
 import { DeepNonNullable } from "utility-types";
 
 import { SeoData } from "./__generated__/SeoData";
+import { ImageSharpOriginal } from "../../__generated__/global";
 
 const query = graphql`
   query SeoData {
@@ -27,7 +28,7 @@ type SeoProps = {
   title?: string;
   description?: string;
   titleTemplate?: string;
-  image?: string;
+  image?: string | ImageSharpOriginal;
   pathname?: string;
   article?: boolean;
 };
@@ -46,7 +47,11 @@ export const Seo = ({
       const seo = {
         title: title || siteMetadata.defaultTitle,
         description: description || siteMetadata.defaultDescription,
-        image: `${siteMetadata.siteUrl}${image /*|| defaultImage*/}`,
+        imageSrc:
+          image &&
+          `${siteMetadata.siteUrl}${
+            typeof image === "string" ? image : image.src
+          }`,
         url: `${siteMetadata.siteUrl}${pathname || "/"}`,
       };
 
@@ -58,7 +63,7 @@ export const Seo = ({
             titleTemplate={titleTemplate || siteMetadata.titleTemplate}
           >
             <meta name="description" content={seo.description} />
-            <meta name="image" content={seo.image} />
+            <meta name="image" content={seo.imageSrc} />
 
             {/* open graph */}
             {seo.url && <meta property="og:url" content={seo.url} />}
@@ -67,7 +72,21 @@ export const Seo = ({
             {seo.description && (
               <meta property="og:description" content={seo.description} />
             )}
-            {seo.image && <meta property="og:image" content={seo.image} />}
+            {seo.imageSrc && (
+              <meta property="og:image" content={seo.imageSrc} />
+            )}
+            {typeof image === "object" && [
+              <meta
+                key="1"
+                property="og:image:width"
+                content={String(image.width)}
+              />,
+              <meta
+                key="2"
+                property="og:image:height"
+                content={String(image.height)}
+              />,
+            ]}
 
             {/* twitter */}
             <meta name="twitter:card" content="summary_large_image" />
@@ -81,7 +100,9 @@ export const Seo = ({
             {seo.description && (
               <meta name="twitter:description" content={seo.description} />
             )}
-            {seo.image && <meta name="twitter:image" content={seo.image} />}
+            {seo.imageSrc && (
+              <meta name="twitter:image" content={seo.imageSrc} />
+            )}
           </Helmet>
         </>
       );
