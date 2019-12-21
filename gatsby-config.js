@@ -1,11 +1,5 @@
 /* eslint-disable global-require */
 
-/**
- * Configure your Gatsby site with this file.
- *
- * See: https://www.gatsbyjs.org/docs/gatsby-config/
- */
-
 module.exports = {
   siteMetadata: {
     title: "haspar.us",
@@ -22,7 +16,8 @@ module.exports = {
         url: `https://github.com/hasparus`,
       },
     ],
-    siteUrl: "https://haspar.us", // No trailing slash allowed!
+    // No trailing slash allowed!
+    siteUrl: process.env.DEPLOY_PRIME_URL || "https://haspar.us",
     htmlAttributes: { lang: "en" },
     // image: "/images/snape.jpg", // Path to your image you placed in the 'static' folder
     twitterUsername: "@hasparus",

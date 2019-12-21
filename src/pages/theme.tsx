@@ -12,6 +12,7 @@ import {
   Header,
   Root,
   Button,
+  BlogpostSocialPreview,
 } from "../components";
 import { isString, contrastingTextColor, copyToClipboard } from "../utils";
 
@@ -137,6 +138,24 @@ const ThemePage = () => {
             </Link>
           </li>
         </ul>
+      </section>
+      <section>
+        <s.h2>Blogpost Social Preview</s.h2>
+        <BlogpostSocialPreview
+          sx={{ border: "1px solid currentColor", width: 880, height: 440 }}
+          post={{
+            fields: {
+              isHidden: false,
+              readingTime: 5,
+              route: "/you-deserve-more-than-proptypes",
+            },
+            frontmatter: {
+              title: "You Deserve More than PropTypes",
+              date: "2019-11-17T15:00:03Z",
+              spoiler: "Use static typing instead. It does wonders.",
+            },
+          }}
+        />
       </section>
     </Root>
   );

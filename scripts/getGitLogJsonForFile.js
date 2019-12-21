@@ -73,6 +73,7 @@ const getGitLogJsonForFile = (filepath, fields) => {
                 .trim()
                 .split(PARAM_DELIMITER)
                 .reduce((obj, value, idx) => {
+                  // eslint-disable-next-line no-param-reassign
                   obj[fields[idx]] = value.startsWith("\n")
                     ? value.slice(1)
                     : value;

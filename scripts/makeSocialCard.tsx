@@ -14,7 +14,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { theme } from "../src/gatsby-plugin-theme-ui/index";
 import { Mdx } from "../__generated__/global";
 import { assert } from "../src/utils";
-import { BlogpostDetails } from "../src/components";
+import { BlogpostSocialPreview } from "../src/components";
 
 const writeFileAsync = promisify(writeFile);
 
@@ -51,7 +51,7 @@ async function imageFromHtml(
   const page = await browser.newPage();
   await page.goto(`file://${filePath}`);
   await page.evaluateHandle("document.fonts.ready");
-  await page.setViewport({ width: 1080, height: 540 });
+  await page.setViewport({ width: 880, height: 440 });
   const file = await page.screenshot({ type: "png" });
   return writeCachedFile(cacheDir, title, file, "png");
 }
@@ -65,12 +65,6 @@ const darkTheme = {
 };
 
 function getSocialCardHtml(post: Mdx) {
-  const readingTime = post.fields?.readingTime;
-  assert(post.frontmatter);
-  assert(readingTime);
-
-  const { title, date } = post.frontmatter;
-
   return renderToStaticMarkup(
     <html lang="en">
       <head>
@@ -100,25 +94,7 @@ function getSocialCardHtml(post: Mdx) {
       </head>
       <ThemeProvider theme={darkTheme}>
         <body sx={{ margin: 0, bg: "background" }}>
-          <article
-            sx={{
-              px: 2,
-              width: "100vw",
-              height: "100vh",
-              overflow: "hidden",
-              boxSizing: "border-box",
-              fontFamily: "body",
-            }}
-          >
-            <s.h1 sx={{ fontSize: [8, 8, 8], color: "text", mb: 2 }}>
-              {title}
-            </s.h1>
-            <BlogpostDetails
-              date={date}
-              readingTime={readingTime}
-              sx={{ fontSize: [2, 2, 2] }}
-            />
-          </article>
+          <BlogpostSocialPreview post={post} />
         </body>
       </ThemeProvider>
     </html>
