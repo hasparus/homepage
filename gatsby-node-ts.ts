@@ -193,7 +193,7 @@ let browser: Browser;
 export async function onPreInit() {
   browser = await puppeteer.launch({
     // Toggle to preview generated images
-    headless: false,
+    headless: true,
   });
 }
 
