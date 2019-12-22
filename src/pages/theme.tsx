@@ -142,7 +142,12 @@ const ThemePage = () => {
       <section>
         <s.h2>Blogpost Social Preview</s.h2>
         <BlogpostSocialPreview
-          sx={{ border: "1px solid currentColor", width: 880, height: 440 }}
+          sx={{
+            border: "1px solid currentColor",
+            width: 880,
+            height: 440,
+            maxWidth: "100%",
+          }}
           post={{
             fields: {
               isHidden: false,

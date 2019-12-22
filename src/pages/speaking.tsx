@@ -7,9 +7,9 @@ import { Header, Root, theme } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
 import { Seo } from "../components/Seo";
 
-const IndexPage = () => {
+const SpeakingPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
-    query BlogPostsQuery {
+    query SpeakingRaportsQuery {
       allMdx(
         filter: { fields: { isHidden: { ne: true } } }
         sort: { fields: [frontmatter___date], order: DESC }
@@ -33,10 +33,7 @@ const IndexPage = () => {
     <Root>
       <Seo titleTemplate="%s" />
       <Header />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>haspar.us</s.h1>
-      <s.p>
-        Howdy! I'm Piotr Monwid-Olechnowicz and this is my personal blog.
-      </s.p>
+      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Speaking</s.h1>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;
@@ -62,10 +59,7 @@ const IndexPage = () => {
                     {title}
                   </Link>
                 </s.h3>
-                <BlogpostDetails
-                  date={date}
-                  readingTime={fields!.readingTime}
-                />
+                <BlogpostDetails date={date} />
               </header>
               <s.p sx={{ mt: 1 }}>{spoiler}</s.p>
             </article>
@@ -77,4 +71,4 @@ const IndexPage = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default IndexPage;
+export default SpeakingPage;
