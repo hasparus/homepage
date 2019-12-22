@@ -1,4 +1,6 @@
-// eslint-disable-next-line import/no-unresolved
+import "typeface-passion-one";
+import "typeface-open-sans";
+
 import { pageCtx } from "./src/components/pageCtx";
 
 export const { wrapPageElement } = pageCtx;

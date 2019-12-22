@@ -23,6 +23,7 @@
     "@types/d3-array": "^2.0.0",
     "@types/lodash": "^4.14.141",
     "@types/puppeteer": "^2.0.0",
+    "@types/reach__router": "^1.2.6",
     "@types/react-dom": "^16.9.1",
     "@types/react-helmet": "^5.0.11",
     "@types/theme-ui": "^0.2.3",
@@ -31,6 +32,7 @@
     "@vx/mock-data": "^0.0.193-alpha.0",
     "@vx/scale": "^0.0.193-alpha.0",
     "@vx/shape": "^0.0.193-alpha.0",
+    "body-scroll-lock": "^2.6.4",
     "d3-array": "^2.4.0",
     "fp-ts": "^2.1.0",
     "fs-extra": "^8.1.0",
@@ -70,6 +72,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^1.8.1",
     "@graphql-codegen/typescript": "^1.8.1",
+    "@types/body-scroll-lock": "^2.6.1",
     "@types/webpack-notifier": "^1.5.3",
     "eslint": "^6.6.0",
     "eslint-config-chop-chop": "^1.2.6",

@@ -2,9 +2,12 @@
 import { jsx, Styled as s, useThemeUI } from "theme-ui";
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { Global } from "@emotion/core";
+import { Global, ObjectInterpolation } from "@emotion/core";
 
-const globalStyles = {
+const globalStyles: ObjectInterpolation<any> = {
+  html: {
+    scrollBehavior: "smooth",
+  },
   body: {
     margin: 0,
   },
