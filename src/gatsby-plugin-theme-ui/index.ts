@@ -25,6 +25,7 @@ const font = (fonts: string) => {
 export const colorModes = {
   light: {
     text: "#020202",
+    text092: "rgba(2, 2, 2, 0.92)",
     gray: "#2B2C28",
     background: "#fff",
     primary: "#002FF4",
@@ -34,6 +35,7 @@ export const colorModes = {
   },
   dark: {
     text: "#f0f0f0",
+    text092: "rgba(240, 240, 240, 0.92)",
     gray: "#db7",
     background: "#02030f",
     primary: "#80a9ff",

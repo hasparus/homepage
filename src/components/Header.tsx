@@ -1,19 +1,22 @@
 /** @jsx jsx */
 import { Styled as s, jsx, useColorMode, Theme } from "theme-ui";
 import { Link } from "gatsby";
-import React, {
+import {
   ElementType,
   ComponentPropsWithoutRef,
   useEffect,
   useRef,
+  memo,
 } from "react";
 import { keys } from "fp-ts/lib/Record";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 
 import { colorModes } from "../gatsby-plugin-theme-ui";
 
 import { Button, ButtonProps } from "./Button";
 import { ColorModes } from "./index";
 import { HamburgerLinks } from "./HamburgerLinks";
+import { pageCtx } from "./pageCtx";
 
 const MENU_ID = "menu";
 
@@ -26,12 +29,11 @@ const HeaderLink = <As extends ElementType = "a">(
 ) => (
   <s.a
     sx={{
-      color: "currentColor",
       textTransform: "lowercase",
       px: "0.5em",
-      opacity: 0.9,
+      color: "text092",
       ":hover": {
-        opacity: 1,
+        color: "text",
       },
     }}
     {...props}
@@ -53,8 +55,10 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
       }}
       sx={{
         px: "0.5em",
+        color: "text092",
         ":hover, :focus": {
           bg: "muted",
+          color: "text",
         },
       }}
       title="change color mode"
@@ -77,15 +81,21 @@ const separator = (
 );
 
 type HeaderProps = { showHome?: boolean };
-export const Header: React.FC<HeaderProps> = ({ showHome }) => {
+
+// menu open state is in #menu:target to make it work smoothly without js
+export const Header = memo(({ showHome }: HeaderProps) => {
   const [colorMode] = useColorMode();
+  const { location } = pageCtx.useContext();
+  const navRef = useRef<HTMLElement>(null);
 
   const hamburgerRef = useRef<HTMLDivElement>(null);
+  // if we enter the page with #menu in URL,
+  // we'd like to open the menu
   useEffect(() => {
     if (
       hamburgerRef.current &&
       typeof window !== "undefined" &&
-      window.location.hash === "#menu"
+      window.location.hash === `#${MENU_ID}`
     ) {
       const element = hamburgerRef.current.firstElementChild;
       if (element) {
@@ -93,6 +103,16 @@ export const Header: React.FC<HeaderProps> = ({ showHome }) => {
       }
     }
   }, []);
+
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    if (location.hash === `#${MENU_ID}` && navRef.current) {
+      const el = navRef.current;
+      disableBodyScroll(el);
+      window.scrollTo({ top: 0 });
+      return () => enableBodyScroll(el);
+    }
+  });
 
   return (
     <header
@@ -112,6 +132,7 @@ export const Header: React.FC<HeaderProps> = ({ showHome }) => {
       )}
       <div sx={{ flex: 1 }} />
       <nav
+        ref={navRef}
         id={MENU_ID}
         sx={{
           display: "flex",
@@ -129,7 +150,8 @@ export const Header: React.FC<HeaderProps> = ({ showHome }) => {
             borderBottom: (th: Theme) => `1px solid ${th.colors?.gray}`,
             ":target": {
               transform: "translateY(0)",
-              transition: "transform 0.8s cubic-bezier(.49,.1,.48,1.3)",
+              transition:
+                "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);",
             },
             "> *": {
               padding: "0.25em 1em",
@@ -170,4 +192,4 @@ export const Header: React.FC<HeaderProps> = ({ showHome }) => {
       />
     </header>
   );
-};
+});
