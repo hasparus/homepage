@@ -25,7 +25,7 @@ export const Root = (
         sx={{
           // this is about "80ch" but I'd like to avoid layout jumping on font load,
           maxWidth: "824px",
-          mx: [3, "auto"],
+          mx: [3, 3, "auto"],
           mt: 3,
           mb: 6,
           "*": {

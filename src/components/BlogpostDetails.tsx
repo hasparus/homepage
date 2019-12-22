@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { ComponentProps } from "react";
+import { ComponentProps, Fragment } from "react";
 
 import { fontSize } from "../gatsby-plugin-theme-ui";
 
@@ -15,7 +15,7 @@ const readingTimeEmoji = (minutes: number) => {
 
 interface BlogpostDetailsProps extends ComponentProps<"small"> {
   date: Date | string;
-  readingTime: number;
+  readingTime?: number;
 }
 
 export const BlogpostDetails = ({
@@ -32,11 +32,12 @@ export const BlogpostDetails = ({
     {...rest}
   >
     {date &&
-      new Date(date).toLocaleDateString('en-US', {
+      new Date(date).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
-      })}{" "}
-    · {readingTimeEmoji(readingTime)} {readingTime} min read
+      })}
+    {readingTime &&
+      ` · ${readingTimeEmoji(readingTime)} ${readingTime} min read`}
   </small>
 );
