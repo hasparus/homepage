@@ -9,7 +9,7 @@ export type Scalars = {
   /** 
  * A date string, such as 2007-12-03, compliant with the ISO 8601 standard for
    * representation of dates and times using the Gregorian calendar.
- **/
+ */
   Date: any,
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any,
@@ -429,12 +429,12 @@ export type File = Node & {
   readonly ctime?: Maybe<Scalars['Date']>,
   /** Copy file to static directory and return public url to it */
   readonly publicURL?: Maybe<Scalars['String']>,
+  readonly childImageSharp?: Maybe<ImageSharp>,
   readonly id: Scalars['ID'],
   readonly parent?: Maybe<Node>,
   readonly children: ReadonlyArray<Node>,
   readonly internal: Internal,
   readonly childMdx?: Maybe<Mdx>,
-  readonly childImageSharp?: Maybe<ImageSharp>,
 };
 
 
@@ -557,6 +557,97 @@ export enum FileFieldsEnum {
   mtime = 'mtime',
   ctime = 'ctime',
   publicURL = 'publicURL',
+  childImageSharp___fixed___base64 = 'childImageSharp___fixed___base64',
+  childImageSharp___fixed___tracedSVG = 'childImageSharp___fixed___tracedSVG',
+  childImageSharp___fixed___aspectRatio = 'childImageSharp___fixed___aspectRatio',
+  childImageSharp___fixed___width = 'childImageSharp___fixed___width',
+  childImageSharp___fixed___height = 'childImageSharp___fixed___height',
+  childImageSharp___fixed___src = 'childImageSharp___fixed___src',
+  childImageSharp___fixed___srcSet = 'childImageSharp___fixed___srcSet',
+  childImageSharp___fixed___srcWebp = 'childImageSharp___fixed___srcWebp',
+  childImageSharp___fixed___srcSetWebp = 'childImageSharp___fixed___srcSetWebp',
+  childImageSharp___fixed___originalName = 'childImageSharp___fixed___originalName',
+  childImageSharp___resolutions___base64 = 'childImageSharp___resolutions___base64',
+  childImageSharp___resolutions___tracedSVG = 'childImageSharp___resolutions___tracedSVG',
+  childImageSharp___resolutions___aspectRatio = 'childImageSharp___resolutions___aspectRatio',
+  childImageSharp___resolutions___width = 'childImageSharp___resolutions___width',
+  childImageSharp___resolutions___height = 'childImageSharp___resolutions___height',
+  childImageSharp___resolutions___src = 'childImageSharp___resolutions___src',
+  childImageSharp___resolutions___srcSet = 'childImageSharp___resolutions___srcSet',
+  childImageSharp___resolutions___srcWebp = 'childImageSharp___resolutions___srcWebp',
+  childImageSharp___resolutions___srcSetWebp = 'childImageSharp___resolutions___srcSetWebp',
+  childImageSharp___resolutions___originalName = 'childImageSharp___resolutions___originalName',
+  childImageSharp___fluid___base64 = 'childImageSharp___fluid___base64',
+  childImageSharp___fluid___tracedSVG = 'childImageSharp___fluid___tracedSVG',
+  childImageSharp___fluid___aspectRatio = 'childImageSharp___fluid___aspectRatio',
+  childImageSharp___fluid___src = 'childImageSharp___fluid___src',
+  childImageSharp___fluid___srcSet = 'childImageSharp___fluid___srcSet',
+  childImageSharp___fluid___srcWebp = 'childImageSharp___fluid___srcWebp',
+  childImageSharp___fluid___srcSetWebp = 'childImageSharp___fluid___srcSetWebp',
+  childImageSharp___fluid___sizes = 'childImageSharp___fluid___sizes',
+  childImageSharp___fluid___originalImg = 'childImageSharp___fluid___originalImg',
+  childImageSharp___fluid___originalName = 'childImageSharp___fluid___originalName',
+  childImageSharp___fluid___presentationWidth = 'childImageSharp___fluid___presentationWidth',
+  childImageSharp___fluid___presentationHeight = 'childImageSharp___fluid___presentationHeight',
+  childImageSharp___sizes___base64 = 'childImageSharp___sizes___base64',
+  childImageSharp___sizes___tracedSVG = 'childImageSharp___sizes___tracedSVG',
+  childImageSharp___sizes___aspectRatio = 'childImageSharp___sizes___aspectRatio',
+  childImageSharp___sizes___src = 'childImageSharp___sizes___src',
+  childImageSharp___sizes___srcSet = 'childImageSharp___sizes___srcSet',
+  childImageSharp___sizes___srcWebp = 'childImageSharp___sizes___srcWebp',
+  childImageSharp___sizes___srcSetWebp = 'childImageSharp___sizes___srcSetWebp',
+  childImageSharp___sizes___sizes = 'childImageSharp___sizes___sizes',
+  childImageSharp___sizes___originalImg = 'childImageSharp___sizes___originalImg',
+  childImageSharp___sizes___originalName = 'childImageSharp___sizes___originalName',
+  childImageSharp___sizes___presentationWidth = 'childImageSharp___sizes___presentationWidth',
+  childImageSharp___sizes___presentationHeight = 'childImageSharp___sizes___presentationHeight',
+  childImageSharp___original___width = 'childImageSharp___original___width',
+  childImageSharp___original___height = 'childImageSharp___original___height',
+  childImageSharp___original___src = 'childImageSharp___original___src',
+  childImageSharp___resize___src = 'childImageSharp___resize___src',
+  childImageSharp___resize___tracedSVG = 'childImageSharp___resize___tracedSVG',
+  childImageSharp___resize___width = 'childImageSharp___resize___width',
+  childImageSharp___resize___height = 'childImageSharp___resize___height',
+  childImageSharp___resize___aspectRatio = 'childImageSharp___resize___aspectRatio',
+  childImageSharp___resize___originalName = 'childImageSharp___resize___originalName',
+  childImageSharp___id = 'childImageSharp___id',
+  childImageSharp___parent___id = 'childImageSharp___parent___id',
+  childImageSharp___parent___parent___id = 'childImageSharp___parent___parent___id',
+  childImageSharp___parent___parent___children = 'childImageSharp___parent___parent___children',
+  childImageSharp___parent___children = 'childImageSharp___parent___children',
+  childImageSharp___parent___children___id = 'childImageSharp___parent___children___id',
+  childImageSharp___parent___children___children = 'childImageSharp___parent___children___children',
+  childImageSharp___parent___internal___content = 'childImageSharp___parent___internal___content',
+  childImageSharp___parent___internal___contentDigest = 'childImageSharp___parent___internal___contentDigest',
+  childImageSharp___parent___internal___description = 'childImageSharp___parent___internal___description',
+  childImageSharp___parent___internal___fieldOwners = 'childImageSharp___parent___internal___fieldOwners',
+  childImageSharp___parent___internal___ignoreType = 'childImageSharp___parent___internal___ignoreType',
+  childImageSharp___parent___internal___mediaType = 'childImageSharp___parent___internal___mediaType',
+  childImageSharp___parent___internal___owner = 'childImageSharp___parent___internal___owner',
+  childImageSharp___parent___internal___type = 'childImageSharp___parent___internal___type',
+  childImageSharp___children = 'childImageSharp___children',
+  childImageSharp___children___id = 'childImageSharp___children___id',
+  childImageSharp___children___parent___id = 'childImageSharp___children___parent___id',
+  childImageSharp___children___parent___children = 'childImageSharp___children___parent___children',
+  childImageSharp___children___children = 'childImageSharp___children___children',
+  childImageSharp___children___children___id = 'childImageSharp___children___children___id',
+  childImageSharp___children___children___children = 'childImageSharp___children___children___children',
+  childImageSharp___children___internal___content = 'childImageSharp___children___internal___content',
+  childImageSharp___children___internal___contentDigest = 'childImageSharp___children___internal___contentDigest',
+  childImageSharp___children___internal___description = 'childImageSharp___children___internal___description',
+  childImageSharp___children___internal___fieldOwners = 'childImageSharp___children___internal___fieldOwners',
+  childImageSharp___children___internal___ignoreType = 'childImageSharp___children___internal___ignoreType',
+  childImageSharp___children___internal___mediaType = 'childImageSharp___children___internal___mediaType',
+  childImageSharp___children___internal___owner = 'childImageSharp___children___internal___owner',
+  childImageSharp___children___internal___type = 'childImageSharp___children___internal___type',
+  childImageSharp___internal___content = 'childImageSharp___internal___content',
+  childImageSharp___internal___contentDigest = 'childImageSharp___internal___contentDigest',
+  childImageSharp___internal___description = 'childImageSharp___internal___description',
+  childImageSharp___internal___fieldOwners = 'childImageSharp___internal___fieldOwners',
+  childImageSharp___internal___ignoreType = 'childImageSharp___internal___ignoreType',
+  childImageSharp___internal___mediaType = 'childImageSharp___internal___mediaType',
+  childImageSharp___internal___owner = 'childImageSharp___internal___owner',
+  childImageSharp___internal___type = 'childImageSharp___internal___type',
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -649,6 +740,9 @@ export enum FileFieldsEnum {
   childMdx___frontmatter___spoiler = 'childMdx___frontmatter___spoiler',
   childMdx___frontmatter___date = 'childMdx___frontmatter___date',
   childMdx___frontmatter___history = 'childMdx___frontmatter___history',
+  childMdx___frontmatter___venues = 'childMdx___frontmatter___venues',
+  childMdx___frontmatter___venues___name = 'childMdx___frontmatter___venues___name',
+  childMdx___frontmatter___venues___link = 'childMdx___frontmatter___venues___link',
   childMdx___body = 'childMdx___body',
   childMdx___excerpt = 'childMdx___excerpt',
   childMdx___headings = 'childMdx___headings',
@@ -669,6 +763,42 @@ export enum FileFieldsEnum {
   childMdx___fields___history___subject = 'childMdx___fields___history___subject',
   childMdx___fields___history___body = 'childMdx___fields___history___body',
   childMdx___fields___readingTime = 'childMdx___fields___readingTime',
+  childMdx___fields___socialImage___birthtime = 'childMdx___fields___socialImage___birthtime',
+  childMdx___fields___socialImage___birthtimeMs = 'childMdx___fields___socialImage___birthtimeMs',
+  childMdx___fields___socialImage___sourceInstanceName = 'childMdx___fields___socialImage___sourceInstanceName',
+  childMdx___fields___socialImage___absolutePath = 'childMdx___fields___socialImage___absolutePath',
+  childMdx___fields___socialImage___relativePath = 'childMdx___fields___socialImage___relativePath',
+  childMdx___fields___socialImage___extension = 'childMdx___fields___socialImage___extension',
+  childMdx___fields___socialImage___size = 'childMdx___fields___socialImage___size',
+  childMdx___fields___socialImage___prettySize = 'childMdx___fields___socialImage___prettySize',
+  childMdx___fields___socialImage___modifiedTime = 'childMdx___fields___socialImage___modifiedTime',
+  childMdx___fields___socialImage___accessTime = 'childMdx___fields___socialImage___accessTime',
+  childMdx___fields___socialImage___changeTime = 'childMdx___fields___socialImage___changeTime',
+  childMdx___fields___socialImage___birthTime = 'childMdx___fields___socialImage___birthTime',
+  childMdx___fields___socialImage___root = 'childMdx___fields___socialImage___root',
+  childMdx___fields___socialImage___dir = 'childMdx___fields___socialImage___dir',
+  childMdx___fields___socialImage___base = 'childMdx___fields___socialImage___base',
+  childMdx___fields___socialImage___ext = 'childMdx___fields___socialImage___ext',
+  childMdx___fields___socialImage___name = 'childMdx___fields___socialImage___name',
+  childMdx___fields___socialImage___relativeDirectory = 'childMdx___fields___socialImage___relativeDirectory',
+  childMdx___fields___socialImage___dev = 'childMdx___fields___socialImage___dev',
+  childMdx___fields___socialImage___mode = 'childMdx___fields___socialImage___mode',
+  childMdx___fields___socialImage___nlink = 'childMdx___fields___socialImage___nlink',
+  childMdx___fields___socialImage___uid = 'childMdx___fields___socialImage___uid',
+  childMdx___fields___socialImage___gid = 'childMdx___fields___socialImage___gid',
+  childMdx___fields___socialImage___rdev = 'childMdx___fields___socialImage___rdev',
+  childMdx___fields___socialImage___blksize = 'childMdx___fields___socialImage___blksize',
+  childMdx___fields___socialImage___ino = 'childMdx___fields___socialImage___ino',
+  childMdx___fields___socialImage___blocks = 'childMdx___fields___socialImage___blocks',
+  childMdx___fields___socialImage___atimeMs = 'childMdx___fields___socialImage___atimeMs',
+  childMdx___fields___socialImage___mtimeMs = 'childMdx___fields___socialImage___mtimeMs',
+  childMdx___fields___socialImage___ctimeMs = 'childMdx___fields___socialImage___ctimeMs',
+  childMdx___fields___socialImage___atime = 'childMdx___fields___socialImage___atime',
+  childMdx___fields___socialImage___mtime = 'childMdx___fields___socialImage___mtime',
+  childMdx___fields___socialImage___ctime = 'childMdx___fields___socialImage___ctime',
+  childMdx___fields___socialImage___publicURL = 'childMdx___fields___socialImage___publicURL',
+  childMdx___fields___socialImage___id = 'childMdx___fields___socialImage___id',
+  childMdx___fields___socialImage___children = 'childMdx___fields___socialImage___children',
   childMdx___id = 'childMdx___id',
   childMdx___parent___id = 'childMdx___parent___id',
   childMdx___parent___parent___id = 'childMdx___parent___parent___id',
@@ -744,6 +874,7 @@ export type FileFilterInput = {
   readonly mtime?: Maybe<DateQueryOperatorInput>,
   readonly ctime?: Maybe<DateQueryOperatorInput>,
   readonly publicURL?: Maybe<StringQueryOperatorInput>,
+  readonly childImageSharp?: Maybe<ImageSharpFilterInput>,
   readonly id?: Maybe<StringQueryOperatorInput>,
   readonly parent?: Maybe<NodeFilterInput>,
   readonly children?: Maybe<NodeFilterListInput>,
@@ -815,13 +946,13 @@ export enum ImageFormat {
 
 export type ImageSharp = Node & {
   readonly __typename?: 'ImageSharp',
-  readonly id: Scalars['ID'],
   readonly fixed?: Maybe<ImageSharpFixed>,
   readonly resolutions?: Maybe<ImageSharpResolutions>,
   readonly fluid?: Maybe<ImageSharpFluid>,
   readonly sizes?: Maybe<ImageSharpSizes>,
   readonly original?: Maybe<ImageSharpOriginal>,
   readonly resize?: Maybe<ImageSharpResize>,
+  readonly id: Scalars['ID'],
   readonly parent?: Maybe<Node>,
   readonly children: ReadonlyArray<Node>,
   readonly internal: Internal,
@@ -838,6 +969,9 @@ export type ImageSharpfixedArgs = {
   duotone?: Maybe<DuotoneGradient>,
   traceSVG?: Maybe<Potrace>,
   quality?: Maybe<Scalars['Int']>,
+  jpegQuality?: Maybe<Scalars['Int']>,
+  pngQuality?: Maybe<Scalars['Int']>,
+  webpQuality?: Maybe<Scalars['Int']>,
   toFormat?: Maybe<ImageFormat>,
   toFormatBase64?: Maybe<ImageFormat>,
   cropFocus?: Maybe<ImageCropFocus>,
@@ -858,6 +992,9 @@ export type ImageSharpresolutionsArgs = {
   duotone?: Maybe<DuotoneGradient>,
   traceSVG?: Maybe<Potrace>,
   quality?: Maybe<Scalars['Int']>,
+  jpegQuality?: Maybe<Scalars['Int']>,
+  pngQuality?: Maybe<Scalars['Int']>,
+  webpQuality?: Maybe<Scalars['Int']>,
   toFormat?: Maybe<ImageFormat>,
   toFormatBase64?: Maybe<ImageFormat>,
   cropFocus?: Maybe<ImageCropFocus>,
@@ -878,6 +1015,9 @@ export type ImageSharpfluidArgs = {
   duotone?: Maybe<DuotoneGradient>,
   traceSVG?: Maybe<Potrace>,
   quality?: Maybe<Scalars['Int']>,
+  jpegQuality?: Maybe<Scalars['Int']>,
+  pngQuality?: Maybe<Scalars['Int']>,
+  webpQuality?: Maybe<Scalars['Int']>,
   toFormat?: Maybe<ImageFormat>,
   toFormatBase64?: Maybe<ImageFormat>,
   cropFocus?: Maybe<ImageCropFocus>,
@@ -900,6 +1040,9 @@ export type ImageSharpsizesArgs = {
   duotone?: Maybe<DuotoneGradient>,
   traceSVG?: Maybe<Potrace>,
   quality?: Maybe<Scalars['Int']>,
+  jpegQuality?: Maybe<Scalars['Int']>,
+  pngQuality?: Maybe<Scalars['Int']>,
+  webpQuality?: Maybe<Scalars['Int']>,
   toFormat?: Maybe<ImageFormat>,
   toFormatBase64?: Maybe<ImageFormat>,
   cropFocus?: Maybe<ImageCropFocus>,
@@ -916,6 +1059,9 @@ export type ImageSharpresizeArgs = {
   width?: Maybe<Scalars['Int']>,
   height?: Maybe<Scalars['Int']>,
   quality?: Maybe<Scalars['Int']>,
+  jpegQuality?: Maybe<Scalars['Int']>,
+  pngQuality?: Maybe<Scalars['Int']>,
+  webpQuality?: Maybe<Scalars['Int']>,
   jpegProgressive?: Maybe<Scalars['Boolean']>,
   pngCompressionLevel?: Maybe<Scalars['Int']>,
   pngCompressionSpeed?: Maybe<Scalars['Int']>,
@@ -961,7 +1107,6 @@ export type ImageSharpEdge = {
 };
 
 export enum ImageSharpFieldsEnum {
-  id = 'id',
   fixed___base64 = 'fixed___base64',
   fixed___tracedSVG = 'fixed___tracedSVG',
   fixed___aspectRatio = 'fixed___aspectRatio',
@@ -1015,6 +1160,7 @@ export enum ImageSharpFieldsEnum {
   resize___height = 'resize___height',
   resize___aspectRatio = 'resize___aspectRatio',
   resize___originalName = 'resize___originalName',
+  id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
   parent___parent___parent___id = 'parent___parent___parent___id',
@@ -1103,13 +1249,13 @@ export enum ImageSharpFieldsEnum {
 }
 
 export type ImageSharpFilterInput = {
-  readonly id?: Maybe<StringQueryOperatorInput>,
   readonly fixed?: Maybe<ImageSharpFixedFilterInput>,
   readonly resolutions?: Maybe<ImageSharpResolutionsFilterInput>,
   readonly fluid?: Maybe<ImageSharpFluidFilterInput>,
   readonly sizes?: Maybe<ImageSharpSizesFilterInput>,
   readonly original?: Maybe<ImageSharpOriginalFilterInput>,
   readonly resize?: Maybe<ImageSharpResizeFilterInput>,
+  readonly id?: Maybe<StringQueryOperatorInput>,
   readonly parent?: Maybe<NodeFilterInput>,
   readonly children?: Maybe<NodeFilterListInput>,
   readonly internal?: Maybe<InternalFilterInput>,
@@ -1392,6 +1538,7 @@ export type MdxFields = {
   readonly isHidden: Scalars['Boolean'],
   readonly history?: Maybe<ReadonlyArray<BlogpostHistoryEntry>>,
   readonly readingTime: Scalars['Int'],
+  readonly socialImage?: Maybe<File>,
 };
 
 export enum MdxFieldsEnum {
@@ -1401,6 +1548,9 @@ export enum MdxFieldsEnum {
   frontmatter___spoiler = 'frontmatter___spoiler',
   frontmatter___date = 'frontmatter___date',
   frontmatter___history = 'frontmatter___history',
+  frontmatter___venues = 'frontmatter___venues',
+  frontmatter___venues___name = 'frontmatter___venues___name',
+  frontmatter___venues___link = 'frontmatter___venues___link',
   body = 'body',
   excerpt = 'excerpt',
   headings = 'headings',
@@ -1421,6 +1571,67 @@ export enum MdxFieldsEnum {
   fields___history___subject = 'fields___history___subject',
   fields___history___body = 'fields___history___body',
   fields___readingTime = 'fields___readingTime',
+  fields___socialImage___birthtime = 'fields___socialImage___birthtime',
+  fields___socialImage___birthtimeMs = 'fields___socialImage___birthtimeMs',
+  fields___socialImage___sourceInstanceName = 'fields___socialImage___sourceInstanceName',
+  fields___socialImage___absolutePath = 'fields___socialImage___absolutePath',
+  fields___socialImage___relativePath = 'fields___socialImage___relativePath',
+  fields___socialImage___extension = 'fields___socialImage___extension',
+  fields___socialImage___size = 'fields___socialImage___size',
+  fields___socialImage___prettySize = 'fields___socialImage___prettySize',
+  fields___socialImage___modifiedTime = 'fields___socialImage___modifiedTime',
+  fields___socialImage___accessTime = 'fields___socialImage___accessTime',
+  fields___socialImage___changeTime = 'fields___socialImage___changeTime',
+  fields___socialImage___birthTime = 'fields___socialImage___birthTime',
+  fields___socialImage___root = 'fields___socialImage___root',
+  fields___socialImage___dir = 'fields___socialImage___dir',
+  fields___socialImage___base = 'fields___socialImage___base',
+  fields___socialImage___ext = 'fields___socialImage___ext',
+  fields___socialImage___name = 'fields___socialImage___name',
+  fields___socialImage___relativeDirectory = 'fields___socialImage___relativeDirectory',
+  fields___socialImage___dev = 'fields___socialImage___dev',
+  fields___socialImage___mode = 'fields___socialImage___mode',
+  fields___socialImage___nlink = 'fields___socialImage___nlink',
+  fields___socialImage___uid = 'fields___socialImage___uid',
+  fields___socialImage___gid = 'fields___socialImage___gid',
+  fields___socialImage___rdev = 'fields___socialImage___rdev',
+  fields___socialImage___blksize = 'fields___socialImage___blksize',
+  fields___socialImage___ino = 'fields___socialImage___ino',
+  fields___socialImage___blocks = 'fields___socialImage___blocks',
+  fields___socialImage___atimeMs = 'fields___socialImage___atimeMs',
+  fields___socialImage___mtimeMs = 'fields___socialImage___mtimeMs',
+  fields___socialImage___ctimeMs = 'fields___socialImage___ctimeMs',
+  fields___socialImage___atime = 'fields___socialImage___atime',
+  fields___socialImage___mtime = 'fields___socialImage___mtime',
+  fields___socialImage___ctime = 'fields___socialImage___ctime',
+  fields___socialImage___publicURL = 'fields___socialImage___publicURL',
+  fields___socialImage___childImageSharp___id = 'fields___socialImage___childImageSharp___id',
+  fields___socialImage___childImageSharp___children = 'fields___socialImage___childImageSharp___children',
+  fields___socialImage___id = 'fields___socialImage___id',
+  fields___socialImage___parent___id = 'fields___socialImage___parent___id',
+  fields___socialImage___parent___children = 'fields___socialImage___parent___children',
+  fields___socialImage___children = 'fields___socialImage___children',
+  fields___socialImage___children___id = 'fields___socialImage___children___id',
+  fields___socialImage___children___children = 'fields___socialImage___children___children',
+  fields___socialImage___internal___content = 'fields___socialImage___internal___content',
+  fields___socialImage___internal___contentDigest = 'fields___socialImage___internal___contentDigest',
+  fields___socialImage___internal___description = 'fields___socialImage___internal___description',
+  fields___socialImage___internal___fieldOwners = 'fields___socialImage___internal___fieldOwners',
+  fields___socialImage___internal___ignoreType = 'fields___socialImage___internal___ignoreType',
+  fields___socialImage___internal___mediaType = 'fields___socialImage___internal___mediaType',
+  fields___socialImage___internal___owner = 'fields___socialImage___internal___owner',
+  fields___socialImage___internal___type = 'fields___socialImage___internal___type',
+  fields___socialImage___childMdx___rawBody = 'fields___socialImage___childMdx___rawBody',
+  fields___socialImage___childMdx___fileAbsolutePath = 'fields___socialImage___childMdx___fileAbsolutePath',
+  fields___socialImage___childMdx___body = 'fields___socialImage___childMdx___body',
+  fields___socialImage___childMdx___excerpt = 'fields___socialImage___childMdx___excerpt',
+  fields___socialImage___childMdx___headings = 'fields___socialImage___childMdx___headings',
+  fields___socialImage___childMdx___html = 'fields___socialImage___childMdx___html',
+  fields___socialImage___childMdx___mdxAST = 'fields___socialImage___childMdx___mdxAST',
+  fields___socialImage___childMdx___tableOfContents = 'fields___socialImage___childMdx___tableOfContents',
+  fields___socialImage___childMdx___timeToRead = 'fields___socialImage___childMdx___timeToRead',
+  fields___socialImage___childMdx___id = 'fields___socialImage___childMdx___id',
+  fields___socialImage___childMdx___children = 'fields___socialImage___childMdx___children',
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -1514,6 +1725,7 @@ export type MdxFieldsFilterInput = {
   readonly isHidden?: Maybe<BooleanQueryOperatorInput>,
   readonly history?: Maybe<BlogpostHistoryEntryFilterListInput>,
   readonly readingTime?: Maybe<IntQueryOperatorInput>,
+  readonly socialImage?: Maybe<FileFilterInput>,
 };
 
 export type MdxFilterInput = {
@@ -1541,6 +1753,7 @@ export type MdxFrontmatter = {
   readonly spoiler: Scalars['String'],
   readonly date: Scalars['Date'],
   readonly history?: Maybe<BlogpostHistoryType>,
+  readonly venues?: Maybe<ReadonlyArray<Venue>>,
 };
 
 
@@ -1556,6 +1769,7 @@ export type MdxFrontmatterFilterInput = {
   readonly spoiler?: Maybe<StringQueryOperatorInput>,
   readonly date?: Maybe<DateQueryOperatorInput>,
   readonly history?: Maybe<BlogpostHistoryTypeQueryOperatorInput>,
+  readonly venues?: Maybe<VenueFilterListInput>,
 };
 
 export type MdxGroupConnection = {
@@ -1653,20 +1867,42 @@ export enum PotraceTurnPolicy {
 
 export type Query = {
   readonly __typename?: 'Query',
+  readonly imageSharp?: Maybe<ImageSharp>,
+  readonly allImageSharp: ImageSharpConnection,
   readonly mdx?: Maybe<Mdx>,
   readonly allMdx: MdxConnection,
   readonly file?: Maybe<File>,
   readonly allFile: FileConnection,
-  readonly imageSharp?: Maybe<ImageSharp>,
-  readonly allImageSharp: ImageSharpConnection,
-  readonly sitePage?: Maybe<SitePage>,
-  readonly allSitePage: SitePageConnection,
-  readonly sitePlugin?: Maybe<SitePlugin>,
-  readonly allSitePlugin: SitePluginConnection,
-  readonly site?: Maybe<Site>,
-  readonly allSite: SiteConnection,
   readonly directory?: Maybe<Directory>,
   readonly allDirectory: DirectoryConnection,
+  readonly site?: Maybe<Site>,
+  readonly allSite: SiteConnection,
+  readonly sitePlugin?: Maybe<SitePlugin>,
+  readonly allSitePlugin: SitePluginConnection,
+  readonly sitePage?: Maybe<SitePage>,
+  readonly allSitePage: SitePageConnection,
+};
+
+
+export type QueryimageSharpArgs = {
+  fixed?: Maybe<ImageSharpFixedFilterInput>,
+  resolutions?: Maybe<ImageSharpResolutionsFilterInput>,
+  fluid?: Maybe<ImageSharpFluidFilterInput>,
+  sizes?: Maybe<ImageSharpSizesFilterInput>,
+  original?: Maybe<ImageSharpOriginalFilterInput>,
+  resize?: Maybe<ImageSharpResizeFilterInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
+};
+
+
+export type QueryallImageSharpArgs = {
+  filter?: Maybe<ImageSharpFilterInput>,
+  sort?: Maybe<ImageSharpSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
 };
 
 
@@ -1733,6 +1969,7 @@ export type QueryfileArgs = {
   mtime?: Maybe<DateQueryOperatorInput>,
   ctime?: Maybe<DateQueryOperatorInput>,
   publicURL?: Maybe<StringQueryOperatorInput>,
+  childImageSharp?: Maybe<ImageSharpFilterInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -1744,100 +1981,6 @@ export type QueryfileArgs = {
 export type QueryallFileArgs = {
   filter?: Maybe<FileFilterInput>,
   sort?: Maybe<FileSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-export type QueryimageSharpArgs = {
-  id?: Maybe<StringQueryOperatorInput>,
-  fixed?: Maybe<ImageSharpFixedFilterInput>,
-  resolutions?: Maybe<ImageSharpResolutionsFilterInput>,
-  fluid?: Maybe<ImageSharpFluidFilterInput>,
-  sizes?: Maybe<ImageSharpSizesFilterInput>,
-  original?: Maybe<ImageSharpOriginalFilterInput>,
-  resize?: Maybe<ImageSharpResizeFilterInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>
-};
-
-
-export type QueryallImageSharpArgs = {
-  filter?: Maybe<ImageSharpFilterInput>,
-  sort?: Maybe<ImageSharpSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-export type QuerysitePageArgs = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
-  path?: Maybe<StringQueryOperatorInput>,
-  internalComponentName?: Maybe<StringQueryOperatorInput>,
-  component?: Maybe<StringQueryOperatorInput>,
-  componentChunkName?: Maybe<StringQueryOperatorInput>,
-  isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
-  context?: Maybe<SitePageContextFilterInput>,
-  pluginCreator?: Maybe<SitePluginFilterInput>,
-  pluginCreatorId?: Maybe<StringQueryOperatorInput>,
-  componentPath?: Maybe<StringQueryOperatorInput>
-};
-
-
-export type QueryallSitePageArgs = {
-  filter?: Maybe<SitePageFilterInput>,
-  sort?: Maybe<SitePageSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-export type QuerysitePluginArgs = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
-  resolve?: Maybe<StringQueryOperatorInput>,
-  name?: Maybe<StringQueryOperatorInput>,
-  version?: Maybe<StringQueryOperatorInput>,
-  pluginOptions?: Maybe<SitePluginPluginOptionsFilterInput>,
-  nodeAPIs?: Maybe<StringQueryOperatorInput>,
-  browserAPIs?: Maybe<StringQueryOperatorInput>,
-  ssrAPIs?: Maybe<StringQueryOperatorInput>,
-  pluginFilepath?: Maybe<StringQueryOperatorInput>,
-  packageJson?: Maybe<SitePluginPackageJsonFilterInput>
-};
-
-
-export type QueryallSitePluginArgs = {
-  filter?: Maybe<SitePluginFilterInput>,
-  sort?: Maybe<SitePluginSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-export type QuerysiteArgs = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
-  siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
-  port?: Maybe<IntQueryOperatorInput>,
-  host?: Maybe<StringQueryOperatorInput>,
-  polyfill?: Maybe<BooleanQueryOperatorInput>,
-  pathPrefix?: Maybe<StringQueryOperatorInput>,
-  buildTime?: Maybe<DateQueryOperatorInput>
-};
-
-
-export type QueryallSiteArgs = {
-  filter?: Maybe<SiteFilterInput>,
-  sort?: Maybe<SiteSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -1887,6 +2030,78 @@ export type QuerydirectoryArgs = {
 export type QueryallDirectoryArgs = {
   filter?: Maybe<DirectoryFilterInput>,
   sort?: Maybe<DirectorySortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type QuerysiteArgs = {
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  siteMetadata?: Maybe<SiteSiteMetadataFilterInput>,
+  port?: Maybe<IntQueryOperatorInput>,
+  host?: Maybe<StringQueryOperatorInput>,
+  polyfill?: Maybe<BooleanQueryOperatorInput>,
+  pathPrefix?: Maybe<StringQueryOperatorInput>,
+  buildTime?: Maybe<DateQueryOperatorInput>
+};
+
+
+export type QueryallSiteArgs = {
+  filter?: Maybe<SiteFilterInput>,
+  sort?: Maybe<SiteSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type QuerysitePluginArgs = {
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  resolve?: Maybe<StringQueryOperatorInput>,
+  name?: Maybe<StringQueryOperatorInput>,
+  version?: Maybe<StringQueryOperatorInput>,
+  pluginOptions?: Maybe<SitePluginPluginOptionsFilterInput>,
+  nodeAPIs?: Maybe<StringQueryOperatorInput>,
+  browserAPIs?: Maybe<StringQueryOperatorInput>,
+  ssrAPIs?: Maybe<StringQueryOperatorInput>,
+  pluginFilepath?: Maybe<StringQueryOperatorInput>,
+  packageJson?: Maybe<SitePluginPackageJsonFilterInput>
+};
+
+
+export type QueryallSitePluginArgs = {
+  filter?: Maybe<SitePluginFilterInput>,
+  sort?: Maybe<SitePluginSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type QuerysitePageArgs = {
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  path?: Maybe<StringQueryOperatorInput>,
+  internalComponentName?: Maybe<StringQueryOperatorInput>,
+  component?: Maybe<StringQueryOperatorInput>,
+  componentChunkName?: Maybe<StringQueryOperatorInput>,
+  isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
+  context?: Maybe<SitePageContextFilterInput>,
+  pluginCreator?: Maybe<SitePluginFilterInput>,
+  pluginCreatorId?: Maybe<StringQueryOperatorInput>,
+  componentPath?: Maybe<StringQueryOperatorInput>
+};
+
+
+export type QueryallSitePageArgs = {
+  filter?: Maybe<SitePageFilterInput>,
+  sort?: Maybe<SitePageSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -2037,6 +2252,7 @@ export enum SiteFieldsEnum {
   siteMetadata___social___name = 'siteMetadata___social___name',
   siteMetadata___social___url = 'siteMetadata___social___url',
   siteMetadata___siteUrl = 'siteMetadata___siteUrl',
+  siteMetadata___htmlAttributes___lang = 'siteMetadata___htmlAttributes___lang',
   siteMetadata___twitterUsername = 'siteMetadata___twitterUsername',
   port = 'port',
   host = 'host',
@@ -2110,12 +2326,16 @@ export type SitePageConnectiongroupArgs = {
 export type SitePageContext = {
   readonly __typename?: 'SitePageContext',
   readonly frontmatter?: Maybe<SitePageContextFrontmatter>,
+  readonly route?: Maybe<Scalars['String']>,
   readonly readingTime?: Maybe<Scalars['Int']>,
+  readonly socialImage?: Maybe<SitePageContextSocialImage>,
 };
 
 export type SitePageContextFilterInput = {
   readonly frontmatter?: Maybe<SitePageContextFrontmatterFilterInput>,
+  readonly route?: Maybe<StringQueryOperatorInput>,
   readonly readingTime?: Maybe<IntQueryOperatorInput>,
+  readonly socialImage?: Maybe<SitePageContextSocialImageFilterInput>,
 };
 
 export type SitePageContextFrontmatter = {
@@ -2125,6 +2345,7 @@ export type SitePageContextFrontmatter = {
   readonly date?: Maybe<Scalars['Date']>,
   readonly history?: Maybe<Scalars['String']>,
   readonly tags?: Maybe<Scalars['String']>,
+  readonly venues?: Maybe<ReadonlyArray<Maybe<SitePageContextFrontmatterVenues>>>,
 };
 
 export type SitePageContextFrontmatterFilterInput = {
@@ -2133,6 +2354,53 @@ export type SitePageContextFrontmatterFilterInput = {
   readonly date?: Maybe<DateQueryOperatorInput>,
   readonly history?: Maybe<StringQueryOperatorInput>,
   readonly tags?: Maybe<StringQueryOperatorInput>,
+  readonly venues?: Maybe<SitePageContextFrontmatterVenuesFilterListInput>,
+};
+
+export type SitePageContextFrontmatterVenues = {
+  readonly __typename?: 'SitePageContextFrontmatterVenues',
+  readonly name?: Maybe<Scalars['String']>,
+  readonly link?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextFrontmatterVenuesFilterInput = {
+  readonly name?: Maybe<StringQueryOperatorInput>,
+  readonly link?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextFrontmatterVenuesFilterListInput = {
+  readonly elemMatch?: Maybe<SitePageContextFrontmatterVenuesFilterInput>,
+};
+
+export type SitePageContextSocialImage = {
+  readonly __typename?: 'SitePageContextSocialImage',
+  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharp>,
+};
+
+export type SitePageContextSocialImageChildImageSharp = {
+  readonly __typename?: 'SitePageContextSocialImageChildImageSharp',
+  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginal>,
+};
+
+export type SitePageContextSocialImageChildImageSharpFilterInput = {
+  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginalFilterInput>,
+};
+
+export type SitePageContextSocialImageChildImageSharpOriginal = {
+  readonly __typename?: 'SitePageContextSocialImageChildImageSharpOriginal',
+  readonly width?: Maybe<Scalars['Int']>,
+  readonly height?: Maybe<Scalars['Int']>,
+  readonly src?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextSocialImageChildImageSharpOriginalFilterInput = {
+  readonly width?: Maybe<IntQueryOperatorInput>,
+  readonly height?: Maybe<IntQueryOperatorInput>,
+  readonly src?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextSocialImageFilterInput = {
+  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharpFilterInput>,
 };
 
 export type SitePageEdge = {
@@ -2239,6 +2507,10 @@ export enum SitePageFieldsEnum {
   context___frontmatter___date = 'context___frontmatter___date',
   context___frontmatter___history = 'context___frontmatter___history',
   context___frontmatter___tags = 'context___frontmatter___tags',
+  context___frontmatter___venues = 'context___frontmatter___venues',
+  context___frontmatter___venues___name = 'context___frontmatter___venues___name',
+  context___frontmatter___venues___link = 'context___frontmatter___venues___link',
+  context___route = 'context___route',
   context___readingTime = 'context___readingTime',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
@@ -2502,6 +2774,8 @@ export enum SitePluginFieldsEnum {
   pluginOptions___gatsbyRemarkPlugins___options___tracedSVG = 'pluginOptions___gatsbyRemarkPlugins___options___tracedSVG',
   pluginOptions___gatsbyRemarkPlugins___options___loading = 'pluginOptions___gatsbyRemarkPlugins___options___loading',
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha',
+  pluginOptions___gatsbyRemarkPlugins___options___disableBgImage = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImage',
+  pluginOptions___gatsbyRemarkPlugins___options___icon = 'pluginOptions___gatsbyRemarkPlugins___options___icon',
   pluginOptions___gatsbyRemarkPlugins___options___injectStyles = 'pluginOptions___gatsbyRemarkPlugins___options___injectStyles',
   pluginOptions___gatsbyRemarkPlugins___options___colorTheme = 'pluginOptions___gatsbyRemarkPlugins___options___colorTheme',
   pluginOptions___gatsbyRemarkPlugins___options___extensions = 'pluginOptions___gatsbyRemarkPlugins___options___extensions',
@@ -2708,6 +2982,8 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptions = {
   readonly tracedSVG?: Maybe<Scalars['Boolean']>,
   readonly loading?: Maybe<Scalars['String']>,
   readonly disableBgImageOnAlpha?: Maybe<Scalars['Boolean']>,
+  readonly disableBgImage?: Maybe<Scalars['Boolean']>,
+  readonly icon?: Maybe<Scalars['String']>,
   readonly injectStyles?: Maybe<Scalars['Boolean']>,
   readonly colorTheme?: Maybe<Scalars['String']>,
   readonly extensions?: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions>>>,
@@ -2740,6 +3016,8 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   readonly tracedSVG?: Maybe<BooleanQueryOperatorInput>,
   readonly loading?: Maybe<StringQueryOperatorInput>,
   readonly disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>,
+  readonly disableBgImage?: Maybe<BooleanQueryOperatorInput>,
+  readonly icon?: Maybe<StringQueryOperatorInput>,
   readonly injectStyles?: Maybe<BooleanQueryOperatorInput>,
   readonly colorTheme?: Maybe<StringQueryOperatorInput>,
   readonly extensions?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterListInput>,
@@ -2758,6 +3036,7 @@ export type SiteSiteMetadata = {
   readonly description?: Maybe<Scalars['String']>,
   readonly social?: Maybe<ReadonlyArray<Maybe<SiteSiteMetadataSocial>>>,
   readonly siteUrl?: Maybe<Scalars['String']>,
+  readonly htmlAttributes?: Maybe<SiteSiteMetadataHtmlAttributes>,
   readonly twitterUsername?: Maybe<Scalars['String']>,
 };
 
@@ -2768,7 +3047,17 @@ export type SiteSiteMetadataFilterInput = {
   readonly description?: Maybe<StringQueryOperatorInput>,
   readonly social?: Maybe<SiteSiteMetadataSocialFilterListInput>,
   readonly siteUrl?: Maybe<StringQueryOperatorInput>,
+  readonly htmlAttributes?: Maybe<SiteSiteMetadataHtmlAttributesFilterInput>,
   readonly twitterUsername?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SiteSiteMetadataHtmlAttributes = {
+  readonly __typename?: 'SiteSiteMetadataHtmlAttributes',
+  readonly lang?: Maybe<Scalars['String']>,
+};
+
+export type SiteSiteMetadataHtmlAttributesFilterInput = {
+  readonly lang?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SiteSiteMetadataSocial = {
@@ -2803,4 +3092,19 @@ export type StringQueryOperatorInput = {
   readonly nin?: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>,
   readonly regex?: Maybe<Scalars['String']>,
   readonly glob?: Maybe<Scalars['String']>,
+};
+
+export type Venue = {
+  readonly __typename?: 'Venue',
+  readonly name: Scalars['String'],
+  readonly link?: Maybe<Scalars['String']>,
+};
+
+export type VenueFilterInput = {
+  readonly name?: Maybe<StringQueryOperatorInput>,
+  readonly link?: Maybe<StringQueryOperatorInput>,
+};
+
+export type VenueFilterListInput = {
+  readonly elemMatch?: Maybe<VenueFilterInput>,
 };
