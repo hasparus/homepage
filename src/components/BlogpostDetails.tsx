@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
-import { ComponentProps, Fragment } from "react";
+import { ComponentProps } from "react";
 
 import { fontSize } from "../gatsby-plugin-theme-ui";
+import { MdxFrontmatter } from "../../__generated__/global";
 
 const cupOfCoffeeTime = 5; // minutes
 const burgerTime = cupOfCoffeeTime * Math.E; // stolen from overreacted.io
@@ -16,11 +17,13 @@ const readingTimeEmoji = (minutes: number) => {
 interface BlogpostDetailsProps extends ComponentProps<"small"> {
   date: Date | string;
   readingTime?: number;
+  venues?: MdxFrontmatter["venues"];
 }
 
 export const BlogpostDetails = ({
   date,
   readingTime,
+  venues,
   ...rest
 }: BlogpostDetailsProps) => (
   <small
@@ -39,5 +42,6 @@ export const BlogpostDetails = ({
       })}
     {readingTime &&
       ` · ${readingTimeEmoji(readingTime)} ${readingTime} min read`}
+    {venues && ` · ${venues.map(v => v.name).join(", ")}`}
   </small>
 );

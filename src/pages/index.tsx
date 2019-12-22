@@ -11,7 +11,7 @@ const IndexPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
     query BlogPostsQuery {
       allMdx(
-        filter: { fields: { isHidden: { ne: true } } }
+        filter: { fields: { isHidden: { ne: true }, route: { glob: "/*" } } }
         sort: { fields: [frontmatter___date], order: DESC }
       ) {
         nodes {

@@ -2,16 +2,18 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
-import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
+import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
 import { Header, Root, theme } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
 import { Seo } from "../components/Seo";
 
 const SpeakingPage = () => {
-  const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
+  const { allMdx } = useStaticQuery<SpeakingRaportsQuery>(graphql`
     query SpeakingRaportsQuery {
       allMdx(
-        filter: { fields: { isHidden: { ne: true } } }
+        filter: {
+          fields: { isHidden: { ne: true }, route: { glob: "/talks/*" } }
+        }
         sort: { fields: [frontmatter___date], order: DESC }
       ) {
         nodes {
@@ -19,10 +21,12 @@ const SpeakingPage = () => {
             title
             spoiler
             date
+            venues {
+              name
+            }
           }
           fields {
             route
-            readingTime
           }
         }
       }
@@ -32,12 +36,12 @@ const SpeakingPage = () => {
   return (
     <Root>
       <Seo titleTemplate="%s" />
-      <Header />
+      <Header showHome />
       <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Speaking</s.h1>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;
-          const { title, spoiler, date } = frontmatter || {};
+          const { title, spoiler, date, venues } = frontmatter || {};
 
           return (
             <article key={i}>
@@ -59,7 +63,7 @@ const SpeakingPage = () => {
                     {title}
                   </Link>
                 </s.h3>
-                <BlogpostDetails date={date} />
+                <BlogpostDetails date={date} venues={venues} />
               </header>
               <s.p sx={{ mt: 1 }}>{spoiler}</s.p>
             </article>

@@ -263,6 +263,11 @@ export const theme = {
         fontSize: fontSize.small,
       },
     },
+    hr: {
+      border: "none",
+      borderBottom: "1px dashed",
+      opacity: 0.4,
+    },
   },
 };
 

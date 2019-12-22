@@ -72,20 +72,13 @@ module.exports = {
         },
       },
     },
-    {
+    ...["posts", "assets"].map(s => ({
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `content/posts`,
-        name: `posts`,
+        path: `content/${s}`,
+        name: s,
       },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `content/assets`,
-        name: `assets`,
-      },
-    },
+    })),
     "gatsby-transformer-sharp",
     "gatsby-plugin-sharp",
     {

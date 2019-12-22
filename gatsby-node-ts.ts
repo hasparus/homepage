@@ -156,12 +156,17 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       body: String
     }
 
+    type Venue {
+      name: String!
+      link: String
+    }
 
     type MdxFrontmatter @dontInfer {
       title: String!
       spoiler: String!
       date: Date!
       history: BlogpostHistoryType
+      venues: [Venue!] 
     }
 
     type MdxFields {
