@@ -129,7 +129,7 @@ export const Header: React.FC<HeaderProps> = ({ showHome }) => {
             borderBottom: (th: Theme) => `1px solid ${th.colors?.gray}`,
             ":target": {
               transform: "translateY(0)",
-              transition: "transform 0.9s cubic-bezier(.49,.1,.48,1.3)",
+              transition: "transform 0.8s cubic-bezier(.49,.1,.48,1.3)",
             },
             "> *": {
               padding: "0.25em 1em",
