@@ -140,6 +140,15 @@ export const Header: React.FC<HeaderProps> = ({ showHome }) => {
           },
         }}
       >
+        <HeaderLink
+          as={Link}
+          to="/"
+          sx={{
+            "@media (min-width: 40em)": { display: "none" },
+          }}
+        >
+          writing
+        </HeaderLink>
         <HeaderLink as={Link} to="/speaking">
           speaking
         </HeaderLink>
