@@ -27,9 +27,15 @@ export const HamburgerLinks = forwardRef<HTMLDivElement, HamburgerLinksProps>(
           [`#${menuId}:target ~ &`]: {
             "> a > svg": {
               ".HamburgerLinks__BunTop": {
-                d: 'path("M 0 4 A 1 0, 0 0 1, 10 4 Z")',
                 transform: "rotate(-45deg) translate(9%, 5%)",
                 strokeWidth: boldStroke,
+                // won't work on iOS Safari
+                d: 'path("M 0 4 A 1 0, 0 0 1, 10 4 Z")',
+                // specific to iOS devices
+                "@supports (-webkit-overflow-scrolling: touch)": {
+                  opacity: 0,
+                  scale: 0,
+                },
               },
               ".HamburgerLinks__Meat": {
                 strokeWidth: strokeWidth / 3,
@@ -77,7 +83,8 @@ export const HamburgerLinks = forwardRef<HTMLDivElement, HamburgerLinksProps>(
                   "transform 250ms ease-out, " +
                   "stroke-width 250ms ease-out, " +
                   "opacity 250ms linear, " +
-                  "d 200ms linear",
+                  "d 200ms linear" +
+                  "scale 200ms linear",
               },
               ".HamburgerLinks__BunBottom, .HamburgerLinks__BunTop": {
                 transformOrigin: "50% 50% 0",
