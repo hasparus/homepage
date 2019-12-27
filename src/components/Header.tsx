@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { Styled as s, jsx, useColorMode, Theme } from "theme-ui";
-import { Link } from "gatsby";
+import { Link, GatsbyLinkProps } from "gatsby";
 import {
   ElementType,
   ComponentPropsWithoutRef,
@@ -20,12 +20,12 @@ import { pageCtx } from "./pageCtx";
 
 const MENU_ID = "menu";
 
-type HeaderLinkProps<As extends ElementType> = { as?: As } & Omit<
+type HeaderStyledLinkProps<As extends ElementType> = { as?: As } & Omit<
   ComponentPropsWithoutRef<typeof s.a> & ComponentPropsWithoutRef<As>,
   "as"
 >;
 const HeaderLink = <As extends ElementType = "a">(
-  props: HeaderLinkProps<As>
+  props: HeaderStyledLinkProps<As>
 ) => (
   <s.a
     sx={{
@@ -39,6 +39,18 @@ const HeaderLink = <As extends ElementType = "a">(
     {...props}
   />
 );
+
+const HeaderInternalLink = (props: GatsbyLinkProps<any>) => {
+  const { location } = pageCtx.useContext();
+
+  // Gatsby Link to the current pathname doesn't change targetted id
+  if (location.pathname === props.to) {
+    const { to: _, ...newProps } = props;
+    return <HeaderLink {...newProps} href="#" />;
+  }
+
+  return <HeaderLink as={Link} {...props} />;
+};
 
 interface NextColorModeButtonProps extends ButtonProps {}
 const NextColorModeButton = (props: NextColorModeButtonProps) => {
@@ -166,21 +178,16 @@ export const Header = memo(({ showHome }: HeaderProps) => {
           },
         }}
       >
-        <HeaderLink
-          as={Link}
+        <HeaderInternalLink
           to="/"
           sx={{
             "@media (min-width: 40em)": { display: "none" },
           }}
         >
           writing
-        </HeaderLink>
-        <HeaderLink as={Link} to="/speaking">
-          speaking
-        </HeaderLink>
-        <HeaderLink as={Link} to="/reading">
-          reading
-        </HeaderLink>
+        </HeaderInternalLink>
+        <HeaderInternalLink to="/speaking">speaking</HeaderInternalLink>
+        <HeaderInternalLink to="/reading">reading</HeaderInternalLink>
         {separator}
         <HeaderLink href="https://github.com/hasparus">GitHub</HeaderLink>
         <HeaderLink href="https://twitter.com/hasparus">Twitter</HeaderLink>

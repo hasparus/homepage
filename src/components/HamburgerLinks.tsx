@@ -11,7 +11,7 @@ interface HamburgerLinksProps extends ComponentProps<"div"> {
   bunColor?: string;
   meatColor?: string;
 }
-export const HamburgerLinks = forwardRef<HTMLDivElement, HamburgerLinksProps>(
+export const  HamburgerLinks = forwardRef<HTMLDivElement, HamburgerLinksProps>(
   function HamburgerLinks(
     { menuId, bunColor = "sandybrown", meatColor = "brown", ...rest },
     ref
