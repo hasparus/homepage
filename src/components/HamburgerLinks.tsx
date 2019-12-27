@@ -34,7 +34,7 @@ export const HamburgerLinks = forwardRef<HTMLDivElement, HamburgerLinksProps>(
                 // specific to iOS devices
                 "@supports (-webkit-overflow-scrolling: touch)": {
                   opacity: 0,
-                  scale: 0,
+                  transform: "rotateZ(-45deg) translate(9%, 5%)",
                 },
               },
               ".HamburgerLinks__Meat": {
@@ -83,8 +83,7 @@ export const HamburgerLinks = forwardRef<HTMLDivElement, HamburgerLinksProps>(
                   "transform 250ms ease-out, " +
                   "stroke-width 250ms ease-out, " +
                   "opacity 250ms linear, " +
-                  "d 200ms linear" +
-                  "scale 200ms linear",
+                  "d 200ms linear",
               },
               ".HamburgerLinks__BunBottom, .HamburgerLinks__BunTop": {
                 transformOrigin: "50% 50% 0",
