@@ -53,7 +53,6 @@
     "gatsby-source-filesystem": "^2.1.28",
     "gatsby-transformer-sharp": "^2.2.19",
     "lodash": "^4.17.15",
-    "polished": "^3.4.1",
     "puppeteer": "^2.0.0",
     "react": "^16.10.1",
     "react-dom": "^16.10.1",

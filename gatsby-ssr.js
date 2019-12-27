@@ -1,4 +1,4 @@
 // eslint-disable-next-line import/no-unresolved
-import { pageCtx } from "./src/components/pageCtx";
+const { pageCtx } = require("./src/components/pageCtx");
 
-export const { wrapPageElement } = pageCtx;
+exports.wrapPageElement = pageCtx.wrapPageElement;
