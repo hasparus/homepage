@@ -47,7 +47,11 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
   return (
     <Button
       variant="clear"
-      onClick={() => {
+      onClick={e => {
+        // iOS safari scrolls a bit down on double tap of this button
+        // we'd like to prevent it
+        e.preventDefault();
+
         const modes = keys(colorModes);
         const colorModeIndex = modes.indexOf(colorMode);
 
