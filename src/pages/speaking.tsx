@@ -12,7 +12,7 @@ const SpeakingPage = () => {
     query SpeakingRaportsQuery {
       allMdx(
         filter: {
-          fields: { isHidden: { ne: true }, route: { glob: "/talks/*" } }
+          fields: { isHidden: { ne: true }, route: { glob: "/speaking/*" } }
         }
         sort: { fields: [frontmatter___date], order: DESC }
       ) {
