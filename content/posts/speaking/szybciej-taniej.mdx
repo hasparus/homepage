@@ -9,3 +9,34 @@ venues:
 **Slides**: [Dropbox Paper] in Polish
 
 [dropbox paper]: https://paper.dropbox.com/doc/Szybciej-taniej--Aq~hdmj_QadS9qy49L4gJNF8Ag-8Y97bnBH3Lkl8KXGNzSSY
+
+### Outline
+
+A 15 minutes presentation, where I claim that React is a better tool to build
+static websites than Pug, because components are superior to mixins and partials.
+I introduced CSS-in-JS to improve the productivity and basics of TypeScript
+to make teamwork silky smooth.
+
+- TypeScript
+  - You have types in JavaScript, you just can't write about them
+  - Bugs aren't fun. Especially if we didn't estimate them
+  - The stricter, the better
+  - Introduction to syntax
+- React
+  - Building with components is simpler than smart design patters with
+    fancy acronyms (MCV, MVI, MVC, MVVM, MVP)
+  - Components introduce a _contract_ `props -> element`
+    ```ts
+    type FunctionComponent<P> = (
+      props: P & { children?: ReactNode }
+    ) => ReactElement | null;
+    ```
+- CSS-in-JS
+  - [Colocation](https://kentcdodds.com/blog/colocation)
+- Live Coding of a website
+  - SSG vs SSR
+  - renderToStaticMarkup
+  - renderToString
+  - what is hydration?
+  - reinventing the wheel for educational purposes
+    - don't do it at home, use Gatsby or react-snap

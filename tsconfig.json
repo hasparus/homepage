@@ -8,5 +8,6 @@
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
-  }
+  },
+  "exclude": ["node_modules", "__deps__", "public", ".cache"]
 }
