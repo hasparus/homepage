@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension=".png" ContentType="image/png"/><Default Extension=".svg" ContentType="image/svg+xml"/><Default Extension=".gif" ContentType="image/gif"/><Default Extension=".txt" ContentType="text/plain"/><Default Extension=".json" ContentType="application/json"/><Default Extension=".js" ContentType="application/javascript"/><Default Extension=".md" ContentType="text/x-markdown"/><Default Extension=".tmlanguage" ContentType="application/octet-stream"/><Default Extension=".yaml-tmlanguage" ContentType="application/octet-stream"/><Default Extension=".yml" ContentType="text/yaml"/><Default Extension=".ts" ContentType="video/mp2t"/><Default Extension=".vsixmanifest" ContentType="text/xml"/>
+</Types>

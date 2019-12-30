@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+const path = require("path");
 
 const deployUrl = process.env.DEPLOY_PRIME_URL || "";
 const siteUrl =
@@ -55,6 +56,10 @@ module.exports = {
           {
             resolve: "gatsby-remark-vscode",
             options: {
+              extensionDataDirectory: path.resolve(
+                __dirname,
+                "./__deps__/vscode-extensions"
+              ),
               injectStyles: false,
               colorTheme: "Night Owl (No Italics)",
               extensions: [
@@ -104,6 +109,12 @@ module.exports = {
         background_color: "#fff",
         theme_color: "#002FF4",
         icon: "src/favicon.png",
+      },
+    },
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        exclude: ["**/*.hidden"],
       },
     },
   ],
