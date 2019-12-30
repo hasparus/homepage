@@ -157,7 +157,7 @@ export const theme = {
       maxWidth: "824px",
       mx: [3, 3, "auto"],
       mt: 3,
-      mb: 4,
+      mb: 5,
       "*": {
         boxSizing: "border-box",
       },
