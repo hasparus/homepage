@@ -115,7 +115,60 @@ module.exports = {
       resolve: "gatsby-plugin-sitemap",
       options: {
         exclude: ["**/*.hidden"],
+      },
     },
+    {
+      resolve: "gatsby-plugin-feed",
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            query: `
+              query AllPostsQuery {
+                allMdx(
+                  filter: {fields: {isHidden: {ne: true}}},
+                  sort: {fields: [frontmatter___date], order: DESC}
+                ) {
+                  nodes {
+                    html
+                    frontmatter {
+                      title
+                      spoiler
+                      date
+                    }
+                    fields {
+                      route
+                      readingTime
+                    }
+                  }
+                }
+              }
+            `,
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.nodes.map(node => ({
+                ...node.frontmatter,
+                description: node.frontmatter.spoiler,
+                url: site.siteMetadata.siteUrl + node.fields.route,
+                guid: site.siteMetadata.siteUrl + node.fields.route,
+                custom_elements: [{ "content:encoded": node.html }],
+              }));
+            },
+            output: "/rss.xml",
+            title: "haspar.us ◦ personal blog of Piotr Monwid-Olechnowicz",
+          },
+        ],
+      },
     },
   ],
 };
