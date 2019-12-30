@@ -153,6 +153,14 @@ export const theme = {
       lineHeight: "body",
       fontWeight: "body",
       fontSize: fontSize.normal,
+      // this is about "80ch" but I'd like to avoid layout jumping on font load,
+      maxWidth: "824px",
+      mx: [3, 3, "auto"],
+      mt: 3,
+      mb: 4,
+      "*": {
+        boxSizing: "border-box",
+      },
       ".anchor": {
         p: ["2px", "4px"],
         verticalAlign: "text-top",

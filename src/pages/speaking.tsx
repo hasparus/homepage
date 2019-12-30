@@ -6,6 +6,7 @@ import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
 import { Header, Root, theme } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
 import { Seo } from "../components/Seo";
+import { Footer } from "../components/Footer";
 
 const SpeakingPage = () => {
   const { allMdx } = useStaticQuery<SpeakingRaportsQuery>(graphql`
@@ -70,6 +71,7 @@ const SpeakingPage = () => {
           );
         })}
       </main>
+      <Footer />
     </Root>
   );
 };
