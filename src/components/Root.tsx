@@ -24,19 +24,7 @@ export const Root = (
       </Helmet>
       <Global styles={globalStyles} />
 
-      <s.root
-        sx={{
-          // this is about "80ch" but I'd like to avoid layout jumping on font load,
-          maxWidth: "824px",
-          mx: [3, 3, "auto"],
-          mt: 3,
-          mb: 6,
-          "*": {
-            boxSizing: "border-box",
-          },
-        }}
-        {...props}
-      />
+      <s.root {...props} />
     </Fragment>
   );
 };

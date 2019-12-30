@@ -6,6 +6,7 @@ import { Header, Root } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
 import { Seo } from "../components/Seo";
 import { Mdx, File } from "../../__generated__/global";
+import { Footer } from "../components/Footer";
 
 interface PostLayoutProps {
   children: React.ReactNode;
@@ -53,6 +54,7 @@ export default function PostLayout({
           {children}
         </article>
       </main>
+      <Footer />
     </Root>
   );
 }

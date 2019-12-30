@@ -6,6 +6,7 @@ import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 import { Header, Root, theme } from "../components";
 import { BlogpostDetails } from "../components/BlogpostDetails";
 import { Seo } from "../components/Seo";
+import { Footer } from "../components/Footer";
 
 const IndexPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
@@ -72,6 +73,7 @@ const IndexPage = () => {
           );
         })}
       </main>
+      <Footer />
     </Root>
   );
 };
