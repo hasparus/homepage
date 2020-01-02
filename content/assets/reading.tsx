@@ -87,7 +87,7 @@ export const alreadyRead: ReadingList = {
       "Building a Digital Garden",
       "https://tomcritchlow.com/2019/02/17/building-digital-garden",
       inlineMdx`
-      I encountered this in [Joel Hooks's Digital Garden](#joel-hooks-digital-garden).
+      I encountered this in [Joel Hooks's Digital Garden](https://joelhooks.com/digital-garden).
       I love the paragraph about [stock and flow](https://tomcritchlow.com/2019/02/17/building-digital-garden#stock-over-flow).
       The stock — high-quality, long-lasting content — is something I aspire to 
       accumulate on this website. \

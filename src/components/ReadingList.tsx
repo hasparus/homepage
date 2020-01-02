@@ -60,7 +60,6 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
                       <s.p>{commentary}</s.p>
                     ) : (
                       <MDXProvider>{jsx(commentary)}</MDXProvider>
-                      // <BaseStyles>{jsx(commentary)}</BaseStyles>
                     ))}
                 </s.li>
               );
