@@ -155,7 +155,7 @@ export const theme = {
       lineHeight: "body",
       fontWeight: "body",
       fontSize: fontSize.normal,
-      maxWidth: "62ch",
+      maxWidth: "640px", // ~62ch with Open Sans 18px
       px: [3, 3, 0],
       mx: "auto",
       mt: 3,
