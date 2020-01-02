@@ -29,10 +29,10 @@ export const CodesandboxIframe = ({
     <iframe
       sx={{
         flexShrink: 0,
-        width: ["100%", "100%", "120%"],
+        width: ["100%", "100%", "180%"],
         my: [0, 0, "1em"],
         maxWidth: "100vw",
-        height: ["500px", "500px", "600px"],
+        height: ["500px", "500px", "700px"],
         border: 0,
         borderRadius: "4px",
         overflow: "hidden",

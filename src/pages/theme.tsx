@@ -14,7 +14,7 @@ import {
   Button,
   BlogpostSocialPreview,
 } from "../components";
-import { isString, contrastingTextColor, copyToClipboard } from "../utils";
+import { isString, contrastingTextColor, copyToClipboard } from "../lib";
 
 const ColorSquareList = (props: React.ComponentProps<"ul">) => (
   <ul

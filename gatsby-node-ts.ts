@@ -21,7 +21,7 @@ import { createFileNode as baseCreateFileNode } from "gatsby-source-filesystem/c
 
 import { getGitLogJsonForFile } from "./scripts/getGitLogJsonForFile";
 import * as generated from "./__generated__/global";
-import { assert } from "./src/utils";
+import { assert } from "./src/lib";
 import { makeSocialCard } from "./scripts/makeSocialCard";
 
 /**

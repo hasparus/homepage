@@ -3,7 +3,7 @@
 
 import { omit } from "lodash";
 
-import { randomElement } from "../utils";
+import { randomElement } from "../lib";
 
 export const fontSize = {
   small: [0, 1],
@@ -17,7 +17,9 @@ const font = (fonts: string) => {
      * I'd like to notice when fonts get broken.
      * Comic Sans MS is a great tool for that.
      */
-    return [...xs.slice(0, -1), "Comic Sans MS", xs[xs.length - 1]].join(",");
+    return [...xs.slice(0, -1), "Comic Sans MS", xs[xs.length - 1]].join(
+      ","
+    );
   }
   return fonts;
 };
@@ -153,9 +155,9 @@ export const theme = {
       lineHeight: "body",
       fontWeight: "body",
       fontSize: fontSize.normal,
-      // this is about "80ch" but I'd like to avoid layout jumping on font load,
-      maxWidth: "824px",
-      mx: [3, 3, "auto"],
+      maxWidth: "62ch",
+      px: [3, 3, 0],
+      mx: "auto",
       mt: 3,
       mb: 5,
       "*": {
@@ -221,7 +223,7 @@ export const theme = {
       fontFamily: "body",
       fontWeight: "body",
       lineHeight: "body",
-      width: "80ch",
+      width: "62ch",
       maxWidth: "100%",
       code,
     },
@@ -241,6 +243,7 @@ export const theme = {
         color: "inherit !important", // 😭
         bg: "inherit !important",
       },
+      mx: "-1em",
       ...randomElement(sketchyBorders),
     }),
     table: {

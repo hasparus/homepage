@@ -23,7 +23,7 @@ alternatives for prop types.
 
 I've chosen TypeScript because of its popularity,
 but my arguments fit any language with first-class type composition you
-can use to build React apps (Flow, Reason, Kotlin, Scala).
+can use to build React apps (Flow,&nbsp;Reason, Kotlin, Scala).
 
 ## Why?
 
@@ -118,7 +118,7 @@ that a prop is nullable is an easier way allows to accidentally introduce comple
 
 ## type Props = ?
 
-TypeScript is much better in describing React component props than PropTypes. \
+TypeScript is much better in describing React component props than PropTypes.
 Let's look at how it solves the problems I've mentioned before.
 
 - _easy to half-ass?_ -- Add `strict: true` to your tsconfig.json,
@@ -211,7 +211,10 @@ interface ButtonAsButtonProps extends ComponentProps<"button"> {
 
 type ButtonProps = ButtonAsAnchorProps | ButtonAsButtonProps;
 
-function Button({ className: propsClassName, ...rest }: ButtonProps) {
+function Button({
+  className: propsClassName,
+  ...rest
+}: ButtonProps) {
   const className = ["Button", propsClassName].join(" ");
 
   if (rest.href !== undefined) {

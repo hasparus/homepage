@@ -1,11 +1,25 @@
+/** @jsx jsx */
+// needed for inlineMdx macro
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { mdx as jsx } from "@mdx-js/react";
+import { inlineMdx } from "../../src/lib/inlineMdx.macro";
+
+const _ = jsx;
+
 export namespace ReadingList {
   export type Author = string;
   export type LinkText = string & { __brand?: "LinkText" };
-  export type Link = string & { __brand?: "Link" };
-  export type Commentary = string & { __brand?: "Commentary" };
+  export type Link = string;
+  export type Commentary =
+    | (string & { __brand?: "Commentary" })
+    | React.ComponentType;
   export type Article = Link | [LinkText, Link, Commentary?];
 }
 export type ReadingList = Record<ReadingList.Author, ReadingList.Article[]>;
+
+export const makeArticleId = (author: string, article: string) => {
+  return `${author}-${article}`.toLowerCase().replace(" ", "-");
+};
 
 export const alreadyRead: ReadingList = {
   "Tomasz Łakomy": ["https://tlakomy.com/who-is-senior-developer/"],
@@ -58,12 +72,31 @@ export const alreadyRead: ReadingList = {
         "your product across the chasm.",
     ],
   ],
-  "Tanya Reilly": [
+  "Tanya Reilly": [["Being Glue", "https://noidea.dog/#/glue/"]],
+  "Joel Hooks": [
+    ["Digital Garden", "https://joelhooks.com/digital-garden"],
+  ],
+  "Amy Hoy": [
     [
-      "Being Glue",
-      "https://noidea.dog/#/glue/"
-    ]
-  ]
+      "How the Blogs Broke the Web",
+      "https://stackingthebricks.com/how-blogs-broke-the-web/",
+    ],
+  ],
+  "Tom Critchlow": [
+    [
+      "Building a Digital Garden",
+      "https://tomcritchlow.com/2019/02/17/building-digital-garden",
+      inlineMdx`
+      I encountered this in [Joel Hooks's Digital Garden](#joel-hooks-digital-garden).
+      I love the paragraph about [stock and flow](https://tomcritchlow.com/2019/02/17/building-digital-garden#stock-over-flow).
+      The stock — high-quality, long-lasting content — is something I aspire to 
+      accumulate on this website. \
+      This page is one way to do it — a reference
+      point for conversations with friends. After I write some more articles,
+      I'm going to add a table of contents and highlight my favorite work.
+      `,
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
@@ -74,6 +107,16 @@ export const futureReading: ReadingList = {
       "I have some bad memories with the last textbook I've read " +
         "(Cormen's Introduction to Algorithms), but I've heard a lot of good " +
         "reviews of SICP. I'm planning to read it in Q1 2020.",
+    ],
+  ],
+  "Joel Hooks": [
+    [
+      "Stop Giving af and Start Writing More",
+      "https://joelhooks.com/on-writing-more",
+    ],
+    [
+      "Badass: Making Users Awesome by Kathy Sierra",
+      "https://joelhooks.com/badass-making-users-awesome-by-kathy-sierra",
     ],
   ],
 };

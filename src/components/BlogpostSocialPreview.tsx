@@ -9,7 +9,7 @@ import { extent, max } from "d3-array";
 
 import { DateValue } from "@vx/mock-data/lib/generators/genDateValue";
 import { ComponentProps } from "react";
-import { assert } from "../utils";
+import { assert } from "../lib";
 import { Mdx } from "../../__generated__/global";
 
 import { BlogpostDetails } from "./BlogpostDetails";

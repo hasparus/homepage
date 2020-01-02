@@ -13,7 +13,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 import { theme } from "../src/gatsby-plugin-theme-ui/index";
 import { Mdx } from "../__generated__/global";
-import { assert } from "../src/utils";
+import { assert } from "../src/lib";
 import { BlogpostSocialPreview } from "../src/components";
 
 const writeFileAsync = promisify(writeFile);

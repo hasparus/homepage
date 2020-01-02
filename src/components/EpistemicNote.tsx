@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 
-import { panic } from "../utils";
+import { panic } from "../lib";
 import { BoxedText, BoxedTextProps } from "./BoxedText";
 
 type EpistemicNoteProps = BoxedTextProps &
