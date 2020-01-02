@@ -17,10 +17,6 @@ export namespace ReadingList {
 }
 export type ReadingList = Record<ReadingList.Author, ReadingList.Article[]>;
 
-export const makeArticleId = (author: string, article: string) => {
-  return `${author}-${article}`.toLowerCase().replace(" ", "-");
-};
-
 export const alreadyRead: ReadingList = {
   "Tomasz Łakomy": ["https://tlakomy.com/who-is-senior-developer/"],
   asthasr: ["https://asthasr.github.io/posts/danger-of-simplicity/"],
@@ -44,10 +40,27 @@ export const alreadyRead: ReadingList = {
     ],
   ],
   "Dan Abramov": [
-    "https://overreacted.io/preparing-for-tech-talk-part-1-motivation/",
-    "https://overreacted.io/preparing-for-tech-talk-part-2-what-why-and-how/",
-    "https://overreacted.io/preparing-for-tech-talk-part-3-content/",
+    [
+      "Preparing for a Tech Talk, Part 1: Motivation",
+      "https://overreacted.io/preparing-for-tech-talk-part-1-motivation/",
+    ],
+    [
+      "Preparing for a Tech Talk, Part 2: What, Why, and How",
+      "https://overreacted.io/preparing-for-tech-talk-part-2-what-why-and-how/",
+    ],
+    [
+      "Preparing for a Tech Talk, Part 3: Content",
+      "https://overreacted.io/preparing-for-tech-talk-part-3-content/",
+      `Need an algorithm to improve your tech talks? This is it.
+       It helped me immensely.`,
+    ],
     "https://overreacted.io/fix-like-no-ones-watching/",
+    [
+      "My Decade in Review",
+      "https://overreacted.io/my-decade-in-review/",
+      `TLDR: Dan started early and worked super hard.
+       A humbling and motivating read.`,
+    ],
   ],
   "Martin Fowler": ["https://martinfowler.com/bliki/BeckDesignRules.html"],
   "Rich Hickey": [
@@ -59,17 +72,17 @@ export const alreadyRead: ReadingList = {
     [
       "Making sense of MVP and why I prefer Earliest Testable/Usable/Lovable",
       "https://blog.crisp.se/2016/01/25/henrikkniberg/making-sense-of-mvp",
-      "MVP and misconceptions around it, " +
-        "filled with delightful illustrations and real-life examples.",
+      `MVP and misconceptions around it, filled with delightful illustrations 
+       and real-life examples.`,
     ],
   ],
   "Eric Sink": [
     [
       "Act Your Age",
       "https://ericsink.com/Act_Your_Age.html",
-      "Eric Sink writes about the chasm between Early Adopters " +
-        "and Pragmatists and describes a Pragmatist in Pain, who you need to sponsor " +
-        "your product across the chasm.",
+      `Eric Sink writes about the chasm between Early Adopters
+       and Pragmatists and describes a Pragmatist in Pain
+       needed to sponsor your product across this chasm.`,
     ],
   ],
   "Tanya Reilly": [["Being Glue", "https://noidea.dog/#/glue/"]],
@@ -88,9 +101,11 @@ export const alreadyRead: ReadingList = {
       "https://tomcritchlow.com/2019/02/17/building-digital-garden",
       inlineMdx`
       I encountered this in [Joel Hooks's Digital Garden](https://joelhooks.com/digital-garden).
+      
       I love the paragraph about [stock and flow](https://tomcritchlow.com/2019/02/17/building-digital-garden#stock-over-flow).
       The stock — high-quality, long-lasting content — is something I aspire to 
-      accumulate on this website. \
+      accumulate here.
+      Tim got me hooked on nurturing my own digital garden.
       This page is one way to do it — a reference
       point for conversations with friends. After I write some more articles,
       I'm going to add a table of contents and highlight my favorite work.
@@ -104,9 +119,9 @@ export const futureReading: ReadingList = {
     [
       "Structure and Interpretation of Computer Programs",
       "https://books.google.pl/books?id=1DrQngEACAAJ&dq=Structure+and+Interpretation+of+Computer+Programs&hl=en&sa=X&ved=0ahUKEwj-ptHaxLXmAhUEjosKHap9A1oQ6AEIKTAA",
-      "I have some bad memories with the last textbook I've read " +
-        "(Cormen's Introduction to Algorithms), but I've heard a lot of good " +
-        "reviews of SICP. I'm planning to read it in Q1 2020.",
+      inlineMdx`I have some bad memories with the last textbook I've read
+        (Cormen's Introduction to Algorithms), but I've heard a lot of good
+        reviews of SICP. I'm planning to read it in Q1 2020.`,
     ],
   ],
   "Joel Hooks": [

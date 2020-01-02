@@ -6,6 +6,7 @@ import { fromCompare, ordString } from "fp-ts/lib/Ord";
 import { ComponentPropsWithoutRef, ComponentProps } from "react";
 import { sort } from "fp-ts/lib/Array";
 import { MDXProvider } from "@mdx-js/react";
+import dedent from "dedent";
 
 import { ReadingList as Reading } from "../../content/assets/reading";
 
@@ -44,7 +45,7 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
             {sortArticles(articles).map((article, i) => {
               if (typeof article === "string") {
                 return (
-                  <s.li key={i}>
+                  <s.li key={i} sx={{ my: 2 }}>
                     <s.a href={article}>
                       {article.replace(/^https:\/\/|\/$/g, "")}
                     </s.a>
@@ -53,11 +54,13 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
               }
               const [text, link, commentary] = article;
               return (
-                <s.li key={i} sx={{ p: { mt: 0, mb: 2 } }}>
+                <s.li key={i} sx={{ my: 2, p: { my: 0 } }}>
                   <s.a href={link}>{text}</s.a>
                   {commentary &&
                     (typeof commentary === "string" ? (
-                      <s.p>{commentary}</s.p>
+                      <s.p sx={{ whiteSpace: "pre" }}>
+                        {dedent(commentary)}
+                      </s.p>
                     ) : (
                       <MDXProvider>{jsx(commentary)}</MDXProvider>
                     ))}
