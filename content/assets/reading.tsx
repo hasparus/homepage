@@ -51,8 +51,9 @@ export const alreadyRead: ReadingList = {
     [
       "Preparing for a Tech Talk, Part 3: Content",
       "https://overreacted.io/preparing-for-tech-talk-part-3-content/",
-      `Need an algorithm to improve your tech talks? This is it.
-       It helped me immensely.`,
+      inlineMdx`Need an algorithm to improve your tech talks? This is it.
+
+      It helped me immensely.`,
     ],
     "https://overreacted.io/fix-like-no-ones-watching/",
     [

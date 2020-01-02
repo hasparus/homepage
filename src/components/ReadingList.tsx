@@ -58,7 +58,7 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
                   <s.a href={link}>{text}</s.a>
                   {commentary &&
                     (typeof commentary === "string" ? (
-                      <s.p sx={{ whiteSpace: "pre" }}>
+                      <s.p>
                         {dedent(commentary)}
                       </s.p>
                     ) : (
