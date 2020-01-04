@@ -78,7 +78,7 @@ export const  HamburgerLinks = forwardRef<HTMLDivElement, HamburgerLinksProps>(
               ":focus, :hover": {
                 transform: "scaleY(0.8)",
               },
-              "> *": {
+              "> path, > line": {
                 transition:
                   "transform 250ms ease-out, " +
                   "stroke-width 250ms ease-out, " +

@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
   memo,
+  ComponentProps,
 } from "react";
 import { keys } from "fp-ts/lib/Record";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
@@ -85,7 +86,7 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
   );
 };
 
-const separator = (
+const Separator = (props: ComponentProps<"div">) => (
   <div
     sx={{
       color: "muted",
@@ -93,6 +94,7 @@ const separator = (
       mx: 2,
       "@media (max-width: 40em)": { height: "1em", borderRight: "none" },
     }}
+    {...props}
   />
 );
 
@@ -169,7 +171,7 @@ export const Header = memo(({ showHome }: HeaderProps) => {
               transition:
                 "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);",
             },
-            "> *": {
+            "> div, > a, > button": {
               padding: "0.25em 1em",
               display: "flex",
               justifyContent: "center",
@@ -188,10 +190,10 @@ export const Header = memo(({ showHome }: HeaderProps) => {
         </HeaderInternalLink>
         <HeaderInternalLink to="/speaking">speaking</HeaderInternalLink>
         <HeaderInternalLink to="/reading">reading</HeaderInternalLink>
-        {separator}
+        <Separator />
         <HeaderLink href="https://github.com/hasparus">GitHub</HeaderLink>
         <HeaderLink href="https://twitter.com/hasparus">Twitter</HeaderLink>
-        {separator}
+        <Separator className="js-only" />
         <NextColorModeButton />
       </nav>
       <HamburgerLinks
