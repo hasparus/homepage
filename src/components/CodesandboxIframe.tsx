@@ -2,6 +2,8 @@
 import { jsx } from "theme-ui";
 import { ComponentProps } from "react";
 
+const IFRAME_MAX_WIDTH = `calc(100vw - 20px)`;
+
 export const CodesandboxIframe = ({
   className,
   ...rest
@@ -29,12 +31,11 @@ export const CodesandboxIframe = ({
     <iframe
       sx={{
         flexShrink: 0,
-        width: ["100%", "100%", "180%"],
+        width: [IFRAME_MAX_WIDTH, IFRAME_MAX_WIDTH, "180%"],
         my: [0, 0, "1em"],
-        maxWidth: "100vw",
+        maxWidth: IFRAME_MAX_WIDTH,
         height: ["500px", "500px", "700px"],
         border: 0,
-        borderRadius: "4px",
         overflow: "hidden",
       }}
       className={`js-only ${className}`}

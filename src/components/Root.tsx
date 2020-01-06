@@ -10,6 +10,7 @@ const globalStyles: ObjectInterpolation<any> = {
   },
   body: {
     margin: 0,
+    overflowX: "hidden",
   },
 };
 
