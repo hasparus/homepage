@@ -30,7 +30,7 @@ export default function PostLayout({
   }
 
   const {
-    frontmatter: { title, date, spoiler },
+    frontmatter: { title, date, spoiler, venues },
     readingTime,
     socialImage,
   } = pathContext;
@@ -49,7 +49,11 @@ export default function PostLayout({
         <article>
           <header sx={{ mb: 4 }}>
             <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>{title}</s.h1>
-            <BlogpostDetails date={date} readingTime={readingTime} />
+            <BlogpostDetails
+              date={date}
+              readingTime={venues ? undefined : readingTime}
+              venues={venues}
+            />
           </header>
           {children}
         </article>
