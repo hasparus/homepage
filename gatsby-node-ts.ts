@@ -235,7 +235,9 @@ function createBlogpostHistoryNodeField(
             createNodeField({
               node: (node as unknown) as Node,
               name: "history",
-              value: history.map(entry => ({ authorDate: entry.authorDate })),
+              value: history.map(entry => ({
+                authorDate: entry.authorDate,
+              })),
             });
             break;
           default:
