@@ -4,6 +4,7 @@ import { ComponentProps } from "react";
 
 import { fontSize } from "../gatsby-plugin-theme-ui";
 import { MdxFrontmatter } from "../../__generated__/global";
+import { formatDate } from "../appUtils";
 
 const cupOfCoffeeTime = 5; // minutes
 const burgerTime = cupOfCoffeeTime * Math.E; // stolen from overreacted.io
@@ -34,12 +35,7 @@ export const BlogpostDetails = ({
     }}
     {...rest}
   >
-    {date &&
-      new Date(date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      })}
+    {date && formatDate(date)}
     {readingTime &&
       ` · ${readingTimeEmoji(readingTime)} ${readingTime} min read`}
     {venues && ` · ${venues.map(v => v.name).join(", ")}`}

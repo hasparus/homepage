@@ -99,6 +99,11 @@ export const createPages: GatsbyNode["createPages"] = ({
               fields {
                 route
                 readingTime
+                history {
+                  subject
+                  authorDate
+                  abbreviatedCommit
+                }
                 socialImage {
                   childImageSharp {
                     original {
