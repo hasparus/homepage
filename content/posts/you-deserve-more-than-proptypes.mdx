@@ -145,8 +145,8 @@ And look at what else we get!
 ### ComponentProps<`"`button`"`>
 
 I could talk about subtyping and Liskov Substitution Principle,
-but I'll simplify it a little bit. \
-**If it's a button, it should be buttony.**
+but I'll simplify it a little bit.
+**If it's a button, it should be buttony.**\
 Props you expect on a button should be accepted by all of your design
 system buttons. What do I expect?
 At least `onClick`, `onFocus`, `disabled`, `className`, and `style`.
@@ -179,8 +179,8 @@ Do you want **your Button** to be inferior to **a button**? I don't think so.
 ### Omit<LinkProps, `"`to`"`>
 
 But what if my component comes "batteries included" and I don't want to accept all props
-of the component I'm building upon? Only like... most of them? We can Omit what we don't
-like. Just like that.
+of the component I'm building upon?\
+Only like... most of them? We can Omit what we don't like. Just like that.
 
 ```tsx
 interface JoinMeetingButton
@@ -246,8 +246,8 @@ We want to show MeetingInfo -- a date and organizer of the meeting and
 we don't really care about the type of these `date` and `organizer` props.
 We care about their origin. They come from the _Meeting_ type and that's what's
 important for this component. Will this component break when the representation
-of our meetings? Yes. And we want it to. Also, [we avoid introducing new names]
-(e.g.`<MeetingInfo author={meeting.organizer} />`).
+of our meetings? Yes. And we want it to.\
+Also, [we avoid introducing new names] (e.g.`<MeetingInfo author={meeting.organizer} />`).
 
 [we avoid introducing new names]: https://www.swyx.io/writing/how-to-name-things/#not-naming-things-aug-2019-edit
 
