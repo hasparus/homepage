@@ -20813,21 +20813,21 @@
               "defaultValue": null
             },
             {
-              "name": "history",
-              "description": "",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "StringQueryOperatorInput",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
               "name": "venues",
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
                 "name": "SitePageContextFrontmatterVenuesFilterListInput",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "history",
+              "description": "",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "StringQueryOperatorInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -21276,18 +21276,6 @@
               "deprecationReason": null
             },
             {
-              "name": "history",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "venues",
               "description": null,
               "args": [],
@@ -21299,6 +21287,18 @@
                   "name": "SitePageContextFrontmatterVenues",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "history",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -22202,12 +22202,6 @@
               "deprecationReason": null
             },
             {
-              "name": "context___frontmatter___history",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "context___frontmatter___venues",
               "description": null,
               "isDeprecated": false,
@@ -22221,6 +22215,12 @@
             },
             {
               "name": "context___frontmatter___venues___link",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "context___frontmatter___history",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null

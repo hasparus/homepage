@@ -138,6 +138,7 @@ export const Header = memo(({ showHome }: HeaderProps) => {
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
+        alignItems: "center",
         // aligns links with content while preserving big hitboxes
         mx: "-0.5em",
         pb: 3,
