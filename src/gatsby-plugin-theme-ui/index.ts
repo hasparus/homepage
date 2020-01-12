@@ -6,8 +6,9 @@ import { omit } from "lodash";
 import { randomElement } from "../lib";
 
 export const fontSize = {
-  small: [0, 1],
-  normal: [1, 2],
+  smallest: [0, 1],
+  small: [1, 2],
+  normal: [2, 3],
 };
 
 const font = (fonts: string) => {
@@ -132,7 +133,7 @@ export const theme = {
       'Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans, ' +
       'Droid Sans", "Helvetica Neue", sans-serif',
   },
-  fontSizes: [14, 16, 18, 23, 27, 36, 54, 72, 81, 108],
+  fontSizes: [12, 14, 16, 18, 23, 27, 36, 54, 72, 81, 108],
   fontWeights: {
     body: 400,
     heading: 400,
@@ -179,7 +180,7 @@ export const theme = {
     },
     h1: {
       ...headingStyles,
-      fontSize: [6, 7, 8],
+      fontSize: [7, 8, 9],
       textAlign: ["center", "left", "left"],
       py: [5, 0, 0],
       margin: "0.5em 0",
@@ -189,33 +190,33 @@ export const theme = {
     h2: {
       ...headingStyles,
       color: "text",
-      fontSize: [5, 6],
+      fontSize: [6, 7],
       margin: "0.5em 0",
       wordBreak: "break-word",
     },
     h3: {
       ...headingStyles,
       color: "gray",
-      fontSize: [4, 5],
+      fontSize: [5, 6],
       wordBreak: "break-word",
     },
     h4: {
       ...headingStyles,
       color: "gray",
-      fontSize: [3, 4],
+      fontSize: [4, 5],
       margin: "0.5em 0",
     },
     h5: {
       ...headingStyles,
       color: "text",
-      fontSize: [2, 3],
+      fontSize: [3, 4],
       margin: "0.5em 0",
     },
     h6: {
       ...headingStyles,
       color: "text",
       fontFamily: "text",
-      fontSize: [1, 2],
+      fontSize: [2, 3],
       margin: "0.5em 0",
     },
     p: {

@@ -14,6 +14,7 @@ import readingTime from "reading-time";
 import puppeteer, { Browser } from "puppeteer";
 import fs from "fs-extra";
 import path from "path";
+import slash from "slash";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
@@ -96,6 +97,9 @@ export const createPages: GatsbyNode["createPages"] = ({
             nodes {
               id
               fileAbsolutePath
+              frontmatter {
+                historySource
+              }
               fields {
                 route
                 readingTime
@@ -171,6 +175,7 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       spoiler: String!
       date: Date!
       history: BlogpostHistoryType
+      historySource: String
       venues: [Venue!] 
     }
 
@@ -219,9 +224,13 @@ function createBlogpostHistoryNodeField(
   { node, actions: { createNodeField } }: CreateMdxNodeArgs,
   route: string
 ) {
-  const blogpostHistoryType = node?.frontmatter?.history;
+  const blogpostHistoryType = node.frontmatter?.history;
   if (blogpostHistoryType) {
-    getGitLogJsonForFile(node.fileAbsolutePath, [
+    const filePath = node.frontmatter!.historySource
+      ? slash(path.join(__dirname, node.frontmatter!.historySource))
+      : node.fileAbsolutePath;
+
+    getGitLogJsonForFile(filePath, [
       "abbreviatedCommit",
       "authorDate",
       "subject",

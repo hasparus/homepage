@@ -57,6 +57,10 @@ interface NextColorModeButtonProps extends ButtonProps {}
 const NextColorModeButton = (props: NextColorModeButtonProps) => {
   const [colorMode, setColorMode] = useColorMode<ColorModes>();
 
+  const modes = keys(colorModes);
+  const nextColorMode =
+    modes[(modes.indexOf(colorMode) + 1) % modes.length];
+
   return (
     <Button
       variant="clear"
@@ -65,10 +69,7 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
         // we'd like to prevent it
         e.preventDefault();
 
-        const modes = keys(colorModes);
-        const colorModeIndex = modes.indexOf(colorMode);
-
-        setColorMode(modes[(colorModeIndex + 1) % modes.length]);
+        setColorMode(nextColorMode);
       }}
       sx={{
         px: "0.5em",
@@ -81,7 +82,7 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
       title="change color mode"
       {...props}
     >
-      {colorMode}
+      {nextColorMode}
     </Button>
   );
 };
@@ -165,7 +166,7 @@ export const Header = memo(({ showHome }: HeaderProps) => {
             width: "100%",
             transform: "translateY(calc(-100% - 2em))",
             py: 5,
-            fontSize: 3,
+            fontSize: 4,
             borderBottom: (th: Theme) => `1px solid ${th.colors?.gray}`,
             ":target": {
               transform: "translateY(0)",

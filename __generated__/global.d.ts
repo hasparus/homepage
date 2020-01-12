@@ -740,6 +740,7 @@ export enum FileFieldsEnum {
   childMdx___frontmatter___spoiler = 'childMdx___frontmatter___spoiler',
   childMdx___frontmatter___date = 'childMdx___frontmatter___date',
   childMdx___frontmatter___history = 'childMdx___frontmatter___history',
+  childMdx___frontmatter___historySource = 'childMdx___frontmatter___historySource',
   childMdx___frontmatter___venues = 'childMdx___frontmatter___venues',
   childMdx___frontmatter___venues___name = 'childMdx___frontmatter___venues___name',
   childMdx___frontmatter___venues___link = 'childMdx___frontmatter___venues___link',
@@ -1548,6 +1549,7 @@ export enum MdxFieldsEnum {
   frontmatter___spoiler = 'frontmatter___spoiler',
   frontmatter___date = 'frontmatter___date',
   frontmatter___history = 'frontmatter___history',
+  frontmatter___historySource = 'frontmatter___historySource',
   frontmatter___venues = 'frontmatter___venues',
   frontmatter___venues___name = 'frontmatter___venues___name',
   frontmatter___venues___link = 'frontmatter___venues___link',
@@ -1753,6 +1755,7 @@ export type MdxFrontmatter = {
   readonly spoiler: Scalars['String'],
   readonly date: Scalars['Date'],
   readonly history?: Maybe<BlogpostHistoryType>,
+  readonly historySource?: Maybe<Scalars['String']>,
   readonly venues?: Maybe<ReadonlyArray<Venue>>,
 };
 
@@ -1769,6 +1772,7 @@ export type MdxFrontmatterFilterInput = {
   readonly spoiler?: Maybe<StringQueryOperatorInput>,
   readonly date?: Maybe<DateQueryOperatorInput>,
   readonly history?: Maybe<BlogpostHistoryTypeQueryOperatorInput>,
+  readonly historySource?: Maybe<StringQueryOperatorInput>,
   readonly venues?: Maybe<VenueFilterListInput>,
 };
 
@@ -2092,7 +2096,6 @@ export type QuerysitePageArgs = {
   component?: Maybe<StringQueryOperatorInput>,
   componentChunkName?: Maybe<StringQueryOperatorInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
-  context?: Maybe<SitePageContextFilterInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
   pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   componentPath?: Maybe<StringQueryOperatorInput>
@@ -2295,7 +2298,6 @@ export type SitePage = Node & {
   readonly component?: Maybe<Scalars['String']>,
   readonly componentChunkName?: Maybe<Scalars['String']>,
   readonly isCreatedByStatefulCreatePages?: Maybe<Scalars['Boolean']>,
-  readonly context?: Maybe<SitePageContext>,
   readonly pluginCreator?: Maybe<SitePlugin>,
   readonly pluginCreatorId?: Maybe<Scalars['String']>,
   readonly componentPath?: Maybe<Scalars['String']>,
@@ -2321,86 +2323,6 @@ export type SitePageConnectiongroupArgs = {
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>,
   field: SitePageFieldsEnum
-};
-
-export type SitePageContext = {
-  readonly __typename?: 'SitePageContext',
-  readonly frontmatter?: Maybe<SitePageContextFrontmatter>,
-  readonly route?: Maybe<Scalars['String']>,
-  readonly readingTime?: Maybe<Scalars['Int']>,
-  readonly socialImage?: Maybe<SitePageContextSocialImage>,
-};
-
-export type SitePageContextFilterInput = {
-  readonly frontmatter?: Maybe<SitePageContextFrontmatterFilterInput>,
-  readonly route?: Maybe<StringQueryOperatorInput>,
-  readonly readingTime?: Maybe<IntQueryOperatorInput>,
-  readonly socialImage?: Maybe<SitePageContextSocialImageFilterInput>,
-};
-
-export type SitePageContextFrontmatter = {
-  readonly __typename?: 'SitePageContextFrontmatter',
-  readonly title?: Maybe<Scalars['String']>,
-  readonly spoiler?: Maybe<Scalars['String']>,
-  readonly date?: Maybe<Scalars['Date']>,
-  readonly history?: Maybe<Scalars['String']>,
-  readonly tags?: Maybe<Scalars['String']>,
-  readonly venues?: Maybe<ReadonlyArray<Maybe<SitePageContextFrontmatterVenues>>>,
-};
-
-export type SitePageContextFrontmatterFilterInput = {
-  readonly title?: Maybe<StringQueryOperatorInput>,
-  readonly spoiler?: Maybe<StringQueryOperatorInput>,
-  readonly date?: Maybe<DateQueryOperatorInput>,
-  readonly history?: Maybe<StringQueryOperatorInput>,
-  readonly tags?: Maybe<StringQueryOperatorInput>,
-  readonly venues?: Maybe<SitePageContextFrontmatterVenuesFilterListInput>,
-};
-
-export type SitePageContextFrontmatterVenues = {
-  readonly __typename?: 'SitePageContextFrontmatterVenues',
-  readonly name?: Maybe<Scalars['String']>,
-  readonly link?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextFrontmatterVenuesFilterInput = {
-  readonly name?: Maybe<StringQueryOperatorInput>,
-  readonly link?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePageContextFrontmatterVenuesFilterListInput = {
-  readonly elemMatch?: Maybe<SitePageContextFrontmatterVenuesFilterInput>,
-};
-
-export type SitePageContextSocialImage = {
-  readonly __typename?: 'SitePageContextSocialImage',
-  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharp>,
-};
-
-export type SitePageContextSocialImageChildImageSharp = {
-  readonly __typename?: 'SitePageContextSocialImageChildImageSharp',
-  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginal>,
-};
-
-export type SitePageContextSocialImageChildImageSharpFilterInput = {
-  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginalFilterInput>,
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginal = {
-  readonly __typename?: 'SitePageContextSocialImageChildImageSharpOriginal',
-  readonly width?: Maybe<Scalars['Int']>,
-  readonly height?: Maybe<Scalars['Int']>,
-  readonly src?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginalFilterInput = {
-  readonly width?: Maybe<IntQueryOperatorInput>,
-  readonly height?: Maybe<IntQueryOperatorInput>,
-  readonly src?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePageContextSocialImageFilterInput = {
-  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharpFilterInput>,
 };
 
 export type SitePageEdge = {
@@ -2502,16 +2424,6 @@ export enum SitePageFieldsEnum {
   component = 'component',
   componentChunkName = 'componentChunkName',
   isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
-  context___frontmatter___title = 'context___frontmatter___title',
-  context___frontmatter___spoiler = 'context___frontmatter___spoiler',
-  context___frontmatter___date = 'context___frontmatter___date',
-  context___frontmatter___history = 'context___frontmatter___history',
-  context___frontmatter___tags = 'context___frontmatter___tags',
-  context___frontmatter___venues = 'context___frontmatter___venues',
-  context___frontmatter___venues___name = 'context___frontmatter___venues___name',
-  context___frontmatter___venues___link = 'context___frontmatter___venues___link',
-  context___route = 'context___route',
-  context___readingTime = 'context___readingTime',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -2567,6 +2479,12 @@ export enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___background_color = 'pluginCreator___pluginOptions___background_color',
   pluginCreator___pluginOptions___theme_color = 'pluginCreator___pluginOptions___theme_color',
   pluginCreator___pluginOptions___icon = 'pluginCreator___pluginOptions___icon',
+  pluginCreator___pluginOptions___exclude = 'pluginCreator___pluginOptions___exclude',
+  pluginCreator___pluginOptions___query = 'pluginCreator___pluginOptions___query',
+  pluginCreator___pluginOptions___feeds = 'pluginCreator___pluginOptions___feeds',
+  pluginCreator___pluginOptions___feeds___query = 'pluginCreator___pluginOptions___feeds___query',
+  pluginCreator___pluginOptions___feeds___output = 'pluginCreator___pluginOptions___feeds___output',
+  pluginCreator___pluginOptions___feeds___title = 'pluginCreator___pluginOptions___feeds___title',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator___pluginOptions___pathCheck',
   pluginCreator___nodeAPIs = 'pluginCreator___nodeAPIs',
   pluginCreator___browserAPIs = 'pluginCreator___browserAPIs',
@@ -2602,7 +2520,6 @@ export type SitePageFilterInput = {
   readonly component?: Maybe<StringQueryOperatorInput>,
   readonly componentChunkName?: Maybe<StringQueryOperatorInput>,
   readonly isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
-  readonly context?: Maybe<SitePageContextFilterInput>,
   readonly pluginCreator?: Maybe<SitePluginFilterInput>,
   readonly pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   readonly componentPath?: Maybe<StringQueryOperatorInput>,
@@ -2776,6 +2693,7 @@ export enum SitePluginFieldsEnum {
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha',
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImage = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImage',
   pluginOptions___gatsbyRemarkPlugins___options___icon = 'pluginOptions___gatsbyRemarkPlugins___options___icon',
+  pluginOptions___gatsbyRemarkPlugins___options___extensionDataDirectory = 'pluginOptions___gatsbyRemarkPlugins___options___extensionDataDirectory',
   pluginOptions___gatsbyRemarkPlugins___options___injectStyles = 'pluginOptions___gatsbyRemarkPlugins___options___injectStyles',
   pluginOptions___gatsbyRemarkPlugins___options___colorTheme = 'pluginOptions___gatsbyRemarkPlugins___options___colorTheme',
   pluginOptions___gatsbyRemarkPlugins___options___extensions = 'pluginOptions___gatsbyRemarkPlugins___options___extensions',
@@ -2789,6 +2707,12 @@ export enum SitePluginFieldsEnum {
   pluginOptions___background_color = 'pluginOptions___background_color',
   pluginOptions___theme_color = 'pluginOptions___theme_color',
   pluginOptions___icon = 'pluginOptions___icon',
+  pluginOptions___exclude = 'pluginOptions___exclude',
+  pluginOptions___query = 'pluginOptions___query',
+  pluginOptions___feeds = 'pluginOptions___feeds',
+  pluginOptions___feeds___query = 'pluginOptions___feeds___query',
+  pluginOptions___feeds___output = 'pluginOptions___feeds___output',
+  pluginOptions___feeds___title = 'pluginOptions___feeds___title',
   pluginOptions___pathCheck = 'pluginOptions___pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -2925,6 +2849,9 @@ export type SitePluginPluginOptions = {
   readonly background_color?: Maybe<Scalars['String']>,
   readonly theme_color?: Maybe<Scalars['String']>,
   readonly icon?: Maybe<Scalars['String']>,
+  readonly exclude?: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>,
+  readonly query?: Maybe<Scalars['String']>,
+  readonly feeds?: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsFeeds>>>,
   readonly pathCheck?: Maybe<Scalars['Boolean']>,
 };
 
@@ -2935,6 +2862,23 @@ export type SitePluginPluginOptionsDefaultLayouts = {
 
 export type SitePluginPluginOptionsDefaultLayoutsFilterInput = {
   readonly default?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePluginPluginOptionsFeeds = {
+  readonly __typename?: 'SitePluginPluginOptionsFeeds',
+  readonly query?: Maybe<Scalars['String']>,
+  readonly output?: Maybe<Scalars['String']>,
+  readonly title?: Maybe<Scalars['String']>,
+};
+
+export type SitePluginPluginOptionsFeedsFilterInput = {
+  readonly query?: Maybe<StringQueryOperatorInput>,
+  readonly output?: Maybe<StringQueryOperatorInput>,
+  readonly title?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePluginPluginOptionsFeedsFilterListInput = {
+  readonly elemMatch?: Maybe<SitePluginPluginOptionsFeedsFilterInput>,
 };
 
 export type SitePluginPluginOptionsFilterInput = {
@@ -2951,6 +2895,9 @@ export type SitePluginPluginOptionsFilterInput = {
   readonly background_color?: Maybe<StringQueryOperatorInput>,
   readonly theme_color?: Maybe<StringQueryOperatorInput>,
   readonly icon?: Maybe<StringQueryOperatorInput>,
+  readonly exclude?: Maybe<StringQueryOperatorInput>,
+  readonly query?: Maybe<StringQueryOperatorInput>,
+  readonly feeds?: Maybe<SitePluginPluginOptionsFeedsFilterListInput>,
   readonly pathCheck?: Maybe<BooleanQueryOperatorInput>,
 };
 
@@ -2984,6 +2931,7 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptions = {
   readonly disableBgImageOnAlpha?: Maybe<Scalars['Boolean']>,
   readonly disableBgImage?: Maybe<Scalars['Boolean']>,
   readonly icon?: Maybe<Scalars['String']>,
+  readonly extensionDataDirectory?: Maybe<Scalars['String']>,
   readonly injectStyles?: Maybe<Scalars['Boolean']>,
   readonly colorTheme?: Maybe<Scalars['String']>,
   readonly extensions?: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions>>>,
@@ -3018,6 +2966,7 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   readonly disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>,
   readonly disableBgImage?: Maybe<BooleanQueryOperatorInput>,
   readonly icon?: Maybe<StringQueryOperatorInput>,
+  readonly extensionDataDirectory?: Maybe<StringQueryOperatorInput>,
   readonly injectStyles?: Maybe<BooleanQueryOperatorInput>,
   readonly colorTheme?: Maybe<StringQueryOperatorInput>,
   readonly extensions?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterListInput>,

@@ -2,6 +2,8 @@
 import { jsx } from "theme-ui";
 import { ComponentProps } from "react";
 
+import { fontSize } from "../gatsby-plugin-theme-ui";
+
 const IFRAME_MAX_WIDTH = `calc(100vw - 20px)`;
 
 export const CodesandboxIframe = ({
@@ -15,7 +17,7 @@ export const CodesandboxIframe = ({
     }}
   >
     <noscript>
-      <p sx={{ fontSize: [0, 1], bg: "muted", p: 2 }}>
+      <p sx={{ fontSize: fontSize.small, bg: "muted", p: 2 }}>
         You could enable JavaScript to see a CodeSandbox embed here but you
         don't have to.
         <br />

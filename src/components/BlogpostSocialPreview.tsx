@@ -106,14 +106,14 @@ export function BlogpostSocialPreview({
           zIndex: -1,
         }}
       />
-      <s.h1 sx={{ fontSize: [8, 8, 8], color: "text", mt: 0, mb: 2 }}>
+      <s.h1 sx={{ fontSize: [9, 9, 9], color: "text", mt: 0, mb: 2 }}>
         {title}
       </s.h1>
       <BlogpostDetails
         date={date}
         readingTime={readingTime}
         sx={{
-          fontSize: [5, 5, 5],
+          fontSize: [6, 6, 6],
           fontWeight: "bold",
         }}
       />

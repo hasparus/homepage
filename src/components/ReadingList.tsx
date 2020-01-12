@@ -9,6 +9,7 @@ import { MDXProvider } from "@mdx-js/react";
 import dedent from "dedent";
 
 import { ReadingList as Reading } from "../../content/assets/reading";
+import { fontSize } from "../gatsby-plugin-theme-ui";
 
 interface ReadingListProps extends ComponentPropsWithoutRef<"ul"> {
   list: Reading;
@@ -54,13 +55,17 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
               }
               const [text, link, commentary] = article;
               return (
-                <s.li key={i} sx={{ my: 2, p: { my: 0 } }}>
+                <s.li
+                  key={i}
+                  sx={{
+                    my: 2,
+                    p: { fontSize: fontSize.small },
+                  }}
+                >
                   <s.a href={link}>{text}</s.a>
                   {commentary &&
                     (typeof commentary === "string" ? (
-                      <s.p>
-                        {dedent(commentary)}
-                      </s.p>
+                      <s.p>{dedent(commentary)}</s.p>
                     ) : (
                       <MDXProvider>{jsx(commentary)}</MDXProvider>
                     ))}
