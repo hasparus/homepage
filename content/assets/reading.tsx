@@ -13,7 +13,8 @@ export namespace ReadingList {
   export type Commentary =
     | (string & { __brand?: "Commentary" })
     | React.ComponentType;
-  export type Article = Link | [LinkText, Link, Commentary?];
+  export type Tags = string[];
+  export type Article = Link | [LinkText, Link, Commentary?, Tags?];
 }
 export type ReadingList = Record<ReadingList.Author, ReadingList.Article[]>;
 
@@ -146,6 +147,41 @@ export const alreadyRead: ReadingList = {
   "Kent C. Dodds": [
     ["Colocation", "https://kentcdodds.com/blog/colocation"],
     ["AHA Programming", "https://kentcdodds.com/blog/aha-programming"],
+  ],
+  "John Otander": [
+    [
+      "JSX as a design tool data structure",
+      "https://johno.com/jsx-as-a-design-tool-data-structure",
+      undefined,
+      ["styling"],
+    ],
+    ["Styling themes", "johno.com/styling-themes", undefined, ["styling"]],
+  ],
+  "Brent Jackson": [
+    [
+      "The Three Tenets of Styled System",
+      "https://jxnblk.com/blog/the-three-tenets-of-styled-system/",
+      undefined,
+      ["styling"],
+    ],
+    [
+      "Iterations on a Theme",
+      "https://jxnblk.com/blog/iterations-on-a-theme/",
+      undefined,
+      ["styling"],
+    ],
+    [
+      "Themeability",
+      "https://jxnblk.com/blog/themeability/",
+      undefined,
+      ["styling"],
+    ],
+    [
+      "Interoperability",
+      "https://jxnblk.com/blog/interoperability/",
+      undefined,
+      ["styling"],
+    ],
   ],
 };
 
