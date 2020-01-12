@@ -183,6 +183,21 @@ export const alreadyRead: ReadingList = {
       ["styling"],
     ],
   ],
+  "Vyacheslav Egorov": [
+    [
+      "Shaky diagramming",
+      "https://mrale.ph/blog/2012/11/25/shaky-diagramming.html",
+      "This is 🔥.",
+    ],
+    [
+      "How the Grinch stole array.length access",
+      "https://mrale.ph/blog/2014/12/24/array-length-caching.html",
+      inlineMdx`
+        mraleph has a lot of good pieces on V8 and JS optimization.
+        This is one of them.
+      `,
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
