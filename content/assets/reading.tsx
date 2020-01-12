@@ -51,16 +51,45 @@ export const alreadyRead: ReadingList = {
     [
       "Preparing for a Tech Talk, Part 3: Content",
       "https://overreacted.io/preparing-for-tech-talk-part-3-content/",
-      inlineMdx`Need an algorithm to improve your tech talks? This is it.
+      inlineMdx`
+        Need an algorithm to improve your tech talks? This is it.
 
-      It helped me immensely.`,
+        It helped me immensely.`,
     ],
     "https://overreacted.io/fix-like-no-ones-watching/",
     [
       "My Decade in Review",
       "https://overreacted.io/my-decade-in-review/",
-      `TLDR: Dan started early and worked super hard.
+      `Dan started early and worked super hard.
        A humbling and motivating read.`,
+    ],
+    [
+      "TODO comments Twitter thread",
+      "https://twitter.com/dan_abramov/status/1215838693518430210",
+      inlineMdx`
+          > TODO doesn’t mean you actually intend to do something.
+            It’s a marker for the next person that the logic was
+            left unfinished...
+
+          TODO comments are good.
+
+          I believe that honesty is the essential quality of a software engineer.
+          Whenever I have a vague idea of how to fix/improve something but no
+          time to do it, I'll leave a todo. Whenever I do a hack, I'll admit it
+          in the comment, explain why it's bad and what problems we should expect.
+
+          It wasn't obvious to me when I learned to program.
+          "My code doesn't need comments." -- I thought.
+          Clean code is final. It is supposed to be beautiful, almost perfect, right?
+          It grew on me with time, while working with deadlines, clients,
+          project managers, and legacy code.
+          
+          Code Review comments perish. They have to be searched for.
+          They can be lost while migrating between version control systems
+          or VCS hosting services. Conversations on Slack or JIRA tickets are
+          even more ephemeral. TODO comments are immortal. The memory of them
+          will survive in your git history.
+      `,
     ],
   ],
   "Martin Fowler": ["https://martinfowler.com/bliki/BeckDesignRules.html"],
