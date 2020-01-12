@@ -91,6 +91,7 @@ export const alreadyRead: ReadingList = {
           will survive in your git history.
       `,
     ],
+    ["Goodbye, Clean Code", "https://overreacted.io/goodbye-clean-code/"],
   ],
   "Martin Fowler": ["https://martinfowler.com/bliki/BeckDesignRules.html"],
   "Rich Hickey": [
@@ -141,6 +142,10 @@ export const alreadyRead: ReadingList = {
       I'm going to add a table of contents and highlight my favorite work.
       `,
     ],
+  ],
+  "Kent C. Dodds": [
+    ["Colocation", "https://kentcdodds.com/blog/colocation"],
+    ["AHA Programming", "https://kentcdodds.com/blog/aha-programming"],
   ],
 };
 
