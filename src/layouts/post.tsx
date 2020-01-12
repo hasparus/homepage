@@ -217,7 +217,7 @@ export default function PostLayout({
       </main>
       {history && (
         <Fragment>
-          <s.hr />
+          <s.hr sx={{ mt: 5 }} />
           <PostHistory history={history} />
         </Fragment>
       )}
