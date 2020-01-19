@@ -120,6 +120,10 @@ export const alreadyRead: ReadingList = {
   "Tanya Reilly": [["Being Glue", "https://noidea.dog/#/glue/"]],
   "Joel Hooks": [
     ["Digital Garden", "https://joelhooks.com/digital-garden"],
+    [
+      "Stop Giving af and Start Writing More",
+      "https://joelhooks.com/on-writing-more",
+    ],
   ],
   "Amy Hoy": [
     [
