@@ -94,6 +94,7 @@ const code = {
   bg: "muted",
   borderRadius: 1,
   padding: ".1em .15em .05em",
+  lineHeight: "monospace",
 };
 
 const headingStyles = {
@@ -142,6 +143,7 @@ export const theme = {
   lineHeights: {
     body: 1.75,
     heading: 1.25,
+    monospace: 1.5,
   },
   initialColorMode: "light",
   useCustomProperties: true,
@@ -238,10 +240,11 @@ export const theme = {
     code,
     pre: () => ({
       fontFamily: "monospace",
+      lineHeight: "monospace",
       overflowX: "auto",
       padding: "1em",
       code: {
-        color: "inherit !important", // 😭
+        color: "inherit !important",
         bg: "inherit !important",
       },
       mx: "-1em",
