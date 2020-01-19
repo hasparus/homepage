@@ -1,0 +1,308 @@
+---
+title: Adding Theme UI Components to DefinitelyTyped
+spoiler: Tremendous type safety through the power of an if statement.
+date: 2020-01-19T11:22:45.765Z
+---
+
+<Epistemic effort>
+  Low-to-medium effort. It isn't my best work, but I hope it shows that
+  contributing to DefinitelyTyped isn't scary. I might refine it into a
+  meetup talk or a tutorial someday.
+</Epistemic>
+
+18:37
+
+I'm using both theme-ui and chakra-ui in an app, and it just doesn't work.
+Don't get me wrong, they're both really good libraries,
+and they're both using @emotion/core to provide the dynamic styling API that IMHO
+encourages good composition and makes styling faster.
+
+You just shouldn't use both at once because they step on each other feet.
+I'd probably go with Chakr, because this is an app, not a blog or a landing page,
+and I expect I'll need most of the components from it.
+However, we've decided that theming is a must-have feature of our app.
+
+I'm going to swap Chakra with `@theme-ui/components`, to get the bundle size lower and
+satisfy my theming needs. The problem is, this package has no typings. Jxnblk builds
+great stuff for styling the modern web, but I just can't use any library without types.
+It's not you, it's me, and I need to do something about it.
+
+18:45
+
+```sh
+git clone --depth 1 --branch master git@github.com:DefinitelyTyped/DefinitelyTyped.git
+```
+
+Well, here we go again. I don't want to do it. I don't have time to do it.
+Yet, it is a noble thing to do, and someone has to.
+
+```
+> npx dts-gen --dt --name @theme-ui/components --template module
+npx: installed 59 in 6.878s
+Unexpected crash! Please log a bug with the commandline you specified.
+ENOENT: no such file or directory, mkdir 'types\@theme-ui\components'
+```
+
+Well, obviously. Since `@theme-ui/components` is in _theme-ui_ namespace and
+we can't have a directory with a slash in name, we need to stick to the conventional workaround.
+
+```
+> npx dts-gen --dt --name theme-ui__components --template module -o
+npx: installed 59 in 7.202s
+Warning: Could not retrieve version/homepage information: HTTP Error 404: Not Found for http://registry.npmjs.org/theme-ui__components
+```
+
+Oh right. It worked, though.
+
+```
+> ls ./types/theme-ui__components
+index.d.ts  theme-ui__components-tests.ts  tsconfig.json  tslint.json
+```
+
+19:01
+
+Let's fill in the header comment in index.d.ts
+
+```
+// Type definitions for @theme-ui/components 0.2.50
+// Project: https://github.com/system-ui/theme-ui
+// Definitions by: Piotr Monwid-Olechnowicz <https://github.com/hasparus>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+// TypeScript Version: 3.7
+```
+
+19:10
+
+`theme-ui` reexports a bunch of components from its [index.js](https://github.com/system-ui/theme-ui/blob/master/packages/components/src/index.js), let's list them here.
+
+```
+Box, Flex, Grid, Button, Link, Text, Heading, Image, Card, Label, Input, Select, Textarea, Radio, Checkbox, Slider, Field, Progress, Donut, Spinner, Avatar, Badge, Close, Alert, Divider, Embed, AspectRati, AspectImag, Containe, NavLin, Message, IconButton, MenuButton
+```
+
+Quite a lot of them, right?
+With a little of multi-cursor karate, I've made a stub of the definitions.
+
+```tsx
+export const Box: React.FC;
+export const Flex: React.FC;
+//...
+```
+
+This isn't really useful, but I'll make a commit and push to my fork in case
+my computer blows up or anything.
+
+19:39
+
+I've looked a bit in theme-ui repo for issues including TypeScript and found
+[this one](https://github.com/system-ui/theme-ui/issues/121). The last comment
+is a question about `@theme-ui/components` from yesterday. I'm not the only
+who needs it. Awesome.
+
+I've added a simple test in `theme-ui__components-tests.tsx`. Just creating all
+elements with no props. I had to modify paths in tsconfig to get the import
+working, because there's a lint rule here prohibiting relative imports.
+
+```json
+  "paths": {
+      "@theme-ui/components": ["theme-ui__components"]
+  },
+```
+
+Let's start from the [Box](https://github.com/system-ui/theme-ui/blob/master/packages/components/src/Box.js).
+This should be the hardest one.
+
+19:48
+
+There are some dependencies here.
+
+```tsx
+import styled from "@emotion/styled";
+import css, { get } from "@styled-system/css";
+import { createShouldForwardProp } from "@styled-system/should-forward-prop";
+import space from "@styled-system/space";
+import color from "@styled-system/color";
+```
+
+I have a strong feeling that I'll need types from them.
+I'll have to add package.json with the ones that have types outside of DT to
+my theme-ui\_\_components directory and add
+them to [dependencies whitelist](https://github.com/DefinitelyTyped/DefinitelyTyped/#i-notice-some-packages-having-a-packagejson-here)
+in types publisher, if they're not there already.
+
+This leaves me with styled-system packages. I'll add `@styled-system/css`
+to paths and I'll just ignore the props given by `space` and `color` for now.
+
+Box gets its props from these 5 functions:
+
+```
+  base,
+  variant,
+  space,
+  color,
+  sx,
+  props => props.css
+```
+
+So `sx` and `css` props give us a css prop syntax with no JSX pragma.
+This gets me to
+
+```tsx
+export interface BoxProps {
+  css: Interpolation;
+  sx: SxStyleProp;
+}
+```
+
+20:21
+
+Gotta take a break now. I'll continue in the morning. Maybe I'll even post a
+half-assed PR so the other guy could continue my work.
+
+08:20
+
+I'm starting work at 10. I gotta move fast.
+`variant` will be a string, and I've just [found](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/288692b272b695eda00a47f93339e1e16ee756b1/types/styled-system__css/index.d.ts#L452) the names of space props. Not sure what to do with them yet.
+Should I pick them from `AllSystemCSSProperties`?
+
+I'm getting `any` in `sx` prop properties in tests 😢
+Since the dependency on `@styled-system/css` is aliased and `@styled-system/css`
+depends on `csstype`, I'm gonna go to `types/styled-system__css` dir and
+run `yarn`.
+
+```tsx
+(property) bg?: string | string[] | SystemCssProperties | CSSPseudoSelectorProps | CSSSelectorObject | VariantProperty | UseThemeFunction | (string | ... 2 more ... | undefined)[] | ((theme: any) => ResponsiveStyleValue<...>) | undefined
+---
+The background-color CSS property sets the background color of an element.
+```
+
+Beautiful.
+
+08:55
+
+Okay, I've found actual `SpaceProps` type in `@types/styled-system`.
+I've already started building this type, copying JSDocs from `AliasesCSSProperties`.
+
+```tsx
+interface StyledSystemSpaceProps {
+  /**
+    * The **`margin`** CSS property sets the margin area on all four sides of an element. It is a shorthand for `margin-top`, `margin-right`, `margin-bottom`, and `margin-left`.
+    *
+    * | Chrome | Firefox | Safari |  Edge  |  IE   |
+    * | :----: | :-----: | :----: | :----: | :---: |
+    * | **1**  |  **1**  | **1**  | **12** | **3** |
+    *
+    * @see https://developer.mozilla.org/docs/Web/CSS/margin
+    */
+  m: SystemCssProperties['m'];
+  /**
+    * The **`margin`** CSS property sets the margin area on all four sides of an element. It is a shorthand for `margin-top`, `margin-right`, `margin-bottom`, and `margin-left`.
+    *
+    * | Chrome | Firefox | Safari |  Edge  |  IE   |
+    * | :----: | :-----: | :----: | :----: | :---: |
+    * | **1**  |  **1**  | **1**  | **12** | **3** |
+    *
+    * @see https://developer.mozilla.org/docs/Web/CSS/margin
+    */
+  margin: SystemCssProperties['margin'];
+```
+
+I'll save myself the trouble and extend SpaceProps.
+
+```tsx
+import { SpaceProps, ColorProps } from "styled-system";
+
+export interface BoxProps extends SpaceProps, ColorProps {
+  variant?: string;
+  sx?: SxStyleProp;
+  css?: Interpolation;
+}
+export const Box: React.FC<BoxProps>;
+```
+
+Okay, but Box is created with `@emotion/styled` so it should be `StyledComponent`
+
+```tsx
+export interface BoxStyleProps extends SpaceProps, ColorProps {
+  variant?: string;
+  sx?: SxStyleProp;
+  css?: Interpolation;
+}
+export const Box: StyledComponent<
+  React.ComponentProps<"div">,
+  BoxStyleProps,
+  {}
+>;
+```
+
+We can use `withComponent` to substitute the div inside Box with something else.
+
+```tsx
+const SectionBox = Box.withComponent("section");
+```
+
+And on top of it, we now support all `div` props, like `contentEditable` or `tabIndex`.
+
+We get [Flex](https://github.com/system-ui/theme-ui/blob/master/packages/components/src/Flex.js) for free.
+It's just a Box with `display: flex`.
+
+The [Grid](https://github.com/system-ui/theme-ui/blob/master/packages/components/src/Grid.js)
+has `width`, `columns` and `gap`.
+
+The Grid forwards ref to Box, so we have to check what `forwardRef` returns.
+
+```tsx
+React.ForwardRefExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>>
+```
+
+Brilliant. Let's alias it to `ForwardRef<T, P>`.
+
+```tsx
+export interface BoxProps
+  extends Omit<React.ComponentProps<"div">, "color" | "css">,
+    BoxStyleProps {}
+export interface GridProps extends BoxProps {
+  /**
+   * Minimum width of child elements
+   */
+  width?: ResponsiveValue<string | number>;
+  /**
+   * 	Number of columns to use for the layout (cannot be used in conjunction with the width prop)
+   */
+  columns?: ResponsiveValue<number>;
+  /**
+   * Space between child elements
+   */
+  gap?: ResponsiveValue<string | number>;
+}
+export const Grid: ForwardRef<HTMLDivElement, GridProps>;
+```
+
+"Cannot be used in conjunction" suggests a union type, but I'm afraid of [TS2589](https://github.com/microsoft/TypeScript/issues/34933)
+so I'll pass.
+
+09:24
+
+It's getting a bit late already, so I'll add a bit more and do the PR.
+
+```tsx
+export interface ButtonProps
+  extends Assign<React.ComponentPropsWithRef<"button">, BoxStyleProps> {}
+export const Button: ForwardRef<HTMLButtonElement, BoxProps>;
+
+export interface LinkProps
+  extends Assign<React.ComponentPropsWithRef<"a">, BoxStyleProps> {}
+export const Link: ForwardRef<HTMLAnchorElement, LinkProps>;
+
+export type TextProps = BoxProps;
+export const Text: ForwardRef<HTMLDivElement, BoxProps>;
+
+export interface HeadingProps
+  extends Assign<React.ComponentPropsWithRef<"h2">, BoxStyleProps> {}
+export const Heading: ForwardRef<HTMLHeadingElement, HeadingProps>;
+```
+
+Continuing from this point should be a bit more pleasant.
+
+---
+
+[The PR](https://github.com/DefinitelyTyped/DefinitelyTyped/pull/41057) was merged after a few days 🎉
