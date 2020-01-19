@@ -1,5 +1,4 @@
-import "typeface-passion-one";
-import "typeface-open-sans";
+import "typeface-fira-code";
 
 import { pageCtx } from "./src/components/pageCtx";
 

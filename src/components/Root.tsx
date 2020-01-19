@@ -3,10 +3,12 @@ import { jsx, Styled as s, useThemeUI } from "theme-ui";
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { Global, ObjectInterpolation } from "@emotion/core";
+import { fontSize } from "../gatsby-plugin-theme-ui";
 
 const globalStyles: ObjectInterpolation<any> = {
   html: {
     scrollBehavior: "smooth",
+    fontSize: fontSize.base,
   },
   body: {
     margin: 0,

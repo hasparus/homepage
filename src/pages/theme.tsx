@@ -47,14 +47,14 @@ type ThemeHeadingProps = {
 const ThemeHeading: React.FC<ThemeHeadingProps> = ({ as }) => {
   const H = s[as];
 
-  const { fontSize } = theme.styles[as];
+  const fontSize = theme.styles[as].fontSize as number | number[];
   const fontSizeIndex =
     typeof fontSize === "number" ? fontSize : last(fontSize)!;
 
   return (
     <H>
       {as} {theme.fonts.heading.split(",")[0].slice(1, -1)}{" "}
-      {theme.fontSizes[fontSizeIndex]}px
+      {theme.fontSizes[fontSizeIndex]}
     </H>
   );
 };
@@ -77,7 +77,8 @@ const ColorSquare: React.FC<ColorSquareProps> = ({ name, value }) => {
         color: contrastingTextColor(value),
       }}
     >
-      <CopyableText>{name}</CopyableText>: <CopyableText>{value}</CopyableText>
+      <CopyableText>{name}</CopyableText>:{" "}
+      <CopyableText>{value}</CopyableText>
     </li>
   );
 };

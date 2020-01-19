@@ -205,7 +205,7 @@ export default function PostLayout({
       <main>
         <article>
           <header sx={{ mb: 4 }}>
-            <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>{title}</s.h1>
+            <s.h1 sx={{ mb: [0, 3], mt: [0, 4] }}>{title}</s.h1>
             <BlogpostDetails
               date={date}
               readingTime={venues ? undefined : readingTime}
