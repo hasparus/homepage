@@ -32,6 +32,7 @@ export const BlogpostDetails = ({
       fontSize: fontSize.small,
       color: "gray",
       display: "block",
+      fontWeight: "bold",
     }}
     {...rest}
   >
