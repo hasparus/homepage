@@ -30,6 +30,7 @@ module.exports = {
     twitterUsername: "@hasparus",
   },
   plugins: [
+    'gatsby-plugin-lodash',
     "gatsby-plugin-theme-ui",
     {
       resolve: "gatsby-plugin-mdx",
