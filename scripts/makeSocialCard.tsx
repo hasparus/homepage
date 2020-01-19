@@ -80,15 +80,7 @@ function getSocialCardHtml(post: Mdx) {
           type="text/css"
           href={resolve(
             __dirname,
-            "../node_modules/typeface-passion-one/index.css"
-          )}
-        />
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href={resolve(
-            __dirname,
-            "../node_modules/typeface-open-sans/index.css"
+            "../node_modules/typeface-fira-code/index.css"
           )}
         />
       </head>

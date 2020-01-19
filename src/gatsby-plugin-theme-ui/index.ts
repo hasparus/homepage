@@ -6,9 +6,9 @@ import { omit } from "lodash";
 import { randomElement } from "../lib";
 
 export const fontSize = {
-  smallest: [0, 1],
-  small: [1, 2],
-  normal: [2, 3],
+  base: "22px",
+  small: [0, 1],
+  normal: [1, 2],
 };
 
 const font = (fonts: string) => {
@@ -102,6 +102,8 @@ const headingStyles = {
   fontWeight: "heading",
   lineHeight: "1.2",
 
+  color: "text092",
+
   code: {
     fontSize: "0.85em",
     fontWeight: "bold",
@@ -127,21 +129,34 @@ export const theme = {
     monospace: font(
       "'Fira Code', 'Hack', 'Hasklig', 'Dank Mono', 'Inconsolata', 'Menlo', 'Consolas', monospace"
     ),
-    body: font("'Open Sans', sans-serif"),
-    heading: font("'Passion One', sans-serif"),
-    system:
+    body:
       'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", ' +
-      'Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans, ' +
-      'Droid Sans", "Helvetica Neue", sans-serif',
+      'Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", ' +
+      '"Droid Sans", "Helvetica Neue", sans-serif',
+    heading:
+      'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", ' +
+      'Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", ' +
+      '"Droid Sans", "Helvetica Neue", sans-serif',
   },
-  fontSizes: [12, 14, 16, 18, 23, 27, 36, 54, 72, 81, 108],
+  fontSizes: [
+    "0.727rem",
+    "0.8rem",
+    "1rem",
+    "1.25rem",
+    "1.563rem",
+    "1.953rem",
+    "2.441rem",
+    "3.052rem",
+    "3.815rem",
+    "4.768rem",
+  ],
   fontWeights: {
     body: 400,
-    heading: 400,
+    heading: 800,
     bold: 600,
   },
   lineHeights: {
-    body: 1.75,
+    body: 1.65,
     heading: 1.25,
     monospace: 1.5,
   },
@@ -154,11 +169,11 @@ export const theme = {
   },
   styles: {
     root: {
+      fontSize: fontSize.normal,
       fontFamily: "body",
       lineHeight: "body",
       fontWeight: "body",
-      fontSize: fontSize.normal,
-      maxWidth: "640px", // ~62ch with Open Sans 18px
+      maxWidth: "746px", // ~63ch with Segoe UI 22px
       px: [3, 3, 0],
       mx: "auto",
       mt: 3,
@@ -182,7 +197,7 @@ export const theme = {
     },
     h1: {
       ...headingStyles,
-      fontSize: [7, 8, 9],
+      fontSize: 6,
       textAlign: ["center", "left", "left"],
       py: [5, 0, 0],
       margin: "0.5em 0",
@@ -192,33 +207,33 @@ export const theme = {
     h2: {
       ...headingStyles,
       color: "text",
-      fontSize: [6, 7],
+      fontSize: 5,
       margin: "0.5em 0",
       wordBreak: "break-word",
     },
     h3: {
       ...headingStyles,
       color: "gray",
-      fontSize: [5, 6],
+      fontSize: 4,
       wordBreak: "break-word",
     },
     h4: {
       ...headingStyles,
       color: "gray",
-      fontSize: [4, 5],
+      fontSize: 3,
       margin: "0.5em 0",
     },
     h5: {
       ...headingStyles,
       color: "text",
-      fontSize: [3, 4],
+      fontSize: 2,
       margin: "0.5em 0",
     },
     h6: {
       ...headingStyles,
       color: "text",
       fontFamily: "text",
-      fontSize: [2, 3],
+      fontSize: 1,
       margin: "0.5em 0",
     },
     p: {
@@ -226,7 +241,7 @@ export const theme = {
       fontFamily: "body",
       fontWeight: "body",
       lineHeight: "body",
-      width: "62ch",
+      width: "63ch",
       maxWidth: "100%",
       code,
     },
@@ -240,10 +255,12 @@ export const theme = {
     code,
     pre: () => ({
       fontFamily: "monospace",
+      fontSize: 0,
       lineHeight: "monospace",
       overflowX: "auto",
       padding: "1em",
       code: {
+        fontSize: 0,
         color: "inherit !important",
         bg: "inherit !important",
         padding: "0 !important",
