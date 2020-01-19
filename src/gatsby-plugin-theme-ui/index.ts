@@ -246,6 +246,7 @@ export const theme = {
       code: {
         color: "inherit !important",
         bg: "inherit !important",
+        padding: "0 !important",
       },
       mx: "-1em",
       ...randomElement(sketchyBorders),
