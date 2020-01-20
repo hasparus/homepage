@@ -2,30 +2,47 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
-import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 import { Header, Root, theme } from "../components";
-import { BlogpostDetails } from "../components/BlogpostDetails";
+import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
 import { Footer } from "../components/Footer";
+import { IndexPageQuery } from "./__generated__/IndexPageQuery";
 
 const IndexPage = () => {
-  const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
-    query BlogPostsQuery {
-      allMdx(
-        filter: { fields: { isHidden: { ne: true }, route: { glob: "/*" } } }
-        sort: { fields: [frontmatter___date], order: DESC }
+  const { allMdx } = useStaticQuery<IndexPageQuery>(graphql`
+    fragment PostTitleAndRoute on MdxConnection {
+      nodes {
+        frontmatter {
+          title
+        }
+        fields {
+          route
+        }
+      }
+    }
+
+    query IndexPageQuery {
+      recent: allMdx(
+        sort: { fields: frontmatter___date, order: DESC }
+        limit: 1
       ) {
-        nodes {
-          frontmatter {
-            title
-            spoiler
-            date
-          }
-          fields {
-            route
-            readingTime
+        ...PostTitleAndRoute
+      }
+
+      favorites: allMdx(
+        filter: {
+          fields: {
+            route: {
+              in: [
+                "/refinement-types"
+                "/deliver"
+                "/you-deserve-more-than-proptypes"
+              ]
+            }
           }
         }
+      ) {
+        ...PostTitleAndRoute
       }
     }
   `);
@@ -34,44 +51,20 @@ const IndexPage = () => {
     <Root>
       <Seo titleTemplate="%s" />
       <Header />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>haspar.us</s.h1>
-      <s.p>
-        Howdy! I'm Piotr Monwid-Olechnowicz and this is my personal blog.
-      </s.p>
-      <main>
-        {allMdx.nodes.map((node, i) => {
-          const { frontmatter, fields } = node!;
-          const { title, spoiler, date } = frontmatter || {};
-
-          return (
-            <article key={i}>
-              <header>
-                <s.h3
-                  sx={{
-                    marginBottom: "0.4375rem",
-                    marginTop: "3rem",
-                    color: "text",
-                  }}
-                >
-                  <Link
-                    to={fields!.route!}
-                    sx={{
-                      ...theme.styles.a,
-                      color: "currentColor",
-                    }}
-                  >
-                    {title}
-                  </Link>
-                </s.h3>
-                <BlogpostDetails
-                  date={date}
-                  readingTime={fields!.readingTime}
-                />
-              </header>
-              <s.p sx={{ mt: 1 }}>{spoiler}</s.p>
-            </article>
-          );
-        })}
+      <main sx={{ mt: 6 }}>
+        <s.p>Hello there. I'm Piotr Monwid-Olechnowicz.</s.p>
+        <s.p>
+          I build software while listening to lo-fi and city pop. I like
+          coffee, typed FP, tabletop RPG, and my fiancée, who didn't force
+          me to write this. At all. I&nbsp;pride myself on my bad sense of
+          humor.
+        </s.p>
+        <s.p>
+          This is my personal space on the internet. I write blog posts,
+          collect things that influenced me, and comment on them. I learn in
+          public. Right here.
+        </s.p>
+        {/* TODO: My favorite posts */}
       </main>
       <Footer />
     </Root>

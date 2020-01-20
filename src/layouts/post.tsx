@@ -4,7 +4,7 @@ import React, { Fragment, ComponentPropsWithoutRef } from "react";
 import preval from "preval.macro";
 
 import { Header, Root } from "../components";
-import { BlogpostDetails } from "../components/BlogpostDetails";
+import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
 import {
   Mdx,
@@ -201,12 +201,12 @@ export default function PostLayout({
         pathname={path}
         image={image}
       />
-      <Header showHome />
+      <Header />
       <main>
         <article>
           <header sx={{ mb: 4 }}>
             <s.h1 sx={{ mb: [0, 3], mt: [0, 4] }}>{title}</s.h1>
-            <BlogpostDetails
+            <PostDetails
               date={date}
               readingTime={venues ? undefined : readingTime}
               venues={venues}

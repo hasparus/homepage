@@ -1,20 +1,20 @@
 /** @jsx jsx */
-import { graphql, useStaticQuery } from "gatsby";
+import { graphql, Link, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
-import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
+import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 import { Header, Root } from "../components";
 import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
 import { Footer } from "../components/Footer";
 import { PostsListItem } from "../components/PostsListItem";
 
-const SpeakingPage = () => {
-  const { allMdx } = useStaticQuery<SpeakingRaportsQuery>(graphql`
-    query SpeakingRaportsQuery {
+const WritingPage = () => {
+  const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
+    query BlogPostsQuery {
       allMdx(
         filter: {
-          fields: { isHidden: { ne: true }, route: { glob: "/speaking/*" } }
+          fields: { isHidden: { ne: true }, route: { glob: "/*" } }
         }
         sort: { fields: [frontmatter___date], order: DESC }
       ) {
@@ -23,12 +23,10 @@ const SpeakingPage = () => {
             title
             spoiler
             date
-            venues {
-              name
-            }
           }
           fields {
             route
+            readingTime
           }
         }
       }
@@ -37,19 +35,21 @@ const SpeakingPage = () => {
 
   return (
     <Root>
-      <Seo />
+      <Seo titleTemplate="%s" />
       <Header />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Speaking</s.h1>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;
-          const { title, spoiler, date, venues } = frontmatter || {};
+          const { title, spoiler, date } = frontmatter || {};
 
           return (
             <PostsListItem key={i}>
               <PostsListItem.Header>
                 <PostsListItem.Heading title={title!} fields={fields!} />
-                <PostDetails date={date} venues={venues} />
+                <PostDetails
+                  date={date}
+                  readingTime={fields!.readingTime}
+                />
               </PostsListItem.Header>
               <PostsListItem.Spoiler>{spoiler}</PostsListItem.Spoiler>
             </PostsListItem>
@@ -62,4 +62,4 @@ const SpeakingPage = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default SpeakingPage;
+export default WritingPage;

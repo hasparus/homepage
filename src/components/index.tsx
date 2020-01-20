@@ -7,10 +7,10 @@ export { colorModes };
 
 export * from "./Header";
 export * from "./Button";
-export * from "./BlogpostDetails";
+export * from "./PostDetails";
 export * from "./Root";
 export * from "./EpistemicNote";
 export * from "./CodesandboxIframe";
 export * from "./ReadingList";
 export * from "./BoxedText";
-export * from "./BlogpostSocialPreview";
+export * from "./PostSocialPreview";
