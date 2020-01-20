@@ -12,7 +12,7 @@ import { ComponentProps } from "react";
 import { assert } from "../lib";
 import { Mdx } from "../../__generated__/global";
 
-import { BlogpostDetails } from "./BlogpostDetails";
+import { PostDetails } from "./PostDetails";
 
 const LINES_NUMBER = 5 + Math.floor(Math.random() * 4);
 
@@ -68,13 +68,10 @@ const Lines = (props: React.ComponentProps<"svg">) => {
   );
 };
 
-interface BlogpostSocialImageProps extends ComponentProps<"article"> {
+interface PostSocialImageProps extends ComponentProps<"article"> {
   post: Pick<Mdx, "fields" | "frontmatter">;
 }
-export function BlogpostSocialPreview({
-  post,
-  ...rest
-}: BlogpostSocialImageProps) {
+export function PostSocialPreview({ post, ...rest }: PostSocialImageProps) {
   assert(post.fields);
   assert(post.frontmatter);
 
@@ -109,7 +106,7 @@ export function BlogpostSocialPreview({
       <s.h1 sx={{ fontSize: [9, 9, 9], color: "text", mt: 0, mb: 3 }}>
         {title}
       </s.h1>
-      <BlogpostDetails
+      <PostDetails
         date={date}
         readingTime={readingTime}
         sx={{

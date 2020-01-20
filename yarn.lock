@@ -10905,11 +10905,6 @@ lockfile@^1.0.4:
   dependencies:
     signal-exit "^3.0.2"
 
-lodash-es@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
-  integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
-
 lodash-webpack-plugin@^0.11.5:
   version "0.11.5"
   resolved "https://registry.yarnpkg.com/lodash-webpack-plugin/-/lodash-webpack-plugin-0.11.5.tgz#c4bd064b4f561c3f823fa5982bdeb12c475390b9"
@@ -16374,6 +16369,16 @@ typeface-fira-code@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/typeface-fira-code/-/typeface-fira-code-1.1.3.tgz#03b031ca9b8a2553b7f975359774f2fb1827c869"
   integrity sha512-njwKheUcR4YWHK+ePA7gyr6mPhu53ZCNuD5gemy+RkstIi+bETkYfvevvjcIAYJEjJqiIrKIZbP9YvY5Wa+iMw==
+
+typeface-open-sans@^0.0.75:
+  version "0.0.75"
+  resolved "https://registry.yarnpkg.com/typeface-open-sans/-/typeface-open-sans-0.0.75.tgz#20d0c330f14c0c40463c334adbedd6005389abe4"
+  integrity sha512-0lLmB7pfj113OP4T78SbpSmC4OCdFQ0vUxdSXQccsSb6qF76F92iEuC/DghFgmPswTyidk8+Hwf+PS/htiJoRQ==
+
+typeface-passion-one@^0.0.72:
+  version "0.0.72"
+  resolved "https://registry.yarnpkg.com/typeface-passion-one/-/typeface-passion-one-0.0.72.tgz#d7014551c92b138f77be7065d7c1d29f0f39b50b"
+  integrity sha512-7DsHQsIh+jgLAusI2x3gsUIJyfB2VRtEXToTo4WiLzw5hNmAR8BrJGTBwP1rboj/aUjYcX/Sv13g7jFnR+/N3g==
 
 typescript@^3.7.3, typescript@^3.7.4:
   version "3.7.4"

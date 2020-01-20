@@ -14,7 +14,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { theme } from "../src/gatsby-plugin-theme-ui/index";
 import { Mdx } from "../__generated__/global";
 import { assert } from "../src/lib";
-import { BlogpostSocialPreview } from "../src/components";
+import { PostSocialPreview } from "../src/components";
 
 const writeFileAsync = promisify(writeFile);
 
@@ -86,7 +86,7 @@ function getSocialCardHtml(post: Mdx) {
       </head>
       <ThemeProvider theme={darkTheme}>
         <body sx={{ margin: 0, bg: "background" }}>
-          <BlogpostSocialPreview post={post} />
+          <PostSocialPreview post={post} />
         </body>
       </ThemeProvider>
     </html>

@@ -12,7 +12,7 @@ import {
   Header,
   Root,
   Button,
-  BlogpostSocialPreview,
+  PostSocialPreview,
 } from "../components";
 import { isString, contrastingTextColor, copyToClipboard } from "../lib";
 
@@ -90,7 +90,7 @@ const ThemePage = () => {
 
   return (
     <Root>
-      <Header showHome />
+      <Header />
       <s.h1>Theme</s.h1>
       {keys(colorModes).map(colorMode => (
         <Button
@@ -142,7 +142,7 @@ const ThemePage = () => {
       </section>
       <section>
         <s.h2>Blogpost Social Preview</s.h2>
-        <BlogpostSocialPreview
+        <PostSocialPreview
           sx={{
             border: "1px solid currentColor",
             width: 880,

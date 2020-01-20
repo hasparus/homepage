@@ -15,18 +15,18 @@ const readingTimeEmoji = (minutes: number) => {
   ).join("");
 };
 
-interface BlogpostDetailsProps extends ComponentProps<"small"> {
+interface PostDetailsProps extends ComponentProps<"small"> {
   date: Date | string;
   readingTime?: number;
   venues?: MdxFrontmatter["venues"];
 }
 
-export const BlogpostDetails = ({
+export const PostDetails = ({
   date,
   readingTime,
   venues,
   ...rest
-}: BlogpostDetailsProps) => (
+}: PostDetailsProps) => (
   <small
     sx={{
       fontSize: fontSize.small,

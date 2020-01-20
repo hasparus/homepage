@@ -99,10 +99,8 @@ const Separator = (props: ComponentProps<"div">) => (
   />
 );
 
-type HeaderProps = { showHome?: boolean };
-
 // menu open state is in #menu:target to make it work smoothly without js
-export const Header = memo(({ showHome }: HeaderProps) => {
+export const Header = memo(() => {
   const [colorMode] = useColorMode();
   const { location } = pageCtx.useContext();
   const navRef = useRef<HTMLElement>(null);
@@ -145,11 +143,9 @@ export const Header = memo(({ showHome }: HeaderProps) => {
         pb: 3,
       }}
     >
-      {showHome && (
-        <HeaderLink as={Link} to="/">
-          haspar.us
-        </HeaderLink>
-      )}
+      <HeaderLink as={Link} to="/">
+        haspar.us
+      </HeaderLink>
       <div sx={{ flex: 1 }} />
       <nav
         ref={navRef}
@@ -158,6 +154,7 @@ export const Header = memo(({ showHome }: HeaderProps) => {
           display: "flex",
           flexDirection: "row",
           "@media (max-width: 40em)": {
+            fontWeight: "bold",
             position: "fixed",
             flexDirection: "column",
             bg: "background",
