@@ -37,9 +37,10 @@ const SpeakingPage = () => {
 
   return (
     <Root>
-      <Seo />
+      <Seo title="speaking" />
       <Header />
       <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Speaking</s.h1>
+      {/* TODO: A paragraph of description? */}
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;

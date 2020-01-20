@@ -141,6 +141,7 @@ export const Header = memo(() => {
         // aligns links with content while preserving big hitboxes
         mx: "-0.5em",
         pb: 3,
+        fontSize: 1,
       }}
     >
       <HeaderLink as={Link} to="/">
@@ -187,6 +188,7 @@ export const Header = memo(() => {
         >
           writing
         </HeaderInternalLink>
+        <HeaderInternalLink to="/writing">writing</HeaderInternalLink>
         <HeaderInternalLink to="/speaking">speaking</HeaderInternalLink>
         <HeaderInternalLink to="/reading">reading</HeaderInternalLink>
         <Separator />

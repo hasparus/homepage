@@ -35,7 +35,7 @@ const WritingPage = () => {
 
   return (
     <Root>
-      <Seo titleTemplate="%s" />
+      <Seo title="writing" />
       <Header />
       <main>
         {allMdx.nodes.map((node, i) => {
