@@ -216,10 +216,6 @@ export const futureReading: ReadingList = {
   ],
   "Joel Hooks": [
     [
-      "Stop Giving af and Start Writing More",
-      "https://joelhooks.com/on-writing-more",
-    ],
-    [
       "Badass: Making Users Awesome by Kathy Sierra",
       "https://joelhooks.com/badass-making-users-awesome-by-kathy-sierra",
     ],
