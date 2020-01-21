@@ -3,7 +3,7 @@ import { jsx, Styled as s } from "theme-ui";
 import { ComponentPropsWithoutRef } from "react";
 import { Link } from "gatsby";
 
-import { Mdx, MdxFields } from "../../__generated__/global";
+import { MdxFields } from "../../__generated__/global";
 import { theme } from "../components";
 
 export const PostsListItem = (
