@@ -226,4 +226,22 @@ export const futureReading: ReadingList = {
       "https://roamresearch.com/#/v8/help/page/Vu1MmjinS",
     ],
   ],
+  "Benjamin C. Pierce": [
+    [
+      "Types and Programming Languages",
+      "https://www.cis.upenn.edu/~bcpierce/tapl/",
+    ],
+  ],
+  "Angus Croll": [
+    [
+      "If Hemingway Wrote JavaScript",
+      "https://www.goodreads.com/en/book/show/21487480-if-hemingway-wrote-javascript",
+    ],
+  ],
+  "Dominic Betts, Grigori Melnik, Fernando Simonazzi, Julián Domínguez, Mani Subramanian": [
+    [
+      "Exploring CQRS and Event Sourcing",
+      "https://www.microsoft.com/en-us/download/details.aspx?id=34774",
+    ],
+  ],
 };
