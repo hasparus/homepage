@@ -220,4 +220,10 @@ export const futureReading: ReadingList = {
       "https://joelhooks.com/badass-making-users-awesome-by-kathy-sierra",
     ],
   ],
+  "many authors": [
+    [
+      "Roam White Paper",
+      "https://roamresearch.com/#/v8/help/page/Vu1MmjinS",
+    ],
+  ],
 };
