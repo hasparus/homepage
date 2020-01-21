@@ -37,6 +37,11 @@ const WritingPage = () => {
     <Root>
       <Seo title="writing" />
       <Header />
+      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Writing</s.h1>
+      <p>
+        I write stuff. Mostly technical with bits of my personality
+        sprinkled in occasional swear words.
+      </p>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;
