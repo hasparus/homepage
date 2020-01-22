@@ -180,14 +180,6 @@ export const Header = memo(() => {
           },
         }}
       >
-        <HeaderInternalLink
-          to="/"
-          sx={{
-            "@media (min-width: 40em)": { display: "none" },
-          }}
-        >
-          writing
-        </HeaderInternalLink>
         <HeaderInternalLink to="/writing">writing</HeaderInternalLink>
         <HeaderInternalLink to="/speaking">speaking</HeaderInternalLink>
         <HeaderInternalLink to="/reading">reading</HeaderInternalLink>
