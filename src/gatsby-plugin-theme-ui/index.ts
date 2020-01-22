@@ -3,6 +3,7 @@
 
 import { omit } from "lodash";
 
+import { Theme } from "theme-ui";
 import { randomElement } from "../lib";
 
 export const fontSize = {
@@ -120,12 +121,15 @@ const headingStyles = {
 };
 
 // https://github.com/system-ui/theme-specification
-// /**
-//  * @type {import("theme-ui").Theme}
-//  */
-export const theme = {
+// I want to make sure my team is correct (assignable to Theme) but narrow
+// the type to the actual value
+const makeTheme = <T extends Theme>(t: T): T => {
+  return t;
+};
+
+export const theme = makeTheme({
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fonts: {
-    space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
     monospace: font(
       "'Fira Code', 'Hack', 'Hasklig', 'Dank Mono', 'Inconsolata', 'Menlo', 'Consolas', monospace"
     ),
@@ -162,7 +166,7 @@ export const theme = {
   },
   initialColorMode: "light",
   useCustomProperties: true,
-  useColorSchemeMediaQuery: true,
+  ...{ useColorSchemeMediaQuery: true },
   colors: {
     ...colorModes.light,
     modes: omit(colorModes, "light"),
@@ -305,7 +309,7 @@ export const theme = {
       opacity: 0.4,
     },
   },
-};
+});
 
 // eslint-disable-next-line import/no-default-export
 export default theme;

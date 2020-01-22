@@ -122,7 +122,6 @@ const SHOWN_HISTORY_LENGTH = 15;
 
 interface PostHistoryProps {
   history: BlogpostHistory;
-  historySource: string;
 }
 export function PostHistory({
   history: { entries, url },
