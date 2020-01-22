@@ -10,6 +10,7 @@ import {
   Mdx,
   File,
   MdxFields,
+  BlogpostHistory,
   BlogpostHistoryEntry,
 } from "../../__generated__/global";
 import { Footer } from "../components/Footer";
@@ -63,6 +64,7 @@ const PostHistoryList = (props: ComponentPropsWithoutRef<"ol">) => (
     sx={{
       p: 0,
       mx: 2,
+      mb: 0,
       listStyle: "none",
       fontSize: fontSize.small,
       borderLeft: "1px solid currentColor",
@@ -116,22 +118,23 @@ const PostHistoryListItem = ({
   );
 };
 
+const SHOWN_HISTORY_LENGTH = 15;
+
 interface PostHistoryProps {
-  history: readonly BlogpostHistoryEntry[];
+  history: BlogpostHistory;
+  historySource: string;
 }
-export function PostHistory({ history }: PostHistoryProps) {
-  if (history.length < 2) {
+export function PostHistory({
+  history: { entries, url },
+}: PostHistoryProps) {
+  if (entries.length < 2) {
     return null;
   }
 
-  const hasDatesOnly = !history[0].abbreviatedCommit;
+  const hasDatesOnly = !entries[0].abbreviatedCommit;
 
   return (
-    <section
-      sx={{
-        overflowY: "hidden",
-      }}
-    >
+    <section sx={{ overflowY: "hidden" }}>
       <span
         sx={{
           ml: hasDatesOnly ? 0 : 3,
@@ -141,18 +144,23 @@ export function PostHistory({ history }: PostHistoryProps) {
           zIndex: 1,
         }}
       >
-        Edited {history.length} times
+        Edited {entries.length} times
         {hasDatesOnly &&
-          ` between ${formatDate(history[0].authorDate)} and ${formatDate(
-            history[history.length - 1].authorDate
-          )}.`}
+          ` between ${formatDate(
+            entries[entries.length - 1].authorDate
+          )} and ${formatDate(entries[0].authorDate)}.`}
       </span>
       {!hasDatesOnly && (
         <PostHistoryList>
-          {history.map((entry, i) => (
+          {entries.slice(0, SHOWN_HISTORY_LENGTH).map((entry, i) => (
             <PostHistoryListItem key={i} entry={entry} />
           ))}
         </PostHistoryList>
+      )}
+      {entries.length > SHOWN_HISTORY_LENGTH && (
+        <s.a sx={{ fontSize: fontSize.small, ml: 3 }} href={url}>
+          see {entries.length - SHOWN_HISTORY_LENGTH} more on GitHub
+        </s.a>
       )}
     </section>
   );
@@ -181,7 +189,7 @@ export default function PostLayout({
   }
 
   const {
-    frontmatter: { title, date, spoiler, venues },
+    frontmatter: { title, date, spoiler, venues, historySource },
     readingTime,
     socialImage,
     history,

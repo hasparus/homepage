@@ -25,6 +25,8 @@ import * as generated from "./__generated__/global";
 import { assert } from "./src/lib";
 import { makeSocialCard } from "./scripts/makeSocialCard";
 
+const REPO_URL: string = require("./package.json").repository.url;
+
 /**
  * Intercept and modify the GraphQL schema
  */
@@ -65,7 +67,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async args => {
     });
 
     const mdxArgs = { ...args, node: mdxNode };
-    createBlogpostHistoryNodeField(mdxArgs, route);
+    createBlogpostHistoryNodeFields(mdxArgs, route);
     await createSocialImageNodeField(mdxArgs);
   }
 };
@@ -104,9 +106,12 @@ export const createPages: GatsbyNode["createPages"] = ({
                 route
                 readingTime
                 history {
-                  subject
-                  authorDate
-                  abbreviatedCommit
+                  entries {
+                    subject
+                    authorDate
+                    abbreviatedCommit
+                  }
+                  url
                 }
                 socialImage {
                   childImageSharp {
@@ -179,10 +184,15 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       venues: [Venue!] 
     }
 
+    type BlogpostHistory {
+      entries: [BlogpostHistoryEntry!]!
+      url: String!
+    }
+
     type MdxFields {
       route: String!
       isHidden: Boolean!
-      history: [BlogpostHistoryEntry!]
+      history: BlogpostHistory
       readingTime: Int!
     }
   `;
@@ -220,14 +230,16 @@ interface CreateMdxNodeArgs extends ParentSpanPluginArgs {
   node: generated.Mdx;
 }
 
-function createBlogpostHistoryNodeField(
+function createBlogpostHistoryNodeFields(
   { node, actions: { createNodeField } }: CreateMdxNodeArgs,
   route: string
 ) {
   const blogpostHistoryType = node.frontmatter?.history;
   if (blogpostHistoryType) {
+    const dirname = slash(__dirname);
+
     const filePath = node.frontmatter!.historySource
-      ? slash(path.join(__dirname, node.frontmatter!.historySource))
+      ? slash(path.join(dirname, node.frontmatter!.historySource))
       : node.fileAbsolutePath;
 
     getGitLogJsonForFile(filePath, [
@@ -236,22 +248,32 @@ function createBlogpostHistoryNodeField(
       "subject",
       "body",
     ])
-      .then(history => {
+      .then(entries => {
+        const url = slash(
+          path.join(
+            `${REPO_URL}/commits/master`,
+            filePath.replace(dirname, "")
+          )
+        );
+
         switch (blogpostHistoryType) {
           case "Verbose":
             createNodeField({
               node: (node as unknown) as Node,
               name: "history",
-              value: history,
+              value: { entries, url },
             });
             break;
           case "DatesOnly":
             createNodeField({
               node: (node as unknown) as Node,
               name: "history",
-              value: history.map(entry => ({
-                authorDate: entry.authorDate,
-              })),
+              value: {
+                entries: entries.map(entry => ({
+                  authorDate: entry.authorDate,
+                })),
+                url,
+              },
             });
             break;
           default:
