@@ -246,6 +246,7 @@ export const theme = {
       code,
     },
     a: {
+      overflowWrap: "break-word",
       color: "primary",
       textDecoration: "none",
       ":focus, :hover": {
