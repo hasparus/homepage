@@ -142,6 +142,9 @@ export const Header = memo(() => {
         mx: "-0.5em",
         pb: 3,
         fontSize: 1,
+
+        position: "relative",
+        zIndex: 1,
       }}
     >
       <HeaderLink as={Link} to="/">
