@@ -187,8 +187,6 @@ export const theme = makeTheme({
       },
       ".anchor": {
         p: ["2px", "4px"],
-        verticalAlign: "text-top",
-        height: "1em",
         display: "inline-flex",
         justifyContent: "center",
         alignItems: "center",
