@@ -30,6 +30,7 @@ module.exports = {
     twitterUsername: "@hasparus",
   },
   plugins: [
+    "gatsby-plugin-catch-links",
     "gatsby-plugin-lodash",
     "gatsby-plugin-theme-ui",
     {
@@ -74,8 +75,8 @@ module.exports = {
         ],
         remarkPlugins: [require("remark-slug")],
         defaultLayouts: {
-          // default: require.resolve("./src/layouts/post.tsx"),
-          posts: require.resolve("./src/layouts/post.tsx"),
+          // default: require.resolve("./src/layouts/PostLayout.tsx"),
+          posts: require.resolve("./src/layouts/PostLayout.tsx"),
         },
       },
     },

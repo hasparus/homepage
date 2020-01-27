@@ -33,6 +33,7 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
       sx={{
         m: 0,
         fontFamily: "monospace",
+        fontSize: fontSize.small,
         a: {
           wordWrap: "break-word",
         },

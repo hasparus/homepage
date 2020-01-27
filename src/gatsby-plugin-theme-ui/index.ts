@@ -289,6 +289,11 @@ export const theme = makeTheme({
     },
     ul: {
       pl: [3, 4],
+      ml: [1, 0],
+      ul: {
+        pl: [3, 3],
+        ml: [0, 0],
+      },
       code,
     },
     blockquote: {

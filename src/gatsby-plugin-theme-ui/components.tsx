@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+import { jsx, Box } from "theme-ui";
 import { ComponentProps } from "react";
 
 import { fontSize } from "../gatsby-plugin-theme-ui";
@@ -16,7 +16,7 @@ export default {
   CodesandboxIframe,
   ReadingList,
   BoxedText,
-
+  Box,
   figure: (props: ComponentProps<"figure">) => (
     <figure sx={{ margin: 0, "> pre": { mb: 2 } }} {...props} />
   ),

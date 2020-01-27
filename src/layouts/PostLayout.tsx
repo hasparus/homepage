@@ -177,7 +177,7 @@ interface PostLayoutProps {
 }
 
 // eslint-disable-next-line import/no-default-export
-export default function PostLayout({
+export function PostLayout({
   children,
   pathContext,
   path,
@@ -188,7 +188,7 @@ export default function PostLayout({
   }
 
   const {
-    frontmatter: { title, date, spoiler, venues, historySource },
+    frontmatter: { title, date, spoiler, venues },
     readingTime,
     socialImage,
     history,
@@ -232,3 +232,6 @@ export default function PostLayout({
     </Root>
   );
 }
+
+// eslint-disable-next-line import/no-default-export
+export default PostLayout;

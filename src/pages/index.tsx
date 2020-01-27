@@ -2,11 +2,12 @@
 import { graphql, useStaticQuery, Link } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
-import { Header, Root, theme } from "../components";
+import { theme } from "../components";
 import { Seo } from "../components/Seo";
-import { Footer } from "../components/Footer";
 import { IndexPageQuery } from "./__generated__/IndexPageQuery";
+import { PageLayout } from "../layouts/PageLayout";
 import Intro from "../components/Intro";
+import IndexOutro from "../components/IndexOutro";
 
 const IndexPage = () => {
   const { recent, favorites } = useStaticQuery<IndexPageQuery>(graphql`
@@ -50,9 +51,8 @@ const IndexPage = () => {
   const recentPost = recent.nodes[0];
 
   return (
-    <Root>
+    <PageLayout>
       <Seo titleTemplate="%s" />
-      <Header />
       <main sx={{ mt: 6 }}>
         <Intro />
         <p>
@@ -74,16 +74,9 @@ const IndexPage = () => {
             ))}
           </s.ul>
         </section>
-        <s.p>
-          I gave a few talks.{" "}
-          <Link sx={theme.styles.a} to="/speaking/matryoshka-code">
-            Matryoshka Code rant
-          </Link>{" "}
-          is probably the best one.
-        </s.p>
+        <IndexOutro />
       </main>
-      <Footer />
-    </Root>
+    </PageLayout>
   );
 };
 

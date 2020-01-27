@@ -14,3 +14,4 @@ export * from "./CodesandboxIframe";
 export * from "./ReadingList";
 export * from "./BoxedText";
 export * from "./PostSocialPreview";
+export * from "./Footer";
