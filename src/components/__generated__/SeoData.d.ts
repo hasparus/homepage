@@ -7,12 +7,10 @@
 // ====================================================
 
 export interface SeoData_site_siteMetadata_htmlAttributes {
-  __typename: "SiteSiteMetadataHtmlAttributes";
   lang: string | null;
 }
 
 export interface SeoData_site_siteMetadata {
-  __typename: "SiteSiteMetadata";
   defaultTitle: string | null;
   titleTemplate: string | null;
   defaultDescription: string | null;
@@ -22,7 +20,6 @@ export interface SeoData_site_siteMetadata {
 }
 
 export interface SeoData_site {
-  __typename: "Site";
   siteMetadata: SeoData_site_siteMetadata | null;
 }
 

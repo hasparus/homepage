@@ -7,26 +7,22 @@
 // ====================================================
 
 export interface BlogPostsQuery_allMdx_nodes_frontmatter {
-  __typename: "MdxFrontmatter";
   title: string;
   spoiler: string;
   date: any;
 }
 
 export interface BlogPostsQuery_allMdx_nodes_fields {
-  __typename: "MdxFields";
   route: string;
   readingTime: number;
 }
 
 export interface BlogPostsQuery_allMdx_nodes {
-  __typename: "Mdx";
   frontmatter: BlogPostsQuery_allMdx_nodes_frontmatter | null;
   fields: BlogPostsQuery_allMdx_nodes_fields | null;
 }
 
 export interface BlogPostsQuery_allMdx {
-  __typename: "MdxConnection";
   nodes: BlogPostsQuery_allMdx_nodes[];
 }
 
