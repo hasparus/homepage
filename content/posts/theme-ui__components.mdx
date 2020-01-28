@@ -46,6 +46,8 @@ ENOENT: no such file or directory, mkdir 'types\@theme-ui\components'
 Well, obviously. Since `@theme-ui/components` is in _theme-ui_ namespace and
 we can't have a directory with a slash in name, we need to stick to the conventional workaround.
 
+<sup>It doesn't crash anymore in January 2020.</sup>
+
 ```
 > npx dts-gen --dt --name theme-ui__components --template module -o
 npx: installed 59 in 7.202s
