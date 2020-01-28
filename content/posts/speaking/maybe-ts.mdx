@@ -1,10 +1,11 @@
 ---
-title: The Billion Dollar Lightning Talk. Maybe.
-spoiler: Null. Monads. TypeScript.
+title: Maybe-ts. A softer approach to optionals
+spoiler: Null. Monads. TypeScript. We go through problems with hard Option types and provide a fp-ts implementation of soft one. A Billion Dollar Talk? Maybe.
 date: 2019-12-18T18:30:00Z
 venues:
   - name: WrocTypeScript
     link: https://www.meetup.com/pl-PL/WrocTypeScript/events/sjzhvqyzqbhc/
+history: Verbose
 ---
 
 [fp-ts]: https://github.com/gcanti/fp-ts
@@ -17,7 +18,7 @@ venues:
 ---
 
 I spoke about problems with hard Option type (like the one from fp-ts)
-mentioned in Rich Hickey's "Maybe Not" and presented a foldable traversable
+mentioned in Rich Hickey's ["Maybe Not"][maybe not] and presented a foldable traversable
 monad instance which can used instead of Option to avoid the
 problems mentioned by Rich.
 
@@ -47,3 +48,9 @@ problems mentioned by Rich.
 - when would you prefer Option?
   - strictNullChecks: false
   - `null` (or `undefined`) is an important part of T
+
+### More links
+
+[maybe not]: https://www.youtube.com/watch?v=YR5WdGrpoug
+
+- [Optional in Swift](https://developer.apple.com/documentation/swift/optional) -- look how familiar it is
