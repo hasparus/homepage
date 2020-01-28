@@ -32,6 +32,7 @@ export const alreadyRead: ReadingList = {
     ],
     "https://www.swyx.io/writing/learning-gears/",
     "https://css-tricks.com/types-or-tests-why-not-both/",
+    ["Eponymous Laws", "https://www.swyx.io/writing/eponymous-laws/"],
   ],
   "Kevin Mahoney": ["http://kevinmahoney.co.uk/articles/tests-vs-types/"],
   "Scott Wlaschin": [
