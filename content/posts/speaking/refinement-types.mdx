@@ -5,15 +5,44 @@ date: 2019-09-25T18:30:00Z
 venues:
   - name: WrocTypeScript
     link: https://www.meetup.com/pl-PL/WrocTypeScript/events/sjzhvqyzmbhc/
+history: Verbose
 ---
 
 **Duration**: 5 minutes \
 **Slides**: https://github.com/hasparus/refinement-types-in-typescript \
-**Follow-up post**: https://haspar.us/refinement-types/
+**Follow-up post**: https://haspar.us/refinement-types/ \
+**Original notes**: [Dropbox Paper](https://paper.dropbox.com/doc/Refinement-Types-in-TypeScript--AtRTxIb1NxWvFpBv3oxBx9jpAg-cZxqOn3c6GkVCONvPTjtE)
 
 ### Pitch
 
-I'm gonna geek out about Refined TypeScript,
-tell you a little bit about newtype-ts and reveal the surprising truth --
-refinement types were with you since you wrote an if statement inside
-of a constructor function for the first time.
+I’m gonna explain what refinement types are, geek out about a research
+paper that adds them to the TypeScript type system, and live-code a
+userland refinement type you can already use in your codebase.
+
+### What, Why, and How
+
+#### How?
+
+Lightning talk with VSCode, Quokka and browser as software.
+
+#### What?
+
+Refinement types are easy.
+Use them to encode more info on the type level.
+
+#### Why?
+
+Encoding information on the type level helps you write less bugs.
+
+### Outline
+
+- Why and when should I type stronger?
+  - JS without JSDoc vs Idris proofs
+  - Refinement types are one step further into bulletproof programs.
+- Refined TypeScript
+- It’s not rocket science
+- You can do it yourself
+  - Live demo
+- Libraries with refinements
+
+<!-- TODO: Add slides with transcription like in https://noidea.dog/glue -->
