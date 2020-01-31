@@ -30,7 +30,7 @@ module.exports = {
     twitterUsername: "@hasparus",
   },
   plugins: [
-    "gatsby-plugin-catch-links",
+    // gatsby-plugin-catch-links breaks menu # link
     "gatsby-plugin-lodash",
     "gatsby-plugin-theme-ui",
     {

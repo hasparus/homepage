@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx, Box } from "theme-ui";
-import { ComponentProps } from "react";
+import { ComponentProps, ComponentPropsWithoutRef } from "react";
+import { Link } from "gatsby";
 
-import { fontSize } from "../gatsby-plugin-theme-ui";
+import { fontSize, theme } from "../gatsby-plugin-theme-ui";
 import {
   EpistemicNote,
   CodesandboxIframe,
@@ -31,4 +32,13 @@ export default {
       {...props}
     />
   ),
+  // gatsby-plugin-catch-links breaks my hamburger :c
+  a: (props: ComponentPropsWithoutRef<"a">) => {
+    if (!props.href || props.href.match(/^(https?|\/\/)/)) {
+      // eslint-disable-next-line jsx-a11y/anchor-has-content
+      return <a sx={theme.styles.a} {...props} />;
+    }
+    const { href, ...rest } = props;
+    return <Link sx={theme.styles.a} to={href} {...rest} />;
+  },
 };
