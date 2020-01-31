@@ -34,7 +34,7 @@ export default {
   ),
   // gatsby-plugin-catch-links breaks my hamburger :c
   a: (props: ComponentPropsWithoutRef<"a">) => {
-    if (!props.href || props.href.match(/^(https?|\/\/)/)) {
+    if (!props.href || props.href.match(/^(https?|\/\/|#)/)) {
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       return <a sx={theme.styles.a} {...props} />;
     }
