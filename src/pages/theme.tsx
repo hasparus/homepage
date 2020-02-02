@@ -53,7 +53,7 @@ const ThemeHeading: React.FC<ThemeHeadingProps> = ({ as }) => {
 
   return (
     <H>
-      {as} {theme.fonts.heading.split(",")[0].slice(1, -1)}{" "}
+      {as} {theme.fonts.heading.split(",")[0]}{" "}
       {theme.fontSizes[fontSizeIndex]}
     </H>
   );

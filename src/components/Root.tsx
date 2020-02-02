@@ -32,7 +32,16 @@ export const Root = (
       </Helmet>
       <Global styles={globalStyles} />
 
-      <s.root {...props} />
+      <s.root
+        {...props}
+        sx={{
+          maxWidth: "746px", // ~63ch with Segoe UI 22px
+          px: [3, 3, 0],
+          mx: "auto",
+          mt: 3,
+          mb: 5,
+        }}
+      />
     </Fragment>
   );
 };

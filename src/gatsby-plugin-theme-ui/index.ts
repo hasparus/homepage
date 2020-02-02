@@ -2,8 +2,9 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
 import { omit } from "lodash";
-
 import { Theme } from "theme-ui";
+// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { randomElement } from "../lib";
 
 export const fontSize = {
@@ -122,6 +123,29 @@ const headingStyles = {
   },
 };
 
+const commonButtonStyles = {
+  display: "inline",
+  padding: 0,
+  font: "inherit",
+  color: "inherit",
+  background: "none",
+  cursor: "pointer",
+  border: "none",
+  borderRadius: 0,
+} as const;
+
+const buttonStyles: Theme["buttons"] = {
+  clear: commonButtonStyles,
+  primary: {
+    ...commonButtonStyles,
+    outline: "none",
+    border: "1px solid transparent",
+    "&:focus, &:hover": {
+      borderColor: "currentColor",
+    },
+  },
+};
+
 // https://github.com/system-ui/theme-specification
 // I want to make sure my team is correct (assignable to Theme) but narrow
 // the type to the actual value
@@ -166,24 +190,21 @@ export const theme = makeTheme({
     heading: 1.25,
     monospace: 1.5,
   },
-  initialColorMode: "light",
+  initialColorModeName: "light",
   useCustomProperties: true,
-  ...{ useColorSchemeMediaQuery: true },
+  useColorSchemeMediaQuery: true,
   colors: {
     ...colorModes.light,
     modes: omit(colorModes, "light"),
   },
+  useBodyStyles: true,
   styles: {
     root: {
+      // <- used for <body>
       fontSize: fontSize.normal,
       fontFamily: "body",
       lineHeight: "body",
       fontWeight: "body",
-      maxWidth: "746px", // ~63ch with Segoe UI 22px
-      px: [3, 3, 0],
-      mx: "auto",
-      mt: 3,
-      mb: 5,
       "*": {
         boxSizing: "border-box",
       },
@@ -314,6 +335,7 @@ export const theme = makeTheme({
       opacity: 0.4,
     },
   },
+  buttons: buttonStyles,
 });
 
 // eslint-disable-next-line import/no-default-export

@@ -9,6 +9,7 @@ import {
   CodesandboxIframe,
   ReadingList,
   BoxedText,
+  Button,
 } from "../components";
 
 // eslint-disable-next-line import/no-default-export
@@ -18,6 +19,7 @@ export default {
   ReadingList,
   BoxedText,
   Box,
+  Button,
   figure: (props: ComponentProps<"figure">) => (
     <figure sx={{ margin: 0, "> pre": { mb: 2 } }} {...props} />
   ),
@@ -34,7 +36,10 @@ export default {
   ),
   // gatsby-plugin-catch-links breaks my hamburger :c
   a: (props: ComponentPropsWithoutRef<"a">) => {
-    if (!props.href || props.href.match(/^(https?|\/\/|#|mailto:|javascript:)/)) {
+    if (
+      !props.href ||
+      props.href.match(/^(https?|\/\/|#|mailto:|javascript:)/)
+    ) {
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       return <a sx={theme.styles.a} {...props} />;
     }

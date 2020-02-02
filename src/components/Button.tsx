@@ -1,52 +1,17 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
-import React from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { SystemStyleObject, ResponsiveStyleValue } from "@styled-system/css";
+import {
+  jsx,
+  Button as ThButton,
+  ButtonProps as ThButtonProps,
+} from "theme-ui";
 
-type ButtonVariant = "default" | "clear";
+type ButtonVariant = "primary" | "clear";
 
-export interface ButtonProps extends React.ComponentProps<"button"> {
+export interface ButtonProps extends ThButtonProps {
   variant?: ButtonVariant;
+  visibleWithoutJs?: boolean;
 }
 
-const buttonVariants: Record<
-  ButtonVariant,
-  Record<
-    string,
-    | SystemStyleObject
-    | ResponsiveStyleValue<number | string>
-    | Record<string, SystemStyleObject | ResponsiveStyleValue<number | string>>
-  >
-> = {
-  clear: {},
-  default: {
-    outline: "none",
-    border: "1px solid transparent",
-    "&:focus, &:hover": {
-      borderColor: "currentColor",
-    },
-  },
-};
-
-export const Button = ({
-  variant = "default",
-  className,
-  ...rest
-}: ButtonProps) => (
-  <button
-    type="button"
-    sx={{
-      display: "inline",
-      padding: 0,
-      font: "inherit",
-      color: "inherit",
-      background: "none",
-      cursor: "pointer",
-      border: "none",
-      ...buttonVariants[variant],
-    }}
-    className={`js-only ${className}`}
-    {...rest}
-  />
+export const Button = ({ className, ...rest }: ButtonProps) => (
+  <ThButton type="button" className={`js-only ${className}`} {...rest} />
 );
