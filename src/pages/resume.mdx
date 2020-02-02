@@ -2,8 +2,16 @@ import { jsx } from 'theme-ui';
 import { PageLayout } from "../layouts/PageLayout";
 
 <style>{`
-  small {
-    display: block;
+  @media print {
+    html {
+      font-size: 17px;
+    }
+    #___gatsby > div > div > header {
+      display: none;
+    }
+    #___gatsby > div > div > footer {
+      display: none;
+    }
   }
 `}</style>
 
