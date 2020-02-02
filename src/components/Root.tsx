@@ -14,6 +14,11 @@ const globalStyles: ObjectInterpolation<any> = {
     margin: 0,
     overflowX: "hidden",
   },
+  "@media print": {
+    html: {
+      fontSize: "17px",
+    },
+  },
 };
 
 export const Root = (

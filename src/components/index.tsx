@@ -1,10 +1,4 @@
-import { colorModes } from "../gatsby-plugin-theme-ui";
-
-export { theme } from "../gatsby-plugin-theme-ui";
-
-export type ColorModes = keyof typeof colorModes;
-export { colorModes };
-
+export * from "../gatsby-plugin-theme-ui";
 export * from "./Header";
 export * from "./Button";
 export * from "./PostDetails";

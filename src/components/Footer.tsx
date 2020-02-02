@@ -13,6 +13,9 @@ export const Footer = () => (
       },
       fontSize: fontSize.small,
       mt: 5,
+      "@media print": {
+        display: "none",
+      },
     }}
   >
     <s.a href="/rss.xml">RSS</s.a>

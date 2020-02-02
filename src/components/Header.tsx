@@ -147,6 +147,9 @@ export const Header = memo(() => {
 
           position: "relative",
           zIndex: 1,
+          "@media print": {
+            display: "none",
+          },
         }}
       >
         <HeaderLink as={Link} to="/">

@@ -49,6 +49,8 @@ export const colorModes = {
   },
 };
 
+export type ColorModes = keyof typeof colorModes;
+
 // stolen from https://www.getpapercss.com/docs/utilities/borders/
 const sketchyBorders = [
   {
