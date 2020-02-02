@@ -47,7 +47,9 @@ export const isRGBDark = ({ r, g, b }: RGB) => {
    * @see http://alienryderflex.com/hsp.html
    * @see https://medium.com/the-mvp/finally-a-definitive-way-to-make-gradients-beautiful-6b27af88f5f
    */
-  const hsp = Math.sqrt(0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b));
+  const hsp = Math.sqrt(
+    0.299 * (r * r) + 0.587 * (g * g) + 0.114 * (b * b)
+  );
 
   return hsp <= 125;
 };
@@ -65,14 +67,17 @@ export function copyToClipboard(value: string | number) {
   });
 }
 
-export function panic(message: string) {
+export function panic(message: string): never {
   throw new Error(message);
 }
 
 export const randomElement = <T>(xs: T[]): T =>
   xs[Math.floor(Math.random() * xs.length)];
 
-export function assert(condition: any, message?: string): asserts condition {
+export function assert(
+  condition: any,
+  message?: string
+): asserts condition {
   if (!condition) {
     throw new AssertionError({ message });
   }
