@@ -30,6 +30,12 @@ module.exports = {
     twitterUsername: "@hasparus",
   },
   plugins: [
+    {
+      resolve: "gatsby-plugin-tinacms",
+      options: {
+        plugins: ["gatsby-tinacms-git", "gatsby-tinacms-mdx"],
+      },
+    },
     // gatsby-plugin-catch-links breaks menu # link
     "gatsby-plugin-lodash",
     "gatsby-plugin-theme-ui",
