@@ -83,7 +83,7 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
       title="change color mode"
       {...props}
     >
-      {nextColorMode}
+      {colorMode}
     </Button>
   );
 };
