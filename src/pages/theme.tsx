@@ -14,7 +14,7 @@ import {
   Button,
   PostSocialPreview,
 } from "../components";
-import { isString, contrastingTextColor, copyToClipboard } from "../lib";
+import { contrastingTextColor, copyToClipboard, isString } from "../lib";
 
 const ColorSquareList = (props: React.ComponentProps<"ul">) => (
   <ul
@@ -32,9 +32,7 @@ const CopyableText: React.FC<{ children: React.ReactText }> = ({
   children,
 }) => (
   <Button
-    sx={{
-      cursor: "copy",
-    }}
+    sx={{ cursor: "copy", textAlign: "inherit" }}
     onClick={() => copyToClipboard(children)}
   >
     {children}
