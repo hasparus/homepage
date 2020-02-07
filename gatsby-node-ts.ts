@@ -67,7 +67,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async args => {
     });
 
     const mdxArgs = { ...args, node: mdxNode };
-    createBlogpostHistoryNodeFields(mdxArgs, route);
+    createBlogpostHistoryNodeField(mdxArgs, route);
     await createSocialImageNodeField(mdxArgs);
   }
 };
@@ -230,7 +230,7 @@ interface CreateMdxNodeArgs extends ParentSpanPluginArgs {
   node: generated.Mdx;
 }
 
-function createBlogpostHistoryNodeFields(
+function createBlogpostHistoryNodeField(
   { node, actions: { createNodeField } }: CreateMdxNodeArgs,
   route: string
 ) {
