@@ -69,42 +69,43 @@ export type ColorModes = keyof typeof colorModes;
 const initialColorModeName: ColorModes = "light";
 
 // stolen from https://www.getpapercss.com/docs/utilities/borders/
+// and divided all numbers by 3
 const sketchyBorders = [
   {
-    borderBottomLeftRadius: "15px 255px",
-    borderBottomRightRadius: "225px 15px",
-    borderTopLeftRadius: "255px 15px",
-    borderTopRightRadius: "15px 225px",
+    borderBottomLeftRadius: "5px 85px",
+    borderBottomRightRadius: "75px 5px",
+    borderTopLeftRadius: "85px 5px",
+    borderTopRightRadius: "5px 75px",
   },
   {
-    borderBottomLeftRadius: "185px 25px",
-    borderBottomRightRadius: "20px 205px",
-    borderTopLeftRadius: "125px 25px",
-    borderTopRightRadius: "10px 205px",
+    borderBottomLeftRadius: "61px 8px",
+    borderBottomRightRadius: "6px 68px",
+    borderTopLeftRadius: "41px 8px",
+    borderTopRightRadius: "3px 68px",
   },
   {
-    borderBottomLeftRadius: "225px 15px",
-    borderBottomRightRadius: "15px 255px",
-    borderTopLeftRadius: "15px 225px",
-    borderTopRightRadius: "255px 15px",
+    borderBottomLeftRadius: "75px 5px",
+    borderBottomRightRadius: "5px 85px",
+    borderTopLeftRadius: "5px 75px",
+    borderTopRightRadius: "85px 5px",
   },
   {
-    borderBottomLeftRadius: "25px 115px",
-    borderBottomRightRadius: "155px 25px",
-    borderTopLeftRadius: "15px 225px",
-    borderTopRightRadius: "25px 150px",
+    borderBottomLeftRadius: "8px 38px",
+    borderBottomRightRadius: "51px 8px",
+    borderTopLeftRadius: "5px 75px",
+    borderTopRightRadius: "8px 50px",
   },
   {
-    borderBottomLeftRadius: "20px 115px",
-    borderBottomRightRadius: "15px 105px",
-    borderTopLeftRadius: "250px 15px",
-    borderTopRightRadius: "25px 80px",
+    borderBottomLeftRadius: "6px 38px",
+    borderBottomRightRadius: "5px 35px",
+    borderTopLeftRadius: "83px 5px",
+    borderTopRightRadius: "8px 26px",
   },
   {
-    borderBottomLeftRadius: "15px 225px",
-    borderBottomRightRadius: "20px 205px",
-    borderTopLeftRadius: "28px 125px",
-    borderTopRightRadius: "100px 30px",
+    borderBottomLeftRadius: "5px 75px",
+    borderBottomRightRadius: "6px 68px",
+    borderTopLeftRadius: "9px 41px",
+    borderTopRightRadius: "33px 10px",
   },
 ];
 
