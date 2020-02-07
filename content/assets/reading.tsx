@@ -245,4 +245,10 @@ export const futureReading: ReadingList = {
       "https://www.microsoft.com/en-us/download/details.aspx?id=34774",
     ],
   ],
+  "André Staltz": [
+    [
+      "Unidirectional User Interface Architectures",
+      "https://staltz.com/unidirectional-user-interface-architectures.html",
+    ],
+  ],
 };
