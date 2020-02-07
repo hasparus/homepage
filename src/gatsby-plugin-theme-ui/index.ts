@@ -66,7 +66,7 @@ export const colorModes = { light, dark, soft };
 
 export type ColorModes = keyof typeof colorModes;
 
-const initialColorModeName: ColorModes = "soft";
+const initialColorModeName: ColorModes = "light";
 
 // stolen from https://www.getpapercss.com/docs/utilities/borders/
 const sketchyBorders = [
