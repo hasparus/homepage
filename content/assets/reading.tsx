@@ -203,6 +203,12 @@ export const alreadyRead: ReadingList = {
       `,
     ],
   ],
+  "Gregory Ciotti": [
+    [
+      "Easy Reading Is Damn Hard Writing",
+      "https://www.helpscout.com/blog/damn-hard-writing/",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
