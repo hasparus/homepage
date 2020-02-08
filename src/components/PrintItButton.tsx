@@ -37,9 +37,7 @@ function useWindowPrint(options: {
 
   useEffect(() => {
     window.addEventListener("afterprint", () => {
-      setState(s =>
-        s === "Printing" ? "Printed" : panic("illegal transition")
-      );
+      setState("Printed");
     });
   }, []);
 

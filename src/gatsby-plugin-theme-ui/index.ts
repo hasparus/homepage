@@ -336,6 +336,10 @@ export const theme = makeTheme({
       },
       code,
     },
+    li: {
+      width: "63ch",
+      maxWidth: "100%",
+    },
     blockquote: {
       margin: 0,
       padding: "0 1em",

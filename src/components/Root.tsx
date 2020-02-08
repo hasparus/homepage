@@ -21,9 +21,10 @@ const globalStyles: ObjectInterpolation<any> = {
   },
 };
 
-export const Root = (
-  props: Omit<React.ComponentProps<typeof s.root>, "ref">
-) => {
+export interface RootProps
+  extends Omit<React.ComponentProps<typeof s.root>, "ref"> {}
+
+export const Root = (props: RootProps) => {
   const { theme } = useThemeUI();
   return (
     <Fragment>
@@ -36,6 +37,9 @@ export const Root = (
         {...props}
         sx={{
           maxWidth: "746px", // ~63ch with Segoe UI 22px
+          "@media print": {
+            maxWidth: "80ch",
+          },
           px: [3, 3, 0],
           mx: "auto",
           mt: 3,

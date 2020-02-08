@@ -1,9 +1,11 @@
+/** @jsx jsx */
 import React from "react";
-import { Root, Header, Footer } from "../components";
+import { jsx } from "theme-ui";
+import { Root, Header, Footer, RootProps } from "../components";
 
-export const PageLayout: React.FC = ({ children }) => {
+export const PageLayout: React.FC<RootProps> = ({ children, ...rest }) => {
   return (
-    <Root>
+    <Root {...rest}>
       <Header />
       {children}
       <Footer />
