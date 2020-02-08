@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from "react";
 
 import { ColorModes, fontSize } from "../gatsby-plugin-theme-ui";
 import { Button } from "./Button";
-import { panic } from "../lib";
 
 function useWindowPrint(options: {
   onBeforePrint: () => void;
