@@ -46,7 +46,7 @@ const Lines = (props: React.ComponentProps<"svg">) => {
   });
 
   return (
-    <svg opacity="0.18" {...props}>
+    <svg opacity="0.65" {...props}>
       {xMax > 8 &&
         series.map((dateValue, i) => {
           return (
@@ -58,7 +58,7 @@ const Lines = (props: React.ComponentProps<"svg">) => {
                 strokeWidth={3}
                 curve={i % 2 === 0 ? curveMonotoneX : undefined}
                 sx={{
-                  stroke: "secondary",
+                  stroke: "muted",
                 }}
               />
             </Group>

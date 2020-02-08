@@ -20,10 +20,9 @@ import slash from "slash";
 // @ts-ignore
 import { createFileNode as baseCreateFileNode } from "gatsby-source-filesystem/create-file-node";
 
-import { getGitLogJsonForFile } from "./scripts/getGitLogJsonForFile";
+import { getGitLogJsonForFile, makeSocialCard } from "./build-time";
 import * as generated from "./__generated__/global";
 import { assert } from "./src/lib";
-import { makeSocialCard } from "./scripts/makeSocialCard";
 
 const REPO_URL: string = require("./package.json").repository.url;
 
@@ -175,13 +174,19 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       link: String
     }
 
+    type PostImage {
+      url: String!
+      author: String!
+    }
+
     type MdxFrontmatter @dontInfer {
       title: String!
       spoiler: String!
       date: Date!
       history: BlogpostHistoryType
       historySource: String
-      venues: [Venue!] 
+      venues: [Venue!]
+      image: PostImage
     }
 
     type BlogpostHistory {
@@ -218,7 +223,7 @@ let browser: Browser;
 export async function onPreInit() {
   browser = await puppeteer.launch({
     // Toggle to preview generated images
-    headless: true,
+    headless: false,
   });
 }
 

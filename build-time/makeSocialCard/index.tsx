@@ -3,18 +3,19 @@
  */
 
 /** @jsx jsx */
-import { jsx, ThemeProvider, Styled as s } from "theme-ui";
+import { jsx, ThemeProvider } from "theme-ui";
 import { writeFile } from "fs";
 import { resolve } from "path";
 import { createHash } from "crypto";
 import { promisify } from "util";
 import { Browser } from "puppeteer";
 import { renderToStaticMarkup } from "react-dom/server";
+import slash from "slash";
 
-import { theme } from "../src/gatsby-plugin-theme-ui/index";
-import { Mdx } from "../__generated__/global";
-import { assert } from "../src/lib";
-import { PostSocialPreview } from "../src/components";
+import { theme } from "../../src/gatsby-plugin-theme-ui/index";
+import { Mdx } from "../../__generated__/global";
+import { assert } from "../../src/lib";
+import { PostSocialPreview } from "../../src/components";
 
 const writeFileAsync = promisify(writeFile);
 
@@ -56,14 +57,6 @@ async function imageFromHtml(
   return writeCachedFile(cacheDir, title, file, "png");
 }
 
-const darkTheme = {
-  ...theme,
-  colors: {
-    ...theme.colors.modes.dark,
-    modes: theme.colors.modes,
-  },
-};
-
 function getSocialCardHtml(post: Mdx) {
   return renderToStaticMarkup(
     <html lang="en">
@@ -74,18 +67,41 @@ function getSocialCardHtml(post: Mdx) {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        {/* We can't just import the font here */}
         <link
+          href="https://fonts.googleapis.com/css?family=Lexend+Deca&display=block"
           rel="stylesheet"
-          type="text/css"
-          href={resolve(
-            __dirname,
-            "../node_modules/typeface-fira-code/index.css"
-          )}
+        />
+        <style
+          // finally colorful emojis on cloud builds ヽ(✿ﾟ▽ﾟ)ノ
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: /* css */ `
+              @font-face {
+                font-family: 'Noto Color Emoji';
+                src: url(https://gitcdn.xyz/repo/googlefonts/noto-emoji/master/fonts/NotoColorEmoji.ttf);
+              }
+          `,
+          }}
         />
       </head>
-      <ThemeProvider theme={darkTheme}>
-        <body sx={{ margin: 0, bg: "background" }}>
+      <ThemeProvider
+        theme={{
+          ...theme,
+          // colors: {
+          //   ...theme.colors.modes.dark,
+          // },
+        }}
+      >
+        <body
+          sx={{
+            margin: 0,
+            bg: "background",
+            "*": {
+              fontFamily:
+                '"Lexend Deca", "Noto Color Emoji" !important' /* 🙊 */,
+            },
+          }}
+        >
           <PostSocialPreview post={post} />
         </body>
       </ThemeProvider>
@@ -93,10 +109,6 @@ function getSocialCardHtml(post: Mdx) {
   );
 }
 
-/*
- * Takes a post (probably a Gatsby node of some kind), generates some HTML,
- * saves a screenshot, then returns the path to the saved image.
- */
 export async function makeSocialCard(
   CACHE_DIR: string,
   browser: Browser,

@@ -31,6 +31,7 @@ module.exports = {
   },
   plugins: [
     // gatsby-plugin-catch-links breaks menu # link
+    'gatsby-plugin-netlify-cache',
     "gatsby-plugin-lodash",
     "gatsby-plugin-theme-ui",
     {
