@@ -25,6 +25,7 @@ const SpeakingPage = () => {
             date
             venues {
               name
+              link
             }
           }
           fields {

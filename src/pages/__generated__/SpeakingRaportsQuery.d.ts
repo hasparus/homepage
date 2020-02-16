@@ -8,6 +8,7 @@
 
 export interface SpeakingRaportsQuery_allMdx_nodes_frontmatter_venues {
   name: string;
+  link: string | null;
 }
 
 export interface SpeakingRaportsQuery_allMdx_nodes_frontmatter {

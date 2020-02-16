@@ -1,9 +1,10 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui";
+import { jsx, Styled as s } from "theme-ui";
 import { ComponentProps } from "react";
 
+import { transparentize } from "@theme-ui/color";
 import { fontSize } from "../gatsby-plugin-theme-ui";
-import { MdxFrontmatter } from "../../__generated__/global";
+import { MdxFrontmatter, Venue } from "../../__generated__/global";
 import { formatDate } from "../appUtils";
 
 const cupOfCoffeeTime = 5; // minutes
@@ -13,6 +14,48 @@ const readingTimeEmoji = (minutes: number) => {
     ? new Array(Math.floor(minutes / burgerTime)).fill("🍔")
     : new Array(Math.ceil(minutes / cupOfCoffeeTime)).fill("☕")
   ).join("");
+};
+
+interface VenueLinkProps {
+  venue: Venue;
+}
+const VenueLink = ({ venue }: VenueLinkProps) => {
+  return (
+    <span sx={{ ":not(:last-child)::after": { content: "', '" } }}>
+      {venue.link ? (
+        <s.a
+          sx={{
+            color: "unset",
+            textDecoration: "underline",
+            textDecorationColor: transparentize(
+              "text",
+              0.85 as any /* @types/theme-ui__color is broken*/
+            ),
+          }}
+          href={venue.link || undefined}
+        >
+          {venue.name}
+        </s.a>
+      ) : (
+        venue.name
+      )}
+    </span>
+  );
+};
+
+const Venues = ({
+  venues,
+}: {
+  venues: readonly Venue[] | null | undefined;
+}) => {
+  return venues ? (
+    <span>
+      {" · "}
+      {venues.map(v => (
+        <VenueLink key={v.name} venue={v} />
+      ))}
+    </span>
+  ) : null;
 };
 
 interface PostDetailsProps extends ComponentProps<"small"> {
@@ -39,6 +82,6 @@ export const PostDetails = ({
     {date && formatDate(date)}
     {readingTime &&
       ` · ${readingTimeEmoji(readingTime)} ${readingTime} min read`}
-    {venues && ` · ${venues.map(v => v.name).join(", ")}`}
+    <Venues venues={venues} />
   </small>
 );
