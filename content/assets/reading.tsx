@@ -209,6 +209,12 @@ export const alreadyRead: ReadingList = {
       "https://www.helpscout.com/blog/damn-hard-writing/",
     ],
   ],
+  "Cory House": [
+    [
+      "The 7 Pillar Developer: A holistic approach to building an exceptional career",
+      "https://youtu.be/Nks_Fb5TUjs",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
@@ -218,7 +224,7 @@ export const futureReading: ReadingList = {
       "https://books.google.pl/books?id=1DrQngEACAAJ&dq=Structure+and+Interpretation+of+Computer+Programs&hl=en&sa=X&ved=0ahUKEwj-ptHaxLXmAhUEjosKHap9A1oQ6AEIKTAA",
       inlineMdx`I have some bad memories with the last textbook I've read
         (Cormen's Introduction to Algorithms), but I've heard a lot of good
-        reviews of SICP. I'm planning to read it in Q1 2020.`,
+        reviews of SICP.`,
     ],
   ],
   "Joel Hooks": [
