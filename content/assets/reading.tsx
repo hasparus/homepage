@@ -134,6 +134,10 @@ export const alreadyRead: ReadingList = {
   ],
   "Tom Critchlow": [
     [
+      "Small b blogging",
+      "https://tomcritchlow.com/2018/02/23/small-b-blogging/",
+    ],
+    [
       "Building a Digital Garden",
       "https://tomcritchlow.com/2019/02/17/building-digital-garden",
       inlineMdx`
