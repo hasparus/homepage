@@ -1,0 +1,59 @@
+---
+title: Fixing JSX.IntrinsicElements conflict in react-three-fiber
+spoiler:
+  I've helped a bit with JSX.IntrinsicElements subsequent properties delaration error.
+  Used TypeScript Compiler API to make a hack which puts smiles on faces.
+date: 2020-02-26T18:51:15.065Z
+venues:
+  - name: WrocTypeScript
+    link: https://www.meetup.com/WrocTypeScript/events/sjzhvqybcdbjc/
+---
+
+[fp-ts]: https://github.com/gcanti/fp-ts
+[maybe not]: https://youtu.be/YR5WdGrpoug
+
+**Slides**: https://github.com/hasparus/r3fts \
+**Talk duration**: 35 minutes
+
+---
+
+**Dan Questions**:
+
+- _How will you deliver the idea to the audience?_
+  - R3F is pretty rad. Gonna show [this](https://i2160.csb.app/) on the first slide.
+- _What is the one thing that you want people to take away from your talk?_
+  - Compiler API is **powerful**. We can use this power to hard solve problems.
+- _Why are you giving the talk? What is the emotional core? What do you believe in?_
+  - Don’t be afraid. Contribute to open source. Hack weird stuff.
+
+**Format**: Case Study.
+
+**Outline**:
+
+- what is React Three Fiber
+- why I care about it
+  - (past threejs experience in Explain Everything)
+- how it works
+  - what is a reconciler?
+- reconciler problem -- conflict with @types/react [#233](https://github.com/react-spring/react-three-fiber/pull/233) \
+  I generated components for dynamic behavior of r3f by mapping over THREE types, dumping them to a file with Compiler API.
+  - why was it hard in TS
+    - static clashes with dynamic
+  - How React Native lies about its types
+  - Why was traversing the API in JS harder (impossible?)
+  - show the code
+
+**Comments**:
+
+I have actually removed 1/3 of the talk ([initial idea gist](https://gist.github.com/hasparus/bcd582d93d5892f54a18607fe54afb4b/edit)) on the same day I gave it.
+It was a good idea. The talk took the time it was meant to.
+
+Started with the tease, went ahead to explain the problem and
+continued with the solution. Why -> What -> How. Got good feedback
+on the flow.
+
+I think it resonated pretty well.
+However, after watching the video I'm a bit unhappy with the delivery.
+The deck could also be improved.
+I might polish it and try to fit more story and more knowledge in a bit longer time window.
+I think I'll leave rollup plugin story for another talk though, to keep this more focused on React and TS Compiler API.

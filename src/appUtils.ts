@@ -4,3 +4,6 @@ export const formatDate = (date: ConstructorParameters<typeof Date>[0]) =>
     month: "short",
     day: "2-digit",
   });
+
+export const formatTitle = (title: string) =>
+  title.replace(/-/g, "\u2011" /* non-breaking hyphen */);

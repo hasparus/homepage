@@ -5,6 +5,7 @@ import { Link } from "gatsby";
 
 import { MdxFields } from "../../__generated__/global";
 import { theme } from "../components";
+import { formatTitle } from "../appUtils";
 
 export const PostsListItem = (
   props: ComponentPropsWithoutRef<"article">
@@ -34,7 +35,7 @@ PostsListItem.Heading = ({
         color: "currentColor",
       }}
     >
-      {title}
+      {formatTitle(title)}
     </Link>
   </s.h3>
 );

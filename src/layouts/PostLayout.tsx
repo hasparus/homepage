@@ -14,7 +14,7 @@ import {
   BlogpostHistoryEntry,
 } from "../../__generated__/global";
 import { Footer } from "../components/Footer";
-import { formatDate } from "../appUtils";
+import { formatDate, formatTitle } from "../appUtils";
 import { fontSize } from "../gatsby-plugin-theme-ui";
 import { assert } from "../lib";
 
@@ -212,7 +212,9 @@ export function PostLayout({
       <main>
         <article>
           <header sx={{ mb: 4 }}>
-            <s.h1 sx={{ mb: [0, 3], mt: [0, 4] }}>{title}</s.h1>
+            <s.h1 sx={{ mb: [0, 3], mt: [0, 4] }}>
+              {formatTitle(title)}
+            </s.h1>
             <PostDetails
               date={date}
               readingTime={venues ? undefined : readingTime}
