@@ -31,6 +31,10 @@ export const alreadyRead: ReadingList = {
       "This is lifechanging. I recommend it even to non-developer friends.",
     ],
     "https://www.swyx.io/writing/learning-gears/",
+    [
+      "Big L Notation: Modeling Rates of Learning",
+      "https://www.swyx.io/writing/big-l-notation/",
+    ],
     "https://css-tricks.com/types-or-tests-why-not-both/",
     ["Eponymous Laws", "https://www.swyx.io/writing/eponymous-laws/"],
   ],
