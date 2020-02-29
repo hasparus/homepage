@@ -732,6 +732,8 @@ export enum FileFieldsEnum {
   childMdx___frontmatter___venues = 'childMdx___frontmatter___venues',
   childMdx___frontmatter___venues___name = 'childMdx___frontmatter___venues___name',
   childMdx___frontmatter___venues___link = 'childMdx___frontmatter___venues___link',
+  childMdx___frontmatter___image___url = 'childMdx___frontmatter___image___url',
+  childMdx___frontmatter___image___author = 'childMdx___frontmatter___image___author',
   childMdx___body = 'childMdx___body',
   childMdx___excerpt = 'childMdx___excerpt',
   childMdx___headings = 'childMdx___headings',
@@ -785,6 +787,9 @@ export enum FileFieldsEnum {
   childMdx___fields___socialImage___publicURL = 'childMdx___fields___socialImage___publicURL',
   childMdx___fields___socialImage___id = 'childMdx___fields___socialImage___id',
   childMdx___fields___socialImage___children = 'childMdx___fields___socialImage___children',
+  childMdx___socialLinks___edit = 'childMdx___socialLinks___edit',
+  childMdx___socialLinks___tweet = 'childMdx___socialLinks___tweet',
+  childMdx___socialLinks___discuss = 'childMdx___socialLinks___discuss',
   childMdx___id = 'childMdx___id',
   childMdx___parent___id = 'childMdx___parent___id',
   childMdx___parent___parent___id = 'childMdx___parent___parent___id',
@@ -1468,6 +1473,7 @@ export type Mdx = Node & {
   readonly timeToRead?: Maybe<Scalars['Int']>,
   readonly wordCount?: Maybe<MdxWordCount>,
   readonly fields?: Maybe<MdxFields>,
+  readonly socialLinks: SocialLinks,
   readonly id: Scalars['ID'],
   readonly parent?: Maybe<Node>,
   readonly children: ReadonlyArray<Node>,
@@ -1538,6 +1544,8 @@ export enum MdxFieldsEnum {
   frontmatter___venues = 'frontmatter___venues',
   frontmatter___venues___name = 'frontmatter___venues___name',
   frontmatter___venues___link = 'frontmatter___venues___link',
+  frontmatter___image___url = 'frontmatter___image___url',
+  frontmatter___image___author = 'frontmatter___image___author',
   body = 'body',
   excerpt = 'excerpt',
   headings = 'headings',
@@ -1620,6 +1628,9 @@ export enum MdxFieldsEnum {
   fields___socialImage___childMdx___timeToRead = 'fields___socialImage___childMdx___timeToRead',
   fields___socialImage___childMdx___id = 'fields___socialImage___childMdx___id',
   fields___socialImage___childMdx___children = 'fields___socialImage___childMdx___children',
+  socialLinks___edit = 'socialLinks___edit',
+  socialLinks___tweet = 'socialLinks___tweet',
+  socialLinks___discuss = 'socialLinks___discuss',
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -1729,6 +1740,7 @@ export type MdxFilterInput = {
   readonly timeToRead?: Maybe<IntQueryOperatorInput>,
   readonly wordCount?: Maybe<MdxWordCountFilterInput>,
   readonly fields?: Maybe<MdxFieldsFilterInput>,
+  readonly socialLinks?: Maybe<SocialLinksFilterInput>,
   readonly id?: Maybe<StringQueryOperatorInput>,
   readonly parent?: Maybe<NodeFilterInput>,
   readonly children?: Maybe<NodeFilterListInput>,
@@ -1743,6 +1755,7 @@ export type MdxFrontmatter = {
   readonly history?: Maybe<BlogpostHistoryType>,
   readonly historySource?: Maybe<Scalars['String']>,
   readonly venues?: Maybe<ReadonlyArray<Venue>>,
+  readonly image?: Maybe<PostImage>,
 };
 
 
@@ -1760,6 +1773,7 @@ export type MdxFrontmatterFilterInput = {
   readonly history?: Maybe<BlogpostHistoryTypeQueryOperatorInput>,
   readonly historySource?: Maybe<StringQueryOperatorInput>,
   readonly venues?: Maybe<VenueFilterListInput>,
+  readonly image?: Maybe<PostImageFilterInput>,
 };
 
 export type MdxGroupConnection = {
@@ -1834,6 +1848,17 @@ export type PageInfo = {
   readonly perPage?: Maybe<Scalars['Int']>,
 };
 
+export type PostImage = {
+  readonly __typename?: 'PostImage',
+  readonly url: Scalars['String'],
+  readonly author: Scalars['String'],
+};
+
+export type PostImageFilterInput = {
+  readonly url?: Maybe<StringQueryOperatorInput>,
+  readonly author?: Maybe<StringQueryOperatorInput>,
+};
+
 export type Potrace = {
   readonly turnPolicy?: Maybe<PotraceTurnPolicy>,
   readonly turdSize?: Maybe<Scalars['Float']>,
@@ -1861,6 +1886,8 @@ export type Query = {
   readonly allFile: FileConnection,
   readonly directory?: Maybe<Directory>,
   readonly allDirectory: DirectoryConnection,
+  readonly sitePage?: Maybe<SitePage>,
+  readonly allSitePage: SitePageConnection,
   readonly imageSharp?: Maybe<ImageSharp>,
   readonly allImageSharp: ImageSharpConnection,
   readonly mdx?: Maybe<Mdx>,
@@ -1869,8 +1896,6 @@ export type Query = {
   readonly allSite: SiteConnection,
   readonly sitePlugin?: Maybe<SitePlugin>,
   readonly allSitePlugin: SitePluginConnection,
-  readonly sitePage?: Maybe<SitePage>,
-  readonly allSitePage: SitePageConnection,
 };
 
 
@@ -1975,6 +2000,33 @@ export type QueryallDirectoryArgs = {
 };
 
 
+export type QuerysitePageArgs = {
+  path?: Maybe<StringQueryOperatorInput>,
+  component?: Maybe<StringQueryOperatorInput>,
+  internalComponentName?: Maybe<StringQueryOperatorInput>,
+  componentChunkName?: Maybe<StringQueryOperatorInput>,
+  matchPath?: Maybe<StringQueryOperatorInput>,
+  socialLinks?: Maybe<SocialLinksFilterInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>,
+  isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
+  context?: Maybe<SitePageContextFilterInput>,
+  pluginCreator?: Maybe<SitePluginFilterInput>,
+  pluginCreatorId?: Maybe<StringQueryOperatorInput>,
+  componentPath?: Maybe<StringQueryOperatorInput>
+};
+
+
+export type QueryallSitePageArgs = {
+  filter?: Maybe<SitePageFilterInput>,
+  sort?: Maybe<SitePageSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
 export type QueryimageSharpArgs = {
   fixed?: Maybe<ImageSharpFixedFilterInput>,
   resolutions?: Maybe<ImageSharpResolutionsFilterInput>,
@@ -2010,6 +2062,7 @@ export type QuerymdxArgs = {
   timeToRead?: Maybe<IntQueryOperatorInput>,
   wordCount?: Maybe<MdxWordCountFilterInput>,
   fields?: Maybe<MdxFieldsFilterInput>,
+  socialLinks?: Maybe<SocialLinksFilterInput>,
   id?: Maybe<StringQueryOperatorInput>,
   parent?: Maybe<NodeFilterInput>,
   children?: Maybe<NodeFilterListInput>,
@@ -2067,31 +2120,6 @@ export type QuerysitePluginArgs = {
 export type QueryallSitePluginArgs = {
   filter?: Maybe<SitePluginFilterInput>,
   sort?: Maybe<SitePluginSortInput>,
-  skip?: Maybe<Scalars['Int']>,
-  limit?: Maybe<Scalars['Int']>
-};
-
-
-export type QuerysitePageArgs = {
-  id?: Maybe<StringQueryOperatorInput>,
-  parent?: Maybe<NodeFilterInput>,
-  children?: Maybe<NodeFilterListInput>,
-  internal?: Maybe<InternalFilterInput>,
-  path?: Maybe<StringQueryOperatorInput>,
-  internalComponentName?: Maybe<StringQueryOperatorInput>,
-  component?: Maybe<StringQueryOperatorInput>,
-  componentChunkName?: Maybe<StringQueryOperatorInput>,
-  isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
-  context?: Maybe<SitePageContextFilterInput>,
-  pluginCreator?: Maybe<SitePluginFilterInput>,
-  pluginCreatorId?: Maybe<StringQueryOperatorInput>,
-  componentPath?: Maybe<StringQueryOperatorInput>
-};
-
-
-export type QueryallSitePageArgs = {
-  filter?: Maybe<SitePageFilterInput>,
-  sort?: Maybe<SitePageSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -2276,14 +2304,16 @@ export type SiteGroupConnection = {
 
 export type SitePage = Node & {
   readonly __typename?: 'SitePage',
+  readonly path: Scalars['String'],
+  readonly component: Scalars['String'],
+  readonly internalComponentName: Scalars['String'],
+  readonly componentChunkName: Scalars['String'],
+  readonly matchPath?: Maybe<Scalars['String']>,
+  readonly socialLinks: SocialLinks,
   readonly id: Scalars['ID'],
   readonly parent?: Maybe<Node>,
   readonly children: ReadonlyArray<Node>,
   readonly internal: Internal,
-  readonly path?: Maybe<Scalars['String']>,
-  readonly internalComponentName?: Maybe<Scalars['String']>,
-  readonly component?: Maybe<Scalars['String']>,
-  readonly componentChunkName?: Maybe<Scalars['String']>,
   readonly isCreatedByStatefulCreatePages?: Maybe<Scalars['Boolean']>,
   readonly context?: Maybe<SitePageContext>,
   readonly pluginCreator?: Maybe<SitePlugin>,
@@ -2320,6 +2350,8 @@ export type SitePageContext = {
   readonly readingTime?: Maybe<Scalars['Int']>,
   readonly history?: Maybe<SitePageContextHistory>,
   readonly socialImage?: Maybe<SitePageContextSocialImage>,
+  readonly socialLinks?: Maybe<SitePageContextSocialLinks>,
+  readonly parentId?: Maybe<Scalars['String']>,
 };
 
 export type SitePageContextFilterInput = {
@@ -2328,6 +2360,8 @@ export type SitePageContextFilterInput = {
   readonly readingTime?: Maybe<IntQueryOperatorInput>,
   readonly history?: Maybe<SitePageContextHistoryFilterInput>,
   readonly socialImage?: Maybe<SitePageContextSocialImageFilterInput>,
+  readonly socialLinks?: Maybe<SitePageContextSocialLinksFilterInput>,
+  readonly parentId?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePageContextFrontmatter = {
@@ -2336,8 +2370,8 @@ export type SitePageContextFrontmatter = {
   readonly spoiler?: Maybe<Scalars['String']>,
   readonly date?: Maybe<Scalars['Date']>,
   readonly history?: Maybe<Scalars['String']>,
-  readonly tags?: Maybe<Scalars['String']>,
   readonly historySource?: Maybe<Scalars['String']>,
+  readonly tags?: Maybe<Scalars['String']>,
   readonly venues?: Maybe<ReadonlyArray<Maybe<SitePageContextFrontmatterVenues>>>,
 };
 
@@ -2346,8 +2380,8 @@ export type SitePageContextFrontmatterFilterInput = {
   readonly spoiler?: Maybe<StringQueryOperatorInput>,
   readonly date?: Maybe<DateQueryOperatorInput>,
   readonly history?: Maybe<StringQueryOperatorInput>,
-  readonly tags?: Maybe<StringQueryOperatorInput>,
   readonly historySource?: Maybe<StringQueryOperatorInput>,
+  readonly tags?: Maybe<StringQueryOperatorInput>,
   readonly venues?: Maybe<SitePageContextFrontmatterVenuesFilterListInput>,
 };
 
@@ -2425,6 +2459,17 @@ export type SitePageContextSocialImageFilterInput = {
   readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharpFilterInput>,
 };
 
+export type SitePageContextSocialLinks = {
+  readonly __typename?: 'SitePageContextSocialLinks',
+  readonly edit?: Maybe<Scalars['String']>,
+  readonly tweet?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextSocialLinksFilterInput = {
+  readonly edit?: Maybe<StringQueryOperatorInput>,
+  readonly tweet?: Maybe<StringQueryOperatorInput>,
+};
+
 export type SitePageEdge = {
   readonly __typename?: 'SitePageEdge',
   readonly next?: Maybe<SitePage>,
@@ -2433,6 +2478,14 @@ export type SitePageEdge = {
 };
 
 export enum SitePageFieldsEnum {
+  path = 'path',
+  component = 'component',
+  internalComponentName = 'internalComponentName',
+  componentChunkName = 'componentChunkName',
+  matchPath = 'matchPath',
+  socialLinks___edit = 'socialLinks___edit',
+  socialLinks___tweet = 'socialLinks___tweet',
+  socialLinks___discuss = 'socialLinks___discuss',
   id = 'id',
   parent___id = 'parent___id',
   parent___parent___id = 'parent___parent___id',
@@ -2519,17 +2572,13 @@ export enum SitePageFieldsEnum {
   internal___mediaType = 'internal___mediaType',
   internal___owner = 'internal___owner',
   internal___type = 'internal___type',
-  path = 'path',
-  internalComponentName = 'internalComponentName',
-  component = 'component',
-  componentChunkName = 'componentChunkName',
   isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
   context___frontmatter___title = 'context___frontmatter___title',
   context___frontmatter___spoiler = 'context___frontmatter___spoiler',
   context___frontmatter___date = 'context___frontmatter___date',
   context___frontmatter___history = 'context___frontmatter___history',
-  context___frontmatter___tags = 'context___frontmatter___tags',
   context___frontmatter___historySource = 'context___frontmatter___historySource',
+  context___frontmatter___tags = 'context___frontmatter___tags',
   context___frontmatter___venues = 'context___frontmatter___venues',
   context___frontmatter___venues___name = 'context___frontmatter___venues___name',
   context___frontmatter___venues___link = 'context___frontmatter___venues___link',
@@ -2540,6 +2589,9 @@ export enum SitePageFieldsEnum {
   context___history___entries___authorDate = 'context___history___entries___authorDate',
   context___history___entries___abbreviatedCommit = 'context___history___entries___abbreviatedCommit',
   context___history___url = 'context___history___url',
+  context___socialLinks___edit = 'context___socialLinks___edit',
+  context___socialLinks___tweet = 'context___socialLinks___tweet',
+  context___parentId = 'context___parentId',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -2627,14 +2679,16 @@ export enum SitePageFieldsEnum {
 }
 
 export type SitePageFilterInput = {
+  readonly path?: Maybe<StringQueryOperatorInput>,
+  readonly component?: Maybe<StringQueryOperatorInput>,
+  readonly internalComponentName?: Maybe<StringQueryOperatorInput>,
+  readonly componentChunkName?: Maybe<StringQueryOperatorInput>,
+  readonly matchPath?: Maybe<StringQueryOperatorInput>,
+  readonly socialLinks?: Maybe<SocialLinksFilterInput>,
   readonly id?: Maybe<StringQueryOperatorInput>,
   readonly parent?: Maybe<NodeFilterInput>,
   readonly children?: Maybe<NodeFilterListInput>,
   readonly internal?: Maybe<InternalFilterInput>,
-  readonly path?: Maybe<StringQueryOperatorInput>,
-  readonly internalComponentName?: Maybe<StringQueryOperatorInput>,
-  readonly component?: Maybe<StringQueryOperatorInput>,
-  readonly componentChunkName?: Maybe<StringQueryOperatorInput>,
   readonly isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
   readonly context?: Maybe<SitePageContextFilterInput>,
   readonly pluginCreator?: Maybe<SitePluginFilterInput>,
@@ -2812,7 +2866,6 @@ export enum SitePluginFieldsEnum {
   pluginOptions___gatsbyRemarkPlugins___options___icon = 'pluginOptions___gatsbyRemarkPlugins___options___icon',
   pluginOptions___gatsbyRemarkPlugins___options___extensionDataDirectory = 'pluginOptions___gatsbyRemarkPlugins___options___extensionDataDirectory',
   pluginOptions___gatsbyRemarkPlugins___options___injectStyles = 'pluginOptions___gatsbyRemarkPlugins___options___injectStyles',
-  pluginOptions___gatsbyRemarkPlugins___options___colorTheme = 'pluginOptions___gatsbyRemarkPlugins___options___colorTheme',
   pluginOptions___gatsbyRemarkPlugins___options___extensions = 'pluginOptions___gatsbyRemarkPlugins___options___extensions',
   pluginOptions___defaultLayouts___posts = 'pluginOptions___defaultLayouts___posts',
   pluginOptions___path = 'pluginOptions___path',
@@ -3050,7 +3103,6 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptions = {
   readonly icon?: Maybe<Scalars['String']>,
   readonly extensionDataDirectory?: Maybe<Scalars['String']>,
   readonly injectStyles?: Maybe<Scalars['Boolean']>,
-  readonly colorTheme?: Maybe<Scalars['String']>,
   readonly extensions?: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions>>>,
 };
 
@@ -3085,7 +3137,6 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   readonly icon?: Maybe<StringQueryOperatorInput>,
   readonly extensionDataDirectory?: Maybe<StringQueryOperatorInput>,
   readonly injectStyles?: Maybe<BooleanQueryOperatorInput>,
-  readonly colorTheme?: Maybe<StringQueryOperatorInput>,
   readonly extensions?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterListInput>,
 };
 
@@ -3144,6 +3195,19 @@ export type SiteSiteMetadataSocialFilterListInput = {
 export type SiteSortInput = {
   readonly fields?: Maybe<ReadonlyArray<Maybe<SiteFieldsEnum>>>,
   readonly order?: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>,
+};
+
+export type SocialLinks = {
+  readonly __typename?: 'SocialLinks',
+  readonly edit: Scalars['String'],
+  readonly tweet: Scalars['String'],
+  readonly discuss: Scalars['String'],
+};
+
+export type SocialLinksFilterInput = {
+  readonly edit?: Maybe<StringQueryOperatorInput>,
+  readonly tweet?: Maybe<StringQueryOperatorInput>,
+  readonly discuss?: Maybe<StringQueryOperatorInput>,
 };
 
 export enum SortOrderEnum {

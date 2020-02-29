@@ -5,14 +5,14 @@ import { fontSize } from "../gatsby-plugin-theme-ui";
 export const Footer = () => (
   <footer
     sx={{
+      fontSize: fontSize.small,
+      mt: 5,
       "> a": {
         p: "0.5em",
         mx: "-0.5em",
         mr: "1rem",
         color: "text",
       },
-      fontSize: fontSize.small,
-      mt: 5,
       "@media print": {
         display: "none",
       },

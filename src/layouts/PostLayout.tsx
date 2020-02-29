@@ -3,6 +3,7 @@ import { jsx, Styled as s } from "theme-ui";
 import React, { Fragment, ComponentPropsWithoutRef } from "react";
 import preval from "preval.macro";
 
+import { graphql } from "gatsby";
 import { Header, Root } from "../components";
 import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
@@ -12,11 +13,13 @@ import {
   MdxFields,
   BlogpostHistory,
   BlogpostHistoryEntry,
+  SitePageContext,
 } from "../../__generated__/global";
 import { Footer } from "../components/Footer";
 import { formatDate, formatTitle } from "../appUtils";
 import { fontSize } from "../gatsby-plugin-theme-ui";
 import { assert } from "../lib";
+import { TweetDiscussEditLinks } from "../components/TweetDiscussEditLinks";
 
 const REPO_URL = preval/*js*/ `
   module.exports = require('../../package.json').repository.url;
@@ -172,6 +175,7 @@ interface PostLayoutProps {
     readingTime: number;
     socialImage: File | null;
     history: MdxFields["history"];
+    socialLinks: Mdx["socialLinks"];
   };
   path: string;
 }
@@ -222,6 +226,9 @@ export function PostLayout({
             />
           </header>
           {children}
+          <footer>
+            <TweetDiscussEditLinks socialLinks={pathContext.socialLinks} />
+          </footer>
         </article>
       </main>
       {history && (

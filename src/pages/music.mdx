@@ -1,6 +1,7 @@
 import { jsx, Grid, Embed, AspectRatio } from "theme-ui";
 
 import { PageLayout } from "../layouts/PageLayout";
+import { TweetDiscussEditLinks} from '../components/TweetDiscussEditLinks';
 
 <PageLayout>
 
@@ -18,7 +19,7 @@ When I'm programming, I tend to listen to long mixes with little to no lyrics.
     "https://www.youtube.com/embed/Zz6oob45faU",
     "https://www.youtube.com/embed/5qap5aO4i9A"
   ].map(src => (
-    <AspectRatio ratio={4 / 3}>
+    <AspectRatio ratio={4 / 3} key={src}>
       <Embed sx={{ height: '100%', bg: 'muted' }} src={src} />
     </AspectRatio>
   ))}
@@ -37,4 +38,15 @@ Few artists I listen to recently:
 - Meek, Oh Why?
 - esceh
 
+<TweetDiscussEditLinks socialLinks={props.data.sitePage.socialLinks} />
+
 </PageLayout>
+
+
+export const pageQuery = graphql`
+  query MusicPageQuery($path: String!) {
+    sitePage(path: {eq: $path}) {
+      ...TweetDiscussEditLinksDataOnSitePage
+    }
+  }
+`

@@ -24,6 +24,10 @@ import { getGitLogJsonForFile, makeSocialCard } from "./build-time";
 import * as generated from "./__generated__/global";
 import { assert } from "./src/lib";
 
+function isMdx(node: generated.Node): node is generated.Mdx {
+  return node.internal.type === "Mdx";
+}
+
 const REPO_URL: string = require("./package.json").repository.url;
 
 /**
@@ -35,6 +39,24 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async args => {
     getNode,
     actions: { createNodeField },
   } = args;
+
+  // It makes sense, but I don't need it yet. Moderately useful for debugging.
+  // // eslint-disable-next-line sonarjs/no-collapsible-if
+  // if (node.internal.type === "SitePage") {
+  //   const sitePage = node as generated.SitePage;
+  //   if (sitePage.context) {
+  //     const parent: Node = getNode(sitePage.context.parentId);
+  //     if (parent) {
+  //       createParentChildLink({
+  //         parent,
+  //         child: node,
+  //       });
+  //       // https://www.gatsbyjs.org/docs/node-creation/#explicitly-recording-a-parentchild-relationship
+  //       node.parent = parent.id;
+  //     }
+  //   }
+  //   return;
+  // }
 
   if (node.internal.type === "Mdx") {
     const mdxNode = (node as unknown) as generated.Mdx;
@@ -92,7 +114,7 @@ export const createPages: GatsbyNode["createPages"] = ({
 }) => {
   return new Promise((resolve, reject) => {
     resolve(
-      graphql<{ allMdx: generated.MdxConnection }>(`
+      graphql<{ allMdx: generated.MdxConnection }>(/* graphql */ `
         query CreatePagesQuery {
           allMdx {
             nodes {
@@ -122,6 +144,15 @@ export const createPages: GatsbyNode["createPages"] = ({
                   }
                 }
               }
+              # ...TweetDiscussEditLinksDataOnMdx
+              # can't use fragments here
+              # I think I should try moving the query to layout somehow
+              # the ".component" could be layout, and I could pass MDX through
+              # data
+              socialLinks {
+                edit
+                tweet
+              }
             }
           }
         }
@@ -139,7 +170,11 @@ export const createPages: GatsbyNode["createPages"] = ({
           actions.createPage({
             path: node.fields.route,
             component: node.fileAbsolutePath,
-            context: node.fields,
+            context: {
+              ...node.fields,
+              socialLinks: node.socialLinks,
+              parentId: node.id,
+            },
           });
         });
       })
@@ -148,60 +183,108 @@ export const createPages: GatsbyNode["createPages"] = ({
 };
 
 export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] = async (
-  { actions: { createTypes } }: CreateSchemaCustomizationArgs,
+  {
+    actions: { createTypes, createFieldExtension },
+    store,
+  }: CreateSchemaCustomizationArgs,
   _: PluginOptions
 ) => {
-  const typeDefs = /*graphql*/ `
-    type Mdx implements Node {
-      frontmatter: MdxFrontmatter
-      fields: MdxFields
-    }
+  createTypes(/*graphql*/ `
+      type Mdx implements Node {
+        frontmatter: MdxFrontmatter
+        fields: MdxFields
+        socialLinks: SocialLinks! @socialLinks
+      }
 
-    enum BlogpostHistoryType {
-      Verbose
-      DatesOnly
-    }
+      enum BlogpostHistoryType {
+        Verbose
+        DatesOnly
+      }
 
-    type BlogpostHistoryEntry {
-      abbreviatedCommit: String
-      authorDate: Date!
-      subject: String
-      body: String
-    }
+      type BlogpostHistoryEntry {
+        abbreviatedCommit: String
+        authorDate: Date!
+        subject: String
+        body: String
+      }
 
-    type Venue {
-      name: String!
-      link: String
-    }
+      type Venue {
+        name: String!
+        link: String
+      }
 
-    type PostImage {
-      url: String!
-      author: String!
-    }
+      type PostImage {
+        url: String!
+        author: String!
+      }
 
-    type MdxFrontmatter @dontInfer {
-      title: String!
-      spoiler: String!
-      date: Date!
-      history: BlogpostHistoryType
-      historySource: String
-      venues: [Venue!]
-      image: PostImage
-    }
+      type MdxFrontmatter @dontInfer {
+        title: String!
+        spoiler: String!
+        date: Date!
+        history: BlogpostHistoryType
+        historySource: String
+        venues: [Venue!]
+        image: PostImage
+      }
 
-    type BlogpostHistory {
-      entries: [BlogpostHistoryEntry!]!
-      url: String!
-    }
+      type BlogpostHistory {
+        entries: [BlogpostHistoryEntry!]!
+        url: String!
+      }
 
-    type MdxFields {
-      route: String!
-      isHidden: Boolean!
-      history: BlogpostHistory
-      readingTime: Int!
-    }
-  `;
-  createTypes(typeDefs);
+      type MdxFields {
+        route: String!
+        isHidden: Boolean!
+        history: BlogpostHistory
+        readingTime: Int!
+      }
+
+      type SocialLinks {
+        edit: String!
+        tweet: String!
+        discuss: String!
+      }
+
+      type SitePage {
+        socialLinks: SocialLinks! @socialLinks
+      }
+  `);
+
+  const { siteUrl } = store.getState().config
+    .siteMetadata as generated.SiteSiteMetadata;
+
+  createFieldExtension(
+    {
+      name: "socialLinks",
+      extend(_options: unknown, _prevFieldConfig: unknown) {
+        return {
+          resolve(source: generated.SitePage | generated.Mdx) {
+            const [filePath, route] = isMdx(source)
+              ? [source.fileAbsolutePath, source.fields!.route]
+              : [source.componentPath, source.path];
+
+            assert(
+              filePath && route,
+              `filePath (${filePath}) and route (${route}) must be defined`
+            );
+
+            const relativePath = filePath.replace(slash(__dirname), "");
+            const url = encodeURIComponent(slash(path.join(siteUrl!, route)));
+
+            return {
+              edit: `${REPO_URL}/edit/master/${relativePath}`,
+              tweet: `https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(
+                `.@hasparus`
+              )}`,
+              discuss: `https://mobile.twitter.com/search?q=${url}`,
+            };
+          },
+        };
+      },
+    },
+    { name: "???" }
+  );
 };
 
 async function createFileNode(

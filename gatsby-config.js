@@ -31,7 +31,7 @@ module.exports = {
   },
   plugins: [
     // gatsby-plugin-catch-links breaks menu # link
-    'gatsby-plugin-netlify-cache',
+    "gatsby-plugin-netlify-cache",
     "gatsby-plugin-lodash",
     "gatsby-plugin-theme-ui",
     {
@@ -83,6 +83,9 @@ module.exports = {
         },
       },
     },
+    // note. next time just put the posts in /pages dir
+    // so gatsby-plugin-page-creator kicks in.
+    // it would be easier to maintain
     ...["posts", "assets"].map(s => ({
       resolve: `gatsby-source-filesystem`,
       options: {

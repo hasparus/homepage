@@ -361,3 +361,5 @@ export const theme = makeTheme({
 
 // eslint-disable-next-line import/no-default-export
 export default theme;
+
+export type ExactTheme = typeof theme;
