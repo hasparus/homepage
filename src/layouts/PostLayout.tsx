@@ -3,7 +3,6 @@ import { jsx, Styled as s } from "theme-ui";
 import React, { Fragment, ComponentPropsWithoutRef } from "react";
 import preval from "preval.macro";
 
-import { graphql } from "gatsby";
 import { Header, Root } from "../components";
 import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
@@ -13,7 +12,6 @@ import {
   MdxFields,
   BlogpostHistory,
   BlogpostHistoryEntry,
-  SitePageContext,
 } from "../../__generated__/global";
 import { Footer } from "../components/Footer";
 import { formatDate, formatTitle } from "../appUtils";
