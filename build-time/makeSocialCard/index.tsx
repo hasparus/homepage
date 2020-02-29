@@ -84,14 +84,7 @@ function getSocialCardHtml(post: Mdx) {
           }}
         />
       </head>
-      <ThemeProvider
-        theme={{
-          ...theme,
-          // colors: {
-          //   ...theme.colors.modes.dark,
-          // },
-        }}
-      >
+      <ThemeProvider theme={theme}>
         <body
           sx={{
             margin: 0,
