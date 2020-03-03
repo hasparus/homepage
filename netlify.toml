@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/s/*"
+  to = "https://hasparus-url-shortener.builtwithdark.com/:splat"
+  status = 200
+  force = true
