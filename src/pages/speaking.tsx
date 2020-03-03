@@ -3,11 +3,10 @@ import { graphql, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
 import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
-import { Header, Root } from "../components";
 import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
-import { Footer } from "../components/Footer";
 import { PostsListItem } from "../components/PostsListItem";
+import { PageLayout } from "../layouts/PageLayout";
 
 const SpeakingPage = () => {
   const { allMdx } = useStaticQuery<SpeakingRaportsQuery>(graphql`
@@ -37,9 +36,8 @@ const SpeakingPage = () => {
   `);
 
   return (
-    <Root>
+    <PageLayout>
       <Seo title="speaking" />
-      <Header />
       <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Speaking</s.h1>
       {/* TODO: A paragraph of description? */}
       <main>
@@ -58,8 +56,7 @@ const SpeakingPage = () => {
           );
         })}
       </main>
-      <Footer />
-    </Root>
+    </PageLayout>
   );
 };
 

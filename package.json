@@ -24,6 +24,7 @@
     "@mdx-js/mdx": "1.5.5",
     "@mdx-js/react": "1.5.5",
     "@theme-ui/color": "^0.3.1",
+    "@theme-ui/css": "^0.3.1",
     "@types/babel-plugin-macros": "^2.6.0",
     "@types/body-scroll-lock": "^2.6.1",
     "@types/d3-array": "^2.0.0",
@@ -38,6 +39,7 @@
     "@types/theme-ui": "^0.3.0",
     "@types/theme-ui__color": "^0.3.0",
     "@types/webpack-notifier": "^1.5.3",
+    "@types/zdog": "^1.1.1",
     "@vx/curve": "^0.0.193",
     "@vx/group": "^0.0.193",
     "@vx/mock-data": "^0.0.193",
@@ -88,7 +90,8 @@
     "typeface-passion-one": "^0.0.72",
     "typescript": "^3.7.5",
     "utility-types": "^3.8.0",
-    "webpack-notifier": "^1.8.0"
+    "webpack-notifier": "^1.8.0",
+    "zdog": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

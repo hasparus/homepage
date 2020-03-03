@@ -9,12 +9,11 @@ import {
   theme,
   ColorModes,
   colorModes,
-  Header,
-  Root,
   Button,
   PostSocialPreview,
 } from "../components";
 import { contrastingTextColor, copyToClipboard, isString } from "../lib";
+import { PageLayout } from "../layouts/PageLayout";
 
 const ColorSquareList = (props: React.ComponentProps<"ul">) => (
   <ul
@@ -87,8 +86,7 @@ const ThemePage = () => {
   const currentColorMode = colorModes[colorModeName];
 
   return (
-    <Root>
-      <Header />
+    <PageLayout>
       <s.h1>Theme</s.h1>
       {keys(colorModes).map(colorMode => (
         <Button
@@ -161,7 +159,7 @@ const ThemePage = () => {
           }}
         />
       </section>
-    </Root>
+    </PageLayout>
   );
 };
 

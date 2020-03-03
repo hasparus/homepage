@@ -3,11 +3,10 @@ import { graphql, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
-import { Header, Root } from "../components";
 import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
-import { Footer } from "../components/Footer";
 import { PostsListItem } from "../components/PostsListItem";
+import { PageLayout } from "../layouts/PageLayout";
 
 const WritingPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
@@ -34,9 +33,8 @@ const WritingPage = () => {
   `);
 
   return (
-    <Root>
+    <PageLayout>
       <Seo title="writing" />
-      <Header />
       <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Writing</s.h1>
       <main>
         {allMdx.nodes.map((node, i) => {
@@ -57,8 +55,7 @@ const WritingPage = () => {
           );
         })}
       </main>
-      <Footer />
-    </Root>
+    </PageLayout>
   );
 };
 
