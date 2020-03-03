@@ -9,7 +9,7 @@
   },
   "overrides": [
     {
-      "files": ["**/*.d.ts"],
+      "files": ["**/*.d.ts", "src/pages/**/*.ts", "src/pages/**/*.tsx"],
       "rules": {
         // Move it to eslint-config-chop-chop
         "import/no-default-export": "off"
