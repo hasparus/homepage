@@ -5,6 +5,7 @@ import { PageLayout } from "../layouts/PageLayout";
 import { TweetDiscussEditLinks} from '../components/TweetDiscussEditLinks';
 
 <PageLayout>
+<main>
 
 # Music
 
@@ -28,19 +29,27 @@ When I'm programming, I tend to listen to long mixes with little to no lyrics.
 
 When relaxing or commuting, I do enjoy a witty punch line and smooth storytelling.
 
-**WORK IN PROGRESS ¯\\_(ツ)_/¯ make it visual!**
-
 Few artists I listen to recently:
+<Grid columns={[1, 2]}>
+  {[
+    "https://open.spotify.com/embed/playlist/37i9dQZF1DX7foYGnjLMgQ",
+    "https://open.spotify.com/embed/artist/2P5sC9cVZDToPxyomzF1UH",
+    "https://open.spotify.com/embed/album/5SOxvevA7eQuQKvVdhTgGN",
+    "https://www.youtube.com/embed/videoseries?list=OLAK5uy_kkAiXDFZvrc5MwVUDDkKCE0ZfL6s4nqxQ",
+    "https://open.spotify.com/embed/album/7o70PHWH5M4rDuMRJKQGIM",
+    "https://open.spotify.com/embed/album/0elfyHheFFHADFVMeBamN6"
+  ].map(src => (
+    <AspectRatio ratio={4 / 3} key={src}>
+      <Embed sx={{ height: '100%', bg: 'muted' }} src={src} />
+    </AspectRatio>
+  ))}
+</Grid>
 
-- schafter
-- Joey Bada$$
-- Kacperczyk
-- Anderson Paak
-- Meek, Oh Why?
-- esceh
+<p>&nbsp;</p>
 
 <TweetDiscussEditLinks socialLinks={props.data.sitePage.socialLinks} />
 
+</main>
 </PageLayout>
 
 
