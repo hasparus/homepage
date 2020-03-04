@@ -110,6 +110,9 @@ const FourOhFourPage = () => {
     };
   }, [colors, mousePos]);
 
+  const href =
+    typeof window === "undefined" ? "BUILD_TIME" : window.location.href;
+
   return (
     <PageLayout>
       <Seo titleTemplate="%s" />
@@ -130,7 +133,7 @@ const FourOhFourPage = () => {
           <br />
           <s.a
             href={`https://twitter.com/messages/compose?recipient_id=754073418446671873&text=${encodeURIComponent(
-              `Hey, I'm on 404 page on your website on ${window.location.href}. This is probably a screw-up.`
+              `Hey, I'm on 404 page on your website on ${href}. This is probably a screw-up.`
             )}`}
           >
             DM me
