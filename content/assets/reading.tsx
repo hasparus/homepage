@@ -223,6 +223,12 @@ export const alreadyRead: ReadingList = {
       "https://youtu.be/Nks_Fb5TUjs",
     ],
   ],
+  "Anne-Laure Le Cunff": [
+    [
+      "Mindframing: a personal growth framework",
+      "https://nesslabs.com/mindframing",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
