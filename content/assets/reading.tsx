@@ -37,6 +37,10 @@ export const alreadyRead: ReadingList = {
     ],
     "https://css-tricks.com/types-or-tests-why-not-both/",
     ["Eponymous Laws", "https://www.swyx.io/writing/eponymous-laws/"],
+    [
+      "How I Approach First Principles Thinking via Logic and Epistemology",
+      "https://www.swyx.io/writing/first-principles-approach/",
+    ],
   ],
   "Kevin Mahoney": ["http://kevinmahoney.co.uk/articles/tests-vs-types/"],
   "Scott Wlaschin": [
