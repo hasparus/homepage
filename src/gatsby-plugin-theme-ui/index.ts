@@ -286,6 +286,9 @@ export const theme = makeTheme({
       width: "63ch",
       maxWidth: "100%",
       code,
+      sup: {
+        fontSize: 0,
+      },
     },
     a: {
       overflowWrap: "break-word",
