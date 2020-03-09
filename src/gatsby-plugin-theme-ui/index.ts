@@ -185,18 +185,21 @@ export const theme = makeTheme({
       'Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", ' +
       '"Droid Sans", "Helvetica Neue", sans-serif',
   },
-  fontSizes: [
-    "0.727rem",
-    "0.8rem",
-    "1rem",
-    "1.25rem",
-    "1.563rem",
-    "1.953rem",
-    "2.441rem",
-    "3.052rem",
-    "3.815rem",
-    "4.768rem",
-  ],
+  fontSizes: Object.assign(
+    [
+      "0.727rem",
+      "0.8rem",
+      "1rem",
+      "1.25rem",
+      "1.563rem",
+      "1.953rem",
+      "2.441rem",
+      "3.052rem",
+      "3.815rem",
+      "4.768rem",
+    ],
+    { "-1": "0.64rem", "-2": "0.512rem" }
+  ),
   fontWeights: {
     body: 400,
     heading: 800,
@@ -239,7 +242,7 @@ export const theme = makeTheme({
     },
     h1: {
       ...headingStyles,
-      fontSize: 6,
+      fontSize: [5, 6],
       textAlign: ["center", "left", "left"],
       py: [5, 0, 0],
       margin: "0.5em 0",
@@ -306,7 +309,7 @@ export const theme = makeTheme({
       overflowX: "auto",
       padding: "1em",
       code: {
-        fontSize: 0,
+        fontSize: [-1, 0],
         color: "inherit !important",
         bg: "inherit !important",
         padding: "0 !important",
