@@ -1,6 +1,7 @@
 ---
 title: Reasonable Language Choice
-spoiler: Notes on TypeScript and ReasonML as JavaScript alternatives, ecosystems and trade-offs.
+spoiler: Notes on TypeScript and ReasonML as JavaScript alternatives,
+         language ecosystems and Build vs Install trade-off.
 date: 2020-03-08T20:05:42.642Z
 history: Verbose
 ---
@@ -140,6 +141,8 @@ For comparison:
 
 Look at the ratio! Four tenths! DefinitelyTyped is not a fun thing people star, because they like it! I hate contributing to DT! Yet, there are many excellent libraries in the JavaScript ecosystem, and I want to use them in my statically typed projects.
 
+ReasonML ecosystem is growing, but there's a long way ahead of it.
+
 There are 10 thousand people who introduce the best JavaScript libraries<Footnote.A number={2} /> to TypeScript. The sheer number is astonishing. There are more people who actively improve TypeScript ecosystem than people who declare that they like Reason! The numbers speak in favor of TypeScript. I realize that this is a cold argument and that I am betting for Goliath against David.
 
 <Footnote number={1}>
@@ -161,3 +164,22 @@ Kind of. Many libraries "introduce themselves." JavaScript ecosystem is a supers
 Both TypeScript and ReasonML have a positive effect on the industry. They ease the transition for web developers who'd like to build bigger and more complex applications and for programmers with no love for JavaScript who'd like to build for the web without WASM.
 
 I am not fond of the fact, but for my ordinary work projects choosing the uglier, more popular language seems to be the reasonable choice.
+
+One exception. My gaming laptop explodes when I open 4th Electron-based project.
+**[ReveryUI](https://github.com/revery-ui) is love.**
+
+---
+
+##### Loose notes
+
+<small>
+
+- `import`/`export` vs `module`/`open`/all files are `module`s
+- ReasonReact feels underpowered
+  - ([props-spread]) Spreading props is not an "anti-pattern" in TypeScript, and
+    it's tremendously useful for design systems and libraries. It feels especially weird
+    for me because Reason [Records](https://reasonml.github.io/docs/en/record) support spread.
+
+[props-spread]: https://github.com/reasonml/reason-react/blob/master/docs/props-spread.md
+
+</small>

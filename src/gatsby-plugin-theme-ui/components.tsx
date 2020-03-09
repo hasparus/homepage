@@ -20,6 +20,9 @@ export default {
   BoxedText,
   Box,
   Button,
+  small: (props: ComponentProps<"small">) => (
+    <small sx={{ fontSize: fontSize.small }} {...props} />
+  ),
   figure: (props: ComponentProps<"figure">) => (
     <figure sx={{ margin: 0, "> pre": { mb: 2 } }} {...props} />
   ),
