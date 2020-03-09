@@ -10,7 +10,6 @@ import {
   ReadingList,
   BoxedText,
   Button,
-  Footnote,
 } from "../components";
 
 // eslint-disable-next-line import/no-default-export
