@@ -2,6 +2,8 @@
 import { jsx, Styled as s } from "theme-ui";
 import { ComponentProps } from "react";
 
+import { fontSize } from "../gatsby-plugin-theme-ui";
+
 const FOOTNOTE_ID_PREFIX = "footnote-";
 const REVERSE = "rev-";
 
@@ -17,6 +19,7 @@ export function Footnote({ number, children, ...rest }: FootnoteProps) {
         display: ["flex", "flex", "block"],
         my: 1,
         p: { margin: 0, ml: [1, 1, 0] },
+        fontSize: fontSize.small,
       }}
       {...rest}
     >
