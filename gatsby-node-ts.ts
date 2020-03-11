@@ -238,6 +238,7 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
         isHidden: Boolean!
         history: BlogpostHistory
         readingTime: Int!
+        socialImage: File
       }
 
       type SocialLinks {
@@ -270,7 +271,9 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
             );
 
             const relativePath = filePath.replace(slash(__dirname), "");
-            const url = encodeURIComponent(slash(path.join(siteUrl!, route)));
+            const url = encodeURIComponent(
+              slash(path.join(siteUrl!, route))
+            );
 
             return {
               edit: `${REPO_URL}/edit/master/${relativePath}`,
