@@ -199,6 +199,18 @@ export const alreadyRead: ReadingList = {
       undefined,
       ["styling"],
     ],
+    [
+      "Two Steps Forward, One Step Back",
+      "https://jxnblk.com/blog/two-steps-forward/",
+      undefined,
+      ["styling"],
+    ],
+    [
+      "The Design Graph",
+      "https://jxnblk.com/blog/design-graph/",
+      undefined,
+      ["styling"],
+    ],
   ],
   "Vyacheslav Egorov": [
     [
