@@ -6,9 +6,9 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "dev": "gatsby develop",
+    "start": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx,md}\"",
-    "start": "yarn develop",
     "debug": "nodemon --exec \"node --inspect-brk --no-lazy node_modules/gatsby/dist/bin/gatsby develop\"",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
