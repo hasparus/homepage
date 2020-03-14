@@ -249,6 +249,12 @@ export const alreadyRead: ReadingList = {
       "https://nesslabs.com/mindframing",
     ],
   ],
+  "Matt Biilmann": [
+    [
+      "To WWW or not WWW",
+      "https://www.netlify.com/blog/2017/02/28/to-www-or-not-www/",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
