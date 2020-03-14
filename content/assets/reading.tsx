@@ -202,7 +202,11 @@ export const alreadyRead: ReadingList = {
     [
       "Two Steps Forward, One Step Back",
       "https://jxnblk.com/blog/two-steps-forward/",
-      undefined,
+      inlineMdx`
+        - 🖕 Fuck naming shit when you don’t have to.
+        - &nbsp;**⊃** Use a (superset of CSS) in JS, not a subset.
+        - 🦖 Don't settle for CSS methologies from 2013.
+      `,
       ["styling"],
     ],
     [

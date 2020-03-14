@@ -68,7 +68,14 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
                     (typeof commentary === "string" ? (
                       <s.p>{dedent(commentary)}</s.p>
                     ) : (
-                      <MDXProvider>{jsx(commentary)}</MDXProvider>
+                      <div
+                        sx={{
+                          fontFamily: "text",
+                          ul: { listStyle: "none", my: "1em" },
+                        }}
+                      >
+                        <MDXProvider>{jsx(commentary)}</MDXProvider>
+                      </div>
                     ))}
                 </s.li>
               );
