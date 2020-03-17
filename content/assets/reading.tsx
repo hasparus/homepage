@@ -255,6 +255,9 @@ export const alreadyRead: ReadingList = {
       "https://www.netlify.com/blog/2017/02/28/to-www-or-not-www/",
     ],
   ],
+  "Umer Mansoor": [
+    ["Write Less Code", "https://codeahoy.com/2016/06/03/write-less-code/"],
+  ],
 };
 
 export const futureReading: ReadingList = {
