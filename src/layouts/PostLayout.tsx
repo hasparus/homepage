@@ -7,9 +7,6 @@ import { Header, Root } from "../components";
 import { PostDetails } from "../components/PostDetails";
 import { Seo } from "../components/Seo";
 import {
-  Mdx,
-  File,
-  MdxFields,
   BlogpostHistory,
   BlogpostHistoryEntry,
 } from "../../__generated__/global";
@@ -168,13 +165,7 @@ export function PostHistory({
 
 interface PostLayoutProps {
   children: React.ReactNode;
-  pathContext: {
-    frontmatter: Mdx["frontmatter"];
-    readingTime: number;
-    socialImage: File | null;
-    history: MdxFields["history"];
-    socialLinks: Mdx["socialLinks"];
-  };
+  pathContext: import("../../gatsby-node-ts").MdxPostPageContext;
   path: string;
 }
 

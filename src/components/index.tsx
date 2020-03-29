@@ -10,3 +10,4 @@ export * from "./BoxedText";
 export * from "./PostSocialPreview";
 export * from "./Footer";
 export * from "./Footnote";
+export * from "./TableOfContents";

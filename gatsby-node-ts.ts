@@ -21,14 +21,22 @@ import slash from "slash";
 import { createFileNode as baseCreateFileNode } from "gatsby-source-filesystem/create-file-node";
 
 import { getGitLogJsonForFile, makeSocialCard } from "./build-time";
-import * as generated from "./__generated__/global";
+import * as g from "./__generated__/global";
 import { assert } from "./src/lib";
 
-function isMdx(node: generated.Node): node is generated.Mdx {
+function isMdx(node: g.Node): node is g.Mdx {
   return node.internal.type === "Mdx";
 }
 
 const REPO_URL: string = require("./package.json").repository.url;
+
+export interface MdxPostPageContext extends g.MdxFields {
+  frontmatter: g.Mdx["frontmatter"];
+  readingTime: number;
+  socialLinks: g.Mdx["socialLinks"];
+  tableOfContents: g.Mdx["tableOfContents"];
+  parentId?: string | null;
+}
 
 /**
  * Intercept and modify the GraphQL schema
@@ -59,7 +67,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async args => {
   // }
 
   if (node.internal.type === "Mdx") {
-    const mdxNode = (node as unknown) as generated.Mdx;
+    const mdxNode = (node as unknown) as g.Mdx;
 
     const route = toLower(
       createFilePath({
@@ -114,7 +122,7 @@ export const createPages: GatsbyNode["createPages"] = ({
 }) => {
   return new Promise((resolve, reject) => {
     resolve(
-      graphql<{ allMdx: generated.MdxConnection }>(/* graphql */ `
+      graphql<{ allMdx: g.MdxConnection }>(/* graphql */ `
         query CreatePagesQuery {
           allMdx {
             nodes {
@@ -153,6 +161,20 @@ export const createPages: GatsbyNode["createPages"] = ({
                 edit
                 tweet
               }
+              tableOfContents {
+                items {
+                  url
+                  title
+                  items {
+                    url
+                    title
+                    items {
+                      url
+                      title
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -167,14 +189,17 @@ export const createPages: GatsbyNode["createPages"] = ({
         result.data?.allMdx?.nodes.forEach(node => {
           assert(node && node.fields && node.fields.route);
 
+          const context: Omit<MdxPostPageContext, "frontmatter"> = {
+            ...node.fields,
+            socialLinks: node.socialLinks,
+            tableOfContents: node.tableOfContents,
+            parentId: node.id,
+          };
+
           actions.createPage({
             path: node.fields.route,
             component: node.fileAbsolutePath,
-            context: {
-              ...node.fields,
-              socialLinks: node.socialLinks,
-              parentId: node.id,
-            },
+            context,
           });
         });
       })
@@ -194,6 +219,7 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
         frontmatter: MdxFrontmatter
         fields: MdxFields
         socialLinks: SocialLinks! @socialLinks
+        tableOfContents: TableOfContents!
       }
 
       enum BlogpostHistoryType {
@@ -250,17 +276,28 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       type SitePage {
         socialLinks: SocialLinks! @socialLinks
       }
+
+
+      type TableOfContents @dontInfer {
+        items: [TableOfContentsItem!]
+      }
+
+      type TableOfContentsItem @dontInfer {
+        url: String
+        title: String
+        items: [TableOfContentsItem!]
+      }
   `);
 
   const { siteUrl } = store.getState().config
-    .siteMetadata as generated.SiteSiteMetadata;
+    .siteMetadata as g.SiteSiteMetadata;
 
   createFieldExtension(
     {
       name: "socialLinks",
       extend(_options: unknown, _prevFieldConfig: unknown) {
         return {
-          resolve(source: generated.SitePage | generated.Mdx) {
+          resolve(source: g.SitePage | g.Mdx) {
             const [filePath, route] = isMdx(source)
               ? [source.fileAbsolutePath, source.fields!.route]
               : [source.componentPath, source.path];
@@ -318,7 +355,7 @@ export async function onPostBuild() {
 }
 
 interface CreateMdxNodeArgs extends ParentSpanPluginArgs {
-  node: generated.Mdx;
+  node: g.Mdx;
 }
 
 function createBlogpostHistoryNodeField(
@@ -392,7 +429,7 @@ async function createSocialImageNodeField({
     const ogImage = await makeSocialCard(
       cacheDir,
       browser,
-      (node as unknown) as generated.Mdx
+      (node as unknown) as g.Mdx
     );
 
     const ogImageNode = await createFileNode(

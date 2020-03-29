@@ -11,7 +11,7 @@ export const TweetDiscussEditLinks = ({
   return (
     <footer
       sx={{
-        pt: 2,
+        pt: 4,
         "@media print": {
           display: "none",
         },

@@ -741,7 +741,10 @@ export enum FileFieldsEnum {
   childMdx___headings___depth = 'childMdx___headings___depth',
   childMdx___html = 'childMdx___html',
   childMdx___mdxAST = 'childMdx___mdxAST',
-  childMdx___tableOfContents = 'childMdx___tableOfContents',
+  childMdx___tableOfContents___items = 'childMdx___tableOfContents___items',
+  childMdx___tableOfContents___items___url = 'childMdx___tableOfContents___items___url',
+  childMdx___tableOfContents___items___title = 'childMdx___tableOfContents___items___title',
+  childMdx___tableOfContents___items___items = 'childMdx___tableOfContents___items___items',
   childMdx___timeToRead = 'childMdx___timeToRead',
   childMdx___wordCount___paragraphs = 'childMdx___wordCount___paragraphs',
   childMdx___wordCount___sentences = 'childMdx___wordCount___sentences',
@@ -1469,7 +1472,7 @@ export type Mdx = Node & {
   readonly headings?: Maybe<ReadonlyArray<Maybe<MdxHeadingMdx>>>,
   readonly html?: Maybe<Scalars['String']>,
   readonly mdxAST?: Maybe<Scalars['JSON']>,
-  readonly tableOfContents?: Maybe<Scalars['JSON']>,
+  readonly tableOfContents: TableOfContents,
   readonly timeToRead?: Maybe<Scalars['Int']>,
   readonly wordCount?: Maybe<MdxWordCount>,
   readonly fields?: Maybe<MdxFields>,
@@ -1488,11 +1491,6 @@ export type MdxexcerptArgs = {
 
 export type MdxheadingsArgs = {
   depth?: Maybe<HeadingsMdx>
-};
-
-
-export type MdxtableOfContentsArgs = {
-  maxDepth?: Maybe<Scalars['Int']>
 };
 
 export type MdxConnection = {
@@ -1553,7 +1551,13 @@ export enum MdxFieldsEnum {
   headings___depth = 'headings___depth',
   html = 'html',
   mdxAST = 'mdxAST',
-  tableOfContents = 'tableOfContents',
+  tableOfContents___items = 'tableOfContents___items',
+  tableOfContents___items___url = 'tableOfContents___items___url',
+  tableOfContents___items___title = 'tableOfContents___items___title',
+  tableOfContents___items___items = 'tableOfContents___items___items',
+  tableOfContents___items___items___url = 'tableOfContents___items___items___url',
+  tableOfContents___items___items___title = 'tableOfContents___items___items___title',
+  tableOfContents___items___items___items = 'tableOfContents___items___items___items',
   timeToRead = 'timeToRead',
   wordCount___paragraphs = 'wordCount___paragraphs',
   wordCount___sentences = 'wordCount___sentences',
@@ -1624,7 +1628,6 @@ export enum MdxFieldsEnum {
   fields___socialImage___childMdx___headings = 'fields___socialImage___childMdx___headings',
   fields___socialImage___childMdx___html = 'fields___socialImage___childMdx___html',
   fields___socialImage___childMdx___mdxAST = 'fields___socialImage___childMdx___mdxAST',
-  fields___socialImage___childMdx___tableOfContents = 'fields___socialImage___childMdx___tableOfContents',
   fields___socialImage___childMdx___timeToRead = 'fields___socialImage___childMdx___timeToRead',
   fields___socialImage___childMdx___id = 'fields___socialImage___childMdx___id',
   fields___socialImage___childMdx___children = 'fields___socialImage___childMdx___children',
@@ -1736,7 +1739,7 @@ export type MdxFilterInput = {
   readonly headings?: Maybe<MdxHeadingMdxFilterListInput>,
   readonly html?: Maybe<StringQueryOperatorInput>,
   readonly mdxAST?: Maybe<JSONQueryOperatorInput>,
-  readonly tableOfContents?: Maybe<JSONQueryOperatorInput>,
+  readonly tableOfContents?: Maybe<TableOfContentsFilterInput>,
   readonly timeToRead?: Maybe<IntQueryOperatorInput>,
   readonly wordCount?: Maybe<MdxWordCountFilterInput>,
   readonly fields?: Maybe<MdxFieldsFilterInput>,
@@ -2012,7 +2015,6 @@ export type QuerysitePageArgs = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
-  context?: Maybe<SitePageContextFilterInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
   pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   componentPath?: Maybe<StringQueryOperatorInput>
@@ -2058,7 +2060,7 @@ export type QuerymdxArgs = {
   headings?: Maybe<MdxHeadingMdxFilterListInput>,
   html?: Maybe<StringQueryOperatorInput>,
   mdxAST?: Maybe<JSONQueryOperatorInput>,
-  tableOfContents?: Maybe<JSONQueryOperatorInput>,
+  tableOfContents?: Maybe<TableOfContentsFilterInput>,
   timeToRead?: Maybe<IntQueryOperatorInput>,
   wordCount?: Maybe<MdxWordCountFilterInput>,
   fields?: Maybe<MdxFieldsFilterInput>,
@@ -2315,7 +2317,6 @@ export type SitePage = Node & {
   readonly children: ReadonlyArray<Node>,
   readonly internal: Internal,
   readonly isCreatedByStatefulCreatePages?: Maybe<Scalars['Boolean']>,
-  readonly context?: Maybe<SitePageContext>,
   readonly pluginCreator?: Maybe<SitePlugin>,
   readonly pluginCreatorId?: Maybe<Scalars['String']>,
   readonly componentPath?: Maybe<Scalars['String']>,
@@ -2341,133 +2342,6 @@ export type SitePageConnectiongroupArgs = {
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>,
   field: SitePageFieldsEnum
-};
-
-export type SitePageContext = {
-  readonly __typename?: 'SitePageContext',
-  readonly frontmatter?: Maybe<SitePageContextFrontmatter>,
-  readonly route?: Maybe<Scalars['String']>,
-  readonly readingTime?: Maybe<Scalars['Int']>,
-  readonly history?: Maybe<SitePageContextHistory>,
-  readonly socialImage?: Maybe<SitePageContextSocialImage>,
-  readonly socialLinks?: Maybe<SitePageContextSocialLinks>,
-  readonly parentId?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextFilterInput = {
-  readonly frontmatter?: Maybe<SitePageContextFrontmatterFilterInput>,
-  readonly route?: Maybe<StringQueryOperatorInput>,
-  readonly readingTime?: Maybe<IntQueryOperatorInput>,
-  readonly history?: Maybe<SitePageContextHistoryFilterInput>,
-  readonly socialImage?: Maybe<SitePageContextSocialImageFilterInput>,
-  readonly socialLinks?: Maybe<SitePageContextSocialLinksFilterInput>,
-  readonly parentId?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePageContextFrontmatter = {
-  readonly __typename?: 'SitePageContextFrontmatter',
-  readonly title?: Maybe<Scalars['String']>,
-  readonly spoiler?: Maybe<Scalars['String']>,
-  readonly date?: Maybe<Scalars['Date']>,
-  readonly history?: Maybe<Scalars['String']>,
-  readonly historySource?: Maybe<Scalars['String']>,
-  readonly tags?: Maybe<Scalars['String']>,
-  readonly venues?: Maybe<ReadonlyArray<Maybe<SitePageContextFrontmatterVenues>>>,
-};
-
-export type SitePageContextFrontmatterFilterInput = {
-  readonly title?: Maybe<StringQueryOperatorInput>,
-  readonly spoiler?: Maybe<StringQueryOperatorInput>,
-  readonly date?: Maybe<DateQueryOperatorInput>,
-  readonly history?: Maybe<StringQueryOperatorInput>,
-  readonly historySource?: Maybe<StringQueryOperatorInput>,
-  readonly tags?: Maybe<StringQueryOperatorInput>,
-  readonly venues?: Maybe<SitePageContextFrontmatterVenuesFilterListInput>,
-};
-
-export type SitePageContextFrontmatterVenues = {
-  readonly __typename?: 'SitePageContextFrontmatterVenues',
-  readonly name?: Maybe<Scalars['String']>,
-  readonly link?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextFrontmatterVenuesFilterInput = {
-  readonly name?: Maybe<StringQueryOperatorInput>,
-  readonly link?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePageContextFrontmatterVenuesFilterListInput = {
-  readonly elemMatch?: Maybe<SitePageContextFrontmatterVenuesFilterInput>,
-};
-
-export type SitePageContextHistory = {
-  readonly __typename?: 'SitePageContextHistory',
-  readonly entries?: Maybe<ReadonlyArray<Maybe<SitePageContextHistoryEntries>>>,
-  readonly url?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextHistoryEntries = {
-  readonly __typename?: 'SitePageContextHistoryEntries',
-  readonly subject?: Maybe<Scalars['String']>,
-  readonly authorDate?: Maybe<Scalars['String']>,
-  readonly abbreviatedCommit?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextHistoryEntriesFilterInput = {
-  readonly subject?: Maybe<StringQueryOperatorInput>,
-  readonly authorDate?: Maybe<StringQueryOperatorInput>,
-  readonly abbreviatedCommit?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePageContextHistoryEntriesFilterListInput = {
-  readonly elemMatch?: Maybe<SitePageContextHistoryEntriesFilterInput>,
-};
-
-export type SitePageContextHistoryFilterInput = {
-  readonly entries?: Maybe<SitePageContextHistoryEntriesFilterListInput>,
-  readonly url?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePageContextSocialImage = {
-  readonly __typename?: 'SitePageContextSocialImage',
-  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharp>,
-};
-
-export type SitePageContextSocialImageChildImageSharp = {
-  readonly __typename?: 'SitePageContextSocialImageChildImageSharp',
-  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginal>,
-};
-
-export type SitePageContextSocialImageChildImageSharpFilterInput = {
-  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginalFilterInput>,
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginal = {
-  readonly __typename?: 'SitePageContextSocialImageChildImageSharpOriginal',
-  readonly width?: Maybe<Scalars['Int']>,
-  readonly height?: Maybe<Scalars['Int']>,
-  readonly src?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginalFilterInput = {
-  readonly width?: Maybe<IntQueryOperatorInput>,
-  readonly height?: Maybe<IntQueryOperatorInput>,
-  readonly src?: Maybe<StringQueryOperatorInput>,
-};
-
-export type SitePageContextSocialImageFilterInput = {
-  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharpFilterInput>,
-};
-
-export type SitePageContextSocialLinks = {
-  readonly __typename?: 'SitePageContextSocialLinks',
-  readonly edit?: Maybe<Scalars['String']>,
-  readonly tweet?: Maybe<Scalars['String']>,
-};
-
-export type SitePageContextSocialLinksFilterInput = {
-  readonly edit?: Maybe<StringQueryOperatorInput>,
-  readonly tweet?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePageEdge = {
@@ -2573,25 +2447,6 @@ export enum SitePageFieldsEnum {
   internal___owner = 'internal___owner',
   internal___type = 'internal___type',
   isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
-  context___frontmatter___title = 'context___frontmatter___title',
-  context___frontmatter___spoiler = 'context___frontmatter___spoiler',
-  context___frontmatter___date = 'context___frontmatter___date',
-  context___frontmatter___history = 'context___frontmatter___history',
-  context___frontmatter___historySource = 'context___frontmatter___historySource',
-  context___frontmatter___tags = 'context___frontmatter___tags',
-  context___frontmatter___venues = 'context___frontmatter___venues',
-  context___frontmatter___venues___name = 'context___frontmatter___venues___name',
-  context___frontmatter___venues___link = 'context___frontmatter___venues___link',
-  context___route = 'context___route',
-  context___readingTime = 'context___readingTime',
-  context___history___entries = 'context___history___entries',
-  context___history___entries___subject = 'context___history___entries___subject',
-  context___history___entries___authorDate = 'context___history___entries___authorDate',
-  context___history___entries___abbreviatedCommit = 'context___history___entries___abbreviatedCommit',
-  context___history___url = 'context___history___url',
-  context___socialLinks___edit = 'context___socialLinks___edit',
-  context___socialLinks___tweet = 'context___socialLinks___tweet',
-  context___parentId = 'context___parentId',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -2690,7 +2545,6 @@ export type SitePageFilterInput = {
   readonly children?: Maybe<NodeFilterListInput>,
   readonly internal?: Maybe<InternalFilterInput>,
   readonly isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
-  readonly context?: Maybe<SitePageContextFilterInput>,
   readonly pluginCreator?: Maybe<SitePluginFilterInput>,
   readonly pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   readonly componentPath?: Maybe<StringQueryOperatorInput>,
@@ -3222,6 +3076,32 @@ export type StringQueryOperatorInput = {
   readonly nin?: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>,
   readonly regex?: Maybe<Scalars['String']>,
   readonly glob?: Maybe<Scalars['String']>,
+};
+
+export type TableOfContents = {
+  readonly __typename?: 'TableOfContents',
+  readonly items?: Maybe<ReadonlyArray<TableOfContentsItem>>,
+};
+
+export type TableOfContentsFilterInput = {
+  readonly items?: Maybe<TableOfContentsItemFilterListInput>,
+};
+
+export type TableOfContentsItem = {
+  readonly __typename?: 'TableOfContentsItem',
+  readonly url?: Maybe<Scalars['String']>,
+  readonly title?: Maybe<Scalars['String']>,
+  readonly items?: Maybe<ReadonlyArray<TableOfContentsItem>>,
+};
+
+export type TableOfContentsItemFilterInput = {
+  readonly url?: Maybe<StringQueryOperatorInput>,
+  readonly title?: Maybe<StringQueryOperatorInput>,
+  readonly items?: Maybe<TableOfContentsItemFilterListInput>,
+};
+
+export type TableOfContentsItemFilterListInput = {
+  readonly elemMatch?: Maybe<TableOfContentsItemFilterInput>,
 };
 
 export type Venue = {

@@ -125,6 +125,8 @@ const headingStyles = {
 
   color: "text092",
 
+  margin: "0.5em 0",
+
   code: {
     fontSize: "0.85em",
     fontWeight: "bold",
@@ -164,7 +166,7 @@ const buttonStyles: Theme["buttons"] = {
 };
 
 // https://github.com/system-ui/theme-specification
-// I want to make sure my team is correct (assignable to Theme) but narrow
+// I want to make sure my theme is correct (assignable to Theme) but narrow
 // the type to the actual value
 const makeTheme = <T extends Theme>(t: T): T => {
   return t;
@@ -248,15 +250,13 @@ export const theme = makeTheme({
       fontSize: [5, 6],
       textAlign: ["center", "left", "left"],
       py: [5, 0, 0],
-      margin: "0.5em 0",
-      wordBreak: "break-word",
       lineHeight: 1.1,
+      wordBreak: "break-word",
     },
     h2: {
       ...headingStyles,
       color: "text",
       fontSize: 5,
-      margin: "0.5em 0",
       wordBreak: "break-word",
     },
     h3: {
@@ -269,20 +269,17 @@ export const theme = makeTheme({
       ...headingStyles,
       color: "gray",
       fontSize: 3,
-      margin: "0.5em 0",
     },
     h5: {
       ...headingStyles,
       color: "text",
       fontSize: 2,
-      margin: "0.5em 0",
     },
     h6: {
       ...headingStyles,
       color: "text",
       fontFamily: "text",
       fontSize: 1,
-      margin: "0.5em 0",
     },
     p: {
       color: "text",

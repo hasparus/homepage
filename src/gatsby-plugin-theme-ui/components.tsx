@@ -10,6 +10,7 @@ import {
   ReadingList,
   BoxedText,
   Button,
+  TableOfContents,
 } from "../components";
 
 // eslint-disable-next-line import/no-default-export
@@ -20,6 +21,7 @@ export default {
   BoxedText,
   Box,
   Button,
+  TableOfContents,
   small: (props: ComponentProps<"small">) => (
     <small sx={{ fontSize: fontSize.small }} {...props} />
   ),
