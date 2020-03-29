@@ -228,6 +228,7 @@ export const theme = makeTheme({
       "*": {
         boxSizing: "border-box",
       },
+      // HACK: anchor from remark-autolink-headers
       ".anchor": {
         p: ["2px", "4px"],
         display: "inline-flex",
@@ -237,6 +238,8 @@ export const theme = makeTheme({
         svg: {
           width: ["12px", "20px"],
           height: ["12px", "20px"],
+          strokeLinejoin: "round",
+          strokeLinecap: "round",
         },
       },
     },

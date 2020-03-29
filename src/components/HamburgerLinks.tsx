@@ -72,9 +72,9 @@ export const HamburgerLinks = forwardRef<
         <svg
           viewBox="-1 -1 12 12"
           strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          strokeLinejoin="round"
           sx={{
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
             width: 32,
             height: 32,
             transition: "transform 150ms ease-out",
