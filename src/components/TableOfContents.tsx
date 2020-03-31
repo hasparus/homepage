@@ -1,14 +1,17 @@
 /** @jsx jsx */
 import { Styled as s, jsx } from "theme-ui";
-import * as g from "../../__generated__/global";
 
 import { pageCtx } from "./pageCtx";
 import { MdxPostPageContext } from "../../gatsby-node-ts";
 
 export function TableOfContents() {
   // unsafe
-  const { tableOfContents } = pageCtx.useContext()
-    .pageContext as MdxPostPageContext;
+  const { pageContext } = pageCtx.useContext();
+  if (!pageContext) {
+    return null;
+  }
+
+  const { tableOfContents } = pageContext as MdxPostPageContext;
 
   if (!tableOfContents.items || tableOfContents.items.length === 0) {
     if (process.env.NODE_ENV === "development") {
