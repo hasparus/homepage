@@ -26,7 +26,9 @@ export function TableOfContents() {
   }
   return (
     <section sx={{ border: t => `6px solid ${t.colors.highlight}`, px: 3 }}>
-      <s.h3 id="table-of-contents">Table of Contents</s.h3>
+      <s.h3 id="table-of-contents" sx={{ my: "0.5em" }}>
+        Table of Contents
+      </s.h3>
       <s.ul>
         {tableOfContents.items.map(({ url, title, items }, i) => (
           <s.li key={i}>
