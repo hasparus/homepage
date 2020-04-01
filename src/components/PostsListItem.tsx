@@ -43,5 +43,5 @@ PostsListItem.Heading = ({
 PostsListItem.Header = "header" as const;
 
 PostsListItem.Spoiler = (props: ComponentPropsWithoutRef<"p">) => (
-  <s.p sx={{ mt: 1 }} {...props} />
+  <s.p sx={{ mt: 2 }} {...props} />
 );
