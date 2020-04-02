@@ -116,6 +116,12 @@ const PostHistoryListItem = ({
   );
 };
 
+const editionDates = (...dates: [Date, Date]) => {
+  const [from, to] = dates.map(formatDate);
+
+  return from === to ? ` on ${from}` : ` between ${from} and ${to}.`;
+};
+
 const SHOWN_HISTORY_LENGTH = 15;
 
 interface PostHistoryProps {
@@ -143,9 +149,10 @@ export function PostHistory({
       >
         Edited {entries.length} times
         {hasDatesOnly &&
-          ` between ${formatDate(
-            entries[entries.length - 1].authorDate
-          )} and ${formatDate(entries[0].authorDate)}.`}
+          editionDates(
+            entries[entries.length - 1].authorDate,
+            entries[0].authorDate
+          )}
       </span>
       {!hasDatesOnly && (
         <PostHistoryList>
