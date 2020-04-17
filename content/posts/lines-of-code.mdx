@@ -5,9 +5,9 @@ date: 2020-03-28T20:05:09.475Z
 history: Verbose
 ---
 
-Lines of Code is a lousy metric. At least for on a small scale. I accept
-that it may be useful to compare big projects or repositories, but most
-often, when I encounter it, it is just meaningless.
+Lines of Code is a lousy metric — at least on a small scale. I accept that
+it may be useful to compare big projects or repositories, but most often,
+when I encounter it, it is just meaningless.
 
 ## The Big Scale
 
@@ -20,14 +20,14 @@ questions about it.
 
 - Google has a huge repository. Maybe even the biggest one in the world.
 - Did they modify git/svn/Perforce to make it possible?
-- My workflow is git-centric. I'm curious how does this repository affects
+- My workflow is git-centric. I'm curious about how this repository affects
   their workflow? How is it different from mine?
 
 > The Linux kernel has around 27.8 million lines of code in its Git
 > repository
 
-- Linux kernel is way smaller than Google codebase.
-- It's still tremendous effort.
+- The Linux kernel is way smaller than the Google codebase.
+- It's still a tremendous effort.
 - But hey. Isn't it too big for a "kernel"? Oh! The drivers are there. Makes
   sense!
 
@@ -50,7 +50,7 @@ On its own, LoC of a file for example -- It' just a number. Sad and lonely.
 
 ## 150 🍎 < 75 🍊
 
-Can we say that a 500 lines long file is long? Or short? Or is it just
+Can we say that a 500 line long file is long? Or short? Or is it just
 perfect?
 
 We can't and this would be pointless. Don't let
@@ -68,16 +68,16 @@ imperative, right? We don't have to think as much while reading, because it
 just **is**, while imperative **does**. For example, HTML is easier to read
 than JavaScript of the same length.
 
-In a React class component, 150 lines of JSX in a `render` function are
-"less code" than 75 lines of class logic.
+In a React class component, 150 lines of JSX in a `render` function is "less
+code" than 75 lines of class logic.
 
-I will go further. 150 lines of JSX in a functional component are "less
-code" than 75 lines of hooks. `useState`, `useEffect`, `useLayoutEffect`,
+I will go further. 150 lines of JSX in a functional component is "less code"
+than 75 lines of hooks. `useState`, `useEffect`, `useLayoutEffect`,
 `useSelector`, `useMachine`. A lot happens there. The difference may not be
-so big than when comparing declarative UI composition with imperative code
-in lifecycle hooks, but I'd argue that it still holds. Fewer things we have
-to comprehend can happen in JSX. (Go away `<Fetch />` component, you're the
-outlier.)
+as big as when comparing declarative UI composition with imperative code in
+lifecycle hooks, but I'd argue that it still holds. We have fewer things to
+comprehend in JSX because much of it is self-explanatory. (Go away
+`<Fetch />` component, you're the outlier.)
 
 This is all JavaScript, but aren't we comparing apples to oranges?
 
