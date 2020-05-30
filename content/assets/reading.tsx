@@ -258,6 +258,12 @@ export const alreadyRead: ReadingList = {
   "Umer Mansoor": [
     ["Write Less Code", "https://codeahoy.com/2016/06/03/write-less-code/"],
   ],
+  "Andreas Klinger": [
+    [
+      "How I think about Code Management",
+      "https://klinger.io/post/613532774806192128/how-i-think-about-code-management",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
