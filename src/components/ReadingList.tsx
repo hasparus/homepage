@@ -1,9 +1,9 @@
 /** @jsx jsx */
 
-import { jsx, Styled as s, BaseStyles } from "theme-ui";
+import { jsx, Styled as s } from "theme-ui";
 import { toArray } from "fp-ts/lib/Record";
 import { fromCompare, ordString } from "fp-ts/lib/Ord";
-import { ComponentPropsWithoutRef, ComponentProps } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import { sort } from "fp-ts/lib/Array";
 import { MDXProvider } from "@mdx-js/react";
 import dedent from "dedent";

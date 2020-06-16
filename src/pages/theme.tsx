@@ -3,7 +3,7 @@ import { filter, collect, keys } from "fp-ts/lib/Record";
 import { last } from "lodash";
 import { Link } from "gatsby";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Styled as s, jsx, useColorMode, ColorMode } from "theme-ui";
+import { Styled as s, jsx, useColorMode } from "theme-ui";
 
 import {
   theme,
