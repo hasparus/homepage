@@ -3,7 +3,7 @@ import { filter, collect, keys } from "fp-ts/lib/Record";
 import { last } from "lodash";
 import { Link } from "gatsby";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Styled as s, jsx, useColorMode } from "theme-ui";
+import { Styled as s, jsx, useColorMode, ColorMode } from "theme-ui";
 
 import {
   theme,
@@ -83,7 +83,7 @@ const ColorSquare: React.FC<ColorSquareProps> = ({ name, value }) => {
 const ThemePage = () => {
   const [colorModeName, setColorMode] = useColorMode<ColorModes>();
 
-  const currentColorMode = colorModes[colorModeName];
+  const currentColorMode = colorModes[colorModeName as ColorModes];
 
   return (
     <PageLayout>

@@ -10,7 +10,6 @@ import { createHash } from "crypto";
 import { promisify } from "util";
 import { Browser } from "puppeteer";
 import { renderToStaticMarkup } from "react-dom/server";
-import slash from "slash";
 
 import { theme } from "../../src/gatsby-plugin-theme-ui/index";
 import { Mdx } from "../../__generated__/global";

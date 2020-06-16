@@ -86,8 +86,3 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
     </s.ul>
   );
 };
-
-declare module "theme-ui" {
-  // eslint-disable-next-line no-shadow
-  export const BaseStyles: React.FC<ComponentProps<"div">>;
-}
