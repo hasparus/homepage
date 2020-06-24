@@ -270,6 +270,12 @@ export const alreadyRead: ReadingList = {
       "https://sibelius.substack.com/p/what-should-you-build-next",
     ],
   ],
+  "Steve Yegge": [
+    [
+      "The Nonesuch Beast",
+      "https://sites.google.com/site/steveyegge2/nonesuch-beast",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
