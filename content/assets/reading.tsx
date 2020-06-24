@@ -276,6 +276,12 @@ export const alreadyRead: ReadingList = {
       "https://sites.google.com/site/steveyegge2/nonesuch-beast",
     ],
   ],
+  "Ted Kaminski": [
+    [
+      'Deconstructing the "Unix philosophy"',
+      "https://www.tedinski.com/2018/05/08/case-study-unix-philosophy.html",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
