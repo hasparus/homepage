@@ -264,6 +264,12 @@ export const alreadyRead: ReadingList = {
       "https://klinger.io/post/613532774806192128/how-i-think-about-code-management",
     ],
   ],
+  "Sibelius Seraphini": [
+    [
+      "What should you Build next?",
+      "https://sibelius.substack.com/p/what-should-you-build-next",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
