@@ -279,7 +279,27 @@ export const alreadyRead: ReadingList = {
   "Ted Kaminski": [
     [
       'Deconstructing the "Unix philosophy"',
-      "https://www.tedinski.com/2018/05/08/case-study-unix-philosophy.html",
+      "https://www.tedinski.com/2018/05/08/case-study-uznix-philosophy.html",
+    ],
+  ],
+  "Sezgi Ulucam": [
+    [
+      "A deep-dive into Relay, the friendly & opinionated GraphQL client",
+      "https://hasura.io/blog/deep-dive-into-relay-graphql-client/",
+    ],
+  ],
+  "André Staltz": [
+    [
+      "Unidirectional User Interface Architectures",
+      "https://staltz.com/unidirectional-user-interface-architectures.html",
+    ],
+    [
+      "Your IDE as a presentation tool",
+      "https://staltz.com/your-ide-as-a-presentation-tool.html",
+    ],
+    [
+      "Why we need Callbags",
+      "https://staltz.com/why-we-need-callbags.html",
     ],
   ],
 };
@@ -322,12 +342,6 @@ export const futureReading: ReadingList = {
     [
       "Exploring CQRS and Event Sourcing",
       "https://www.microsoft.com/en-us/download/details.aspx?id=34774",
-    ],
-  ],
-  "André Staltz": [
-    [
-      "Unidirectional User Interface Architectures",
-      "https://staltz.com/unidirectional-user-interface-architectures.html",
     ],
   ],
 };
