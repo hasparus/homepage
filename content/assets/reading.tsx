@@ -102,6 +102,10 @@ export const alreadyRead: ReadingList = {
       `,
     ],
     ["Goodbye, Clean Code", "https://overreacted.io/goodbye-clean-code/"],
+    [
+      "The Wet Codebase",
+      "https://www.deconstructconf.com/2019/dan-abramov-the-wet-codebase",
+    ],
   ],
   "Martin Fowler": ["https://martinfowler.com/bliki/BeckDesignRules.html"],
   "Rich Hickey": [
