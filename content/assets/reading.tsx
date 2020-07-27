@@ -306,6 +306,13 @@ export const alreadyRead: ReadingList = {
       "https://staltz.com/why-we-need-callbags.html",
     ],
   ],
+  "Jani Eväkallio": [
+    [
+      "Foam: One Month In 🛁",
+      "https://jevakallio.github.io/notes/foam-one-month-in",
+    ],
+    ["onChange", "https://jevakallio.github.io/notes/on-change"],
+  ],
 };
 
 export const futureReading: ReadingList = {
