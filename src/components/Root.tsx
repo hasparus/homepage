@@ -21,8 +21,7 @@ const globalStyles: ObjectInterpolation<any> = {
   },
 };
 
-export interface RootProps
-  extends Omit<React.ComponentProps<typeof s.root>, "ref"> {}
+export interface RootProps extends React.ComponentProps<"div"> {}
 
 export const Root = (props: RootProps) => {
   const { theme } = useThemeUI();
@@ -32,7 +31,6 @@ export const Root = (props: RootProps) => {
         <meta name="theme-color" content={theme.colors!.background} />
       </Helmet>
       <Global styles={globalStyles} />
-
       <s.root
         {...props}
         sx={{

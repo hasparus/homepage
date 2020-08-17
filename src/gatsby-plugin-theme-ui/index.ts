@@ -140,7 +140,7 @@ const headingStyles = {
       visibility: "visible",
     },
   },
-};
+} as const;
 
 const commonButtonStyles = {
   display: "inline",

@@ -27,7 +27,7 @@ export function Footnote({ number, children, ...rest }: FootnoteProps) {
         href={`#${REVERSE}${FOOTNOTE_ID_PREFIX}${number}`}
         sx={{
           position: ["initial", "initial", "absolute"],
-          transform: [0, 0, "translateX(-1.5rem)"],
+          transform: ['0', '0', "translateX(-1.5rem)"],
         }}
       >
         [{number}]
