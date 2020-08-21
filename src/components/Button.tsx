@@ -9,7 +9,6 @@ type ButtonVariant = "primary" | "clear";
 
 export interface ButtonProps extends ThButtonProps {
   variant?: ButtonVariant;
-  visibleWithoutJs?: boolean;
 }
 
 export const Button = ({ className, ...rest }: ButtonProps) => (
