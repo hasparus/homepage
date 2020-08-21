@@ -31,7 +31,6 @@ function useWindowPrint(options: {
         throw new Error("switch is not exhaustive");
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, setState]);
 
   useEffect(() => {
@@ -56,7 +55,6 @@ export function PrintItButton() {
 
   return (
     <Button
-      visibleWithoutJs
       onClick={print}
       sx={{ fontSize: fontSize.small, bg: "muted", px: "0.5em" }}
     >
