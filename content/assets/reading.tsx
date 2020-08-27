@@ -313,6 +313,9 @@ export const alreadyRead: ReadingList = {
     ],
     ["onChange", "https://jevakallio.github.io/notes/on-change"],
   ],
+  "Ehsan Noursalehi": [
+    ["Why Do We Interface?", "https://whydoweinterface.com/"]
+  ]
 };
 
 export const futureReading: ReadingList = {
