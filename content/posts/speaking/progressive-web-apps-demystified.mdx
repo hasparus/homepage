@@ -1,0 +1,72 @@
+---
+title: Progressive Web Apps Demystified
+spoiler:
+  There's a ton of information about PWAs in the internet. I tried to make
+  sense of it and made a quick talk about it.
+date: 2020-05-21T18:30:00Z
+venues:
+  - name: Chop-Chop Office
+    link: https://youtu.be/DmoC3TFPGJU?t=2446
+---
+
+**Slides**:
+[https://pasteapp.com/p/ekfvOvdgLad](https://pasteapp.com/p/ekfvOvdgLad/s/4GJr9oFRzhQ?view=bR00DIY9eMm)
+\
+**Video** in Polish : https://youtu.be/B-XeNkjl4Ls
+
+---
+
+I had read like a 100 pages of different documentations, and I needed to
+share things I learned in the process. I'm not sure if "100 pages" is a
+hyperbole here.
+
+## The Talk
+
+**Dan Questions**:
+
+- How will you deliver the idea to the audience?
+
+  - I'll zoom in from the problem description to a case study and add a few
+    jokes in-between.
+
+- What is the one thing that you want people to take away from your talk?
+
+  - It's not hard to make an app _progressive_, but it is hard to know what
+    your client means by _progressive_ without talking about it.
+
+- Why are you giving the talk? What is the emotional core? What do you
+  believe in?
+
+  - We deserve websites prepared for flaky internet connections of today.
+
+**Outline**:
+
+- Hi, I'm Piotr.
+- There are so many articles about PWAs that people start believing in a
+  Progressive Web App myth.
+  - They are indeed pretty cool.
+  - The need they want to fill has a **long** history.
+- Progressive Web App is just an app that fulfils a list of requirements.
+  - You might have already implemented them without trying to build a PWA.
+  - You can find the checklist here: https://web.dev/pwa-checklist/
+  - What are these requirements and how to fulfil them
+    - Starts fast, stays fast
+    - Works in any browser
+    - Responsive to any screen size
+    - Provides a custom offline page
+    - Is installable
+  - Optimal Requirements
+    - Provides an offline experience
+    - Is fully accessible
+      - eslint-plugin-jsx-a11y
+      - react-axe (WCAG2AA and WCAG2A)
+    - Can be discovered through search
+    - Works with any input type
+    - Provides context for permission requests
+    - Follows best practices for healthy code
+- How do I build a Progressive Web App?
+  - But what do we want to build? The web can do so many things today!
+    - https://whatwebcando.today
+  - "The PWA framework" doesn't exist. But there are many tools. Use
+    anything you're comfortable with.
+- Case study of one approach (NextJS + Next Offline + Apollo Client + Offix)
