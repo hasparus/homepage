@@ -2,7 +2,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 
 import { omit } from "lodash";
-import { Theme } from "theme-ui";
+import { Theme, ThemeUICSSObject } from "theme-ui";
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 import { randomElement } from "../lib";
@@ -118,7 +118,7 @@ const code = {
   lineHeight: "monospace",
 };
 
-const headingStyles = {
+const headingStyles: ThemeUICSSObject = {
   fontFamily: "heading",
   fontWeight: "heading",
   lineHeight: "1.2",

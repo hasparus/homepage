@@ -47,10 +47,10 @@ function useWindowPrint(options: {
 }
 
 export function PrintItButton() {
-  const [colorMode, setColorMode] = useColorMode<ColorModes>();
+  const [colorMode, setColorMode] = useColorMode();
   const print = useWindowPrint({
     onBeforePrint: () => setColorMode("light"),
-    onAfterPrint: () => setColorMode(colorMode),
+    onAfterPrint: () => setColorMode(colorMode!),
   });
 
   return (

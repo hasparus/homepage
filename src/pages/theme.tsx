@@ -81,7 +81,7 @@ const ColorSquare: React.FC<ColorSquareProps> = ({ name, value }) => {
 };
 
 const ThemePage = () => {
-  const [colorModeName, setColorMode] = useColorMode<ColorModes>();
+  const [colorModeName, setColorMode] = useColorMode();
 
   const currentColorMode = colorModes[colorModeName as ColorModes];
 

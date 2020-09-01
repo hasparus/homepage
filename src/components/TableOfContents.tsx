@@ -25,7 +25,9 @@ export function TableOfContents() {
     return null;
   }
   return (
-    <section sx={{ border: t => `6px solid ${t.colors.highlight}`, px: 3 }}>
+    <section
+      sx={{ border: t => `6px solid ${t.colors?.highlight}`, px: 3 }}
+    >
       <s.h3 id="table-of-contents" sx={{ my: "0.5em" }}>
         Table of Contents
       </s.h3>

@@ -1,5 +1,11 @@
 /** @jsx jsx */
-import { Styled as s, jsx, useColorMode, Theme } from "theme-ui";
+import {
+  Styled as s,
+  jsx,
+  useColorMode,
+  Theme,
+  ThemeUICSSObject,
+} from "theme-ui";
 import { Link, GatsbyLinkProps } from "gatsby";
 import {
   ElementType,
@@ -22,6 +28,15 @@ import { pageCtx } from "./pageCtx";
 
 const MENU_ID = "menu";
 
+const headerLinkStyle: ThemeUICSSObject = {
+  textTransform: "lowercase",
+  px: "0.5em",
+  color: "text092",
+  ":hover": {
+    color: "text",
+  },
+};
+
 type HeaderStyledLinkProps<As extends ElementType> = { as?: As } & Omit<
   ComponentPropsWithoutRef<typeof s.a> & ComponentPropsWithoutRef<As>,
   "as"
@@ -30,15 +45,11 @@ const HeaderLink = <As extends ElementType = "a">(
   props: HeaderStyledLinkProps<As>
 ) => (
   <s.a
-    sx={{
-      textTransform: "lowercase",
-      px: "0.5em",
-      color: "text092",
-      ":hover": {
-        color: "text",
-      },
-    }}
-    {...props}
+    sx={headerLinkStyle}
+    {...(props as Omit<
+      ComponentPropsWithoutRef<typeof s.a>,
+      "sx" | "css" | "key"
+    >)}
   />
 );
 
@@ -56,11 +67,11 @@ const HeaderInternalLink = (props: GatsbyLinkProps<any>) => {
 
 interface NextColorModeButtonProps extends ButtonProps {}
 const NextColorModeButton = (props: NextColorModeButtonProps) => {
-  const [colorMode, setColorMode] = useColorMode<ColorModes>();
+  const [colorMode, setColorMode] = useColorMode();
 
   const modes = keys(colorModes);
   const nextColorMode =
-    modes[(modes.indexOf(colorMode) + 1) % modes.length];
+    modes[(modes.indexOf(colorMode as ColorModes) + 1) % modes.length];
 
   return (
     <Button
