@@ -1,6 +1,5 @@
 // @ts-check
 /* eslint-disable sonarjs/no-duplicate-string */
-
 import { omit } from "lodash";
 import { Theme, ThemeUICSSObject } from "theme-ui";
 // eslint-disable-next-line import/no-extraneous-dependencies
