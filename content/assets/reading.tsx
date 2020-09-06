@@ -137,6 +137,10 @@ export const alreadyRead: ReadingList = {
       "Stop Giving af and Start Writing More",
       "https://joelhooks.com/on-writing-more",
     ],
+    [
+      "Badass: Making Users Awesome by Kathy Sierra",
+      "https://joelhooks.com/badass-making-users-awesome-by-kathy-sierra",
+    ],
   ],
   "Amy Hoy": [
     [
@@ -314,8 +318,14 @@ export const alreadyRead: ReadingList = {
     ["onChange", "https://jevakallio.github.io/notes/on-change"],
   ],
   "Ehsan Noursalehi": [
-    ["Why Do We Interface?", "https://whydoweinterface.com/"]
-  ]
+    ["Why Do We Interface?", "https://whydoweinterface.com/"],
+  ],
+  "Anders Hejlsberg, Bill Venners, Bruce Eckel": [
+    [
+      "The Trouble with Checked Exceptions",
+      "https://www.artima.com/intv/handcuffs.html",
+    ],
+  ],
 };
 
 export const futureReading: ReadingList = {
@@ -328,13 +338,7 @@ export const futureReading: ReadingList = {
         reviews of SICP.`,
     ],
   ],
-  "Joel Hooks": [
-    [
-      "Badass: Making Users Awesome by Kathy Sierra",
-      "https://joelhooks.com/badass-making-users-awesome-by-kathy-sierra",
-    ],
-  ],
-  "many authors": [
+  "many authors? (Conaw?)": [
     [
       "Roam White Paper",
       "https://roamresearch.com/#/v8/help/page/Vu1MmjinS",
