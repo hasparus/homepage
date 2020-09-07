@@ -445,6 +445,6 @@ async function createSocialImageNodeField({
       value: ogImageNode.id,
     });
   } catch (e) {
-    console.error(e);
+    console.error("createSocialImageNodeField failed", e);
   }
 }
