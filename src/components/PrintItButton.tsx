@@ -2,7 +2,7 @@
 import { jsx, useColorMode } from "theme-ui";
 import { useEffect, useState, useRef } from "react";
 
-import { ColorModes, fontSize } from "../gatsby-plugin-theme-ui";
+import { fontSize } from "../gatsby-plugin-theme-ui";
 import { Button } from "./Button";
 
 function useWindowPrint(options: {
