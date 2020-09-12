@@ -37,7 +37,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-mdx",
       options: {
-        extensions: [".mdx"],
+        extensions: [".mdx", ".md"],
         commonmark: true,
         gatsbyRemarkPlugins: [
           {
@@ -73,6 +73,17 @@ module.exports = {
                 { identifier: "fwcd.kotlin", version: "0.2.10" },
                 { identifier: "prisma.vscode-graphql", version: "0.2.2" },
               ],
+            },
+          },
+          {
+            resolve: require.resolve(
+              "./build-time/gatsby-remark-double-brackets-link.ts"
+            ),
+            options: {
+              stripBrackets: true,
+              titleToURL: {
+                prefix: "notes",
+              },
             },
           },
         ],
