@@ -1,3 +1,4 @@
+import { buttons } from './buttons';
 import { colorModes } from "./colorModes";
 import { styles } from "./styles";
 import { makeColors, makeTheme } from "./theme-ui-utils";
@@ -16,6 +17,7 @@ export const preset = makeTheme({
   useBodyStyles: true,
 
   styles,
+  buttons,
 });
 
 export { makeTheme };

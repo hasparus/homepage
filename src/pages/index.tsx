@@ -58,20 +58,22 @@ const IndexPage = () => {
     }
   `);
 
-  const recentPost = recent.nodes[0].childMdx!;
+  const recentPost = recent.nodes[0].childMdx;
 
   return (
     <PageLayout>
       <Seo titleTemplate="%s" />
       <main sx={{ mt: 6 }}>
         <Intro />
-        <p>
-          My most recent post is{" "}
-          <Link to={recentPost.fields!.route} sx={theme.styles.a}>
-            "{recentPost.frontmatter!.title}"
-          </Link>
-          .
-        </p>
+        {recentPost && (
+          <p>
+            My most recent post is{" "}
+            <Link to={recentPost.fields!.route} sx={theme.styles.a}>
+              "{recentPost.frontmatter!.title}"
+            </Link>
+            .
+          </p>
+        )}
         <section>
           <s.h4>Personal Favorites</s.h4>
           <s.ul>

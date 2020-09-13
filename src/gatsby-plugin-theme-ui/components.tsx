@@ -44,8 +44,6 @@ export default {
   ),
   // gatsby-plugin-catch-links breaks my hamburger :c
   a: (props: ComponentPropsWithoutRef<"a">) => {
-    console.log('components.a', theme)
-    
     if (
       !props.href ||
       props.href.match(/^(https?|\/\/|#|mailto:|javascript:)/)
