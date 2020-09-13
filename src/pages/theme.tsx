@@ -1,19 +1,23 @@
 /** @jsx jsx */
-import { filter, collect, keys } from "fp-ts/lib/Record";
-import { last } from "lodash";
-import { Link } from "gatsby";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Styled as s, jsx, useColorMode } from "theme-ui";
+import { collect, filter, keys } from "fp-ts/lib/Record";
+import { Link } from "gatsby";
+import { last } from "lodash";
+import { jsx, Styled as s, useColorMode } from "theme-ui";
 
+import { PostSocialPreview } from "../features/social-cards/PostSocialPreview";
+import { theme } from "../gatsby-plugin-theme-ui";
+import { PageLayout } from "../layouts/PageLayout";
+import { Button } from "../lib/reusable-ui";
 import {
-  theme,
   ColorModes,
   colorModes,
-  Button,
-  PostSocialPreview,
-} from "../components";
-import { contrastingTextColor, copyToClipboard, isString } from "../lib";
-import { PageLayout } from "../layouts/PageLayout";
+} from "../lib/theme-ui-preset-hasparus-homepage/colorModes";
+import {
+  contrastingTextColor,
+  copyToClipboard,
+  isString,
+} from "../lib/util";
 
 const ColorSquareList = (props: React.ComponentProps<"ul">) => (
   <ul

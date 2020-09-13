@@ -7,9 +7,9 @@
 // ====================================================
 
 export interface BlogPostsQuery_allMdx_nodes_frontmatter {
-  title: string;
-  spoiler: string;
-  date: any;
+  title: string | null;
+  spoiler: string | null;
+  date: any | null;
 }
 
 export interface BlogPostsQuery_allMdx_nodes_fields {

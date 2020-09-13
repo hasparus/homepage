@@ -12,9 +12,9 @@ export interface SpeakingRaportsQuery_allMdx_nodes_frontmatter_venues {
 }
 
 export interface SpeakingRaportsQuery_allMdx_nodes_frontmatter {
-  title: string;
-  spoiler: string;
-  date: any;
+  title: string | null;
+  spoiler: string | null;
+  date: any | null;
   venues: SpeakingRaportsQuery_allMdx_nodes_frontmatter_venues[] | null;
 }
 

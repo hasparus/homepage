@@ -2,7 +2,8 @@
 // needed for inlineMdx macro
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { mdx as jsx } from "@mdx-js/react";
-import { inlineMdx } from "../../src/lib/inlineMdx.macro";
+
+import { inlineMdx } from "../../src/lib/util/inlineMdx.macro";
 
 const _ = jsx;
 

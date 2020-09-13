@@ -1752,9 +1752,9 @@ export type MdxFilterInput = {
 
 export type MdxFrontmatter = {
   readonly __typename?: 'MdxFrontmatter',
-  readonly title: Scalars['String'],
-  readonly spoiler: Scalars['String'],
-  readonly date: Scalars['Date'],
+  readonly title?: Maybe<Scalars['String']>,
+  readonly spoiler?: Maybe<Scalars['String']>,
+  readonly date?: Maybe<Scalars['Date']>,
   readonly history?: Maybe<BlogpostHistoryType>,
   readonly historySource?: Maybe<Scalars['String']>,
   readonly venues?: Maybe<ReadonlyArray<Venue>>,
@@ -1891,6 +1891,8 @@ export type Query = {
   readonly allDirectory: DirectoryConnection,
   readonly sitePage?: Maybe<SitePage>,
   readonly allSitePage: SitePageConnection,
+  readonly themeUiConfig?: Maybe<ThemeUiConfig>,
+  readonly allThemeUiConfig: ThemeUiConfigConnection,
   readonly imageSharp?: Maybe<ImageSharp>,
   readonly allImageSharp: ImageSharpConnection,
   readonly mdx?: Maybe<Mdx>,
@@ -2015,6 +2017,7 @@ export type QuerysitePageArgs = {
   children?: Maybe<NodeFilterListInput>,
   internal?: Maybe<InternalFilterInput>,
   isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
+  context?: Maybe<SitePageContextFilterInput>,
   pluginCreator?: Maybe<SitePluginFilterInput>,
   pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   componentPath?: Maybe<StringQueryOperatorInput>
@@ -2024,6 +2027,24 @@ export type QuerysitePageArgs = {
 export type QueryallSitePageArgs = {
   filter?: Maybe<SitePageFilterInput>,
   sort?: Maybe<SitePageSortInput>,
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>
+};
+
+
+export type QuerythemeUiConfigArgs = {
+  preset?: Maybe<JSONQueryOperatorInput>,
+  prismPreset?: Maybe<JSONQueryOperatorInput>,
+  id?: Maybe<StringQueryOperatorInput>,
+  parent?: Maybe<NodeFilterInput>,
+  children?: Maybe<NodeFilterListInput>,
+  internal?: Maybe<InternalFilterInput>
+};
+
+
+export type QueryallThemeUiConfigArgs = {
+  filter?: Maybe<ThemeUiConfigFilterInput>,
+  sort?: Maybe<ThemeUiConfigSortInput>,
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>
 };
@@ -2317,6 +2338,7 @@ export type SitePage = Node & {
   readonly children: ReadonlyArray<Node>,
   readonly internal: Internal,
   readonly isCreatedByStatefulCreatePages?: Maybe<Scalars['Boolean']>,
+  readonly context?: Maybe<SitePageContext>,
   readonly pluginCreator?: Maybe<SitePlugin>,
   readonly pluginCreatorId?: Maybe<Scalars['String']>,
   readonly componentPath?: Maybe<Scalars['String']>,
@@ -2342,6 +2364,176 @@ export type SitePageConnectiongroupArgs = {
   skip?: Maybe<Scalars['Int']>,
   limit?: Maybe<Scalars['Int']>,
   field: SitePageFieldsEnum
+};
+
+export type SitePageContext = {
+  readonly __typename?: 'SitePageContext',
+  readonly frontmatter?: Maybe<SitePageContextFrontmatter>,
+  readonly route?: Maybe<Scalars['String']>,
+  readonly readingTime?: Maybe<Scalars['Int']>,
+  readonly history?: Maybe<SitePageContextHistory>,
+  readonly socialImage?: Maybe<SitePageContextSocialImage>,
+  readonly socialLinks?: Maybe<SitePageContextSocialLinks>,
+  readonly tableOfContents?: Maybe<SitePageContextTableOfContents>,
+  readonly parentId?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextFilterInput = {
+  readonly frontmatter?: Maybe<SitePageContextFrontmatterFilterInput>,
+  readonly route?: Maybe<StringQueryOperatorInput>,
+  readonly readingTime?: Maybe<IntQueryOperatorInput>,
+  readonly history?: Maybe<SitePageContextHistoryFilterInput>,
+  readonly socialImage?: Maybe<SitePageContextSocialImageFilterInput>,
+  readonly socialLinks?: Maybe<SitePageContextSocialLinksFilterInput>,
+  readonly tableOfContents?: Maybe<SitePageContextTableOfContentsFilterInput>,
+  readonly parentId?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextFrontmatter = {
+  readonly __typename?: 'SitePageContextFrontmatter',
+  readonly title?: Maybe<Scalars['String']>,
+  readonly spoiler?: Maybe<Scalars['String']>,
+  readonly date?: Maybe<Scalars['Date']>,
+  readonly history?: Maybe<Scalars['String']>,
+  readonly historySource?: Maybe<Scalars['String']>,
+  readonly tags?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextFrontmatterFilterInput = {
+  readonly title?: Maybe<StringQueryOperatorInput>,
+  readonly spoiler?: Maybe<StringQueryOperatorInput>,
+  readonly date?: Maybe<DateQueryOperatorInput>,
+  readonly history?: Maybe<StringQueryOperatorInput>,
+  readonly historySource?: Maybe<StringQueryOperatorInput>,
+  readonly tags?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextHistory = {
+  readonly __typename?: 'SitePageContextHistory',
+  readonly entries?: Maybe<ReadonlyArray<Maybe<SitePageContextHistoryEntries>>>,
+  readonly url?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextHistoryEntries = {
+  readonly __typename?: 'SitePageContextHistoryEntries',
+  readonly subject?: Maybe<Scalars['String']>,
+  readonly authorDate?: Maybe<Scalars['String']>,
+  readonly abbreviatedCommit?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextHistoryEntriesFilterInput = {
+  readonly subject?: Maybe<StringQueryOperatorInput>,
+  readonly authorDate?: Maybe<StringQueryOperatorInput>,
+  readonly abbreviatedCommit?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextHistoryEntriesFilterListInput = {
+  readonly elemMatch?: Maybe<SitePageContextHistoryEntriesFilterInput>,
+};
+
+export type SitePageContextHistoryFilterInput = {
+  readonly entries?: Maybe<SitePageContextHistoryEntriesFilterListInput>,
+  readonly url?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextSocialImage = {
+  readonly __typename?: 'SitePageContextSocialImage',
+  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharp>,
+};
+
+export type SitePageContextSocialImageChildImageSharp = {
+  readonly __typename?: 'SitePageContextSocialImageChildImageSharp',
+  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginal>,
+};
+
+export type SitePageContextSocialImageChildImageSharpFilterInput = {
+  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginalFilterInput>,
+};
+
+export type SitePageContextSocialImageChildImageSharpOriginal = {
+  readonly __typename?: 'SitePageContextSocialImageChildImageSharpOriginal',
+  readonly width?: Maybe<Scalars['Int']>,
+  readonly height?: Maybe<Scalars['Int']>,
+  readonly src?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextSocialImageChildImageSharpOriginalFilterInput = {
+  readonly width?: Maybe<IntQueryOperatorInput>,
+  readonly height?: Maybe<IntQueryOperatorInput>,
+  readonly src?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextSocialImageFilterInput = {
+  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharpFilterInput>,
+};
+
+export type SitePageContextSocialLinks = {
+  readonly __typename?: 'SitePageContextSocialLinks',
+  readonly edit?: Maybe<Scalars['String']>,
+  readonly tweet?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextSocialLinksFilterInput = {
+  readonly edit?: Maybe<StringQueryOperatorInput>,
+  readonly tweet?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextTableOfContents = {
+  readonly __typename?: 'SitePageContextTableOfContents',
+  readonly items?: Maybe<ReadonlyArray<Maybe<SitePageContextTableOfContentsItems>>>,
+};
+
+export type SitePageContextTableOfContentsFilterInput = {
+  readonly items?: Maybe<SitePageContextTableOfContentsItemsFilterListInput>,
+};
+
+export type SitePageContextTableOfContentsItems = {
+  readonly __typename?: 'SitePageContextTableOfContentsItems',
+  readonly url?: Maybe<Scalars['String']>,
+  readonly title?: Maybe<Scalars['String']>,
+  readonly items?: Maybe<ReadonlyArray<Maybe<SitePageContextTableOfContentsItemsItems>>>,
+};
+
+export type SitePageContextTableOfContentsItemsFilterInput = {
+  readonly url?: Maybe<StringQueryOperatorInput>,
+  readonly title?: Maybe<StringQueryOperatorInput>,
+  readonly items?: Maybe<SitePageContextTableOfContentsItemsItemsFilterListInput>,
+};
+
+export type SitePageContextTableOfContentsItemsFilterListInput = {
+  readonly elemMatch?: Maybe<SitePageContextTableOfContentsItemsFilterInput>,
+};
+
+export type SitePageContextTableOfContentsItemsItems = {
+  readonly __typename?: 'SitePageContextTableOfContentsItemsItems',
+  readonly url?: Maybe<Scalars['String']>,
+  readonly title?: Maybe<Scalars['String']>,
+  readonly items?: Maybe<ReadonlyArray<Maybe<SitePageContextTableOfContentsItemsItemsItems>>>,
+};
+
+export type SitePageContextTableOfContentsItemsItemsFilterInput = {
+  readonly url?: Maybe<StringQueryOperatorInput>,
+  readonly title?: Maybe<StringQueryOperatorInput>,
+  readonly items?: Maybe<SitePageContextTableOfContentsItemsItemsItemsFilterListInput>,
+};
+
+export type SitePageContextTableOfContentsItemsItemsFilterListInput = {
+  readonly elemMatch?: Maybe<SitePageContextTableOfContentsItemsItemsFilterInput>,
+};
+
+export type SitePageContextTableOfContentsItemsItemsItems = {
+  readonly __typename?: 'SitePageContextTableOfContentsItemsItemsItems',
+  readonly url?: Maybe<Scalars['String']>,
+  readonly title?: Maybe<Scalars['String']>,
+};
+
+export type SitePageContextTableOfContentsItemsItemsItemsFilterInput = {
+  readonly url?: Maybe<StringQueryOperatorInput>,
+  readonly title?: Maybe<StringQueryOperatorInput>,
+};
+
+export type SitePageContextTableOfContentsItemsItemsItemsFilterListInput = {
+  readonly elemMatch?: Maybe<SitePageContextTableOfContentsItemsItemsItemsFilterInput>,
 };
 
 export type SitePageEdge = {
@@ -2447,6 +2639,26 @@ export enum SitePageFieldsEnum {
   internal___owner = 'internal___owner',
   internal___type = 'internal___type',
   isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
+  context___frontmatter___title = 'context___frontmatter___title',
+  context___frontmatter___spoiler = 'context___frontmatter___spoiler',
+  context___frontmatter___date = 'context___frontmatter___date',
+  context___frontmatter___history = 'context___frontmatter___history',
+  context___frontmatter___historySource = 'context___frontmatter___historySource',
+  context___frontmatter___tags = 'context___frontmatter___tags',
+  context___route = 'context___route',
+  context___readingTime = 'context___readingTime',
+  context___history___entries = 'context___history___entries',
+  context___history___entries___subject = 'context___history___entries___subject',
+  context___history___entries___authorDate = 'context___history___entries___authorDate',
+  context___history___entries___abbreviatedCommit = 'context___history___entries___abbreviatedCommit',
+  context___history___url = 'context___history___url',
+  context___socialLinks___edit = 'context___socialLinks___edit',
+  context___socialLinks___tweet = 'context___socialLinks___tweet',
+  context___tableOfContents___items = 'context___tableOfContents___items',
+  context___tableOfContents___items___url = 'context___tableOfContents___items___url',
+  context___tableOfContents___items___title = 'context___tableOfContents___items___title',
+  context___tableOfContents___items___items = 'context___tableOfContents___items___items',
+  context___parentId = 'context___parentId',
   pluginCreator___id = 'pluginCreator___id',
   pluginCreator___parent___id = 'pluginCreator___parent___id',
   pluginCreator___parent___parent___id = 'pluginCreator___parent___parent___id',
@@ -2493,6 +2705,8 @@ export enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___gatsbyRemarkPlugins = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins',
   pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve = 'pluginCreator___pluginOptions___gatsbyRemarkPlugins___resolve',
   pluginCreator___pluginOptions___defaultLayouts___posts = 'pluginCreator___pluginOptions___defaultLayouts___posts',
+  pluginCreator___pluginOptions___defaultLayouts___speaking = 'pluginCreator___pluginOptions___defaultLayouts___speaking',
+  pluginCreator___pluginOptions___defaultLayouts___notes = 'pluginCreator___pluginOptions___defaultLayouts___notes',
   pluginCreator___pluginOptions___path = 'pluginCreator___pluginOptions___path',
   pluginCreator___pluginOptions___name = 'pluginCreator___pluginOptions___name',
   pluginCreator___pluginOptions___allowNamespaces = 'pluginCreator___pluginOptions___allowNamespaces',
@@ -2545,6 +2759,7 @@ export type SitePageFilterInput = {
   readonly children?: Maybe<NodeFilterListInput>,
   readonly internal?: Maybe<InternalFilterInput>,
   readonly isCreatedByStatefulCreatePages?: Maybe<BooleanQueryOperatorInput>,
+  readonly context?: Maybe<SitePageContextFilterInput>,
   readonly pluginCreator?: Maybe<SitePluginFilterInput>,
   readonly pluginCreatorId?: Maybe<StringQueryOperatorInput>,
   readonly componentPath?: Maybe<StringQueryOperatorInput>,
@@ -2718,10 +2933,14 @@ export enum SitePluginFieldsEnum {
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImageOnAlpha',
   pluginOptions___gatsbyRemarkPlugins___options___disableBgImage = 'pluginOptions___gatsbyRemarkPlugins___options___disableBgImage',
   pluginOptions___gatsbyRemarkPlugins___options___icon = 'pluginOptions___gatsbyRemarkPlugins___options___icon',
+  pluginOptions___gatsbyRemarkPlugins___options___className = 'pluginOptions___gatsbyRemarkPlugins___options___className',
   pluginOptions___gatsbyRemarkPlugins___options___extensionDataDirectory = 'pluginOptions___gatsbyRemarkPlugins___options___extensionDataDirectory',
   pluginOptions___gatsbyRemarkPlugins___options___injectStyles = 'pluginOptions___gatsbyRemarkPlugins___options___injectStyles',
   pluginOptions___gatsbyRemarkPlugins___options___extensions = 'pluginOptions___gatsbyRemarkPlugins___options___extensions',
+  pluginOptions___gatsbyRemarkPlugins___options___contentPath = 'pluginOptions___gatsbyRemarkPlugins___options___contentPath',
   pluginOptions___defaultLayouts___posts = 'pluginOptions___defaultLayouts___posts',
+  pluginOptions___defaultLayouts___speaking = 'pluginOptions___defaultLayouts___speaking',
+  pluginOptions___defaultLayouts___notes = 'pluginOptions___defaultLayouts___notes',
   pluginOptions___path = 'pluginOptions___path',
   pluginOptions___name = 'pluginOptions___name',
   pluginOptions___allowNamespaces = 'pluginOptions___allowNamespaces',
@@ -2882,10 +3101,14 @@ export type SitePluginPluginOptions = {
 export type SitePluginPluginOptionsDefaultLayouts = {
   readonly __typename?: 'SitePluginPluginOptionsDefaultLayouts',
   readonly posts?: Maybe<Scalars['String']>,
+  readonly speaking?: Maybe<Scalars['String']>,
+  readonly notes?: Maybe<Scalars['String']>,
 };
 
 export type SitePluginPluginOptionsDefaultLayoutsFilterInput = {
   readonly posts?: Maybe<StringQueryOperatorInput>,
+  readonly speaking?: Maybe<StringQueryOperatorInput>,
+  readonly notes?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePluginPluginOptionsFeeds = {
@@ -2955,9 +3178,11 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptions = {
   readonly disableBgImageOnAlpha?: Maybe<Scalars['Boolean']>,
   readonly disableBgImage?: Maybe<Scalars['Boolean']>,
   readonly icon?: Maybe<Scalars['String']>,
+  readonly className?: Maybe<Scalars['String']>,
   readonly extensionDataDirectory?: Maybe<Scalars['String']>,
   readonly injectStyles?: Maybe<Scalars['Boolean']>,
   readonly extensions?: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions>>>,
+  readonly contentPath?: Maybe<Scalars['String']>,
 };
 
 export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensions = {
@@ -2989,9 +3214,11 @@ export type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsFilterInput = {
   readonly disableBgImageOnAlpha?: Maybe<BooleanQueryOperatorInput>,
   readonly disableBgImage?: Maybe<BooleanQueryOperatorInput>,
   readonly icon?: Maybe<StringQueryOperatorInput>,
+  readonly className?: Maybe<StringQueryOperatorInput>,
   readonly extensionDataDirectory?: Maybe<StringQueryOperatorInput>,
   readonly injectStyles?: Maybe<BooleanQueryOperatorInput>,
   readonly extensions?: Maybe<SitePluginPluginOptionsGatsbyRemarkPluginsOptionsExtensionsFilterListInput>,
+  readonly contentPath?: Maybe<StringQueryOperatorInput>,
 };
 
 export type SitePluginSortInput = {
@@ -3102,6 +3329,160 @@ export type TableOfContentsItemFilterInput = {
 
 export type TableOfContentsItemFilterListInput = {
   readonly elemMatch?: Maybe<TableOfContentsItemFilterInput>,
+};
+
+export type ThemeUiConfig = Node & {
+  readonly __typename?: 'ThemeUiConfig',
+  readonly preset?: Maybe<Scalars['JSON']>,
+  readonly prismPreset?: Maybe<Scalars['JSON']>,
+  readonly id: Scalars['ID'],
+  readonly parent?: Maybe<Node>,
+  readonly children: ReadonlyArray<Node>,
+  readonly internal: Internal,
+};
+
+export type ThemeUiConfigConnection = {
+  readonly __typename?: 'ThemeUiConfigConnection',
+  readonly totalCount: Scalars['Int'],
+  readonly edges: ReadonlyArray<ThemeUiConfigEdge>,
+  readonly nodes: ReadonlyArray<ThemeUiConfig>,
+  readonly pageInfo: PageInfo,
+  readonly distinct: ReadonlyArray<Scalars['String']>,
+  readonly group: ReadonlyArray<ThemeUiConfigGroupConnection>,
+};
+
+
+export type ThemeUiConfigConnectiondistinctArgs = {
+  field: ThemeUiConfigFieldsEnum
+};
+
+
+export type ThemeUiConfigConnectiongroupArgs = {
+  skip?: Maybe<Scalars['Int']>,
+  limit?: Maybe<Scalars['Int']>,
+  field: ThemeUiConfigFieldsEnum
+};
+
+export type ThemeUiConfigEdge = {
+  readonly __typename?: 'ThemeUiConfigEdge',
+  readonly next?: Maybe<ThemeUiConfig>,
+  readonly node: ThemeUiConfig,
+  readonly previous?: Maybe<ThemeUiConfig>,
+};
+
+export enum ThemeUiConfigFieldsEnum {
+  preset = 'preset',
+  prismPreset = 'prismPreset',
+  id = 'id',
+  parent___id = 'parent___id',
+  parent___parent___id = 'parent___parent___id',
+  parent___parent___parent___id = 'parent___parent___parent___id',
+  parent___parent___parent___children = 'parent___parent___parent___children',
+  parent___parent___children = 'parent___parent___children',
+  parent___parent___children___id = 'parent___parent___children___id',
+  parent___parent___children___children = 'parent___parent___children___children',
+  parent___parent___internal___content = 'parent___parent___internal___content',
+  parent___parent___internal___contentDigest = 'parent___parent___internal___contentDigest',
+  parent___parent___internal___description = 'parent___parent___internal___description',
+  parent___parent___internal___fieldOwners = 'parent___parent___internal___fieldOwners',
+  parent___parent___internal___ignoreType = 'parent___parent___internal___ignoreType',
+  parent___parent___internal___mediaType = 'parent___parent___internal___mediaType',
+  parent___parent___internal___owner = 'parent___parent___internal___owner',
+  parent___parent___internal___type = 'parent___parent___internal___type',
+  parent___children = 'parent___children',
+  parent___children___id = 'parent___children___id',
+  parent___children___parent___id = 'parent___children___parent___id',
+  parent___children___parent___children = 'parent___children___parent___children',
+  parent___children___children = 'parent___children___children',
+  parent___children___children___id = 'parent___children___children___id',
+  parent___children___children___children = 'parent___children___children___children',
+  parent___children___internal___content = 'parent___children___internal___content',
+  parent___children___internal___contentDigest = 'parent___children___internal___contentDigest',
+  parent___children___internal___description = 'parent___children___internal___description',
+  parent___children___internal___fieldOwners = 'parent___children___internal___fieldOwners',
+  parent___children___internal___ignoreType = 'parent___children___internal___ignoreType',
+  parent___children___internal___mediaType = 'parent___children___internal___mediaType',
+  parent___children___internal___owner = 'parent___children___internal___owner',
+  parent___children___internal___type = 'parent___children___internal___type',
+  parent___internal___content = 'parent___internal___content',
+  parent___internal___contentDigest = 'parent___internal___contentDigest',
+  parent___internal___description = 'parent___internal___description',
+  parent___internal___fieldOwners = 'parent___internal___fieldOwners',
+  parent___internal___ignoreType = 'parent___internal___ignoreType',
+  parent___internal___mediaType = 'parent___internal___mediaType',
+  parent___internal___owner = 'parent___internal___owner',
+  parent___internal___type = 'parent___internal___type',
+  children = 'children',
+  children___id = 'children___id',
+  children___parent___id = 'children___parent___id',
+  children___parent___parent___id = 'children___parent___parent___id',
+  children___parent___parent___children = 'children___parent___parent___children',
+  children___parent___children = 'children___parent___children',
+  children___parent___children___id = 'children___parent___children___id',
+  children___parent___children___children = 'children___parent___children___children',
+  children___parent___internal___content = 'children___parent___internal___content',
+  children___parent___internal___contentDigest = 'children___parent___internal___contentDigest',
+  children___parent___internal___description = 'children___parent___internal___description',
+  children___parent___internal___fieldOwners = 'children___parent___internal___fieldOwners',
+  children___parent___internal___ignoreType = 'children___parent___internal___ignoreType',
+  children___parent___internal___mediaType = 'children___parent___internal___mediaType',
+  children___parent___internal___owner = 'children___parent___internal___owner',
+  children___parent___internal___type = 'children___parent___internal___type',
+  children___children = 'children___children',
+  children___children___id = 'children___children___id',
+  children___children___parent___id = 'children___children___parent___id',
+  children___children___parent___children = 'children___children___parent___children',
+  children___children___children = 'children___children___children',
+  children___children___children___id = 'children___children___children___id',
+  children___children___children___children = 'children___children___children___children',
+  children___children___internal___content = 'children___children___internal___content',
+  children___children___internal___contentDigest = 'children___children___internal___contentDigest',
+  children___children___internal___description = 'children___children___internal___description',
+  children___children___internal___fieldOwners = 'children___children___internal___fieldOwners',
+  children___children___internal___ignoreType = 'children___children___internal___ignoreType',
+  children___children___internal___mediaType = 'children___children___internal___mediaType',
+  children___children___internal___owner = 'children___children___internal___owner',
+  children___children___internal___type = 'children___children___internal___type',
+  children___internal___content = 'children___internal___content',
+  children___internal___contentDigest = 'children___internal___contentDigest',
+  children___internal___description = 'children___internal___description',
+  children___internal___fieldOwners = 'children___internal___fieldOwners',
+  children___internal___ignoreType = 'children___internal___ignoreType',
+  children___internal___mediaType = 'children___internal___mediaType',
+  children___internal___owner = 'children___internal___owner',
+  children___internal___type = 'children___internal___type',
+  internal___content = 'internal___content',
+  internal___contentDigest = 'internal___contentDigest',
+  internal___description = 'internal___description',
+  internal___fieldOwners = 'internal___fieldOwners',
+  internal___ignoreType = 'internal___ignoreType',
+  internal___mediaType = 'internal___mediaType',
+  internal___owner = 'internal___owner',
+  internal___type = 'internal___type'
+}
+
+export type ThemeUiConfigFilterInput = {
+  readonly preset?: Maybe<JSONQueryOperatorInput>,
+  readonly prismPreset?: Maybe<JSONQueryOperatorInput>,
+  readonly id?: Maybe<StringQueryOperatorInput>,
+  readonly parent?: Maybe<NodeFilterInput>,
+  readonly children?: Maybe<NodeFilterListInput>,
+  readonly internal?: Maybe<InternalFilterInput>,
+};
+
+export type ThemeUiConfigGroupConnection = {
+  readonly __typename?: 'ThemeUiConfigGroupConnection',
+  readonly totalCount: Scalars['Int'],
+  readonly edges: ReadonlyArray<ThemeUiConfigEdge>,
+  readonly nodes: ReadonlyArray<ThemeUiConfig>,
+  readonly pageInfo: PageInfo,
+  readonly field: Scalars['String'],
+  readonly fieldValue?: Maybe<Scalars['String']>,
+};
+
+export type ThemeUiConfigSortInput = {
+  readonly fields?: Maybe<ReadonlyArray<Maybe<ThemeUiConfigFieldsEnum>>>,
+  readonly order?: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>,
 };
 
 export type Venue = {

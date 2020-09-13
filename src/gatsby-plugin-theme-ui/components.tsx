@@ -1,17 +1,19 @@
 /** @jsx jsx */
-import { jsx, Box } from "theme-ui";
-import { ComponentProps, ComponentPropsWithoutRef } from "react";
 import { Link } from "gatsby";
+import { ComponentProps, ComponentPropsWithoutRef } from "react";
+import { Box, jsx } from "theme-ui";
 
-import { fontSize, theme } from "../gatsby-plugin-theme-ui";
+import { TableOfContents } from "../features/blog/TableOfContents";
 import {
-  EpistemicNote,
-  CodesandboxIframe,
-  ReadingList,
   BoxedText,
   Button,
-  TableOfContents,
-} from "../components";
+  CodesandboxIframe,
+  EpistemicNote,
+  Footnote,
+  ReadingList,
+} from "../lib/reusable-ui";
+import { theme } from "./index";
+import { fontSize } from "./tokens";
 
 // eslint-disable-next-line import/no-default-export
 export default {
@@ -22,6 +24,7 @@ export default {
   Box,
   Button,
   TableOfContents,
+  Footnote,
   small: (props: ComponentProps<"small">) => (
     <small sx={{ fontSize: fontSize.small }} {...props} />
   ),
@@ -41,6 +44,8 @@ export default {
   ),
   // gatsby-plugin-catch-links breaks my hamburger :c
   a: (props: ComponentPropsWithoutRef<"a">) => {
+    console.log('components.a', theme)
+    
     if (
       !props.href ||
       props.href.match(/^(https?|\/\/|#|mailto:|javascript:)/)

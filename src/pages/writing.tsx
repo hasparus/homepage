@@ -3,9 +3,9 @@ import { graphql, useStaticQuery } from "gatsby";
 import { Styled as s, jsx } from "theme-ui";
 
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
-import { PostDetails } from "../components/PostDetails";
-import { Seo } from "../components/Seo";
-import { PostsListItem } from "../components/PostsListItem";
+import { PostDetails } from "../features/blog/PostDetails";
+import { Seo } from "../features/seo/Seo";
+import { PostsListItem } from "../features/blog/PostsListItem";
 import { PageLayout } from "../layouts/PageLayout";
 
 const WritingPage = () => {

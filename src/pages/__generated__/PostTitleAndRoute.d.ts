@@ -6,17 +6,31 @@
 // GraphQL fragment: PostTitleAndRoute
 // ====================================================
 
-export interface PostTitleAndRoute_nodes_frontmatter {
-  title: string;
+export interface PostTitleAndRoute_nodes_childMdx_parent_ImageSharp {}
+
+export interface PostTitleAndRoute_nodes_childMdx_parent_File {
+  sourceInstanceName: string;
 }
 
-export interface PostTitleAndRoute_nodes_fields {
+export type PostTitleAndRoute_nodes_childMdx_parent = PostTitleAndRoute_nodes_childMdx_parent_ImageSharp | PostTitleAndRoute_nodes_childMdx_parent_File;
+
+export interface PostTitleAndRoute_nodes_childMdx_frontmatter {
+  title: string | null;
+  date: any | null;
+}
+
+export interface PostTitleAndRoute_nodes_childMdx_fields {
   route: string;
 }
 
+export interface PostTitleAndRoute_nodes_childMdx {
+  parent: PostTitleAndRoute_nodes_childMdx_parent | null;
+  frontmatter: PostTitleAndRoute_nodes_childMdx_frontmatter | null;
+  fields: PostTitleAndRoute_nodes_childMdx_fields | null;
+}
+
 export interface PostTitleAndRoute_nodes {
-  frontmatter: PostTitleAndRoute_nodes_frontmatter | null;
-  fields: PostTitleAndRoute_nodes_fields | null;
+  childMdx: PostTitleAndRoute_nodes_childMdx | null;
 }
 
 export interface PostTitleAndRoute {

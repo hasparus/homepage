@@ -1,18 +1,41 @@
 {
-  "extends": "chop-chop/prettier",
+  "extends": "chop-chop",
   "rules": {
     "no-nested-ternary": "off",
     "react/no-unescaped-entities": "off",
     "react/no-array-index-key": "off",
     "spaced-comment": "off",
-    "@typescript-eslint/array-type": "off"
+    "@typescript-eslint/array-type": "off",
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
+    // TypeScript compilation performance suffers on large Object spreads
+    "prefer-object-spread": "off"
   },
   "overrides": [
     {
       "files": ["**/*.d.ts", "src/pages/**/*.ts", "src/pages/**/*.tsx"],
       "rules": {
-        // Move it to eslint-config-chop-chop
         "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": ["src/lib/**/*.ts", "src/lib/**/*.tsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              "../features",
+              "../../features",
+              "../../../features",
+              "../../../../features",
+              "../gatsby-plugin-theme-ui",
+              "../../gatsby-plugin-theme-ui",
+              "../../../gatsby-plugin-theme-ui",
+              "../../../../gatsby-plugin-theme-ui"
+            ]
+          }
+        ]
       }
     }
   ]

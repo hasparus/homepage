@@ -6,34 +6,62 @@
 // GraphQL query operation: IndexPageQuery
 // ====================================================
 
-export interface IndexPageQuery_recent_nodes_frontmatter {
-  title: string;
+export interface IndexPageQuery_recent_nodes_childMdx_parent_ImageSharp {}
+
+export interface IndexPageQuery_recent_nodes_childMdx_parent_File {
+  sourceInstanceName: string;
 }
 
-export interface IndexPageQuery_recent_nodes_fields {
+export type IndexPageQuery_recent_nodes_childMdx_parent = IndexPageQuery_recent_nodes_childMdx_parent_ImageSharp | IndexPageQuery_recent_nodes_childMdx_parent_File;
+
+export interface IndexPageQuery_recent_nodes_childMdx_frontmatter {
+  title: string | null;
+  date: any | null;
+}
+
+export interface IndexPageQuery_recent_nodes_childMdx_fields {
   route: string;
 }
 
+export interface IndexPageQuery_recent_nodes_childMdx {
+  parent: IndexPageQuery_recent_nodes_childMdx_parent | null;
+  frontmatter: IndexPageQuery_recent_nodes_childMdx_frontmatter | null;
+  fields: IndexPageQuery_recent_nodes_childMdx_fields | null;
+}
+
 export interface IndexPageQuery_recent_nodes {
-  frontmatter: IndexPageQuery_recent_nodes_frontmatter | null;
-  fields: IndexPageQuery_recent_nodes_fields | null;
+  childMdx: IndexPageQuery_recent_nodes_childMdx | null;
 }
 
 export interface IndexPageQuery_recent {
   nodes: IndexPageQuery_recent_nodes[];
 }
 
-export interface IndexPageQuery_favorites_nodes_frontmatter {
-  title: string;
+export interface IndexPageQuery_favorites_nodes_childMdx_parent_ImageSharp {}
+
+export interface IndexPageQuery_favorites_nodes_childMdx_parent_File {
+  sourceInstanceName: string;
 }
 
-export interface IndexPageQuery_favorites_nodes_fields {
+export type IndexPageQuery_favorites_nodes_childMdx_parent = IndexPageQuery_favorites_nodes_childMdx_parent_ImageSharp | IndexPageQuery_favorites_nodes_childMdx_parent_File;
+
+export interface IndexPageQuery_favorites_nodes_childMdx_frontmatter {
+  title: string | null;
+  date: any | null;
+}
+
+export interface IndexPageQuery_favorites_nodes_childMdx_fields {
   route: string;
 }
 
+export interface IndexPageQuery_favorites_nodes_childMdx {
+  parent: IndexPageQuery_favorites_nodes_childMdx_parent | null;
+  frontmatter: IndexPageQuery_favorites_nodes_childMdx_frontmatter | null;
+  fields: IndexPageQuery_favorites_nodes_childMdx_fields | null;
+}
+
 export interface IndexPageQuery_favorites_nodes {
-  frontmatter: IndexPageQuery_favorites_nodes_frontmatter | null;
-  fields: IndexPageQuery_favorites_nodes_fields | null;
+  childMdx: IndexPageQuery_favorites_nodes_childMdx | null;
 }
 
 export interface IndexPageQuery_favorites {

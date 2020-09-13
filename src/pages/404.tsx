@@ -1,11 +1,12 @@
 /** @jsx jsx */
-import { jsx, useThemeUI, Styled as s } from "theme-ui";
-import { Illustration, Ellipse, Shape, Group } from "zdog";
-import { useLayoutEffect, useRef, useEffect } from "react";
 import { Link } from "gatsby";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { jsx, Styled as s, useThemeUI } from "theme-ui";
+import { Ellipse, Group, Illustration, Shape } from "zdog";
+
+import { Seo } from "../features/seo/Seo";
+import { ExactTheme } from "../gatsby-plugin-theme-ui";
 import { PageLayout } from "../layouts/PageLayout";
-import { Seo } from "../components/Seo";
-import { ExactTheme } from "../components";
 
 function useMousePositionRef() {
   const position = useRef({ x: 0, y: 0 });

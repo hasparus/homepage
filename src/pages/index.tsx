@@ -1,44 +1,54 @@
 /** @jsx jsx */
-import { graphql, useStaticQuery, Link } from "gatsby";
-import { Styled as s, jsx } from "theme-ui";
+import { graphql, Link, useStaticQuery } from "gatsby";
+import { jsx, Styled as s } from "theme-ui";
 
-import { theme } from "../components";
-import { Seo } from "../components/Seo";
-import { IndexPageQuery } from "./__generated__/IndexPageQuery";
+import { Intro, Outro } from "../features/index-page";
+import { Seo } from "../features/seo/Seo";
+import { theme } from "../gatsby-plugin-theme-ui/index";
 import { PageLayout } from "../layouts/PageLayout";
-import Intro from "../components/Intro";
-import IndexOutro from "../components/IndexOutro";
+import { IndexPageQuery } from "./__generated__/IndexPageQuery";
 
 const IndexPage = () => {
   const { recent, favorites } = useStaticQuery<IndexPageQuery>(graphql`
-    fragment PostTitleAndRoute on MdxConnection {
+    fragment PostTitleAndRoute on FileConnection {
       nodes {
-        frontmatter {
-          title
-        }
-        fields {
-          route
+        childMdx {
+          parent {
+            ... on File {
+              sourceInstanceName
+            }
+          }
+          frontmatter {
+            title
+            date
+          }
+          fields {
+            route
+          }
         }
       }
     }
 
     query IndexPageQuery {
-      recent: allMdx(
-        sort: { fields: frontmatter___date, order: DESC }
+      recent: allFile(
+        filter: { sourceInstanceName: { eq: "posts" } }
+        sort: { fields: childMdx___frontmatter___date, order: DESC }
         limit: 1
       ) {
         ...PostTitleAndRoute
       }
 
-      favorites: allMdx(
+      favorites: allFile(
         filter: {
-          fields: {
-            route: {
-              in: [
-                "/refinement-types"
-                "/deliver"
-                "/you-deserve-more-than-proptypes"
-              ]
+          childMdx: {
+            fields: {
+              route: {
+                in: [
+                  "/refinement-types"
+                  "/deliver"
+                  "/you-deserve-more-than-proptypes"
+                ]
+              }
             }
           }
         }
@@ -48,7 +58,7 @@ const IndexPage = () => {
     }
   `);
 
-  const recentPost = recent.nodes[0];
+  const recentPost = recent.nodes[0].childMdx!;
 
   return (
     <PageLayout>
@@ -65,16 +75,20 @@ const IndexPage = () => {
         <section>
           <s.h4>Personal Favorites</s.h4>
           <s.ul>
-            {favorites.nodes.map(post => (
-              <s.li key={post.fields!.route}>
-                <Link to={post.fields!.route} sx={theme.styles.a}>
-                  {post.frontmatter!.title}
-                </Link>
-              </s.li>
-            ))}
+            {favorites.nodes.map(post => {
+              const { fields, frontmatter } = post.childMdx!;
+
+              return (
+                <s.li key={fields!.route}>
+                  <Link to={fields!.route} sx={theme.styles.a}>
+                    {frontmatter!.title}
+                  </Link>
+                </s.li>
+              );
+            })}
           </s.ul>
         </section>
-        <IndexOutro />
+        <Outro />
       </main>
     </PageLayout>
   );
