@@ -1,25 +1,28 @@
-module.exports = {
-  plugins: [
-    {
-      resolve: "gatsby-transformer-markdown-references",
-      options: {
-        types: ["Mdx"],
+// @ts-check
+
+/**
+ * @type {import("gatsby-transformer-markdown-references/lib/options").PluginOptions}
+ */
+const markdownReferencesOptions = {
+  types: ["Mdx"],
+};
+
+/**
+ * @param {import("./parseOptions").NotesBrainThemeOptions.PossibleInput} _options
+ */
+module.exports = (_options) => {
+  return {
+    plugins: [
+      {
+        resolve: "gatsby-transformer-markdown-references",
+        options: markdownReferencesOptions,
       },
-    },
-    // {
-    //   resolve: `gatsby-plugin-compile-es6-packages`,
-    //   options: {
-    //     modules: [`gatsby-theme-garden`],
-    //   },
-    // },
-    {
-      resolve: require.resolve("../gatsby-remark-double-brackets-link.ts"),
-      options: {
-        stripBrackets: true,
-        titleToURL: {
-          prefix: "notes",
-        },
-      },
-    },
-  ],
+      // {
+      //   resolve: `gatsby-plugin-compile-es6-packages`,
+      //   options: {
+      //     modules: [`gatsby-theme-garden`],
+      //   },
+      // },
+    ],
+  };
 };

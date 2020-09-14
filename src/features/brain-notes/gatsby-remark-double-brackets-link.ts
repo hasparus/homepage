@@ -31,18 +31,20 @@ function makeTitleToURL(options: TitleToURLOptions) {
   };
 }
 
+export interface PluginOptions {
+  titleToURL?: TitleToURLOptions;
+  stripBrackets?: boolean;
+}
+
 const addDoubleBracketsLinks = (
   { markdownAST }: { markdownAST: Node },
-  options?: {
-    titleToURL?: (title: string) => string;
-    stripBrackets?: boolean;
-  }
+  options?: PluginOptions
 ) => {
   const titleToURL = makeTitleToURL(options?.titleToURL);
 
   const definitions: { [identifier: string]: boolean } = {};
 
-  visit(markdownAST, `definition`, node => {
+  visit(markdownAST, `definition`, (node) => {
     if (!node.identifier || typeof node.identifier !== "string") {
       return;
     }

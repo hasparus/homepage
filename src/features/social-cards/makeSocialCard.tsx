@@ -11,8 +11,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { jsx, ThemeProvider } from "theme-ui";
 import { promisify } from "util";
 
-import { Mdx } from "../../../__generated__/global";
 import { theme } from "../../gatsby-plugin-theme-ui/index";
+import { buildTime } from "../../lib/build-time/gatsby-node-utils";
 import { getNodeTitle } from "../../lib/build-time/getTitle";
 import { assert } from "../../lib/util/assert";
 import { PostSocialPreview } from "./PostSocialPreview";
@@ -57,7 +57,7 @@ async function imageFromHtml(
   return writeCachedFile(cacheDir, title, file, "png");
 }
 
-function getSocialCardHtml(post: Mdx) {
+function getSocialCardHtml(post: buildTime.Mdx) {
   return renderToStaticMarkup(
     <html lang="en">
       <head>
@@ -105,11 +105,12 @@ function getSocialCardHtml(post: Mdx) {
 export async function makeSocialCard(
   CACHE_DIR: string,
   browser: Browser,
-  post: Mdx
+  post: buildTime.Mdx
 ) {
   const title = getNodeTitle(post, "");
 
   if (!title) {
+    console.error("title is missing");
     debugger;
   }
 

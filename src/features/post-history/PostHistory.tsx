@@ -33,6 +33,7 @@ const ListItemDot = () => (
           width: 8,
           height: 100,
           bg: "background",
+          zIndex: -1,
         },
       },
       "li:last-of-type > &": {
@@ -44,6 +45,7 @@ const ListItemDot = () => (
           width: 8,
           height: 100,
           bg: "background",
+          zIndex: -1,
         },
       },
     }}
@@ -79,6 +81,8 @@ const PostHistoryListItem = ({
         alignItems: "center",
         my: 1,
         color: "text092",
+        // above background stripe
+        "> *": { zIndex: 0 },
       }}
     >
       <ListItemDot />
@@ -110,7 +114,8 @@ const PostHistoryListItem = ({
   );
 };
 
-const editionDates = (...dates: [Date, Date]) => {
+type DateRange = [Date, Date];
+const editionDates = (...dates: DateRange) => {
   const [from, to] = dates.map(formatDate);
 
   return from === to ? ` on ${from}` : ` between ${from} and ${to}.`;

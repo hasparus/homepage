@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { graphql, useStaticQuery } from "gatsby";
-import { Styled as s, jsx } from "theme-ui";
+import { jsx, Styled as s } from "theme-ui";
 
-import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
 import { PostDetails } from "../features/blog/PostDetails";
-import { Seo } from "../features/seo/Seo";
 import { PostsListItem } from "../features/blog/PostsListItem";
+import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
+import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
 
 const SpeakingPage = () => {
   const { allMdx } = useStaticQuery<SpeakingRaportsQuery>(graphql`
@@ -38,7 +38,7 @@ const SpeakingPage = () => {
   return (
     <PageLayout>
       <Seo title="speaking" />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Speaking</s.h1>
+      <s.h1 sx={{ mb: [0, 2], mt: [0, 5] }}>Speaking</s.h1>
       {/* TODO: A paragraph of description? */}
       <main>
         {allMdx.nodes.map((node, i) => {

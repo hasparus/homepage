@@ -92,7 +92,7 @@ const ThemePage = () => {
   return (
     <PageLayout>
       <s.h1>Theme</s.h1>
-      {keys(colorModes).map(colorMode => (
+      {keys(colorModes).map((colorMode) => (
         <Button
           key={colorMode}
           sx={{

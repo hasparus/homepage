@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import { graphql } from "gatsby";
-import { jsx, Styled as s, useThemeUI } from "theme-ui";
+import { jsx, Styled as s } from "theme-ui";
 
 import { TweetDiscussEditLinksData } from "../../lib/reusable-ui/__generated__/TweetDiscussEditLinksData";
-
 
 export const TweetDiscussEditLinks = ({
   socialLinks,
@@ -19,7 +18,6 @@ export const TweetDiscussEditLinks = ({
         },
       }}
     >
-      <div sx={theme => (console.log('TWEET DISCUSS 2', { theme }), ({ }))} />
       <s.a href={tweet}>tweet</s.a> &middot;{" "}
       <s.a href={edit}>edit on github</s.a>
     </footer>

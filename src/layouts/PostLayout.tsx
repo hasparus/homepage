@@ -27,17 +27,18 @@ export function PostLayout({
     return null;
   }
 
-  const {
-    frontmatter: { title, date, spoiler },
-    readingTime,
-    socialImage,
-    history,
-  } = pathContext;
+  const { frontmatter, readingTime, socialImage, history } = pathContext;
+  const title = frontmatter.title || "";
+  const spoiler = frontmatter.spoiler || "";
+  const date = frontmatter.date as Date | string;
 
   const image = socialImage?.childImageSharp?.original;
 
   // see gatsby-node-ts.ts onPreInit
-  assert(image, "socialImage is missing");
+  // assert(image, "socialImage is missing");
+  if (!image) {
+    console.error("socialImage is missing!", path);
+  }
 
   return (
     <Root>
@@ -46,13 +47,13 @@ export function PostLayout({
         title={title}
         description={spoiler}
         pathname={path}
-        image={image}
+        image={image || undefined} // TODO
       />
       <Header />
       <main>
         <article>
           <header sx={{ mb: 4 }}>
-            <s.h1 sx={{ mb: [0, 3], mt: [0, 4] }}>
+            <s.h1 sx={{ mb: [0, 3], mt: [0, 5] }}>
               {formatTitle(title)}
             </s.h1>
             <PostDetails date={date} readingTime={readingTime} />

@@ -1,34 +1,22 @@
 import * as fs from "fs";
-import { copyFile } from 'fs-extra';
+import { copyFile } from "fs-extra";
 import { GatsbyNode } from "gatsby";
 import * as path from "path";
 
 import { parseOptions } from "./parseOptions";
 
-
 export const onPreBootstrap: GatsbyNode["onPreBootstrap"] = async (
   { store },
   themeOptions
 ) => {
-  console.log('onPreBootstrap!!!!')
+  const { program } = store.getState();parseOptions(themeOptions)
+  const { contentPath } = parseOptions(themeOptions);
 
-  const { program } = store.getState();
-  const { noteTemplatePath, contentPath } = parseOptions(themeOptions)
-
-  if (!noteTemplatePath) {
-    throw new Error('[notes-digital-garden-theme] noteTemplatePath is missing');
-  }
-
-  if (contentPath) {
-    const dir = path.isAbsolute(contentPath)
-      ? contentPath
-      : path.join(program.directory, contentPath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-  }
-  else {
-    throw new Error('[notes-digital-garden-theme] contentPath is missing');
+  const dir = path.isAbsolute(contentPath)
+    ? contentPath
+    : path.join(program.directory, contentPath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
   }
 
   await copyFile(

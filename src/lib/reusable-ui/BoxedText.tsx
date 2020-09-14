@@ -2,7 +2,7 @@
 import { ComponentPropsWithoutRef } from "react";
 import { jsx, Styled as s } from "theme-ui";
 
-import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
+import { fontSize } from "../theme-ui-preset-hasparus-homepage/tokens";
 
 export type BoxedTextProps = ComponentPropsWithoutRef<typeof s.p>;
 export const BoxedText = (props: BoxedTextProps) => {

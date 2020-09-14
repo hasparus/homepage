@@ -25,6 +25,7 @@ export default {
   Button,
   TableOfContents,
   Footnote,
+  FootnoteA: Footnote.A,
   small: (props: ComponentProps<"small">) => (
     <small sx={{ fontSize: fontSize.small }} {...props} />
   ),

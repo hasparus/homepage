@@ -31,7 +31,10 @@ const IndexPage = () => {
 
     query IndexPageQuery {
       recent: allFile(
-        filter: { sourceInstanceName: { eq: "posts" } }
+        filter: {
+          sourceInstanceName: { eq: "posts" }
+          childMdx: { frontmatter: { date: { ne: null } } }
+        }
         sort: { fields: childMdx___frontmatter___date, order: DESC }
         limit: 1
       ) {
@@ -58,7 +61,7 @@ const IndexPage = () => {
     }
   `);
 
-  const recentPost = recent.nodes[0].childMdx;
+  const recentPost = recent.nodes[0]?.childMdx;
 
   return (
     <PageLayout>
@@ -77,7 +80,7 @@ const IndexPage = () => {
         <section>
           <s.h4>Personal Favorites</s.h4>
           <s.ul>
-            {favorites.nodes.map(post => {
+            {favorites.nodes.map((post) => {
               const { fields, frontmatter } = post.childMdx!;
 
               return (

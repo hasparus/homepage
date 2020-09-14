@@ -10,8 +10,8 @@ import { ComponentProps } from "react";
 import { jsx, Styled as s } from "theme-ui";
 
 import { Mdx } from "../../../__generated__/global";
-import { PostDetails } from "../blog/PostDetails";
 import { assert } from "../../lib/util/assert";
+import { PostDetails } from "../blog/PostDetails";
 
 const LINES_NUMBER = 5 + Math.floor(Math.random() * 4);
 
@@ -52,8 +52,8 @@ const Lines = (props: React.ComponentProps<"svg">) => {
             <Group key={`lines-${i}`} top={5 + (i * yMax) / 2}>
               <LinePath
                 data={dateValue}
-                x={d => xScale(x(d))}
-                y={d => yScale(y(d))}
+                x={(d) => xScale(x(d))}
+                y={(d) => yScale(y(d))}
                 strokeWidth={3}
                 curve={i % 2 === 0 ? curveMonotoneX : undefined}
                 sx={{

@@ -9,7 +9,8 @@
     "react/jsx-filename-extension": "off",
     "react/prop-types": "off",
     // TypeScript compilation performance suffers on large Object spreads
-    "prefer-object-spread": "off"
+    "prefer-object-spread": "off",
+    "prefer-destructuring": "off"
   },
   "overrides": [
     {

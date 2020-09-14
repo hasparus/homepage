@@ -77,7 +77,7 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
   return (
     <Button
       variant="clear"
-      onClick={e => {
+      onClick={(e) => {
         // iOS safari scrolls a bit down on double tap of this button
         // we'd like to prevent it
         e.preventDefault();
@@ -202,7 +202,7 @@ export const Header = memo(() => {
         >
           <HeaderInternalLink to="/writing">writing</HeaderInternalLink>
           <HeaderInternalLink to="/speaking">speaking</HeaderInternalLink>
-          <HeaderInternalLink to="/reading">reading</HeaderInternalLink>
+          <HeaderInternalLink to="/notes">notes</HeaderInternalLink>
           <Separator />
           <HeaderLink href="https://github.com/hasparus">GitHub</HeaderLink>
           <HeaderLink href="https://twitter.com/hasparus">

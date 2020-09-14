@@ -1,5 +1,7 @@
 import { flow } from "fp-ts/lib/function";
 
+import { assert } from "./assert";
+
 function colorToInt(color: number): number {
   return Math.round(color * 255);
 }
@@ -62,13 +64,16 @@ export interface RGB {
   b: number;
 }
 export function RGB(color: string): RGB {
-  let r: number;
-  let g: number;
-  let b: number;
+  let r: number | undefined;
+  let g: number | undefined;
+  let b: number | undefined;
   if (color.startsWith("hsl")) {
     const [hs, ss, ls] = color
       .match(/hsla?\((\d+),\s*(\d+)%,\s*(\d+)%/)!
       .slice(1, 4);
+
+    assert(hs && ss && ls);
+
     const h = Number(hs);
     const s = parseInt(ss, 10) / 100;
     const l = parseInt(ls, 10) / 100;
@@ -86,12 +91,12 @@ export function RGB(color: string): RGB {
         : color
             .match(/#(\w)(\w)(\w)/)!
             .slice(1, 4)
-            .map(ch => ch + ch)
+            .map((ch) => ch + ch)
             .join("");
     [r, g, b] = col
       .match(/(\w\w)(\w\w)(\w\w)/)!
       .slice(1, 4)
-      .map(x => Number(`0x${x}`));
+      .map((x) => Number(`0x${x}`));
   } else {
     throw new Error(`color ${color} not handled`);
   }

@@ -8,7 +8,9 @@
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "noEmit": true
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true
   },
   "exclude": ["node_modules", "__deps__", "public", ".cache"]
 }

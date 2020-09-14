@@ -117,7 +117,7 @@ Enter Theme UI, which looks more or less like these 3 potatoes.
 Theme UI builds up on top of Emotion and allows us to use our design tokens
 as first class citizens.
 
-![](../../assets/theme-ui-potatoes.png)
+![](../assets/theme-ui-potatoes.png)
 
 ```tsx
 /** @jsx jsx */
@@ -150,11 +150,11 @@ const BlueBox = () => {
   return (
     <div
       sx={{
-      bg: 'primry' // typo
-      size: [
-        '100px', // arbitrary value
-        '1234p' // arbitrary value typo
-      ],
+        bg: 'primry' // typo
+        size: [
+          '100px', // arbitrary value
+          '1234p' // arbitrary value typo
+        ],
       }}
 	/>
   )
@@ -166,10 +166,13 @@ mode.
 
 <small>
 
-_From this point onwards, we are not talking about current production Theme UI._
+
+_From this point onwards, we are not talking about current production Theme
+UI._
 _[See PR theme-ui#1090](https://github.com/system-ui/theme-ui/pull/1090)._
 
 </small>
+
 
 So how can we tell a library about a type we defined in our repository? How
 can we inject it?
@@ -207,20 +210,20 @@ Let's add it to _@theme-ui/css_ in _src/types.ts_.
 export interface UserTheme {}
 ```
 
-Then, we need to extract the types of keys of our color scale (`primary` and `primary-dark`).
+Then, we need to extract the types of keys of our color scale (`primary` and
+`primary-dark`).
 
 ```ts
 export interface FinalTheme extends Assign<Theme, UserTheme> {}
 
-type Defined<T> = Exclude<T, undefined>
+type Defined<T> = Exclude<T, undefined>;
 
-type Color =
-  | keyof Defined<FinalTheme['colors']>
-  | CSS.Globals
+type Color = keyof Defined<FinalTheme["colors"]> | CSS.Globals;
 ```
 
 where `Assign` is a type-level sibling of `Object.assign`, imported from
-[_utility-types_](https://github.com/piotrwitek/utility-types) or defined as so
+[_utility-types_](https://github.com/piotrwitek/utility-types) or defined as
+so
 
 ```ts
 export type Assign<T, U> = {
@@ -228,8 +231,8 @@ export type Assign<T, U> = {
     ? U[P]
     : P extends keyof T
     ? T[P]
-    : never
-}
+    : never;
+};
 ```
 
 and add them to `OverwriteCSSProperties` interface.
@@ -249,19 +252,19 @@ interface OverwriteCSSProperties {
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/z-index
    */
-  zIndex?: CSS.ZIndexProperty | string
-  
+  zIndex?: CSS.ZIndexProperty | string;
+
   // here we go
-  color?: Color
-  backgroundColor?: Color
-  borderColor?: Color
-  caretColor?: Color
+  color?: Color;
+  backgroundColor?: Color;
+  borderColor?: Color;
+  caretColor?: Color;
 }
 ```
 
 and our `color` values are typechecked 🎉
 
-![](../../assets/2020-08-28-18-55-51.png)
+![](../assets/2020-08-28-18-55-51.png)
 
 ## Ending
 

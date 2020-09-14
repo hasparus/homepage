@@ -28,11 +28,11 @@ export function TalkNoteLayout({
     return null;
   }
 
-  const {
-    frontmatter: { title, date, spoiler, venues },
-    socialImage,
-    history,
-  } = pathContext;
+  const { frontmatter, socialImage, history } = pathContext;
+  const title = frontmatter.title || "";
+  const spoiler = frontmatter.spoiler || "";
+  const date = frontmatter.date as Date | string;
+  const venues = frontmatter.venues;
 
   const image = socialImage?.childImageSharp?.original;
 
@@ -52,7 +52,7 @@ export function TalkNoteLayout({
       <main>
         <article>
           <header sx={{ mb: 4 }}>
-            <s.h1 sx={{ mb: [0, 3], mt: [0, 4] }}>
+            <s.h1 sx={{ mb: [0, 3], mt: [0, 5] }}>
               {formatTitle(title)}
             </s.h1>
             <PostDetails date={date} venues={venues} />

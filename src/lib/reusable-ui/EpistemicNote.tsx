@@ -19,7 +19,7 @@ export const EpistemicNote = ({
     : panic("impossible");
 
   return (
-    <BoxedText {...rest}>
+    <BoxedText sx={{ "> p": { display: "inline" } }} {...rest}>
       Epistemic {type}: {children}
     </BoxedText>
   );

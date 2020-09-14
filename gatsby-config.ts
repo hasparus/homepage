@@ -1,8 +1,13 @@
-import * as path from 'path';
-import slugRemarkPlugin from 'remark-slug';
+import { readdirSync } from "fs-extra";
+import * as path from "path";
+import slugRemarkPlugin from "remark-slug";
 
-import { Mdx } from './__generated__/global';
-import { autolinkHeadingsRemarkPluginConfig } from "./src/features/autolink-headings/remark-plugin";
+import { Mdx } from "./__generated__/global";
+import { autolinkHeadingsRemarkPluginConfig } from "./src/features/autolink-headings/remark-plugin-config";
+import {
+  brainNotesGatsbyPluginConfig,
+  brainNotesGatsbyRemarkPluginConfig,
+} from "./src/features/brain-notes/config";
 
 const deployUrl = process.env.DEPLOY_PRIME_URL || "";
 const siteUrl =
@@ -65,7 +70,7 @@ const utilityPlugins = [
   {
     resolve: "gatsby-plugin-sitemap",
     options: {
-      exclude: ["**/*.hidden"],
+      exclude: ["**/*.hidden", "**/_*"],
     },
   },
   {
@@ -131,6 +136,7 @@ const contentPlugins = [
       commonmark: true,
       gatsbyRemarkPlugins: [
         autolinkHeadingsRemarkPluginConfig,
+        brainNotesGatsbyRemarkPluginConfig,
         {
           resolve: "gatsby-remark-images",
           options: {
@@ -159,14 +165,6 @@ const contentPlugins = [
             ],
           },
         },
-        {
-          resolve: require.resolve(
-            "./src/features/brain-notes/gatsby-theme-notes-brain"
-          ),
-          options: {
-            contentPath: "notes",
-          },
-        },
       ],
       remarkPlugins: [slugRemarkPlugin],
       defaultLayouts: {
@@ -180,12 +178,18 @@ const contentPlugins = [
   // note. next time just put the posts in /pages dir
   // so gatsby-plugin-page-creator kicks in.
   // it would be easier to maintain
-  ...["posts", "assets", "notes"].map(name => ({
+
+  ...readdirSync("./content").map((name) => ({
     resolve: "gatsby-source-filesystem",
     options: {
       path: `content/${name}`,
       name,
     },
   })),
+  brainNotesGatsbyPluginConfig,
 ];
-export const plugins = ["gatsby-plugin-theme-ui", ...contentPlugins, ...utilityPlugins]
+export const plugins = [
+  "gatsby-plugin-theme-ui",
+  ...contentPlugins,
+  ...utilityPlugins,
+];

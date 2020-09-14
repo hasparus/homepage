@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { graphql, useStaticQuery } from "gatsby";
-import { Styled as s, jsx } from "theme-ui";
+import { jsx, Styled as s } from "theme-ui";
 
-import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 import { PostDetails } from "../features/blog/PostDetails";
-import { Seo } from "../features/seo/Seo";
 import { PostsListItem } from "../features/blog/PostsListItem";
+import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
+import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 
 const WritingPage = () => {
   const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
@@ -35,7 +35,7 @@ const WritingPage = () => {
   return (
     <PageLayout>
       <Seo title="writing" />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Writing</s.h1>
+      <s.h1 sx={{ mb: [0, 2], mt: [0, 5] }}>Writing</s.h1>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;

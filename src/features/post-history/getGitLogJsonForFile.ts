@@ -61,13 +61,13 @@ export const getGitLogJsonForFile = <
   filepath: string,
   fields: Array<T>
 ): Promise<Record<T, string>[]> =>
-  exists(filepath).then(fileExists => {
+  exists(filepath).then((fileExists) => {
     if (!fileExists) {
       throw new Error(`${filepath} doesn't exist`);
     }
 
     return new Promise((resolve, reject) => {
-      const params = fields.map(key => prettyFormatPlaceholders[key]);
+      const params = fields.map((key) => prettyFormatPlaceholders[key]);
 
       const command = makeGitLogCommand(params, filepath);
       exec(command, { encoding: "utf-8" }, (err, stdout) => {
@@ -78,14 +78,14 @@ export const getGitLogJsonForFile = <
             stdout
               .trim()
               .split(LINE_DELIMTER)
-              .filter(line => line.length)
-              .map(line =>
+              .filter((line) => line.length)
+              .map((line) =>
                 line
                   .trim()
                   .split(PARAM_DELIMITER)
                   .reduce((obj, value, idx) => {
                     // eslint-disable-next-line no-param-reassign
-                    obj[fields[idx]] = value.startsWith("\n")
+                    obj[fields[idx]!] = value.startsWith("\n")
                       ? value.slice(1)
                       : value;
 

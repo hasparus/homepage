@@ -1,6 +1,7 @@
 /** @jsx jsx */
 
 // import { graphql } from "gatsby";
+import { alpha } from "@theme-ui/color";
 import React from "react";
 import { jsx, Styled as s } from "theme-ui";
 
@@ -30,8 +31,6 @@ export function NoteLayout({
   const date = new Date();
   const path = "TODO";
 
-  console.log({ props });
-
   return (
     <Root>
       <Seo article title={title} description={spoiler} pathname={path} />
@@ -39,7 +38,14 @@ export function NoteLayout({
       <main>
         <article>
           <header sx={{ mb: 4 }}>
-            <s.h1 sx={{ mb: [0, 3], mt: [0, 4] }}>
+            <s.h1
+              sx={{
+                fontSie: 5,
+                mb: [0, 3],
+                mt: [0, 5],
+                borderBottom: alpha("text", 0.1),
+              }}
+            >
               {formatTitle(title)}
             </s.h1>
             <PostDetails date={date} />

@@ -6,7 +6,7 @@ import Reference from "./Reference";
 
 import "./ReferencesBlock.css";
 
-const ReferencesBlock = ({ references }) => {
+export const ReferencesBlock = ({ references }) => {
   if (!references.length) {
     return null;
   }
@@ -15,12 +15,10 @@ const ReferencesBlock = ({ references }) => {
     <div className="references-block">
       <h3>Referred in</h3>
       <div>
-        {references.map(ref => (
+        {references.map((ref) => (
           <Reference node={ref} key={ref.id} />
         ))}
       </div>
     </div>
   );
 };
-
-export default ReferencesBlock;

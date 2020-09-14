@@ -1,18 +1,20 @@
 import { CreateResolversArgs } from "gatsby";
 
+import { NotesBrainThemeOptions } from "./parseOptions";
 
-export const createResolvers = (args: CreateResolversArgs) => {
+export const createResolvers = (
+  args: CreateResolversArgs,
+  _: NotesBrainThemeOptions.Parsed
+) => {
   args.createResolvers({
     MdxFrontmatter: {
-      // TODO: Consider `isHidden`.
-      private: {
+      isHidden: {
         type: `Boolean`,
         resolve(source: any, _args: any, _context: any, _info: any) {
-          // console.log({ source })
-          if (source.private == null) {
+          if (source.isHidden == null) {
             return false;
           }
-          return source.private;
+          return source.isHidden;
         },
       },
     },

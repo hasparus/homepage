@@ -93,6 +93,7 @@ export const styles = makeStyles({
     overflowWrap: "break-word",
     color: "primary",
     textDecoration: "none",
+    cursor: "pointer",
     ":focus, :hover": {
       textDecoration: "underline",
     },
@@ -110,8 +111,9 @@ export const styles = makeStyles({
       bg: "inherit !important",
       padding: "0 !important",
     },
-    mx: "-1em",
-    ...randomElement(sketchyBorders),
+    mx: -3,
+    "--scrollbar-color": "255, 255, 255",
+    "@media (min-width: 745px)": randomElement(sketchyBorders),
   }),
   table: {
     width: "100%",

@@ -3,7 +3,7 @@ const light = {
   text092: "rgba(2, 2, 2, 0.92)",
   gray: "#2B2C28",
   background: "#fff",
-  primary: "#002FF4",
+  primary: "#0633f0",
   secondary: "#FED766",
   highlight: "#FEE9AB",
   muted: "#edf1ff",
@@ -15,11 +15,11 @@ const dark: ColorMode = {
   text: "#f0f0f0",
   text092: "rgba(240, 240, 240, 0.92)",
   gray: "#db7",
-  background: "#02030f",
+  background: "#031420",
   primary: "#80a9ff",
   secondary: "#ffd680",
   highlight: "#ADDB67",
-  muted: "#191F26",
+  muted: "#1a2027",
 };
 
 const soft: ColorMode = {

@@ -1,19 +1,59 @@
 /** @jsx jsx */
 import { Global, ObjectInterpolation } from "@emotion/core";
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
-import { jsx, Styled as s, useThemeUI } from "theme-ui";
+import {
+  css,
+  jsx,
+  Styled as s,
+  ThemeUIStyleObject,
+  useThemeUI,
+} from "theme-ui";
 
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
+import { ColorModeSpecificStyleTweaks } from "./ColorModeSpecificStyleTweaks";
+
+export const focusStyles: ThemeUIStyleObject = {
+  "*:focus:not(.focus-visible)": {
+    outline: "none",
+  },
+  ".focus-visible": {
+    outlineColor: "secondary",
+    outlineStyle: "dashed",
+  },
+};
+
+const scrollbarStyles: ThemeUIStyleObject = {
+  "*": {
+    "::-webkit-scrollbar": {
+      width: "14px",
+    },
+    "::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(var(--scrollbar-color), 0.16)",
+      backgroundClip: "padding-box",
+      border: "3px solid rgba(var(--scrollbar-color), 0)",
+      borderRadius: "100px",
+      "&:hover": {
+        borderWidth: "2px",
+        backgroundColor: "rgba(var(--scrollbar-color), 0.32)",
+      },
+    },
+    "::-webkit-scrollbar-corner": {
+      backgroundColor: "rgba(var(--scrollbar-color), 0)",
+    },
+  },
+};
 
 const globalStyles: ObjectInterpolation<any> = {
   html: {
     scrollBehavior: "smooth",
     fontSize: fontSize.base,
+    "--scrollbar-color": "0, 0, 0",
   },
   body: {
     margin: 0,
     overflowX: "hidden",
+    overflowY: "overlay" as any,
   },
   "@media print": {
     html: {
@@ -27,17 +67,25 @@ export interface RootProps
 
 export const Root = (props: RootProps) => {
   const { theme } = useThemeUI();
+
+  const global: ObjectInterpolation<any> = useMemo(() => {
+    return {
+      ...globalStyles,
+      ...css({ ...scrollbarStyles, ...focusStyles })(theme),
+    };
+  }, [theme]);
+
   return (
     <Fragment>
       <Helmet>
         <meta name="theme-color" content={theme.colors!.background} />
       </Helmet>
-      <Global styles={globalStyles} />
-
+      <Global styles={global} />
+      <ColorModeSpecificStyleTweaks />
       <s.root
         {...props}
         sx={{
-          maxWidth: "746px", // ~63ch with Segoe UI 22px
+          maxWidth: "738px", // ~63ch with Fira Sans 21px
           "@media print": {
             maxWidth: "80ch",
           },

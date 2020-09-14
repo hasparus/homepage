@@ -8,7 +8,7 @@ import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 import { formatDate } from "../../lib/util/formatDate";
 
 const cupOfCoffeeTime = 5; // minutes
-const burgerTime = cupOfCoffeeTime * Math.E; // stolen from overreacted.io
+const burgerTime = cupOfCoffeeTime * Math.E; // stolen from overreacted.io  
 const readingTimeEmoji = (minutes: number) => {
   return (minutes > 5 * cupOfCoffeeTime
     ? new Array(Math.floor(minutes / burgerTime)).fill("🍔")
