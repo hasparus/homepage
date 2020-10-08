@@ -9,7 +9,8 @@ export const onPreBootstrap: GatsbyNode["onPreBootstrap"] = async (
   { store },
   themeOptions
 ) => {
-  const { program } = store.getState();parseOptions(themeOptions)
+  const { program } = store.getState();
+  parseOptions(themeOptions);
   const { contentPath } = parseOptions(themeOptions);
 
   const dir = path.isAbsolute(contentPath)
@@ -19,11 +20,11 @@ export const onPreBootstrap: GatsbyNode["onPreBootstrap"] = async (
     fs.mkdirSync(dir, { recursive: true });
   }
 
-  await copyFile(
-    path.join(__dirname, "./fragments/garden-fragments.js"),
-    `${program.directory}/.cache/fragments/garden-fragments.js`
-  );
-  // TODO
+  // await copyFile(
+  //   path.join(__dirname, "./fragments/garden-fragments.js"),
+  //   `${program.directory}/.cache/fragments/garden-fragments.js`
+  // );
+
   // await copyFile(
   //   path.join(__dirname, "./fragments/file-graph.fragment"),
   //   path.join(__dirname, "./src/use-graph-data.js")

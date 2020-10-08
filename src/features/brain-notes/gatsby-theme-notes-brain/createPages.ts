@@ -1,4 +1,7 @@
 import { GatsbyNode } from "gatsby";
+import { resolve } from "path";
+
+import { collectGQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
 
 import { parseOptions } from "./parseOptions";
 import { shouldHandleFile } from "./shouldHandleFile";
@@ -17,6 +20,7 @@ export const createPages: GatsbyNode["createPages"] = async (
       allFile: {
         nodes: Array<{
           id: string;
+          absolutePath: string;
           sourceInstanceName: string;
           ext: string;
           internal: {
@@ -34,12 +38,21 @@ export const createPages: GatsbyNode["createPages"] = async (
       };
     };
   };
+
+  const fragments = await collectGQLFragments(resolve(__dirname, "../.."), [
+    "GatsbyGardenReferences",
+    "TweetDiscussEditLinksDataOnMdx",
+  ]);
   const result: Result = await graphql(
     `
+      ${fragments}
       {
-        allFile {
+        allFile(filter: {
+          sourceInstanceName: { eq: "${parsedOptions.contentPath}" }
+        }) {
           nodes {
             id
+            absolutePath
             sourceInstanceName
             ext
             internal {
@@ -52,6 +65,7 @@ export const createPages: GatsbyNode["createPages"] = async (
               frontmatter {
                 isHidden
               }
+              ...GatsbyGardenReferences
             }
           }
         }
@@ -64,7 +78,7 @@ export const createPages: GatsbyNode["createPages"] = async (
     throw new Error("Could not query notes");
   }
 
-  const localFileTemplate = require.resolve(parsedOptions.noteTemplatePath);
+  // const localFileTemplate = require.resolve(parsedOptions.noteTemplatePath);
 
   const localFiles = result
     .data!.allFile.nodes.filter((node: any) =>
@@ -73,11 +87,14 @@ export const createPages: GatsbyNode["createPages"] = async (
     .filter((x) => !x.childMdx.frontmatter.isHidden);
 
   localFiles.forEach((node) => {
+    console.log(">>", Object.values(node.childMdx));
+
     createPage({
       path: node.childMdx.fields!.route,
-      component: localFileTemplate,
+      component: node.absolutePath,
       context: {
         id: node.id,
+        ...Object.values(node.childMdx),
       },
     });
   });

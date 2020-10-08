@@ -19,7 +19,6 @@ const NotesIndexPage = () => {
       ) {
         nodes {
           fields {
-            slug
             title
           }
           childMdx {
@@ -54,11 +53,9 @@ const NotesIndexPage = () => {
       <Seo title="notes" />
       <main sx={{ mt: 6 }}>
         <s.p>
-          These are my notes — my{" "}
-          <s.a href="https://foambubble.github.io/foam">Foam</s.a> workspace
-          — which contains small markdown documents focused on one topic.
+          These are my notes — small markdown documents focused on one
+          topic, connected together with bidirectional links.
         </s.p>
-        <s.p>I'll probably write a better intro one day.</s.p>
         <ul>
           {allFile.nodes.map((node, i) => {
             const { title } = node.fields!;

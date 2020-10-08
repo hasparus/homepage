@@ -21,15 +21,6 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (
   if (isFile(node) && shouldHandleFile(node, opts)) {
     createNodeField({
       node,
-      name: "slug",
-      value: urlResolve(
-        opts.basePath,
-        path.parse(node.relativePath).dir,
-        node.name
-      ),
-    });
-    createNodeField({
-      node,
       name: "title",
       value: getNodeTitle(node, await loadNodeContent(node)),
     });

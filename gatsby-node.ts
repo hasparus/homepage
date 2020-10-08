@@ -11,6 +11,7 @@ import { toLower } from "lodash";
 import puppeteer, { Browser } from "puppeteer";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
+import { resolve } from "path";
 
 import * as g from "./__generated__/global";
 import { createBlogpostHistoryNodeField } from "./src/features/post-history/createBlogpostHistoryNodeField";
@@ -18,6 +19,7 @@ import { createSocialImageNodeField } from "./src/features/social-cards/createSo
 import * as socialSharing from "./src/features/social-sharing/gatsby-node";
 import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
 import { assert } from "./src/lib/util";
+import { collectGQLFragments } from "./src/lib/build-time/collectGraphQLFragments";
 
 export interface MdxPostPageContext extends g.MdxFields {
   frontmatter: g.Mdx["frontmatter"];
@@ -114,13 +116,21 @@ export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
   });
 };
 
-export const createPages: GatsbyNode["createPages"] = ({
+export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
   actions,
 }) => {
+  const fragments = await collectGQLFragments(
+    resolve(__dirname, "src/features"),
+    ["TweetDiscussEditLinksDataOnMdx"]
+  );
+
+  console.log({ fragments });
+
   return new Promise((resolve, reject) => {
     resolve(
       graphql<{ allMdx: g.MdxConnection }>(/* graphql */ `
+        ${fragments}
         query CreatePagesQuery {
           allMdx {
             nodes {
@@ -155,15 +165,7 @@ export const createPages: GatsbyNode["createPages"] = ({
                   }
                 }
               }
-              # ...TweetDiscussEditLinksDataOnMdx
-              # can't use fragments here
-              # I think I should try moving the query to layout somehow
-              # the ".component" could be layout, and I could pass MDX through
-              # data
-              socialLinks {
-                edit
-                tweet
-              }
+              ...TweetDiscussEditLinksDataOnMdx
               tableOfContents {
                 items {
                   url

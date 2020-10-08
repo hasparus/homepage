@@ -1,19 +1,17 @@
+// @ts-check
+
 import { graphql } from "gatsby";
 
 export const references = graphql`
   fragment GatsbyGardenReferences on Mdx {
     outboundReferences {
       ... on Mdx {
-        body
         fields {
           route
-          title
         }
         parent {
-          id
           ... on File {
             fields {
-              slug
               title
             }
           }
@@ -22,12 +20,12 @@ export const references = graphql`
     }
     inboundReferences {
       ... on Mdx {
-        body
+        fields {
+          route
+        }
         parent {
-          id
           ... on File {
             fields {
-              slug
               title
             }
           }

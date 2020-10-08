@@ -111,7 +111,7 @@ export const styles = makeStyles({
       bg: "inherit !important",
       padding: "0 !important",
     },
-    mx: -3,
+    mx: [-3, -3, -5],
     "--scrollbar-color": "255, 255, 255",
     "@media (min-width: 745px)": randomElement(sketchyBorders),
   }),
