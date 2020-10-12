@@ -19,9 +19,14 @@ const headingStyles: ThemeUICSSObject = {
   fontWeight: "heading",
   lineHeight: "1.2",
 
+  display: "inline-flex",
+  alignItems: "center",
+
   color: "text092",
 
-  margin: "1em 0",
+  p: 2,
+  my: 0,
+  mx: -2,
 
   code: {
     fontSize: "0.85em",
@@ -156,7 +161,7 @@ export const styles = makeStyles({
   },
   hr: {
     border: "none",
-    borderBottom: "1px dashed",
+    borderBottom: "2px dashed",
     opacity: 0.4,
   },
 });

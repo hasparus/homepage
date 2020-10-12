@@ -2,11 +2,13 @@
 import { graphql } from "gatsby";
 import { jsx, Styled as s } from "theme-ui";
 
-import { TweetDiscussEditLinksData } from "../../lib/reusable-ui/__generated__/TweetDiscussEditLinksData";
+import { TweetDiscussEditLinksDataOnMdx } from "./__generated__/TweetDiscussEditLinksDataOnMdx";
+
+export type { TweetDiscussEditLinksDataOnMdx };
 
 export const TweetDiscussEditLinks = ({
   socialLinks,
-}: TweetDiscussEditLinksData) => {
+}: TweetDiscussEditLinksDataOnMdx) => {
   const { edit, tweet } = socialLinks!;
 
   return (

@@ -12,15 +12,17 @@ function isFile(node: buildTime.Node): node is buildTime.File {
 }
 
 export const onCreateNode: GatsbyNode["onCreateNode"] = async (
-  { node, actions, loadNodeContent },
+  { node, actions, getNode, loadNodeContent },
   options
 ) => {
   const { createNodeField } = actions;
   const opts = parseOptions(options);
 
   if (isFile(node) && shouldHandleFile(node, opts)) {
+    const mdx = getNode(node.children[0]!);
+
     createNodeField({
-      node,
+      node: mdx, // Work in progress. I need to update UI now.
       name: "title",
       value: getNodeTitle(node, await loadNodeContent(node)),
     });

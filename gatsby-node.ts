@@ -19,7 +19,7 @@ import { createSocialImageNodeField } from "./src/features/social-cards/createSo
 import * as socialSharing from "./src/features/social-sharing/gatsby-node";
 import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
 import { assert } from "./src/lib/util";
-import { collectGQLFragments } from "./src/lib/build-time/collectGraphQLFragments";
+import { collectGraphQLFragments } from "./src/lib/build-time/collectGraphQLFragments";
 
 export interface MdxPostPageContext extends g.MdxFields {
   frontmatter: g.Mdx["frontmatter"];
@@ -120,12 +120,10 @@ export const createPages: GatsbyNode["createPages"] = async ({
   graphql,
   actions,
 }) => {
-  const fragments = await collectGQLFragments(
+  const fragments = await collectGraphQLFragments(
     resolve(__dirname, "src/features"),
     ["TweetDiscussEditLinksDataOnMdx"]
   );
-
-  console.log({ fragments });
 
   return new Promise((resolve, reject) => {
     resolve(

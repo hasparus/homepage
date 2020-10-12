@@ -1,7 +1,8 @@
 import { GatsbyNode } from "gatsby";
 import { resolve } from "path";
 
-import { collectGQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
+import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
+import type { TweetDiscussEditLinksDataOnMdx } from "../../social-sharing/TweetDiscussEditLinks";
 
 import { parseOptions } from "./parseOptions";
 import { shouldHandleFile } from "./shouldHandleFile";
@@ -33,16 +34,16 @@ export const createPages: GatsbyNode["createPages"] = async (
             frontmatter: {
               isHidden: boolean;
             };
-          };
+          } & TweetDiscussEditLinksDataOnMdx;
         }>;
       };
     };
   };
 
-  const fragments = await collectGQLFragments(resolve(__dirname, "../.."), [
-    "GatsbyGardenReferences",
-    "TweetDiscussEditLinksDataOnMdx",
-  ]);
+  const fragments = await collectGraphQLFragments(
+    resolve(__dirname, "../.."),
+    ["GatsbyGardenReferences", "TweetDiscussEditLinksDataOnMdx"]
+  );
   const result: Result = await graphql(
     `
       ${fragments}
@@ -66,6 +67,7 @@ export const createPages: GatsbyNode["createPages"] = async (
                 isHidden
               }
               ...GatsbyGardenReferences
+              ...TweetDiscussEditLinksDataOnMdx
             }
           }
         }
@@ -89,12 +91,17 @@ export const createPages: GatsbyNode["createPages"] = async (
   localFiles.forEach((node) => {
     console.log(">>", Object.values(node.childMdx));
 
+    const {
+      inboundReferences,
+      outboundReferences,
+    } = node.childMdx as any; /* TODO */
+
     createPage({
       path: node.childMdx.fields!.route,
       component: node.absolutePath,
       context: {
         id: node.id,
-        ...Object.values(node.childMdx),
+        inboundReferences,
       },
     });
   });

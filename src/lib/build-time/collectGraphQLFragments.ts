@@ -7,7 +7,7 @@ import glob from "glob";
  * Collect all graphql fragments from a directory
  * @see https://github.com/gatsbyjs/gatsby/issues/12155#issuecomment-618424527
  */
-export const collectGQLFragments = async (
+export const collectGraphQLFragments = async (
   dirname: string,
   fragmentsNamesToExtract: string[]
 ): Promise<string> => {
