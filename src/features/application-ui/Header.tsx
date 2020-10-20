@@ -80,8 +80,9 @@ const NextColorModeButton = (props: NextColorModeButtonProps) => {
   const [colorMode, setColorMode] = useColorMode();
 
   const modes = keys(colorModes);
-  const nextColorMode =
-    modes[(modes.indexOf(colorMode as ColorModes) + 1) % modes.length];
+  const nextColorMode = modes[
+    (modes.indexOf(colorMode as ColorModes) + 1) % modes.length
+  ]!;
 
   return (
     <Button
