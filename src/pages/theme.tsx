@@ -124,11 +124,21 @@ const ThemePage = () => {
       </section>
       <section>
         <s.h2>Typography</s.h2>
-        <ThemeHeading as="h1" />
-        <ThemeHeading as="h2" />
-        <ThemeHeading as="h3" />
-        <ThemeHeading as="h4" />
-        <ThemeHeading as="h5" />
+        <div>
+          <ThemeHeading as="h1" />
+        </div>
+        <div>
+          <ThemeHeading as="h2" />
+        </div>
+        <div>
+          <ThemeHeading as="h3" />
+        </div>
+        <div>
+          <ThemeHeading as="h4" />
+        </div>
+        <div>
+          <ThemeHeading as="h5" />
+        </div>
       </section>
       <section>
         <s.h2>Links</s.h2>

@@ -23,14 +23,14 @@ const dark: ColorMode = {
 };
 
 const soft: ColorMode = {
-  text: "hsl(210, 12%, 7%)",
-  text092: "hsla(210, 12%, 7%, 92%)",
-  background: "#FFEFD5", // papayawhip -- hsl(37, 100%, 92%)
-  primary: "#005EB7",
-  secondary: "#FFA81C",
-  highlight: "#E6C083",
-  muted: "#EBDBC0",
-  gray: "#3B3121",
+  text: "hsl(165, 20%, 12%)",
+  text092: "hsla(165, 20%, 12%, 0.92)",
+  background: "#fdf8e4",
+  primary: "#ca3030",
+  secondary: "#02734A",
+  highlight: "#5da88c",
+  muted: "#ebe0d2",
+  gray: "#474341",
 };
 
 export const colorModes = { light, dark, soft };
