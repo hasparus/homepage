@@ -80,8 +80,6 @@ export const createPages: GatsbyNode["createPages"] = async (
     throw new Error("Could not query notes");
   }
 
-  // const localFileTemplate = require.resolve(parsedOptions.noteTemplatePath);
-
   const localFiles = result
     .data!.allFile.nodes.filter((node: any) =>
       shouldHandleFile(node, parsedOptions)

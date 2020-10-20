@@ -13,15 +13,11 @@ export namespace NotesBrainThemeOptions {
     contentPath?: string;
     extensions?: string | string[];
     mediaTypes?: string | string[];
-    noteTemplatePath?: string;
     plugins?: PluginOptions["plugins"];
   }
 
   export interface ValidInput
-    extends WithRequired<
-      PossibleInput,
-      "noteTemplatePath" | "contentPath"
-    > {}
+    extends WithRequired<PossibleInput, "contentPath"> {}
 }
 
 function assertIsValid(
@@ -29,12 +25,8 @@ function assertIsValid(
 ): asserts opts is NotesBrainThemeOptions.ValidInput {
   assert(opts, `[notes-brain-theme] themeOptions are not \`${opts}\``);
 
-  const { noteTemplatePath, contentPath } = opts;
+  const { contentPath } = opts;
 
-  assert(
-    noteTemplatePath,
-    "[notes-brain-theme] noteTemplatePath is missing"
-  );
   assert(contentPath, "[notes-brain-theme] contentPath is missing");
 }
 
@@ -48,7 +40,6 @@ export const parseOptions = (
     contentPath,
     extensions = [".md", ".mdx"],
     mediaTypes = ["text/markdown", "text/mdx"],
-    noteTemplatePath,
   } = themeOptions;
 
   return {
@@ -56,7 +47,6 @@ export const parseOptions = (
     contentPath,
     extensions,
     mediaTypes,
-    noteTemplatePath,
   };
 };
 

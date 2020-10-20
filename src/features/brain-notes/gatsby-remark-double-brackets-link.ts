@@ -74,7 +74,7 @@ const addDoubleBracketsLinks = (
       return;
     }
 
-    if (
+    if (  
       previous.type !== "text" ||
       (Array.isArray(previous.value) &&
         previous.value[previous.value.length - 1] !== "[") ||

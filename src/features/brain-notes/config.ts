@@ -3,7 +3,6 @@ import { NotesBrainThemeOptions } from "./gatsby-theme-notes-brain/parseOptions"
 
 const options: NotesBrainThemeOptions.ValidInput = {
   contentPath: "notes",
-  noteTemplatePath: require.resolve("../../layouts/NoteLayout.tsx"),
 };
 
 export const brainNotesGatsbyPluginConfig = {
