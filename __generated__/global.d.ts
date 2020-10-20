@@ -518,7 +518,6 @@ export type FileEdge = {
 
 export type FileFields = {
   readonly __typename?: 'FileFields';
-  readonly slug?: Maybe<Scalars['String']>;
   readonly title?: Maybe<Scalars['String']>;
 };
 
@@ -556,7 +555,6 @@ export type FileFieldsEnum =
   | 'birthtimeMs'
   | 'blksize'
   | 'blocks'
-  | 'fields___slug'
   | 'fields___title'
   | 'publicURL'
   | 'childImageSharp___fixed___base64'
@@ -848,7 +846,6 @@ export type FileFieldsEnum =
   | 'childMdx___internal___type';
 
 export type FileFieldsFilterInput = {
-  readonly slug?: Maybe<StringQueryOperatorInput>;
   readonly title?: Maybe<StringQueryOperatorInput>;
 };
 
@@ -1631,7 +1628,6 @@ export type MdxFieldsEnum =
   | 'fields___socialImage___birthtimeMs'
   | 'fields___socialImage___blksize'
   | 'fields___socialImage___blocks'
-  | 'fields___socialImage___fields___slug'
   | 'fields___socialImage___fields___title'
   | 'fields___socialImage___publicURL'
   | 'fields___socialImage___childImageSharp___id'
@@ -2576,8 +2572,9 @@ export type SitePageConnectiongroupArgs = {
 
 export type SitePageContext = {
   readonly __typename?: 'SitePageContext';
-  readonly id?: Maybe<Scalars['String']>;
   readonly frontmatter?: Maybe<SitePageContextFrontmatter>;
+  readonly id?: Maybe<Scalars['String']>;
+  readonly inboundReferences?: Maybe<ReadonlyArray<Maybe<SitePageContextInboundReferences>>>;
   readonly route?: Maybe<Scalars['String']>;
   readonly readingTime?: Maybe<Scalars['Int']>;
   readonly history?: Maybe<SitePageContextHistory>;
@@ -2588,8 +2585,9 @@ export type SitePageContext = {
 };
 
 export type SitePageContextFilterInput = {
-  readonly id?: Maybe<StringQueryOperatorInput>;
   readonly frontmatter?: Maybe<SitePageContextFrontmatterFilterInput>;
+  readonly id?: Maybe<StringQueryOperatorInput>;
+  readonly inboundReferences?: Maybe<SitePageContextInboundReferencesFilterListInput>;
   readonly route?: Maybe<StringQueryOperatorInput>;
   readonly readingTime?: Maybe<IntQueryOperatorInput>;
   readonly history?: Maybe<SitePageContextHistoryFilterInput>;
@@ -2661,6 +2659,48 @@ export type SitePageContextHistoryEntriesFilterListInput = {
 export type SitePageContextHistoryFilterInput = {
   readonly entries?: Maybe<SitePageContextHistoryEntriesFilterListInput>;
   readonly url?: Maybe<StringQueryOperatorInput>;
+};
+
+export type SitePageContextInboundReferences = {
+  readonly __typename?: 'SitePageContextInboundReferences';
+  readonly fields?: Maybe<SitePageContextInboundReferencesFields>;
+  readonly parent?: Maybe<SitePageContextInboundReferencesParent>;
+};
+
+export type SitePageContextInboundReferencesFields = {
+  readonly __typename?: 'SitePageContextInboundReferencesFields';
+  readonly route?: Maybe<Scalars['String']>;
+};
+
+export type SitePageContextInboundReferencesFieldsFilterInput = {
+  readonly route?: Maybe<StringQueryOperatorInput>;
+};
+
+export type SitePageContextInboundReferencesFilterInput = {
+  readonly fields?: Maybe<SitePageContextInboundReferencesFieldsFilterInput>;
+  readonly parent?: Maybe<SitePageContextInboundReferencesParentFilterInput>;
+};
+
+export type SitePageContextInboundReferencesFilterListInput = {
+  readonly elemMatch?: Maybe<SitePageContextInboundReferencesFilterInput>;
+};
+
+export type SitePageContextInboundReferencesParent = {
+  readonly __typename?: 'SitePageContextInboundReferencesParent';
+  readonly fields?: Maybe<SitePageContextInboundReferencesParentFields>;
+};
+
+export type SitePageContextInboundReferencesParentFields = {
+  readonly __typename?: 'SitePageContextInboundReferencesParentFields';
+  readonly title?: Maybe<Scalars['String']>;
+};
+
+export type SitePageContextInboundReferencesParentFieldsFilterInput = {
+  readonly title?: Maybe<StringQueryOperatorInput>;
+};
+
+export type SitePageContextInboundReferencesParentFilterInput = {
+  readonly fields?: Maybe<SitePageContextInboundReferencesParentFieldsFilterInput>;
 };
 
 export type SitePageContextSocialImage = {
@@ -2866,7 +2906,6 @@ export type SitePageFieldsEnum =
   | 'internal___owner'
   | 'internal___type'
   | 'isCreatedByStatefulCreatePages'
-  | 'context___id'
   | 'context___frontmatter___title'
   | 'context___frontmatter___spoiler'
   | 'context___frontmatter___date'
@@ -2876,6 +2915,9 @@ export type SitePageFieldsEnum =
   | 'context___frontmatter___venues'
   | 'context___frontmatter___venues___name'
   | 'context___frontmatter___venues___link'
+  | 'context___id'
+  | 'context___inboundReferences'
+  | 'context___inboundReferences___fields___route'
   | 'context___route'
   | 'context___readingTime'
   | 'context___history___entries'

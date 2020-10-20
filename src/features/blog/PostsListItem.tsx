@@ -23,7 +23,7 @@ PostsListItem.Heading = ({
   <s.h3
     sx={{
       marginBottom: "0.4375rem",
-      marginTop: "3rem",
+      marginTop: "1.953rem",
       color: "text",
     }}
     {...rest}

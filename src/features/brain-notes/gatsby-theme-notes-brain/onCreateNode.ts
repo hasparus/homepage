@@ -22,7 +22,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (
     const mdx = getNode(node.children[0]!);
 
     createNodeField({
-      node: mdx, // Work in progress. I need to update UI now.
+      node: mdx,
       name: "title",
       value: getNodeTitle(node, await loadNodeContent(node)),
     });

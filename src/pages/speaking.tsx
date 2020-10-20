@@ -38,7 +38,15 @@ const SpeakingPage = () => {
   return (
     <PageLayout>
       <Seo title="speaking" />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 5] }}>Speaking</s.h1>
+      <s.h1
+        sx={{
+          mb: [0, 2],
+          mt: [0, 5],
+          color: "text092",
+        }}
+      >
+        Speaking
+      </s.h1>
       {/* TODO: A paragraph of description? */}
       <main>
         {allMdx.nodes.map((node, i) => {

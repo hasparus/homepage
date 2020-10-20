@@ -2,7 +2,7 @@ import { GatsbyNode } from "gatsby";
 import { resolve } from "path";
 
 import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
-import type { TweetDiscussEditLinksDataOnMdx } from "../../social-sharing/TweetDiscussEditLinks";
+import { TweetDiscussEditLinksDataOnMdx } from "../../social-sharing/TweetDiscussEditLinks";
 
 import { parseOptions } from "./parseOptions";
 import { shouldHandleFile } from "./shouldHandleFile";
@@ -89,7 +89,7 @@ export const createPages: GatsbyNode["createPages"] = async (
     .filter((x) => !x.childMdx.frontmatter.isHidden);
 
   localFiles.forEach((node) => {
-    console.log(">>", Object.values(node.childMdx));
+    console.log(">>", node.childMdx);
 
     const {
       inboundReferences,

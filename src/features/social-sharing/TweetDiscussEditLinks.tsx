@@ -2,7 +2,7 @@
 import { graphql } from "gatsby";
 import { jsx, Styled as s } from "theme-ui";
 
-import { TweetDiscussEditLinksDataOnMdx } from "./__generated__/TweetDiscussEditLinksDataOnMdx";
+import type { TweetDiscussEditLinksDataOnMdx } from "./__generated__/TweetDiscussEditLinksDataOnMdx";
 
 export type { TweetDiscussEditLinksDataOnMdx };
 

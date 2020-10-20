@@ -7,28 +7,16 @@ export const references = graphql`
     outboundReferences {
       ... on Mdx {
         fields {
+          title
           route
-        }
-        parent {
-          ... on File {
-            fields {
-              title
-            }
-          }
         }
       }
     }
     inboundReferences {
       ... on Mdx {
         fields {
+          title
           route
-        }
-        parent {
-          ... on File {
-            fields {
-              title
-            }
-          }
         }
       }
     }

@@ -18,11 +18,9 @@ const NotesIndexPage = () => {
         }
       ) {
         nodes {
-          fields {
-            title
-          }
           childMdx {
             fields {
+              title
               route
               history {
                 entries {
@@ -58,8 +56,7 @@ const NotesIndexPage = () => {
         </s.p>
         <ul>
           {allFile.nodes.map((node, i) => {
-            const { title } = node.fields!;
-            const { route } = node.childMdx!.fields!;
+            const { title, route } = node.childMdx!.fields!;
 
             return (
               <li key={i}>

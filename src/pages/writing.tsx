@@ -35,7 +35,7 @@ const WritingPage = () => {
   return (
     <PageLayout>
       <Seo title="writing" />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 5] }}>Writing</s.h1>
+      <s.h1 sx={{ mb: [0, 2], mt: [0, 5], color: "text092" }}>Writing</s.h1>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;

@@ -60,7 +60,16 @@ const HeaderInternalLink = (props: GatsbyLinkProps<any>) => {
   // Gatsby Link to the current pathname doesn't change targetted id
   if (location.pathname === props.to) {
     const { to: _, ...newProps } = props;
-    return <HeaderLink {...newProps} href="#" />;
+    return (
+      <HeaderLink
+        {...newProps}
+        href="#"
+        sx={{
+          textDecoration: "line-through",
+          ":hover": { textDecoration: "line-through" },
+        }}
+      />
+    );
   }
 
   return <HeaderLink as={Link} {...props} />;
