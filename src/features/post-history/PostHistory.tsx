@@ -133,7 +133,7 @@ export function PostHistory({
     return null;
   }
 
-  const hasDatesOnly = !entries[0].abbreviatedCommit;
+  const hasDatesOnly = !entries[0]!.abbreviatedCommit;
 
   return (
     <section sx={{ overflowY: "hidden" }}>
@@ -149,8 +149,8 @@ export function PostHistory({
         Edited {entries.length} times
         {hasDatesOnly &&
           editionDates(
-            entries[entries.length - 1].authorDate,
-            entries[0].authorDate
+            entries[entries.length - 1]!.authorDate,
+            entries[0]!.authorDate
           )}
       </span>
       {!hasDatesOnly && (
