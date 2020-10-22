@@ -1,14 +1,22 @@
 import { PluginOptions } from "./gatsby-remark-double-brackets-link";
 import { NotesBrainThemeOptions } from "./gatsby-theme-notes-brain/parseOptions";
 
-const options: NotesBrainThemeOptions.ValidInput = {
+const makeOptions = ({
+  pluginMdxOptions,
+}: Pick<
+  NotesBrainThemeOptions.ValidInput,
+  "pluginMdxOptions"
+>): NotesBrainThemeOptions.ValidInput => ({
   contentPath: "notes",
-};
+  pluginMdxOptions,
+});
 
-export const brainNotesGatsbyPluginConfig = {
+export const makeBrainNotesGatsbyPluginConfig = (
+  givenOptions: Pick<NotesBrainThemeOptions.ValidInput, "pluginMdxOptions">
+) => ({
   resolve: require.resolve("./gatsby-theme-notes-brain"),
-  options,
-};
+  options: makeOptions(givenOptions),
+});
 
 const doubleBracketsLinkOptions: PluginOptions = {
   stripBrackets: true,

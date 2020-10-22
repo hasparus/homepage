@@ -1,7 +1,7 @@
-import { findTopLevelHeading } from "gatsby-transformer-markdown-references";
 import * as path from "path";
 
 import { File, Mdx } from "../../../__generated__/global";
+import { findTopLevelHeading } from "./markdown-utils";
 
 interface Node {
   absolutePath?: File["absolutePath"];
@@ -9,6 +9,12 @@ interface Node {
   fileAbsolutePath?: Mdx["fileAbsolutePath"];
 }
 
+/**
+ * 1. Use `frontmatter.title` if it's not empty
+ * 2. Use top level heading
+ * 3. Use file name from `fileAbsolutePath`
+ * 4. Use file name from `absolutePath`
+ */
 export function getNodeTitle(node: Node, content: string) {
   if (
     typeof node.frontmatter === "object" &&

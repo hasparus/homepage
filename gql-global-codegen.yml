@@ -4,6 +4,8 @@
 
 overwrite: true
 schema: ./gql-schema.json
+documents:
+  - "./src/**/*.graphql"
 generates:
   ./__generated__/global.d.ts:
     plugins:

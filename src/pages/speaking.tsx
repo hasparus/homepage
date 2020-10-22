@@ -6,6 +6,7 @@ import { PostDetails } from "../features/blog/PostDetails";
 import { PostsListItem } from "../features/blog/PostsListItem";
 import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
+import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
 
 const SpeakingPage = () => {
@@ -38,16 +39,7 @@ const SpeakingPage = () => {
   return (
     <PageLayout>
       <Seo title="speaking" />
-      <s.h1
-        sx={{
-          mb: [0, 2],
-          mt: [0, 5],
-          color: "text092",
-        }}
-      >
-        Speaking
-      </s.h1>
-      {/* TODO: A paragraph of description? */}
+      <ListPageHeading>Speaking</ListPageHeading>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;

@@ -51,8 +51,15 @@ const NotesIndexPage = () => {
       <Seo title="notes" />
       <main sx={{ mt: 6 }}>
         <s.p>
-          These are my notes — small markdown documents focused on one
-          topic, connected together with bidirectional links.
+          These are my notes — short pieces of markdown focused on one
+          topic, connected together with bidirectional links. They're all
+          work-in-progress and unfinished, and that's okay. You can get a
+          sneak peek of my thoughts 😉
+        </s.p>
+        <s.p>Enjoy the adventure!</s.p>
+        <s.p>
+          There's going to be an awesome Roam-style graph of all of these
+          notes here in the future, but have a list for now.
         </s.p>
         <ul>
           {allFile.nodes.map((node, i) => {

@@ -14,20 +14,32 @@ export namespace NotesBrainThemeOptions {
     extensions?: string | string[];
     mediaTypes?: string | string[];
     plugins?: PluginOptions["plugins"];
+    /**
+     * needed for createResolvers, because we transform our mdx and we need
+     * these plugins for that
+     */
+    pluginMdxOptions?: {
+      remarkPlugins: (string | object)[];
+      gatsbyRemarkPlugins: (string | object)[];
+    };
   }
 
   export interface ValidInput
-    extends WithRequired<PossibleInput, "contentPath"> {}
+    extends WithRequired<
+      PossibleInput,
+      "contentPath" | "pluginMdxOptions"
+    > {}
 }
 
 function assertIsValid(
   opts: NotesBrainThemeOptions.PossibleInput | undefined
 ): asserts opts is NotesBrainThemeOptions.ValidInput {
-  assert(opts, `[notes-brain-theme] themeOptions are not \`${opts}\``);
+  assert(opts, `[brain-notes] themeOptions are not \`${opts}\``);
 
-  const { contentPath } = opts;
+  const { contentPath, pluginMdxOptions } = opts;
 
-  assert(contentPath, "[notes-brain-theme] contentPath is missing");
+  assert(contentPath, "[brain-notes] contentPath is missing");
+  assert(pluginMdxOptions, "[brain-notes] pluginMdxOptions is missing");
 }
 
 export const parseOptions = (
@@ -38,6 +50,7 @@ export const parseOptions = (
   const {
     basePath = "/",
     contentPath,
+    pluginMdxOptions,
     extensions = [".md", ".mdx"],
     mediaTypes = ["text/markdown", "text/mdx"],
   } = themeOptions;
@@ -45,6 +58,7 @@ export const parseOptions = (
   return {
     basePath,
     contentPath,
+    pluginMdxOptions,
     extensions,
     mediaTypes,
   };

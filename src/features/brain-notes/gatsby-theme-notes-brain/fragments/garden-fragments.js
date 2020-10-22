@@ -3,7 +3,7 @@
 import { graphql } from "gatsby";
 
 export const references = graphql`
-  fragment GatsbyGardenReferences on Mdx {
+  fragment GatsbyGardenReferencesOnMdx on Mdx {
     outboundReferences {
       ... on Mdx {
         fields {

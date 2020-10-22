@@ -13,7 +13,7 @@ import { promisify } from "util";
 
 import { theme } from "../../gatsby-plugin-theme-ui/index";
 import { buildTime } from "../../lib/build-time/gatsby-node-utils";
-import { getNodeTitle } from "../../lib/build-time/getTitle";
+import { getNodeTitle } from "../../lib/build-time/getNodeTitle";
 import { assert } from "../../lib/util/assert";
 import { PostSocialPreview } from "./PostSocialPreview";
 

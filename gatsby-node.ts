@@ -7,7 +7,6 @@ import {
 import { createFilePath } from "gatsby-source-filesystem";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-import { toLower } from "lodash";
 import puppeteer, { Browser } from "puppeteer";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
@@ -20,6 +19,7 @@ import * as socialSharing from "./src/features/social-sharing/gatsby-node";
 import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
 import { assert } from "./src/lib/util";
 import { collectGraphQLFragments } from "./src/lib/build-time/collectGraphQLFragments";
+import { slugifyTitle } from "./src/lib/build-time/slugifyTitle";
 
 export interface MdxPostPageContext extends g.MdxFields {
   frontmatter: g.Mdx["frontmatter"];
@@ -69,7 +69,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
 
     const route =
       prefix +
-      toLower(
+      slugifyTitle(
         createFilePath({
           node,
           getNode,

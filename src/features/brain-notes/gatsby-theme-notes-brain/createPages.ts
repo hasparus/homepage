@@ -3,9 +3,39 @@ import { resolve } from "path";
 
 import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
 import { TweetDiscussEditLinksDataOnMdx } from "../../social-sharing/TweetDiscussEditLinks";
+import { GatsbyGardenReferencesOnMdx } from "./fragments/__generated__/GatsbyGardenReferencesOnMdx";
 
 import { parseOptions } from "./parseOptions";
+
 import { shouldHandleFile } from "./shouldHandleFile";
+
+export interface NoteFieldsOnMdx
+  extends TweetDiscussEditLinksDataOnMdx,
+    GatsbyGardenReferencesOnMdx {
+  fields: {
+    title: string;
+    route: string;
+  };
+  frontmatter: {
+    isHidden: boolean;
+  };
+}
+
+export interface NotePagePathContext
+  extends Omit<NoteFieldsOnMdx, "fields" | "frontmatter"> {
+  title: string;
+}
+
+type NoteFieldsOnFile = {
+  id: string;
+  absolutePath: string;
+  sourceInstanceName: string;
+  ext: string;
+  internal: {
+    mediaType: string;
+  };
+  childMdx: NoteFieldsOnMdx;
+};
 
 export const createPages: GatsbyNode["createPages"] = async (
   { graphql, actions },
@@ -19,30 +49,14 @@ export const createPages: GatsbyNode["createPages"] = async (
     errors?: unknown;
     data?: {
       allFile: {
-        nodes: Array<{
-          id: string;
-          absolutePath: string;
-          sourceInstanceName: string;
-          ext: string;
-          internal: {
-            mediaType: string;
-          };
-          childMdx: {
-            fields: {
-              route: string;
-            };
-            frontmatter: {
-              isHidden: boolean;
-            };
-          } & TweetDiscussEditLinksDataOnMdx;
-        }>;
+        nodes: Array<NoteFieldsOnFile>;
       };
     };
   };
 
   const fragments = await collectGraphQLFragments(
     resolve(__dirname, "../.."),
-    ["GatsbyGardenReferences", "TweetDiscussEditLinksDataOnMdx"]
+    ["GatsbyGardenReferencesOnMdx", "TweetDiscussEditLinksDataOnMdx"]
   );
   const result: Result = await graphql(
     `
@@ -61,12 +75,13 @@ export const createPages: GatsbyNode["createPages"] = async (
             }
             childMdx {
               fields {
+                title
                 route
               }
               frontmatter {
                 isHidden
               }
-              ...GatsbyGardenReferences
+              ...GatsbyGardenReferencesOnMdx
               ...TweetDiscussEditLinksDataOnMdx
             }
           }
@@ -81,26 +96,30 @@ export const createPages: GatsbyNode["createPages"] = async (
   }
 
   const localFiles = result
-    .data!.allFile.nodes.filter((node: any) =>
+    .data!.allFile.nodes.filter((node) =>
       shouldHandleFile(node, parsedOptions)
     )
     .filter((x) => !x.childMdx.frontmatter.isHidden);
 
   localFiles.forEach((node) => {
-    console.log(">>", node.childMdx);
-
     const {
       inboundReferences,
       outboundReferences,
-    } = node.childMdx as any; /* TODO */
+      fields: { title },
+      socialLinks,
+    } = node.childMdx;
+
+    const context: NotePagePathContext = {
+      title,
+      socialLinks,
+      inboundReferences,
+      outboundReferences,
+    };
 
     createPage({
       path: node.childMdx.fields!.route,
       component: node.absolutePath,
-      context: {
-        id: node.id,
-        inboundReferences,
-      },
+      context,
     });
   });
 };

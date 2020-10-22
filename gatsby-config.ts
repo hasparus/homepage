@@ -1,13 +1,9 @@
 import { readdirSync } from "fs-extra";
-import * as path from "path";
-import slugRemarkPlugin from "remark-slug";
 
 import { Mdx } from "./__generated__/global";
-import { autolinkHeadingsRemarkPluginConfig } from "./src/features/autolink-headings/remark-plugin-config";
-import {
-  brainNotesGatsbyPluginConfig,
-  brainNotesGatsbyRemarkPluginConfig,
-} from "./src/features/brain-notes/config";
+
+import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
+import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
 
 const deployUrl = process.env.DEPLOY_PRIME_URL || "";
 const siteUrl =
@@ -52,6 +48,16 @@ const utilityPlugins = [
     resolve: "gatsby-plugin-codegen",
     options: {
       localSchemaFile: "gql-schema.json",
+      output: "./__generated__",
+      includes: [
+        "./src/**/*.tsx",
+        "./src/**/*.ts",
+        "./src/**/*fragments.js",
+        // "./node_modules/gatsby-source-contentful/src/fragments.js",
+        // "./node_modules/gatsby-source-datocms/fragments/*.js",
+        // "./node_modules/gatsby-source-sanity/fragments/*.js",
+        // "./node_modules/gatsby-transformer-sharp/src/fragments.js",
+      ],
     },
   },
   "gatsby-plugin-react-helmet",
@@ -129,52 +135,7 @@ const utilityPlugins = [
 ];
 
 const contentPlugins = [
-  {
-    resolve: "gatsby-plugin-mdx",
-    options: {
-      extensions: [".mdx", ".md"],
-      commonmark: true,
-      gatsbyRemarkPlugins: [
-        autolinkHeadingsRemarkPluginConfig,
-        brainNotesGatsbyRemarkPluginConfig,
-        {
-          resolve: "gatsby-remark-images",
-          options: {
-            maxWidth: 1380,
-            linkImagesToOriginal: false,
-          },
-        },
-        { resolve: "gatsby-remark-copy-linked-files" },
-        { resolve: "gatsby-remark-smartypants" },
-        {
-          resolve: "gatsby-remark-vscode",
-          options: {
-            extensionDataDirectory: path.resolve(
-              __dirname,
-              "./__deps__/vscode-extensions"
-            ),
-            injectStyles: false,
-            colorTheme: ({ parsedOptions }: any) =>
-              parsedOptions.theme || "Night Owl (No Italics)",
-            extensions: [
-              { identifier: "hackwaly.ocaml", version: "0.6.43" },
-              { identifier: "sdras.night-owl", version: "1.1.3" },
-              { identifier: "2gua.rainbow-brackets", version: "0.0.6" },
-              { identifier: "fwcd.kotlin", version: "0.2.10" },
-              { identifier: "prisma.vscode-graphql", version: "0.2.2" },
-            ],
-          },
-        },
-      ],
-      remarkPlugins: [slugRemarkPlugin],
-      defaultLayouts: {
-        // default: require.resolve("../layouts/PageLayout.tsx"),
-        posts: require.resolve("./src/layouts/PostLayout.tsx"),
-        speaking: require.resolve("./src/layouts/TalkNoteLayout.tsx"),
-        notes: require.resolve("./src/layouts/NoteLayout.tsx"),
-      },
-    },
-  },
+  gatsbyPluginMdxConfig,
   // note. next time just put the posts in /pages dir
   // so gatsby-plugin-page-creator kicks in.
   // it would be easier to maintain
@@ -186,7 +147,9 @@ const contentPlugins = [
       name,
     },
   })),
-  brainNotesGatsbyPluginConfig,
+  makeBrainNotesGatsbyPluginConfig({
+    pluginMdxOptions: gatsbyPluginMdxConfig.options,
+  }),
 ];
 export const plugins = [
   "gatsby-plugin-theme-ui",

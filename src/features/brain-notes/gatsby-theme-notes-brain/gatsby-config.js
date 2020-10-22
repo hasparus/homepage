@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @type {import("gatsby-transformer-markdown-references/lib/options").PluginOptions}
+ * @type {import("../gatsby-transformer-markdown-references/src/options").PluginOptions}
  */
 const markdownReferencesOptions = {
   types: ["Mdx"],
@@ -14,15 +14,11 @@ module.exports = (_options) => {
   return {
     plugins: [
       {
-        resolve: "gatsby-transformer-markdown-references",
+        resolve: require.resolve(
+          "../gatsby-transformer-markdown-references"
+        ),
         options: markdownReferencesOptions,
       },
-      // {
-      //   resolve: `gatsby-plugin-compile-es6-packages`,
-      //   options: {
-      //     modules: [`gatsby-theme-garden`],
-      //   },
-      // },
     ],
   };
 };

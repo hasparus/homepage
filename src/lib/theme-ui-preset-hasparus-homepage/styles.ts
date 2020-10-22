@@ -47,7 +47,7 @@ export const styles = makeStyles({
   },
   h1: {
     ...headingStyles,
-    fontSize: [5, 6],
+    fontSize: [4, 6],
     textAlign: ["center", "left", "left"],
     py: [5, 0, 0],
     lineHeight: 1.1,
@@ -57,7 +57,7 @@ export const styles = makeStyles({
   h2: {
     ...headingStyles,
     color: "text",
-    fontSize: 5,
+    fontSize: [4, 5],
     wordBreak: "break-word",
   },
   h3: {

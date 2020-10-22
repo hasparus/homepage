@@ -92,20 +92,22 @@ const ThemePage = () => {
   return (
     <PageLayout>
       <s.h1>Theme</s.h1>
-      {keys(colorModes).map((colorMode) => (
-        <Button
-          key={colorMode}
-          sx={{
-            bg: "highlight",
-            color: contrastingTextColor(currentColorMode.highlight),
-            p: 1,
-            mr: 2,
-          }}
-          onClick={() => setColorMode(colorMode)}
-        >
-          {colorMode}
-        </Button>
-      ))}
+      <div>
+        {keys(colorModes).map((colorMode) => (
+          <Button
+            key={colorMode}
+            sx={{
+              bg: "highlight",
+              color: contrastingTextColor(currentColorMode.highlight),
+              p: 1,
+              mr: 2,
+            }}
+            onClick={() => setColorMode(colorMode)}
+          >
+            {colorMode}
+          </Button>
+        ))}
+      </div>
       <section>
         <s.h2>Colors</s.h2>
         <ColorSquareList>

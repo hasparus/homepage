@@ -8,6 +8,9 @@ import { buildTime, isMdx } from "../../lib/build-time/gatsby-node-utils";
 import { assert } from "../../lib/util";
 
 const REPO_URL = packageJson.repository.url;
+const PROJECT_ROOT = slash(
+  path.dirname(require.resolve("../../../package.json"))
+);
 
 export const createSchemaCustomization = async (
   {
@@ -40,7 +43,7 @@ export const createSchemaCustomization = async (
               `filePath (${filePath}) and route (${route}) must be defined`
             );
 
-            const relativePath = filePath.replace(slash(__dirname), "");
+            const relativePath = filePath.replace(PROJECT_ROOT, "");
             const url = encodeURIComponent(
               slash(path.join(siteUrl!, route))
             );

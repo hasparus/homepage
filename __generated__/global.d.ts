@@ -420,7 +420,6 @@ export type File = Node & {
   readonly birthtimeMs?: Maybe<Scalars['Float']>;
   readonly blksize?: Maybe<Scalars['Int']>;
   readonly blocks?: Maybe<Scalars['Int']>;
-  readonly fields?: Maybe<FileFields>;
   /** Copy file to static directory and return public url to it */
   readonly publicURL?: Maybe<Scalars['String']>;
   readonly childImageSharp?: Maybe<ImageSharp>;
@@ -516,11 +515,6 @@ export type FileEdge = {
   readonly previous?: Maybe<File>;
 };
 
-export type FileFields = {
-  readonly __typename?: 'FileFields';
-  readonly title?: Maybe<Scalars['String']>;
-};
-
 export type FileFieldsEnum = 
   | 'sourceInstanceName'
   | 'absolutePath'
@@ -555,7 +549,6 @@ export type FileFieldsEnum =
   | 'birthtimeMs'
   | 'blksize'
   | 'blocks'
-  | 'fields___title'
   | 'publicURL'
   | 'childImageSharp___fixed___base64'
   | 'childImageSharp___fixed___tracedSVG'
@@ -806,6 +799,7 @@ export type FileFieldsEnum =
   | 'childMdx___fields___socialImage___publicURL'
   | 'childMdx___fields___socialImage___id'
   | 'childMdx___fields___socialImage___children'
+  | 'childMdx___fields___title'
   | 'childMdx___id'
   | 'childMdx___parent___id'
   | 'childMdx___parent___parent___id'
@@ -845,10 +839,6 @@ export type FileFieldsEnum =
   | 'childMdx___internal___owner'
   | 'childMdx___internal___type';
 
-export type FileFieldsFilterInput = {
-  readonly title?: Maybe<StringQueryOperatorInput>;
-};
-
 export type FileFilterInput = {
   readonly sourceInstanceName?: Maybe<StringQueryOperatorInput>;
   readonly absolutePath?: Maybe<StringQueryOperatorInput>;
@@ -883,7 +873,6 @@ export type FileFilterInput = {
   readonly birthtimeMs?: Maybe<FloatQueryOperatorInput>;
   readonly blksize?: Maybe<IntQueryOperatorInput>;
   readonly blocks?: Maybe<IntQueryOperatorInput>;
-  readonly fields?: Maybe<FileFieldsFilterInput>;
   readonly publicURL?: Maybe<StringQueryOperatorInput>;
   readonly childImageSharp?: Maybe<ImageSharpFilterInput>;
   readonly id?: Maybe<StringQueryOperatorInput>;
@@ -1549,6 +1538,7 @@ export type MdxFields = {
   readonly history?: Maybe<BlogpostHistory>;
   readonly readingTime: Scalars['Int'];
   readonly socialImage?: Maybe<File>;
+  readonly title?: Maybe<Scalars['String']>;
 };
 
 export type MdxFieldsEnum = 
@@ -1628,7 +1618,6 @@ export type MdxFieldsEnum =
   | 'fields___socialImage___birthtimeMs'
   | 'fields___socialImage___blksize'
   | 'fields___socialImage___blocks'
-  | 'fields___socialImage___fields___title'
   | 'fields___socialImage___publicURL'
   | 'fields___socialImage___childImageSharp___id'
   | 'fields___socialImage___childImageSharp___children'
@@ -1657,6 +1646,7 @@ export type MdxFieldsEnum =
   | 'fields___socialImage___childMdx___timeToRead'
   | 'fields___socialImage___childMdx___id'
   | 'fields___socialImage___childMdx___children'
+  | 'fields___title'
   | 'id'
   | 'parent___id'
   | 'parent___parent___id'
@@ -1750,6 +1740,7 @@ export type MdxFieldsFilterInput = {
   readonly history?: Maybe<BlogpostHistoryFilterInput>;
   readonly readingTime?: Maybe<IntQueryOperatorInput>;
   readonly socialImage?: Maybe<FileFilterInput>;
+  readonly title?: Maybe<StringQueryOperatorInput>;
 };
 
 export type MdxFilterInput = {
@@ -1964,7 +1955,6 @@ export type QueryfileArgs = {
   birthtimeMs?: Maybe<FloatQueryOperatorInput>;
   blksize?: Maybe<IntQueryOperatorInput>;
   blocks?: Maybe<IntQueryOperatorInput>;
-  fields?: Maybe<FileFieldsFilterInput>;
   publicURL?: Maybe<StringQueryOperatorInput>;
   childImageSharp?: Maybe<ImageSharpFilterInput>;
   id?: Maybe<StringQueryOperatorInput>;
@@ -2664,43 +2654,25 @@ export type SitePageContextHistoryFilterInput = {
 export type SitePageContextInboundReferences = {
   readonly __typename?: 'SitePageContextInboundReferences';
   readonly fields?: Maybe<SitePageContextInboundReferencesFields>;
-  readonly parent?: Maybe<SitePageContextInboundReferencesParent>;
 };
 
 export type SitePageContextInboundReferencesFields = {
   readonly __typename?: 'SitePageContextInboundReferencesFields';
+  readonly title?: Maybe<Scalars['String']>;
   readonly route?: Maybe<Scalars['String']>;
 };
 
 export type SitePageContextInboundReferencesFieldsFilterInput = {
+  readonly title?: Maybe<StringQueryOperatorInput>;
   readonly route?: Maybe<StringQueryOperatorInput>;
 };
 
 export type SitePageContextInboundReferencesFilterInput = {
   readonly fields?: Maybe<SitePageContextInboundReferencesFieldsFilterInput>;
-  readonly parent?: Maybe<SitePageContextInboundReferencesParentFilterInput>;
 };
 
 export type SitePageContextInboundReferencesFilterListInput = {
   readonly elemMatch?: Maybe<SitePageContextInboundReferencesFilterInput>;
-};
-
-export type SitePageContextInboundReferencesParent = {
-  readonly __typename?: 'SitePageContextInboundReferencesParent';
-  readonly fields?: Maybe<SitePageContextInboundReferencesParentFields>;
-};
-
-export type SitePageContextInboundReferencesParentFields = {
-  readonly __typename?: 'SitePageContextInboundReferencesParentFields';
-  readonly title?: Maybe<Scalars['String']>;
-};
-
-export type SitePageContextInboundReferencesParentFieldsFilterInput = {
-  readonly title?: Maybe<StringQueryOperatorInput>;
-};
-
-export type SitePageContextInboundReferencesParentFilterInput = {
-  readonly fields?: Maybe<SitePageContextInboundReferencesParentFieldsFilterInput>;
 };
 
 export type SitePageContextSocialImage = {
@@ -2917,6 +2889,7 @@ export type SitePageFieldsEnum =
   | 'context___frontmatter___venues___link'
   | 'context___id'
   | 'context___inboundReferences'
+  | 'context___inboundReferences___fields___title'
   | 'context___inboundReferences___fields___route'
   | 'context___route'
   | 'context___readingTime'
@@ -2984,7 +2957,6 @@ export type SitePageFieldsEnum =
   | 'pluginCreator___pluginOptions___name'
   | 'pluginCreator___pluginOptions___types'
   | 'pluginCreator___pluginOptions___contentPath'
-  | 'pluginCreator___pluginOptions___noteTemplatePath'
   | 'pluginCreator___pluginOptions___allowNamespaces'
   | 'pluginCreator___pluginOptions___localSchemaFile'
   | 'pluginCreator___pluginOptions___short_name'
@@ -3215,7 +3187,6 @@ export type SitePluginFieldsEnum =
   | 'pluginOptions___name'
   | 'pluginOptions___types'
   | 'pluginOptions___contentPath'
-  | 'pluginOptions___noteTemplatePath'
   | 'pluginOptions___allowNamespaces'
   | 'pluginOptions___localSchemaFile'
   | 'pluginOptions___short_name'
@@ -3364,7 +3335,6 @@ export type SitePluginPluginOptions = {
   readonly name?: Maybe<Scalars['String']>;
   readonly types?: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly contentPath?: Maybe<Scalars['String']>;
-  readonly noteTemplatePath?: Maybe<Scalars['String']>;
   readonly allowNamespaces?: Maybe<Scalars['Boolean']>;
   readonly localSchemaFile?: Maybe<Scalars['String']>;
   readonly short_name?: Maybe<Scalars['String']>;
@@ -3422,7 +3392,6 @@ export type SitePluginPluginOptionsFilterInput = {
   readonly name?: Maybe<StringQueryOperatorInput>;
   readonly types?: Maybe<StringQueryOperatorInput>;
   readonly contentPath?: Maybe<StringQueryOperatorInput>;
-  readonly noteTemplatePath?: Maybe<StringQueryOperatorInput>;
   readonly allowNamespaces?: Maybe<BooleanQueryOperatorInput>;
   readonly localSchemaFile?: Maybe<StringQueryOperatorInput>;
   readonly short_name?: Maybe<StringQueryOperatorInput>;

@@ -20,10 +20,10 @@ export const onPreBootstrap: GatsbyNode["onPreBootstrap"] = async (
     fs.mkdirSync(dir, { recursive: true });
   }
 
-  // await copyFile(
-  //   path.join(__dirname, "./fragments/garden-fragments.js"),
-  //   `${program.directory}/.cache/fragments/garden-fragments.js`
-  // );
+  await copyFile(
+    path.join(__dirname, "./fragments/garden-fragments.js"),
+    `${program.directory}/.cache/fragments/garden-fragments.js`
+  );
 
   // await copyFile(
   //   path.join(__dirname, "./fragments/file-graph.fragment"),

@@ -7,8 +7,7 @@ import { PostDetails } from "../features/blog/PostDetails";
 import { PostHistory } from "../features/post-history/PostHistory";
 import { Seo } from "../features/seo/Seo";
 import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEditLinks";
-import { assert } from "../lib/util/assert";
-import { formatTitle } from "../lib/util/formatTitle";
+import { PostHeader } from "../lib/reusable-ui/PostHeader";
 
 interface PostLayoutProps {
   children: React.ReactNode;
@@ -52,12 +51,9 @@ export function PostLayout({
       <Header />
       <main>
         <article>
-          <header sx={{ mb: 4 }}>
-            <s.h1 sx={{ mb: [0, 3], mt: [0, 5] }}>
-              {formatTitle(title)}
-            </s.h1>
+          <PostHeader title={title}>
             <PostDetails date={date} readingTime={readingTime} />
-          </header>
+          </PostHeader>
           {children}
           <footer>
             <TweetDiscussEditLinks socialLinks={pathContext.socialLinks} />

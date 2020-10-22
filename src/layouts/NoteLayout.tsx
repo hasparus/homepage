@@ -1,8 +1,8 @@
 /** @jsx jsx */
 
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import { alpha } from "@theme-ui/color";
-import React from "react";
+import React, { isValidElement } from "react";
 import { jsx, Styled as s } from "theme-ui";
 
 import { Footer, Header, Root } from "../features/application-ui";
@@ -10,28 +10,46 @@ import { Footer, Header, Root } from "../features/application-ui";
 import { PostDetails } from "../features/blog/PostDetails";
 import { Seo } from "../features/seo/Seo";
 import { formatTitle } from "../lib/util/formatTitle";
-// import { TweetDiscussEditLinks } from "../components/TweetDiscussEditLinks";
-// import { assert } from "../lib/assert";
+import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEditLinks";
+import { NotePagePathContext } from "../features/brain-notes/gatsby-theme-notes-brain/createPages";
+import { theme } from "../gatsby-plugin-theme-ui";
+import { fontSize } from "../gatsby-plugin-theme-ui/tokens";
+import { PostHeader } from "../lib/reusable-ui/PostHeader";
+
+function assertChildrenHaveMoreThanOneTopH1(children: React.ReactNode) {
+  if (process.env.NODE_ENV === "development") {
+    React.Children.forEach(children, (child, i) => {
+      const node: React.ReactNode = child;
+      if (isValidElement(node) && node.props.mdxType === "h1") {
+        if (i === 0) {
+          // leading h1 is okay, we'll just hide it, but no reason to warn about it
+          return;
+        }
+
+        throw new Error(
+          "h1 elements in notes are not displayed. Are you sure you want to use them?"
+        );
+      }
+    });
+  }
+}
 
 interface NoteLayoutProps {
   children: React.ReactNode;
-  data: {
-    file: {
-      childMdx: {};
-      fields: {
-        title: string;
-      };
-    };
-  };
-  // pathContext: import("../../gatsby-node-ts").MdxPostPageContext;
+  pathContext: NotePagePathContext;
   // path: string;
 }
 
-// eslint-disable-next-line import/no-default-export
-export function NoteLayout({ children, ...rest }: NoteLayoutProps) {
-  console.log({ rest });
+export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
+  assertChildrenHaveMoreThanOneTopH1(children);
 
-  const title = "TODO";
+  const {
+    title,
+    inboundReferences,
+    outboundReferences,
+    socialLinks,
+  } = pathContext;
+
   const spoiler = "TODO";
   const date = new Date();
   const path = "TODO";
@@ -41,28 +59,47 @@ export function NoteLayout({ children, ...rest }: NoteLayoutProps) {
       <Seo article title={title} description={spoiler} pathname={path} />
       <Header />
       <main>
-        <header sx={{ mb: 4 }}>
-          <s.h1
-            sx={{
-              fontSize: 5,
-              mb: [0, 3],
-              mt: [0, 5],
-              borderBottom: alpha("text", 0.1),
-            }}
-          >
-            {formatTitle(title)}
-          </s.h1>
-        </header>
+        <PostHeader title={title} />
         <article
           sx={{
-            "> :first-of-type(h1)": { display: "none" },
+            // yup, we're hiding all h1s
+            // there's one on the top of the page, and this should be it
+            "> h1": { display: "none" },
           }}
         >
           {children}
         </article>
         <footer>
-          {/* TODO */}
-          {/* <TweetDiscussEditLinks socialLinks={pathContext.socialLinks} /> */}
+          {inboundReferences.length === 0 ? null : (
+            <section>
+              {/* same styles as table-of-contents :: todo: make it a variant? */}
+              <header>
+                <s.h3
+                  id="referred-in"
+                  sx={{
+                    fontSize: fontSize.small,
+                    textTransform: "uppercase",
+                    letterSpacing: 3,
+                    color: "text092",
+                  }}
+                >
+                  Referred {inboundReferences.length} time
+                  {inboundReferences.length === 1 ? "" : "s"} in
+                </s.h3>
+              </header>
+              {inboundReferences.map(({ fields }) => {
+                return (
+                  <Link
+                    to={fields!.route}
+                    sx={{ ...theme.styles.a, fontSize: fontSize.small }}
+                  >
+                    {fields!.title}
+                  </Link>
+                );
+              })}
+            </section>
+          )}
+          <TweetDiscussEditLinks socialLinks={socialLinks} />
         </footer>
       </main>
       {/* {history && (

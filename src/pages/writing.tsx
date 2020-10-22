@@ -6,6 +6,7 @@ import { PostDetails } from "../features/blog/PostDetails";
 import { PostsListItem } from "../features/blog/PostsListItem";
 import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
+import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 
 const WritingPage = () => {
@@ -35,7 +36,7 @@ const WritingPage = () => {
   return (
     <PageLayout>
       <Seo title="writing" />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 5], color: "text092" }}>Writing</s.h1>
+      <ListPageHeading>Writing</ListPageHeading>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;

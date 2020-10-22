@@ -25,7 +25,7 @@ const dark: ColorMode = {
 const soft: ColorMode = {
   text: "hsl(165, 20%, 12%)",
   text092: "hsla(165, 20%, 12%, 0.92)",
-  background: "#fdf8e4",
+  background: "#f9f3ea",
   primary: "#ca3030",
   secondary: "#02734A",
   highlight: "#5da88c",

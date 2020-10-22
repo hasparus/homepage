@@ -6,14 +6,11 @@
  * remember to clean .cache (`gatsby clean`) after changing this file
  */
 
-import slugify from "slugify";
 import { Node } from "unist";
 import visit from "unist-util-visit";
 
+import { slugifyTitle } from "../../lib/build-time/slugifyTitle";
 import { assert } from "../../lib/util";
-
-const slugifyTitle = (title: string) =>
-  `/${slugify(title, { lower: true })}`;
 
 type TitleToURLOptions =
   | ((title: string) => string)
@@ -74,7 +71,7 @@ const addDoubleBracketsLinks = (
       return;
     }
 
-    if (  
+    if (
       previous.type !== "text" ||
       (Array.isArray(previous.value) &&
         previous.value[previous.value.length - 1] !== "[") ||

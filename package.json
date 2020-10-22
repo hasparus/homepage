@@ -73,7 +73,7 @@
     "gatsby-remark-smartypants": "^2.3.13",
     "gatsby-remark-vscode": "^1.4.0",
     "gatsby-source-filesystem": "^2.3.34",
-    "gatsby-transformer-markdown-references": "^0.1.5",
+    "gatsby-theme": "^0.1.6",
     "gatsby-transformer-sharp": "^2.5.17",
     "js-levenshtein": "^1.1.6",
     "lodash": "^4.17.20",
