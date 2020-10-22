@@ -1,5 +1,6 @@
 import { readdirSync } from "fs-extra";
 
+import "./src/__generated__/gatsby-types";
 import { Mdx } from "./__generated__/global";
 
 import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
@@ -45,7 +46,22 @@ const utilityPlugins = [
     },
   },
   // use this
-  "gatsby-plugin-typegen",
+  ...(process.env.NODE_ENV === "production"
+    ? [
+        {
+          resolve: "gatsby-plugin-typegen",
+          options: {
+            emitSchema: {
+              "src/__generated__/gatsby-introspection.json": true,
+              "src/__generated__/gatsby-schema.graphql": true,
+            },
+            emitPluginDocuments: {
+              "src/__generated__/gatsby-plugin-documents.graphql": true,
+            },
+          },
+        },
+      ]
+    : []),
   // todo: consider if I can slowly remove this
   {
     resolve: "gatsby-plugin-codegen",

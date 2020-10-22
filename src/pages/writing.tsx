@@ -7,11 +7,12 @@ import { PostsListItem } from "../features/blog/PostsListItem";
 import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
 import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
-import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 
 const WritingPage = () => {
-  const { allMdx } = useStaticQuery<GatsbyTypes.BlogPostsQueryQuery>(graphql`
-    query BlogPostsQuery {
+  const { allMdx } = useStaticQuery<
+    GatsbyTypes.GetBlogPostDataQuery
+  >(graphql`
+    query GetBlogPostData {
       allMdx(
         filter: {
           fields: { isHidden: { ne: true }, route: { glob: "/*" } }
@@ -47,7 +48,7 @@ const WritingPage = () => {
               <PostsListItem.Header>
                 <PostsListItem.Heading title={title!} fields={fields!} />
                 <PostDetails
-                  date={date}
+                  date={date!}
                   readingTime={fields!.readingTime}
                 />
               </PostsListItem.Header>

@@ -2045,8 +2045,6 @@ export type QueryallDirectoryArgs = {
 export type QuerysiteArgs = {
   buildTime?: Maybe<DateQueryOperatorInput>;
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>;
-  port?: Maybe<IntQueryOperatorInput>;
-  host?: Maybe<StringQueryOperatorInput>;
   polyfill?: Maybe<BooleanQueryOperatorInput>;
   pathPrefix?: Maybe<StringQueryOperatorInput>;
   id?: Maybe<StringQueryOperatorInput>;
@@ -2209,8 +2207,6 @@ export type Site = Node & {
   readonly __typename?: 'Site';
   readonly buildTime?: Maybe<Scalars['Date']>;
   readonly siteMetadata?: Maybe<SiteSiteMetadata>;
-  readonly port?: Maybe<Scalars['Int']>;
-  readonly host?: Maybe<Scalars['String']>;
   readonly polyfill?: Maybe<Scalars['Boolean']>;
   readonly pathPrefix?: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
@@ -2426,8 +2422,6 @@ export type SiteFieldsEnum =
   | 'siteMetadata___siteUrl'
   | 'siteMetadata___htmlAttributes___lang'
   | 'siteMetadata___twitterUsername'
-  | 'port'
-  | 'host'
   | 'polyfill'
   | 'pathPrefix'
   | 'id'
@@ -2520,8 +2514,6 @@ export type SiteFieldsEnum =
 export type SiteFilterInput = {
   readonly buildTime?: Maybe<DateQueryOperatorInput>;
   readonly siteMetadata?: Maybe<SiteSiteMetadataFilterInput>;
-  readonly port?: Maybe<IntQueryOperatorInput>;
-  readonly host?: Maybe<StringQueryOperatorInput>;
   readonly polyfill?: Maybe<BooleanQueryOperatorInput>;
   readonly pathPrefix?: Maybe<StringQueryOperatorInput>;
   readonly id?: Maybe<StringQueryOperatorInput>;
@@ -3049,7 +3041,6 @@ export type SitePageFieldsEnum =
   | 'pluginCreator___packageJson___description'
   | 'pluginCreator___packageJson___version'
   | 'pluginCreator___packageJson___main'
-  | 'pluginCreator___packageJson___author'
   | 'pluginCreator___packageJson___license'
   | 'pluginCreator___packageJson___dependencies'
   | 'pluginCreator___packageJson___dependencies___name'
@@ -3291,7 +3282,6 @@ export type SitePluginFieldsEnum =
   | 'packageJson___description'
   | 'packageJson___version'
   | 'packageJson___main'
-  | 'packageJson___author'
   | 'packageJson___license'
   | 'packageJson___dependencies'
   | 'packageJson___dependencies___name'
@@ -3336,7 +3326,6 @@ export type SitePluginPackageJson = {
   readonly description?: Maybe<Scalars['String']>;
   readonly version?: Maybe<Scalars['String']>;
   readonly main?: Maybe<Scalars['String']>;
-  readonly author?: Maybe<Scalars['String']>;
   readonly license?: Maybe<Scalars['String']>;
   readonly dependencies?: Maybe<ReadonlyArray<Maybe<SitePluginPackageJsonDependencies>>>;
   readonly devDependencies?: Maybe<ReadonlyArray<Maybe<SitePluginPackageJsonDevDependencies>>>;
@@ -3379,7 +3368,6 @@ export type SitePluginPackageJsonFilterInput = {
   readonly description?: Maybe<StringQueryOperatorInput>;
   readonly version?: Maybe<StringQueryOperatorInput>;
   readonly main?: Maybe<StringQueryOperatorInput>;
-  readonly author?: Maybe<StringQueryOperatorInput>;
   readonly license?: Maybe<StringQueryOperatorInput>;
   readonly dependencies?: Maybe<SitePluginPackageJsonDependenciesFilterListInput>;
   readonly devDependencies?: Maybe<SitePluginPackageJsonDevDependenciesFilterListInput>;

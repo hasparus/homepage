@@ -14,6 +14,7 @@ import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 interface ReadingListProps extends ComponentPropsWithoutRef<"ul"> {
   list: Reading;
 }
+
 export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
   const alphabeticalOrder = fromCompare<[string, Reading.Article[]]>(
     (a, b) => ordString.compare(a[0].toLowerCase(), b[0].toLowerCase())

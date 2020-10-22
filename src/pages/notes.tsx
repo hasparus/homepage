@@ -9,7 +9,7 @@ import { PageLayout } from "../layouts/PageLayout";
 import { NotesIndexQuery } from "./__generated__/NotesIndexQuery";
 
 const NotesIndexPage = () => {
-  const { allFile } = useStaticQuery<NotesIndexQuery>(graphql`
+  const { allFile } = useStaticQuery<GatsbyTypes.NotesIndexQueryQuery>(graphql`
     query NotesIndexQuery {
       allFile(
         filter: {

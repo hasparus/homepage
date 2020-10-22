@@ -7,11 +7,10 @@ import { PostsListItem } from "../features/blog/PostsListItem";
 import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
 import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
-import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
 
 const SpeakingPage = () => {
-  const { allMdx } = useStaticQuery<GatsbyTypes.SpeakingRaportsQueryQuery>(graphql`
-    query SpeakingRaportsQuery {
+  const { allMdx } = useStaticQuery<GatsbyTypes.GetSpeakingRaportsQuery>(graphql`
+    query GetSpeakingRaports {
       allMdx(
         filter: {
           fields: { isHidden: { ne: true }, route: { glob: "/speaking/*" } }
