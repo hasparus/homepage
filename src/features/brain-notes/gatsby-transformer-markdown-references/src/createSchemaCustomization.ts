@@ -54,7 +54,7 @@ export const createResolvers = (
     Mdx: {
       outboundReferences: {
         type: `[ReferenceTarget!]!`,
-        resolve: async (node: Node) => {
+        async resolve(node: Node, _: any, ctx: any) {
           let cachedNode = await getCachedNode(cache, node.id, getNode);
 
           if (!cachedNode || !cachedNode.resolvedOutboundReferences) {

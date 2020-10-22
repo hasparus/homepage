@@ -9,7 +9,9 @@ import { PageLayout } from "../layouts/PageLayout";
 import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 
 const SpeakingPage = () => {
-  const { allMdx } = useStaticQuery<GatsbyTypes.GetSpeakingRaportsQuery>(graphql`
+  const { allMdx } = useStaticQuery<
+    GatsbyTypes.GetSpeakingRaportsQuery
+  >(graphql`
     query GetSpeakingRaports {
       allMdx(
         filter: {
@@ -48,7 +50,7 @@ const SpeakingPage = () => {
             <PostsListItem key={i}>
               <PostsListItem.Header>
                 <PostsListItem.Heading title={title!} fields={fields!} />
-                <PostDetails date={date} venues={venues} />
+                <PostDetails date={date!} venues={venues} />
               </PostsListItem.Header>
               <PostsListItem.Spoiler>{spoiler}</PostsListItem.Spoiler>
             </PostsListItem>

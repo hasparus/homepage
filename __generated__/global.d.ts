@@ -2583,7 +2583,6 @@ export type SitePageContext = {
   readonly route?: Maybe<Scalars['String']>;
   readonly readingTime?: Maybe<Scalars['Int']>;
   readonly history?: Maybe<SitePageContextHistory>;
-  readonly socialImage?: Maybe<SitePageContextSocialImage>;
   readonly tableOfContents?: Maybe<SitePageContextTableOfContents>;
   readonly parentId?: Maybe<Scalars['String']>;
 };
@@ -2597,7 +2596,6 @@ export type SitePageContextFilterInput = {
   readonly route?: Maybe<StringQueryOperatorInput>;
   readonly readingTime?: Maybe<IntQueryOperatorInput>;
   readonly history?: Maybe<SitePageContextHistoryFilterInput>;
-  readonly socialImage?: Maybe<SitePageContextSocialImageFilterInput>;
   readonly tableOfContents?: Maybe<SitePageContextTableOfContentsFilterInput>;
   readonly parentId?: Maybe<StringQueryOperatorInput>;
 };
@@ -2704,6 +2702,7 @@ export type SitePageContextInboundReferencesNodeFilterInput = {
 export type SitePageContextOutboundReferences = {
   readonly __typename?: 'SitePageContextOutboundReferences';
   readonly fields?: Maybe<SitePageContextOutboundReferencesFields>;
+  readonly excerpt?: Maybe<Scalars['String']>;
 };
 
 export type SitePageContextOutboundReferencesFields = {
@@ -2719,41 +2718,11 @@ export type SitePageContextOutboundReferencesFieldsFilterInput = {
 
 export type SitePageContextOutboundReferencesFilterInput = {
   readonly fields?: Maybe<SitePageContextOutboundReferencesFieldsFilterInput>;
+  readonly excerpt?: Maybe<StringQueryOperatorInput>;
 };
 
 export type SitePageContextOutboundReferencesFilterListInput = {
   readonly elemMatch?: Maybe<SitePageContextOutboundReferencesFilterInput>;
-};
-
-export type SitePageContextSocialImage = {
-  readonly __typename?: 'SitePageContextSocialImage';
-  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharp>;
-};
-
-export type SitePageContextSocialImageChildImageSharp = {
-  readonly __typename?: 'SitePageContextSocialImageChildImageSharp';
-  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginal>;
-};
-
-export type SitePageContextSocialImageChildImageSharpFilterInput = {
-  readonly original?: Maybe<SitePageContextSocialImageChildImageSharpOriginalFilterInput>;
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginal = {
-  readonly __typename?: 'SitePageContextSocialImageChildImageSharpOriginal';
-  readonly width?: Maybe<Scalars['Int']>;
-  readonly height?: Maybe<Scalars['Int']>;
-  readonly src?: Maybe<Scalars['String']>;
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginalFilterInput = {
-  readonly width?: Maybe<IntQueryOperatorInput>;
-  readonly height?: Maybe<IntQueryOperatorInput>;
-  readonly src?: Maybe<StringQueryOperatorInput>;
-};
-
-export type SitePageContextSocialImageFilterInput = {
-  readonly childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharpFilterInput>;
 };
 
 export type SitePageContextSocialLinks = {
@@ -2945,6 +2914,7 @@ export type SitePageFieldsEnum =
   | 'context___outboundReferences'
   | 'context___outboundReferences___fields___title'
   | 'context___outboundReferences___fields___route'
+  | 'context___outboundReferences___excerpt'
   | 'context___route'
   | 'context___readingTime'
   | 'context___history___entries'
@@ -3013,6 +2983,9 @@ export type SitePageFieldsEnum =
   | 'pluginCreator___pluginOptions___pluginMdxOptions___gatsbyRemarkPlugins'
   | 'pluginCreator___pluginOptions___markdownReferences___contentPath'
   | 'pluginCreator___pluginOptions___allowNamespaces'
+  | 'pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_introspection_json'
+  | 'pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql'
+  | 'pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql'
   | 'pluginCreator___pluginOptions___localSchemaFile'
   | 'pluginCreator___pluginOptions___output'
   | 'pluginCreator___pluginOptions___includes'
@@ -3254,6 +3227,9 @@ export type SitePluginFieldsEnum =
   | 'pluginOptions___markdownReferences___pluginMdxOptions___commonmark'
   | 'pluginOptions___markdownReferences___pluginMdxOptions___gatsbyRemarkPlugins'
   | 'pluginOptions___allowNamespaces'
+  | 'pluginOptions___emitSchema___src___generated___gatsby_introspection_json'
+  | 'pluginOptions___emitSchema___src___generated___gatsby_schema_graphql'
+  | 'pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql'
   | 'pluginOptions___localSchemaFile'
   | 'pluginOptions___output'
   | 'pluginOptions___includes'
@@ -3402,6 +3378,8 @@ export type SitePluginPluginOptions = {
   readonly pluginMdxOptions?: Maybe<SitePluginPluginOptionsPluginMdxOptions>;
   readonly markdownReferences?: Maybe<SitePluginPluginOptionsMarkdownReferences>;
   readonly allowNamespaces?: Maybe<Scalars['Boolean']>;
+  readonly emitSchema?: Maybe<SitePluginPluginOptionsEmitSchema>;
+  readonly emitPluginDocuments?: Maybe<SitePluginPluginOptionsEmitPluginDocuments>;
   readonly localSchemaFile?: Maybe<Scalars['String']>;
   readonly output?: Maybe<Scalars['String']>;
   readonly includes?: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
@@ -3434,6 +3412,26 @@ export type SitePluginPluginOptionsDefaultLayoutsFilterInput = {
   readonly notes?: Maybe<StringQueryOperatorInput>;
 };
 
+export type SitePluginPluginOptionsEmitPluginDocuments = {
+  readonly __typename?: 'SitePluginPluginOptionsEmitPluginDocuments';
+  readonly src___generated___gatsby_plugin_documents_graphql?: Maybe<Scalars['Boolean']>;
+};
+
+export type SitePluginPluginOptionsEmitPluginDocumentsFilterInput = {
+  readonly src___generated___gatsby_plugin_documents_graphql?: Maybe<BooleanQueryOperatorInput>;
+};
+
+export type SitePluginPluginOptionsEmitSchema = {
+  readonly __typename?: 'SitePluginPluginOptionsEmitSchema';
+  readonly src___generated___gatsby_introspection_json?: Maybe<Scalars['Boolean']>;
+  readonly src___generated___gatsby_schema_graphql?: Maybe<Scalars['Boolean']>;
+};
+
+export type SitePluginPluginOptionsEmitSchemaFilterInput = {
+  readonly src___generated___gatsby_introspection_json?: Maybe<BooleanQueryOperatorInput>;
+  readonly src___generated___gatsby_schema_graphql?: Maybe<BooleanQueryOperatorInput>;
+};
+
 export type SitePluginPluginOptionsFeeds = {
   readonly __typename?: 'SitePluginPluginOptionsFeeds';
   readonly query?: Maybe<Scalars['String']>;
@@ -3462,6 +3460,8 @@ export type SitePluginPluginOptionsFilterInput = {
   readonly pluginMdxOptions?: Maybe<SitePluginPluginOptionsPluginMdxOptionsFilterInput>;
   readonly markdownReferences?: Maybe<SitePluginPluginOptionsMarkdownReferencesFilterInput>;
   readonly allowNamespaces?: Maybe<BooleanQueryOperatorInput>;
+  readonly emitSchema?: Maybe<SitePluginPluginOptionsEmitSchemaFilterInput>;
+  readonly emitPluginDocuments?: Maybe<SitePluginPluginOptionsEmitPluginDocumentsFilterInput>;
   readonly localSchemaFile?: Maybe<StringQueryOperatorInput>;
   readonly output?: Maybe<StringQueryOperatorInput>;
   readonly includes?: Maybe<StringQueryOperatorInput>;

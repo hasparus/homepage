@@ -64,7 +64,7 @@ const ReferenceLink = ({
         dangerouslySetInnerHTML={{ __html: paragraphHtml }}
         sx={{
           color: "text092",
-          opacity: 0.92,
+          opacity: 0.9,
         }}
       />
     </Link>
@@ -160,12 +160,12 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
                   Outbound references
                 </s.h3>
               </header>
-              {outboundReferences.map(({ fields }) => {
+              {outboundReferences.map(({ fields, excerpt }) => {
                 return (
                   <ReferenceLink
                     linkTo={fields!.route}
                     title={fields!.title!}
-                    paragraphHtml={"todo: excerpt"}
+                    paragraphHtml={excerpt}
                   />
                 );
               })}

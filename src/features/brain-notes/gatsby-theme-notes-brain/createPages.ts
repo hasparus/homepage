@@ -97,7 +97,7 @@ export const createPages: GatsbyNode["createPages"] = async (
     .data!.allFile.nodes.filter((node) =>
       shouldHandleFile(node, parsedOptions)
     )
-    .filter((x) => !x.childMdx.frontmatter.isHidden);
+    .filter((x) => !x.childMdx?.frontmatter.isHidden);
 
   localFiles.forEach((node) => {
     const {

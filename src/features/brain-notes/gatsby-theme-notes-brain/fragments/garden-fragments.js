@@ -10,6 +10,7 @@ export const references = graphql`
           title
           route
         }
+        excerpt(pruneLength: 200)
       }
     }
     inboundReferences {
