@@ -1,23 +1,23 @@
 // @ts-check
 
 /**
- * @type {import("../gatsby-transformer-markdown-references/src/options").PluginOptions}
+ * @type {import("../gatsby-transformer-markdown-references/src/options").MarkdownReferencesPluginOptions.Input}
  */
 const markdownReferencesOptions = {
   types: ["Mdx"],
 };
 
 /**
- * @param {import("./parseOptions").NotesBrainThemeOptions.PossibleInput} _options
+ * @param {import("./parseOptions").NotesBrainThemeOptions.PossibleInput} options
  */
-module.exports = (_options) => {
+module.exports = (options) => {
   return {
     plugins: [
       {
         resolve: require.resolve(
           "../gatsby-transformer-markdown-references"
         ),
-        options: markdownReferencesOptions,
+        options: options.markdownReferences,
       },
     ],
   };

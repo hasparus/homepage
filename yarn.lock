@@ -1653,6 +1653,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@cometjs/core@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@cometjs/core/-/core-0.1.0.tgz#ac51fc830e504d269c68848bde673336940c7b32"
+  integrity sha512-WnDWuOzS1Mm2/cysFeoMJjwYKRb6IFW2z9q/dnsGcfO0+DUYVCkRpGRP1pvaF0KLhBF/xx1CKhwzIWENWuXADw==
+  dependencies:
+    core-js "^3.6.4"
+
 "@emotion/cache@^10.0.27":
   version "10.0.27"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.27.tgz#7895db204e2c1a991ae33d51262a3a44f6737303"
@@ -1831,7 +1838,7 @@
     wrap-ansi "^7.0.0"
     yargs "^16.0.3"
 
-"@graphql-codegen/core@1.17.8":
+"@graphql-codegen/core@1.17.8", "@graphql-codegen/core@^1.16.3":
   version "1.17.8"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/core/-/core-1.17.8.tgz#d70281bcf9f4b7b560ab5b16f7fc7a2853c49a8a"
   integrity sha512-HUntoeLhLZf6wroD1HYLsniz51N3zW7cjgwojGKgbUsI6Oa8pGsh+kKaN9xtvlb/hIpsRJ00q9LbPVIM/kXQtQ==
@@ -1839,6 +1846,39 @@
     "@graphql-codegen/plugin-helpers" "^1.17.8"
     "@graphql-tools/merge" "^6.0.18"
     "@graphql-tools/utils" "^6.0.18"
+    tslib "~2.0.0"
+
+"@graphql-codegen/flow-operations@^1.16.3":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/flow-operations/-/flow-operations-1.18.0.tgz#bd35db7d98368dc55813147b7ecabbf9e41288e0"
+  integrity sha512-yo+rbhK1jm3t5/xS+48i0oVcu6nV55J5VC0EEyH38vHpdKdpsH4DiXU49IKSDeghefh2MchV0KpWngDB+9rPXA==
+  dependencies:
+    "@graphql-codegen/flow" "^1.18.0"
+    "@graphql-codegen/plugin-helpers" "^1.17.8"
+    "@graphql-codegen/visitor-plugin-common" "^1.17.13"
+    auto-bind "~4.0.0"
+    tslib "~2.0.1"
+
+"@graphql-codegen/flow-resolvers@^1.16.3":
+  version "1.17.10"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/flow-resolvers/-/flow-resolvers-1.17.10.tgz#68501db100294f404b0257be99d23918849b300b"
+  integrity sha512-2e6KrveuDwP7Sao2uWjg7ANvR46gvjblVFxExVUk2TUGv8IMP0kHRXa1LplFS5Frascf8nz13e4juPxzNlKBrQ==
+  dependencies:
+    "@graphql-codegen/flow" "^1.18.0"
+    "@graphql-codegen/plugin-helpers" "^1.17.9"
+    "@graphql-codegen/visitor-plugin-common" "^1.17.15"
+    "@graphql-tools/utils" "^6"
+    auto-bind "~4.0.0"
+    tslib "~2.0.1"
+
+"@graphql-codegen/flow@^1.16.3", "@graphql-codegen/flow@^1.18.0":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/flow/-/flow-1.18.0.tgz#317f97249e191e36fa70c688cb066bf4b095e941"
+  integrity sha512-5aqt47c3ghqvQv22SIbogg7cY4Si6+UN/dR5QRliVijiUHI3ojeUFdbr4LUrbMdlYJg1MNGXHVdG5AdbMKS39Q==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^1.17.8"
+    "@graphql-codegen/visitor-plugin-common" "^1.17.13"
+    auto-bind "~4.0.0"
     tslib "~2.0.0"
 
 "@graphql-codegen/plugin-helpers@^1.17.8":
@@ -1875,7 +1915,30 @@
     tslib "~2.0.1"
     upper-case "2.0.1"
 
-"@graphql-codegen/typescript@^1.17.11":
+"@graphql-codegen/typescript-operations@^1.16.3":
+  version "1.17.8"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.17.8.tgz#17c811c7a719df56fec0878f00b2b7449fb45165"
+  integrity sha512-nU1ZldRB4vGcg4FQhOp3GOOyjfIwO+cI110zZhxQw8SV7pbNDJnCckbvkdEOkW+1/jVJcUul8jQVvuym5olipw==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^1.17.8"
+    "@graphql-codegen/typescript" "^1.17.8"
+    "@graphql-codegen/visitor-plugin-common" "^1.17.13"
+    auto-bind "~4.0.0"
+    tslib "~2.0.0"
+
+"@graphql-codegen/typescript-resolvers@^1.16.3":
+  version "1.17.10"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-resolvers/-/typescript-resolvers-1.17.10.tgz#e42f93c813b987df48f967c581256283a21359ec"
+  integrity sha512-dchQOCSuIImu11fLIxzkRCfA09CgxgaCtPFROcId3VHwuQeD/41xxVhOZmHG6HkI0qjnJ0Sqb3XYi9jG+meq7A==
+  dependencies:
+    "@graphql-codegen/plugin-helpers" "^1.17.9"
+    "@graphql-codegen/typescript" "^1.17.10"
+    "@graphql-codegen/visitor-plugin-common" "^1.17.15"
+    "@graphql-tools/utils" "^6"
+    auto-bind "~4.0.0"
+    tslib "~2.0.1"
+
+"@graphql-codegen/typescript@^1.16.3", "@graphql-codegen/typescript@^1.17.10", "@graphql-codegen/typescript@^1.17.11", "@graphql-codegen/typescript@^1.17.8":
   version "1.17.11"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript/-/typescript-1.17.11.tgz#9bcc00580b36e8c98e7cc565dbccaf1b8b8ce85d"
   integrity sha512-cZsuOWpPWWHX7IIv2xMbrI/AZOiv+wEzyGpoGFV8zU6vjs54C50gb7Chhj9XPjMbOhUQ+z3Pn01geTRvi1gDeA==
@@ -1885,7 +1948,7 @@
     auto-bind "~4.0.0"
     tslib "~2.0.1"
 
-"@graphql-codegen/visitor-plugin-common@^1.17.16":
+"@graphql-codegen/visitor-plugin-common@^1.17.13", "@graphql-codegen/visitor-plugin-common@^1.17.15", "@graphql-codegen/visitor-plugin-common@^1.17.16":
   version "1.17.16"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-1.17.16.tgz#37316cbe2bb9ec4ff65d1f3287c72641d4b3fe6c"
   integrity sha512-q/v13WA4gqD79VR+rrUPrTdLn43qaEuSfij9k52ti4GNKnXglGHP8ljXTrHKN6MypUxOJ2u7tcFRgriH1nxy6w==
@@ -1982,7 +2045,7 @@
     fs-extra "9.0.1"
     tslib "~2.0.1"
 
-"@graphql-tools/graphql-tag-pluck@^6.2.4":
+"@graphql-tools/graphql-tag-pluck@^6.0.12", "@graphql-tools/graphql-tag-pluck@^6.2.4":
   version "6.2.5"
   resolved "https://registry.yarnpkg.com/@graphql-tools/graphql-tag-pluck/-/graphql-tag-pluck-6.2.5.tgz#5c0c47362406a55aaf661c4af0209b542b8483dc"
   integrity sha512-qvdIOTanBuKYLIMSYl9Tk+ej9dq00B4BqUnHqoCvYtSjD1n1UINGrqXgwMT+JXp66gUZWw8BU9Ke92mQ4UwTpg==
@@ -2173,7 +2236,7 @@
     camel-case "4.1.1"
     tslib "~2.0.1"
 
-"@graphql-tools/utils@^6", "@graphql-tools/utils@^6.2.4":
+"@graphql-tools/utils@^6", "@graphql-tools/utils@^6.0.12", "@graphql-tools/utils@^6.2.4":
   version "6.2.4"
   resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-6.2.4.tgz#38a2314d2e5e229ad4f78cca44e1199e18d55856"
   integrity sha512-ybgZ9EIJE3JMOtTrTd2VcIpTXtDrn2q6eiYkeYMKRVh3K41+LZa6YnR2zKERTXqTWqhobROwLt4BZbw2O3Aeeg==
@@ -6906,7 +6969,7 @@ core-js@^3.0.1, core-js@^3.4.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.2.tgz#2799ea1a59050f0acf50dfe89b916d6503b16caa"
   integrity sha512-hIE5dXkRzRvnZ5vhkRfQxUvDxQZmD9oueA08jDYRBKJHx+VIl/Pne/e0A4x9LObEEthC/TqiZybUoNM4tRgnKg==
 
-core-js@^3.6.5:
+core-js@^3.6.4, core-js@^3.6.5:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
   integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
@@ -9894,6 +9957,24 @@ gatsby-plugin-theme-ui@^0.4.0-rc.5:
   version "0.4.0-rc.5"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-theme-ui/-/gatsby-plugin-theme-ui-0.4.0-rc.5.tgz#e7852adea89c9566281bcc1442a1b8eeb91c4045"
   integrity sha512-klmO4tk2S0NztGmU3slecw/NuVIPp8N9JRfz91ZF8eUkksX1HKY79vsmd9Beuc1Da6uii7LCUHS4xzkEJApZbw==
+
+gatsby-plugin-typegen@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-typegen/-/gatsby-plugin-typegen-2.2.1.tgz#885a1288b7e836d276fb29bc981acdfb09bbcfd9"
+  integrity sha512-n8XaY+ckoUZi5qVDpbrMukG3ZzD/F8f2mDieFZBnR095P23CtlzaXnx/JNy/BGGsHnc3lJ8/h0zaE/60LuVMTg==
+  dependencies:
+    "@cometjs/core" "^0.1.0"
+    "@graphql-codegen/core" "^1.16.3"
+    "@graphql-codegen/flow" "^1.16.3"
+    "@graphql-codegen/flow-operations" "^1.16.3"
+    "@graphql-codegen/flow-resolvers" "^1.16.3"
+    "@graphql-codegen/typescript" "^1.16.3"
+    "@graphql-codegen/typescript-operations" "^1.16.3"
+    "@graphql-codegen/typescript-resolvers" "^1.16.3"
+    "@graphql-tools/graphql-tag-pluck" "^6.0.12"
+    "@graphql-tools/utils" "^6.0.12"
+    async "^3.2.0"
+    common-tags "^1.8.0"
 
 gatsby-plugin-typescript@^2.4.21:
   version "2.4.21"

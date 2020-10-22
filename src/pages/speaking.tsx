@@ -10,7 +10,7 @@ import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
 
 const SpeakingPage = () => {
-  const { allMdx } = useStaticQuery<SpeakingRaportsQuery>(graphql`
+  const { allMdx } = useStaticQuery<GatsbyTypes.SpeakingRaportsQueryQuery>(graphql`
     query SpeakingRaportsQuery {
       allMdx(
         filter: {

@@ -10,7 +10,7 @@ import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 
 const WritingPage = () => {
-  const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
+  const { allMdx } = useStaticQuery<GatsbyTypes.BlogPostsQueryQuery>(graphql`
     query BlogPostsQuery {
       allMdx(
         filter: {

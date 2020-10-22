@@ -2,7 +2,6 @@ import {
   cleanupMarkdown,
   findInMarkdown,
 } from "../../../../lib/build-time/markdown-utils";
-import { slugifyTitle } from "../../../../lib/build-time/slugifyTitle";
 
 export type References = { blocks: string[]; pages: string[] };
 

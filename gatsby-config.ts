@@ -44,6 +44,9 @@ const utilityPlugins = [
       allowNamespaces: true,
     },
   },
+  // use this
+  "gatsby-plugin-typegen",
+  // todo: consider if I can slowly remove this
   {
     resolve: "gatsby-plugin-codegen",
     options: {

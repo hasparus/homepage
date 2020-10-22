@@ -1,27 +1,29 @@
 import { PluginOptions } from "./gatsby-remark-double-brackets-link";
 import { NotesBrainThemeOptions } from "./gatsby-theme-notes-brain/parseOptions";
 
-const makeOptions = ({
-  pluginMdxOptions,
-}: Pick<
-  NotesBrainThemeOptions.ValidInput,
-  "pluginMdxOptions"
->): NotesBrainThemeOptions.ValidInput => ({
-  contentPath: "notes",
-  pluginMdxOptions,
+const PREFIX_PATH = "notes";
+
+const makeOptions = (
+  markdownReferencesOptions: NotesBrainThemeOptions.ValidInput["markdownReferences"]
+): NotesBrainThemeOptions.ValidInput => ({
+  contentPath: PREFIX_PATH,
+  markdownReferences: {
+    contentPath: PREFIX_PATH,
+    ...markdownReferencesOptions,
+  },
 });
 
 export const makeBrainNotesGatsbyPluginConfig = (
-  givenOptions: Pick<NotesBrainThemeOptions.ValidInput, "pluginMdxOptions">
+  ...args: Parameters<typeof makeOptions>
 ) => ({
   resolve: require.resolve("./gatsby-theme-notes-brain"),
-  options: makeOptions(givenOptions),
+  options: makeOptions(...args),
 });
 
 const doubleBracketsLinkOptions: PluginOptions = {
   stripBrackets: true,
   titleToURL: {
-    prefix: "notes",
+    prefix: PREFIX_PATH,
   },
 };
 

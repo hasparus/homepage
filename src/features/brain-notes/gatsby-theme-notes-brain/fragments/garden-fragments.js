@@ -13,12 +13,15 @@ export const references = graphql`
       }
     }
     inboundReferences {
-      ... on Mdx {
-        fields {
-          title
-          route
+      node {
+        ... on Mdx {
+          fields {
+            title
+            route
+          }
         }
       }
+      paragraph
     }
   }
 `;

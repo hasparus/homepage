@@ -2,16 +2,14 @@ import { GatsbyNode } from "gatsby";
 import { resolve } from "path";
 
 import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
-import { TweetDiscussEditLinksDataOnMdx } from "../../social-sharing/TweetDiscussEditLinks";
-import { GatsbyGardenReferencesOnMdx } from "./fragments/__generated__/GatsbyGardenReferencesOnMdx";
 
 import { parseOptions } from "./parseOptions";
 
 import { shouldHandleFile } from "./shouldHandleFile";
 
 export interface NoteFieldsOnMdx
-  extends TweetDiscussEditLinksDataOnMdx,
-    GatsbyGardenReferencesOnMdx {
+  extends GatsbyTypes.TweetDiscussEditLinksDataOnMdxFragment,
+    GatsbyTypes.GatsbyGardenReferencesOnMdxFragment {
   fields: {
     title: string;
     route: string;

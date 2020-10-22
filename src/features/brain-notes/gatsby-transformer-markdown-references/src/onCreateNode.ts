@@ -1,13 +1,13 @@
 import { CreateNodeArgs, Node } from "gatsby";
 import { isObject } from "lodash";
 
-import { findTopLevelHeading } from "../../../../lib/build-time/markdown-utils";
 import { getNodeTitle } from "../../../../lib/build-time/getNodeTitle";
 
-import { getReferences } from "./getReferences";
-import { PluginOptions, resolveOptions } from "./options";
-import { clearInboundReferences, setCachedNode } from "./cache";
 import { assert } from "../../../../lib/util";
+
+import { getReferences } from "./getReferences";
+import { MarkdownReferencesPluginOptions, parseOptions } from "./options";
+import { clearInboundReferences, setCachedNode } from "./cache";
 
 type AliasesFrontmatter = { aliases: string[] };
 const isAliasesFrontmatter = (x: unknown): x is AliasesFrontmatter =>
@@ -36,9 +36,9 @@ function assertIsMdxNode(
 
 export const onCreateNode = async (
   { cache, node, loadNodeContent }: CreateNodeArgs,
-  _options?: PluginOptions
+  opts?: MarkdownReferencesPluginOptions.Input
 ) => {
-  const options = resolveOptions(_options);
+  const options = parseOptions(opts);
 
   // if we shouldn't process this node, then return
   if (!options.types.includes(node.internal.type)) {

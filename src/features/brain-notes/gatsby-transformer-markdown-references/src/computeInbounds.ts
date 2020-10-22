@@ -100,7 +100,6 @@ export async function generateData(cache: any, getNode: Function) {
       );
     });
 
-    console.dir(inboundReferences, { depth: Infinity });
     debugger;
 
     const inboundReferencesId = Object.keys(inboundReferences).reduce(
