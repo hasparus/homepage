@@ -192,6 +192,12 @@ export const createPages: GatsbyNode["createPages"] = async ({
         result.data?.allMdx?.nodes.forEach((node) => {
           assert(node && node.fields && node.fields.route);
 
+          // is this an HMR error?
+          if (!node.parent) {
+            console.error("node.parent is missing");
+            return;
+          }
+
           const { sourceInstanceName } = node.parent as g.File;
 
           if (!["posts", "speaking"].includes(sourceInstanceName)) {
