@@ -103,10 +103,6 @@ export function RGB(color: string): RGB {
   return { r, g, b } as RGB;
 }
 
-/**
- * @example
- * contrastingTextColor("#fff") === "black";
- */
 export const isRGBDark = ({ r, g, b }: RGB) => {
   /**
    * @see http://alienryderflex.com/hsp.html
@@ -120,6 +116,10 @@ export const isRGBDark = ({ r, g, b }: RGB) => {
 
 export const isColorDark = flow(RGB, isRGBDark);
 
+/**
+ * @example
+ * contrastingTextColor("#fff") === "black";
+ */
 export const contrastingTextColor = (color: string) => {
   return isColorDark(color) ? "white" : "black";
 };

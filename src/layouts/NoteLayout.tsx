@@ -14,7 +14,11 @@ import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEd
 import { NotePagePathContext } from "../features/brain-notes/gatsby-theme-notes-brain/createPages";
 import { theme } from "../gatsby-plugin-theme-ui";
 import { fontSize } from "../gatsby-plugin-theme-ui/tokens";
-import { PostHeader } from "../lib/reusable-ui/PostHeader";
+import { PostHeader } from "../features/blog/PostHeader";
+import {
+  headingFontSizes,
+  linkTextDecorationColor,
+} from "../lib/theme-ui-preset-hasparus-homepage/styles";
 
 const ReferencesSection = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -44,6 +48,7 @@ const ReferenceLink = ({
         py: 1,
         px: 3,
 
+        textDecoration: "none",
         p: {
           my: 0,
           width: "unset",
@@ -51,9 +56,9 @@ const ReferenceLink = ({
         ":focus, :hover": {
           backgroundColor: alpha("background", 0.25),
           p: {
-            textDecoration: "none",
             ":first-of-type": {
               textDecoration: "underline",
+              textDecorationColor: linkTextDecorationColor.value,
             },
           },
         },
@@ -97,6 +102,17 @@ const sectionHeadingStyle: ThemeUIStyleObject = {
   opacity: 0.92,
 };
 
+const titleHeadingFontSizeStyle = { h1: headingFontSizes[2] };
+const noteHeadingsFontSizesStyle = {
+  // yup, we're hiding all h1s inside of the note
+  // there can be only one on the top of the page, and this should be it
+  "> h1": { display: "none" },
+  h2: { fontSize: headingFontSizes[3] },
+  h3: { fontSize: headingFontSizes[4] },
+  h4: { fontSize: headingFontSizes[5] },
+  h5: { fontSize: headingFontSizes[5] },
+};
+
 interface NoteLayoutProps {
   children: React.ReactNode;
   pathContext: NotePagePathContext;
@@ -122,16 +138,8 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
       <Seo article title={title} description={spoiler} pathname={path} />
       <Header />
       <main>
-        <PostHeader title={title} />
-        <article
-          sx={{
-            // yup, we're hiding all h1s
-            // there's one on the top of the page, and this should be it
-            "> h1": { display: "none" },
-          }}
-        >
-          {children}
-        </article>
+        <PostHeader title={title} sx={titleHeadingFontSizeStyle} />
+        <article sx={noteHeadingsFontSizesStyle}>{children}</article>
         <footer>
           {inboundReferences.length === 0 ? null : (
             <ReferencesSection>

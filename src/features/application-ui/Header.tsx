@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { keys } from "fp-ts/lib/Record";
 import { GatsbyLinkProps, Link } from "gatsby";
 import {
   ComponentProps,
@@ -19,13 +18,9 @@ import {
   useColorMode,
 } from "theme-ui";
 
-import { Button, ButtonProps } from "../../lib/reusable-ui/Button";
 import { HamburgerLinks } from "../../lib/reusable-ui/HamburgerLinks";
-import {
-  ColorModes,
-  colorModes,
-} from "../../lib/theme-ui-preset-hasparus-homepage/colorModes";
 import { pageCtx } from "../pageCtx";
+import { NextColorModeButton } from "./NextColorModeButton";
 
 const MENU_ID = "menu";
 
@@ -73,41 +68,6 @@ const HeaderInternalLink = (props: GatsbyLinkProps<any>) => {
   }
 
   return <HeaderLink as={Link} {...props} />;
-};
-
-interface NextColorModeButtonProps extends ButtonProps {}
-const NextColorModeButton = (props: NextColorModeButtonProps) => {
-  const [colorMode, setColorMode] = useColorMode();
-
-  const modes = keys(colorModes);
-  const nextColorMode = modes[
-    (modes.indexOf(colorMode as ColorModes) + 1) % modes.length
-  ]!;
-
-  return (
-    <Button
-      variant="clear"
-      onClick={(e) => {
-        // iOS safari scrolls a bit down on double tap of this button
-        // we'd like to prevent it
-        e.preventDefault();
-
-        setColorMode(nextColorMode);
-      }}
-      sx={{
-        px: "0.5em",
-        color: "text092",
-        ":hover, :focus": {
-          bg: "muted",
-          color: "text",
-        },
-      }}
-      title="change color mode"
-      {...props}
-    >
-      {colorMode}
-    </Button>
-  );
 };
 
 const Separator = (props: ComponentProps<"div">) => (

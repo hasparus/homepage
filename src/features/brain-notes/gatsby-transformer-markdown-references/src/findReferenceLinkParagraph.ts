@@ -46,6 +46,7 @@ export async function findReferenceLinkParagraph(
   );
 
   if (!paragraph) {
+    console.dir({ linkedRoute, children }, { depth: 20 });
     throw new Error("[brain-notes] createResolvers paragraph not found");
   }
 

@@ -1,0 +1,66 @@
+import { mix } from "@theme-ui/color";
+
+import { ContrastRatio } from "../../src/features/gadgets-for-notes/ContrastRatio";
+import { NextColorModeButton } from "../../src/features/application-ui/NextColorModeButton";
+
+When we remove underlines from our HTML links, we need to make sure that
+everyone can tell what pieces of text are links.
+
+The links must have sufficient contrast to background color to be readable,
+and they also must have sufficient contrast ratio to the text color to be
+noticeable.
+
+Per [[WCAG20 Guideline 1.4 Distinguishable]] both the text and links must
+have a contrast ration of 4.5:1, or 3:1 if it's large scale text, and
+respectively 7:1 and 4.5:1 for Level AAA conformance. This is old news,
+though.
+
+We can use lightness difference **≥3:1** with surrounding text to make them
+a bit more distinguishable.
+
+Contrast ratios in this color mode are:
+
+- Between links and background: <ContrastRatio colorNames={["primary",
+  "background"]} />
+- Between links and text: <ContrastRatio colorNames={["primary", "text"]} />
+- Between text and background: <ContrastRatio colorNames={["text",
+  "background"]} />
+
+export const Flip = () => (
+  <NextColorModeButton
+    sx={{
+      bg: "muted",
+      px: 1,
+      border: "1px solid",
+      borderColor: mix("muted", "primary", 0.9),
+    }}
+  >
+    flip
+  </NextColorModeButton>
+);
+
+If you <Flip /> through the color modes here (top right corner), you'll
+notice that links in _"soft"_ would be fine without underlines, but we can't
+say that about links in my other color modes.
+
+I added underlines back to this site while writing this note 😅
+
+## See more
+
+- [The Contrast Triangle app][contrast-triangle] by
+  [Chip Cullen](https://chipcullen.com/)
+
+- [W3C Technique G183][w3c-g183].
+
+  > G183: Using a contrast ratio of 3:1 with surrounding text and providing
+  > additional visual cues on focus for links or controls where color alone
+  > is used to identify them
+
+  > ... relative luminance of color alone may not be obvious to people with
+  > black/white color blindness. If there are not a large number of links in
+  > the block of text, underlines are recommended for links.
+
+- [List of colors that would provide 3:1 contrast with black words and 4.5:1 contrast with a white background](https://www.w3.org/TR/2008/NOTE-WCAG20-TECHS-20081211/working-examples/G183/link-contrast.html)
+
+[contrast-triangle]: https://contrast-triangle.com/
+[w3c-g183]: https://www.w3.org/TR/2008/NOTE-WCAG20-TECHS-20081211/G183

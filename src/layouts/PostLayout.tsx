@@ -7,7 +7,7 @@ import { PostDetails } from "../features/blog/PostDetails";
 import { PostHistory } from "../features/post-history/PostHistory";
 import { Seo } from "../features/seo/Seo";
 import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEditLinks";
-import { PostHeader } from "../lib/reusable-ui/PostHeader";
+import { PostHeader } from "../features/blog/PostHeader";
 
 interface PostLayoutProps {
   children: React.ReactNode;
