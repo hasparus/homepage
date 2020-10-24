@@ -8,7 +8,7 @@ import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 import { formatDate } from "../../lib/util/formatDate";
 
 const cupOfCoffeeTime = 5; // minutes
-const burgerTime = cupOfCoffeeTime * Math.E; // stolen from overreacted.io  
+const burgerTime = cupOfCoffeeTime * Math.E; // stolen from overreacted.io
 const readingTimeEmoji = (minutes: number) => {
   return (minutes > 5 * cupOfCoffeeTime
     ? new Array(Math.floor(minutes / burgerTime)).fill("🍔")
@@ -27,10 +27,7 @@ const VenueLink = ({ venue }: VenueLinkProps) => {
           sx={{
             color: "unset",
             textDecoration: "underline",
-            textDecorationColor: transparentize(
-              "text",
-              0.85 as any /* @types/theme-ui__color is broken*/
-            ),
+            textDecorationColor: transparentize("text", 0.85),
           }}
           href={venue.link || undefined}
         >
@@ -51,7 +48,7 @@ const Venues = ({
   return venues ? (
     <span>
       {" · "}
-      {venues.map(v => (
+      {venues.map((v) => (
         <VenueLink key={v.name} venue={v} />
       ))}
     </span>
