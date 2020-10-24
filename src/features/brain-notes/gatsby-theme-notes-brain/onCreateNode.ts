@@ -1,6 +1,4 @@
 import { GatsbyNode } from "gatsby";
-import { urlResolve } from "gatsby-core-utils";
-import * as path from "path";
 
 import { buildTime } from "../../../lib/build-time/gatsby-node-utils";
 import { getNodeTitle } from "../../../lib/build-time/getNodeTitle";
