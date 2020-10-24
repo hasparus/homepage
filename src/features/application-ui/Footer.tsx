@@ -13,6 +13,7 @@ export const Footer = () => (
         mx: "-0.5em",
         mr: "1rem",
         color: "text",
+        textDecorationColor: "transparent",
       },
       "@media print": {
         display: "none",

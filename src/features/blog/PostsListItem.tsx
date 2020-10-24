@@ -3,8 +3,8 @@ import { Link } from "gatsby";
 import { ComponentPropsWithoutRef } from "react";
 import { jsx, Styled as s } from "theme-ui";
 
-import { MdxFields } from "../../../__generated__/global";
 import { theme } from "../../gatsby-plugin-theme-ui";
+import { linkTextDecorationColor } from "../../lib/theme-ui-preset-hasparus-homepage/styles";
 import { formatTitle } from "../../lib/util/formatTitle";
 
 export const PostsListItem = (
@@ -13,34 +13,41 @@ export const PostsListItem = (
 
 interface PostListItemHeadingProps {
   title: string;
-  fields: Pick<MdxFields, "route">;
 }
-PostsListItem.Heading = ({
-  title,
-  fields,
-  ...rest
-}: PostListItemHeadingProps) => (
+PostsListItem.Heading = ({ title, ...rest }: PostListItemHeadingProps) => (
   <s.h3
     sx={{
-      marginBottom: "0.4375rem",
+      marginBottom: 0,
       marginTop: "1.953rem",
-      color: "text",
+      color: "text092",
     }}
     {...rest}
   >
-    <Link
-      to={fields.route}
-      sx={{
-        ...theme.styles.a,
-        color: "currentColor",
-      }}
-    >
-      {formatTitle(title)}
-    </Link>
+    {formatTitle(title)}
   </s.h3>
 );
 
-PostsListItem.Header = "header" as const;
+export interface PostListItemHeaderProps {
+  linkTo: string;
+  children: React.ReactNode;
+}
+PostsListItem.Header = ({ linkTo, children }: PostListItemHeaderProps) => {
+  return (
+    <Link
+      to={linkTo}
+      sx={{
+        ...theme.styles.a,
+        textDecoration: "none",
+        ":focus > h3, :hover > h3": {
+          textDecoration: "underline",
+          textDecorationColor: linkTextDecorationColor.value,
+        },
+      }}
+    >
+      {children}
+    </Link>
+  );
+};
 
 PostsListItem.Spoiler = (props: ComponentPropsWithoutRef<"p">) => (
   <s.p sx={{ mt: 2 }} {...props} />

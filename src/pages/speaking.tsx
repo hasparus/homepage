@@ -48,8 +48,8 @@ const SpeakingPage = () => {
 
           return (
             <PostsListItem key={i}>
-              <PostsListItem.Header>
-                <PostsListItem.Heading title={title!} fields={fields!} />
+              <PostsListItem.Header linkTo={fields!.route}>
+                <PostsListItem.Heading title={title!} />
                 <PostDetails date={date!} venues={venues} />
               </PostsListItem.Header>
               <PostsListItem.Spoiler>{spoiler}</PostsListItem.Spoiler>

@@ -1,9 +1,18 @@
-import { ThemeUICSSObject } from "theme-ui";
+import { alpha } from "@theme-ui/color";
+import { Theme, ThemeUICSSObject } from "theme-ui";
 
 import { randomElement } from "../util";
 import { sketchyBorders } from "./sketchyBorders";
 import { makeStyles } from "./theme-ui-utils";
 import { fontSize } from "./typography";
+
+export const linkTextDecorationColor = {
+  name: "--link-text-decoration-color",
+  value: "var(--link-text-decoration-color)",
+};
+
+// hack
+const getPrimary = (t: Theme) => t.colors!.primary;
 
 const code: ThemeUICSSObject = {
   fontFamily: "monospace",
@@ -19,7 +28,7 @@ const headingStyles: ThemeUICSSObject = {
   fontWeight: "heading",
   lineHeight: "1.2",
 
-  display: "inline-flex",
+  display: "flex",
   alignItems: "center",
 
   color: "text092",
@@ -34,6 +43,22 @@ const headingStyles: ThemeUICSSObject = {
   },
 };
 
+type MinusOne = [null, 0, 1, 2, 3, 4, 5, 6];
+type FontSize = ThemeUICSSObject["fontSize"];
+type HomogenicTuple<T, N> = N extends 0
+  ? []
+  : N extends keyof MinusOne
+  ? [T, ...HomogenicTuple<T, MinusOne[N]>]
+  : never;
+
+export const headingFontSizes: HomogenicTuple<FontSize, 6> = [
+  [4, 6], // h1
+  [4, 5],
+  4,
+  3,
+  2,
+  1,
+];
 export const styles = makeStyles({
   // used for <body>
   root: {
@@ -47,7 +72,7 @@ export const styles = makeStyles({
   },
   h1: {
     ...headingStyles,
-    fontSize: [4, 6],
+    fontSize: headingFontSizes[0],
     textAlign: ["center", "left", "left"],
     py: [5, 0, 0],
     lineHeight: 1.1,
@@ -57,30 +82,30 @@ export const styles = makeStyles({
   h2: {
     ...headingStyles,
     color: "text",
-    fontSize: [4, 5],
+    fontSize: headingFontSizes[1],
     wordBreak: "break-word",
   },
   h3: {
     ...headingStyles,
     color: "gray",
-    fontSize: 4,
+    fontSize: headingFontSizes[2],
     wordBreak: "break-word",
   },
   h4: {
     ...headingStyles,
     color: "gray",
-    fontSize: 3,
+    fontSize: headingFontSizes[3],
   },
   h5: {
     ...headingStyles,
     color: "text",
-    fontSize: 2,
+    fontSize: headingFontSizes[4],
   },
   h6: {
     ...headingStyles,
     color: "text",
     fontFamily: "text",
-    fontSize: 1,
+    fontSize: headingFontSizes[5],
   },
   p: {
     color: "text",
@@ -97,10 +122,12 @@ export const styles = makeStyles({
   a: {
     overflowWrap: "break-word",
     color: "primary",
-    textDecoration: "none",
     cursor: "pointer",
+    textDecorationColor: alpha("primary", 0.15),
     ":focus, :hover": {
-      textDecoration: "underline",
+      // Fixme in Theme UI
+      [linkTextDecorationColor.name]: getPrimary,
+      textDecorationColor: linkTextDecorationColor.value,
     },
   },
   code,

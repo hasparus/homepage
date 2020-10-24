@@ -25,12 +25,10 @@ import { NextColorModeButton } from "./NextColorModeButton";
 const MENU_ID = "menu";
 
 const headerLinkStyle: ThemeUICSSObject = {
+  textDecorationColor: "transparent",
   textTransform: "lowercase",
   px: "0.5em",
   color: "text092",
-  ":hover": {
-    color: "text",
-  },
 };
 
 type HeaderStyledLinkProps<As extends ElementType> = { as?: As } & Omit<

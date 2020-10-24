@@ -45,8 +45,8 @@ const WritingPage = () => {
 
           return (
             <PostsListItem key={i}>
-              <PostsListItem.Header>
-                <PostsListItem.Heading title={title!} fields={fields!} />
+              <PostsListItem.Header linkTo={fields!.route}>
+                <PostsListItem.Heading title={title!} />
                 <PostDetails
                   date={date!}
                   readingTime={fields!.readingTime}
