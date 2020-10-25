@@ -11,7 +11,7 @@ import genMDX from "gatsby-plugin-mdx/utils/gen-mdx";
 import { MarkdownReferencesPluginOptions, parseOptions } from "./options";
 import { generateData } from "./computeInbounds";
 import { getCachedNode, getInboundReferences } from "./cache";
-import { nonNullable } from "./nonNullable";
+import { nonNullable } from "../../../../lib/util/nonNullable";
 import { findReferenceLinkParagraph } from "./findReferenceLinkParagraph";
 import { buildTime } from "../../../../lib/build-time/gatsby-node-utils";
 

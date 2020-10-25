@@ -1,7 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import { Node } from "gatsby";
-import { nonNullable } from "./nonNullable";
+
+import { nonNullable } from "../../../../lib/util/nonNullable";
+
 import { References } from "./getReferences";
 
 export const cacheDirectory = (cache: any): string => {
@@ -78,7 +80,10 @@ export const getCachedNode = async (
   }
 };
 
-export const setInboundReferences = (cache: any, data: InboundReferences) => {
+export const setInboundReferences = (
+  cache: any,
+  data: InboundReferences
+) => {
   return fs.promises.writeFile(
     path.join(cacheDirectory(cache), inboundFile),
     JSON.stringify(data)

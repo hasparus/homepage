@@ -1,6 +1,8 @@
+import { alpha, mix } from "@theme-ui/color";
+import { map } from "fp-ts/lib/Record";
+
 const light = {
   text: "#020202",
-  text092: "rgba(2, 2, 2, 0.92)",
   gray: "#2B2C28",
   background: "#fff",
   primary: "#0633f0",
@@ -9,22 +11,20 @@ const light = {
   muted: "#edf1ff",
 };
 
-export type ColorMode = typeof light;
+type BaseColorMode = typeof light;
 
-const dark: ColorMode = {
+const dark: BaseColorMode = {
   text: "#f0f0f0",
-  text092: "rgba(240, 240, 240, 0.92)",
   gray: "#db7",
   background: "#031420",
   primary: "#80a9ff",
   secondary: "#ffd680",
   highlight: "#ADDB67",
-  muted: "#1a2027",
+  muted: "#1f262e",
 };
 
-const soft: ColorMode = {
-  text: "hsl(165, 20%, 12%)",
-  text092: "hsla(165, 20%, 12%, 0.92)",
+const soft: BaseColorMode = {
+  text: "#182522",
   background: "#f9f3ea",
   primary: "#ca3030",
   secondary: "#02734A",
@@ -33,6 +33,28 @@ const soft: ColorMode = {
   gray: "#474341",
 };
 
-export const colorModes = { light, dark, soft };
+// TODO: Interesting idea: Could I compute this at buildtime?
+//   Ideas:
+//     - custom babel macro or TS transformer — i don't want to lose types with template literal
+//     - Closure Compiler?
+//     - prepack.io?
+// TODO:
+//   it seems that `getColor` from @theme-ui/color doesn't work with `hsl(165, 20%, 12%)`
+//   it strips trailing parenthesis
+const deriveAdditionalColors = (colors: BaseColorMode) => {
+  return {
+    ...colors,
+    text092: alpha("text", 0.92)({ colors }),
+    mutedPrimary09: mix("muted", "primary", 0.9)({ colors }),
+  };
+};
+
+export type ColorMode = ReturnType<typeof deriveAdditionalColors>;
+
+export const colorModes = map(deriveAdditionalColors)({
+  light,
+  dark,
+  soft,
+});
 
 export type ColorModes = keyof typeof colorModes;

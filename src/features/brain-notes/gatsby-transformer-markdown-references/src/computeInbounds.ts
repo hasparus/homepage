@@ -1,7 +1,7 @@
 import { basename, extname } from "path";
 import { Node } from "gatsby";
 
-import { nonNullable } from "./nonNullable";
+import { nonNullable } from "../../../../lib/util/nonNullable";
 import {
   getAllCachedNodes,
   setCachedNode,
