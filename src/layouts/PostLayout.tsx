@@ -36,7 +36,10 @@ export function PostLayout({
   // see gatsby-node-ts.ts onPreInit
   // assert(image, "socialImage is missing");
   if (!image) {
-    console.error("socialImage is missing!", path);
+    console.error("socialImage is missing!", {
+      frontmatter,
+      path,
+    });
   }
 
   return (

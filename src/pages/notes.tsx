@@ -2,6 +2,7 @@
 
 import { graphql, Link, useStaticQuery } from "gatsby";
 import { jsx, Styled as s } from "theme-ui";
+import { GraphOverview } from "../features/brain-notes/gatsby-theme-notes-brain/components";
 
 import { Seo } from "../features/seo/Seo";
 import { theme } from "../gatsby-plugin-theme-ui";
@@ -9,7 +10,9 @@ import { PageLayout } from "../layouts/PageLayout";
 import { NotesIndexQuery } from "./__generated__/NotesIndexQuery";
 
 const NotesIndexPage = () => {
-  const { allFile } = useStaticQuery<GatsbyTypes.NotesIndexQueryQuery>(graphql`
+  const { allFile } = useStaticQuery<
+    GatsbyTypes.NotesIndexQueryQuery
+  >(graphql`
     query NotesIndexQuery {
       allFile(
         filter: {
@@ -57,10 +60,7 @@ const NotesIndexPage = () => {
           sneak peek of my thoughts 😉
         </s.p>
         <s.p>Enjoy the adventure!</s.p>
-        <s.p>
-          There's going to be an awesome Roam-style graph of all of these
-          notes here in the future, but have a list for now.
-        </s.p>
+        <GraphOverview />
         <ul>
           {allFile.nodes.map((node, i) => {
             const { title, route } = node.childMdx!.fields!;

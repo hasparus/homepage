@@ -153,6 +153,7 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
               {inboundReferences.map(({ node: { fields }, paragraph }) => {
                 return (
                   <ReferenceLink
+                    key={fields!.route}
                     linkTo={fields!.route}
                     title={fields!.title!}
                     paragraphHtml={paragraph}
@@ -171,6 +172,7 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
               {outboundReferences.map(({ fields, excerpt }) => {
                 return (
                   <ReferenceLink
+                    key={fields!.route}
                     linkTo={fields!.route}
                     title={fields!.title!}
                     paragraphHtml={excerpt}
