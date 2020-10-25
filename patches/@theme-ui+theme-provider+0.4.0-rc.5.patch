@@ -1,0 +1,46 @@
+diff --git a/node_modules/@theme-ui/theme-provider/dist/index.js b/node_modules/@theme-ui/theme-provider/dist/index.js
+index 7eccdbd..3e75163 100644
+--- a/node_modules/@theme-ui/theme-provider/dist/index.js
++++ b/node_modules/@theme-ui/theme-provider/dist/index.js
+@@ -306,9 +306,11 @@ var css = function css(args) {
+ };
+ 
+ var BodyStyles = function BodyStyles() {
++  const themeUI = core.useThemeUI()
++  
+   return core.jsx(core$1.Global, {
+     styles: function styles(emotionTheme) {
+-      var theme = emotionTheme;
++      var theme = emotionTheme || themeUI.theme;
+ 
+       if (theme.useBodyStyles === false || theme.styles && !theme.styles.root) {
+         return false;
+diff --git a/node_modules/@theme-ui/theme-provider/dist/index.modern.js b/node_modules/@theme-ui/theme-provider/dist/index.modern.js
+index 071d3a0..9d76c37 100644
+--- a/node_modules/@theme-ui/theme-provider/dist/index.modern.js
++++ b/node_modules/@theme-ui/theme-provider/dist/index.modern.js
+@@ -305,9 +305,12 @@ var css = function css(args) {
+   };
+ };
+ 
+-const BodyStyles = () => jsx(Global, {
++const BodyStyles = () => {
++  const themeUI = useThemeUI();
++
++  return jsx(Global, {
+   styles: emotionTheme => {
+-    const theme = emotionTheme;
++    const theme = emotionTheme || themeUI.theme;
+ 
+     if (theme.useBodyStyles === false || theme.styles && !theme.styles.root) {
+       return false;
+@@ -324,7 +327,8 @@ const BodyStyles = () => jsx(Global, {
+       }
+     })(theme);
+   }
+-});
++})
++}
+ 
+ const ThemeProvider = ({
+   theme,

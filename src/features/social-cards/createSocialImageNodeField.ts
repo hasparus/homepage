@@ -46,24 +46,20 @@ export async function createSocialImageNodeField(
   //   node.fields?.route
   // );
 
-  try {
-    const ogImage = await makeSocialCard(cacheDir, browser, node);
+  const ogImage = await makeSocialCard(cacheDir, browser, node);
 
-    const ogImageNode = await createFileNode(
-      ogImage,
-      createNode,
-      createNodeId,
-      node.id
-    );
+  const ogImageNode = await createFileNode(
+    ogImage,
+    createNode,
+    createNodeId,
+    node.id
+  );
 
-    // console.log("createSocialImageNodeField", node.fields?.route);
+  // console.log("createSocialImageNodeField", node.fields?.route);
 
-    createNodeField({
-      name: "socialImage___NODE",
-      node: (node as unknown) as Node,
-      value: ogImageNode.id,
-    });
-  } catch (e) {
-    console.error("createSocialImageNodeField failed", e);
-  }
+  createNodeField({
+    name: "socialImage___NODE",
+    node: (node as unknown) as Node,
+    value: ogImageNode.id,
+  });
 }

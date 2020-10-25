@@ -1670,7 +1670,7 @@
     "@emotion/utils" "0.11.3"
     "@emotion/weak-memoize" "0.2.5"
 
-"@emotion/core@^10.0.0", "@emotion/core@^10.0.14", "@emotion/core@^10.0.35":
+"@emotion/core@10.0.35", "@emotion/core@^10.0.0", "@emotion/core@^10.0.14", "@emotion/core@^10.0.35":
   version "10.0.35"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.35.tgz#513fcf2e22cd4dfe9d3894ed138c9d7a859af9b3"
   integrity sha512-sH++vJCdk025fBlRZSAhkRlSUoqSqgCzYf5fMOmqqi3bM6how+sQpg3hkgJonj8GxXM4WbD7dRO+4tegDB9fUw==
@@ -16184,6 +16184,11 @@ postcss@^7.0.26, postcss@^7.0.32:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
+postinstall-postinstall@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/postinstall-postinstall/-/postinstall-postinstall-2.1.0.tgz#4f7f77441ef539d1512c40bd04c71b06a4704ca3"
+  integrity sha512-7hQX6ZlZXIoRiWNrbMQaLzUUfH+sSx39u8EJ9HYuDc1kLo9IXKWjM5RSquZN1ad5GnH8CGFM78fsAAQi3OKEEQ==
+
 potrace@^2.1.8:
   version "2.1.8"
   resolved "https://registry.yarnpkg.com/potrace/-/potrace-2.1.8.tgz#50f6fba92e1e39ddef6f979b0a0f841809e0acf2"
@@ -20349,6 +20354,16 @@ vfile@^4.0.0:
     replace-ext "1.0.0"
     unist-util-stringify-position "^2.0.0"
     vfile-message "^2.0.0"
+
+vis-data@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/vis-data/-/vis-data-7.1.0.tgz#022dc2c4a9afa64c85b59c7465a20e3bdd32a51a"
+  integrity sha512-uWhBJD3NPlQqAWMYZ7P2WHtBeUrnt25vH6WiZwrwTbyv75g58WrzmxQmf1muRLyPeAydWRmuEC+ptGaKUtMKew==
+
+vis-network@^8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/vis-network/-/vis-network-8.4.1.tgz#11d1e7823ec5ab2cb2464de935926bbd26b8e300"
+  integrity sha512-pP5qpoanmmrTl47MECsto5Hy1bdbLFDOlUgf38BPzC8L9xCsq0MlQ+VGV0ZaUZIN8WDL4TnxMfHRxltH3PS7Eg==
 
 vm-browserify@^1.0.1:
   version "1.1.2"
