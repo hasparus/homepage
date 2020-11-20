@@ -2,9 +2,7 @@ import { GatsbyNode } from "gatsby";
 import { resolve } from "path";
 
 import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
-
 import { parseOptions } from "./parseOptions";
-
 import { shouldHandleFile } from "./shouldHandleFile";
 
 export interface NoteFieldsOnMdx

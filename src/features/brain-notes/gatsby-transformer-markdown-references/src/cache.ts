@@ -1,9 +1,8 @@
 import * as fs from "fs";
-import * as path from "path";
 import { Node } from "gatsby";
+import * as path from "path";
 
 import { nonNullable } from "../../../../lib/util/nonNullable";
-
 import { References } from "./getReferences";
 
 export const cacheDirectory = (cache: any): string => {
@@ -28,7 +27,7 @@ export const getAllCachedNodes = async (cache: any, getNode: Function) => {
     await Promise.all(
       files.map((f) => {
         if (f === inboundFile) {
-          return;
+          return undefined;
         }
         const id = decodeURIComponent(f.replace(/\.json$/, ""));
         return getCachedNode(cache, id, getNode);
@@ -62,7 +61,9 @@ export const getCachedNode = async (
       await fs.promises.unlink(
         path.join(cacheDirectory(cache), `${encodeURIComponent(id)}.json`)
       );
-    } catch (err) {}
+    } catch (err) {
+      // boop
+    }
     return undefined;
   }
 
@@ -108,5 +109,7 @@ export const getInboundReferences = async (
 export const clearInboundReferences = async (cache: any) => {
   try {
     await fs.promises.unlink(path.join(cacheDirectory(cache), inboundFile));
-  } catch (e) {}
+  } catch (e) {
+    // it's okay if the file doesn't exist and can't be unlinked
+  }
 };

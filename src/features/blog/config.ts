@@ -1,5 +1,4 @@
 import * as path from "path";
-
 import slugRemarkPlugin from "remark-slug";
 
 import { autolinkHeadingsRemarkPluginConfig } from "../autolink-headings/remark-plugin-config";

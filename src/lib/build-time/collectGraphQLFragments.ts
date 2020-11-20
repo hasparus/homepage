@@ -1,7 +1,7 @@
-// @ts-ignore
+// @ts-expect-error no defs
 import GatsbyParser from "gatsby/dist/query/file-parser";
-import path from "path";
 import glob from "glob";
+import path from "path";
 
 /**
  * Collect all graphql fragments from a directory

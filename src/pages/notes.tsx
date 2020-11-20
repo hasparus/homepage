@@ -2,8 +2,8 @@
 
 import { graphql, Link, useStaticQuery } from "gatsby";
 import { jsx, Styled as s } from "theme-ui";
-import { GraphOverview } from "../features/brain-notes/gatsby-theme-notes-brain/components";
 
+import { GraphOverview } from "../features/brain-notes/gatsby-theme-notes-brain/components";
 import { Seo } from "../features/seo/Seo";
 import { theme } from "../gatsby-plugin-theme-ui";
 import { PageLayout } from "../layouts/PageLayout";

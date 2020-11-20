@@ -1,13 +1,13 @@
-import { basename, extname } from "path";
 import { Node } from "gatsby";
+import { basename, extname } from "path";
 
+import { slugifyTitle } from "../../../../lib/build-time/slugifyTitle";
 import { nonNullable } from "../../../../lib/util/nonNullable";
 import {
   getAllCachedNodes,
   setCachedNode,
   setInboundReferences,
 } from "./cache";
-import { slugifyTitle } from "../../../../lib/build-time/slugifyTitle";
 
 function hasChildInArrayExcept(
   node: Node,

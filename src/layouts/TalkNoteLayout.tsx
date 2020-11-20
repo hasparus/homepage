@@ -6,10 +6,10 @@ import { Footer } from "../features/application-ui/Footer";
 import { Header } from "../features/application-ui/Header";
 import { Root } from "../features/application-ui/Root";
 import { PostDetails } from "../features/blog/PostDetails";
+import { PostHeader } from "../features/blog/PostHeader";
 import { PostHistory } from "../features/post-history/PostHistory";
 import { Seo } from "../features/seo/Seo";
 import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEditLinks";
-import { PostHeader } from "../features/blog/PostHeader";
 import { assert } from "../lib/util/assert";
 import { formatTitle } from "../lib/util/formatTitle";
 

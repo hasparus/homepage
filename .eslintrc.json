@@ -8,8 +8,20 @@
     "@typescript-eslint/array-type": "off",
     "react/jsx-filename-extension": "off",
     "react/prop-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-param-reassign": "off",
+    "no-use-before-define": "off",
+    "no-void": "off",
+    "no-shadow": "off",
+    "no-restricted-syntax": "off",
+    "import/no-extraneous-dependencies": "off",
+    // this actually makes emoji less accessible
+    "jsx-a11y/accessible-emoji": "off",
     // TypeScript compilation performance suffers on large Object spreads
     "prefer-object-spread": "off",
+    "no-cond-assign": "off",
     "prefer-destructuring": "off"
   },
   "overrides": [

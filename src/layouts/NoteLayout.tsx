@@ -1,24 +1,24 @@
 /** @jsx jsx */
 
-import { graphql, Link } from "gatsby";
 import { alpha } from "@theme-ui/color";
+import { graphql, Link } from "gatsby";
 import React, { isValidElement } from "react";
 import { jsx, Styled as s, ThemeUIStyleObject } from "theme-ui";
 
 import { Footer, Header, Root } from "../features/application-ui";
 // import { PostHistory } from "../components/PostHistory";
 import { PostDetails } from "../features/blog/PostDetails";
-import { Seo } from "../features/seo/Seo";
-import { formatTitle } from "../lib/util/formatTitle";
-import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEditLinks";
+import { PostHeader } from "../features/blog/PostHeader";
 import { NotePagePathContext } from "../features/brain-notes/gatsby-theme-notes-brain/createPages";
+import { Seo } from "../features/seo/Seo";
+import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEditLinks";
 import { theme } from "../gatsby-plugin-theme-ui";
 import { fontSize } from "../gatsby-plugin-theme-ui/tokens";
-import { PostHeader } from "../features/blog/PostHeader";
 import {
   headingFontSizes,
   linkTextDecorationColor,
 } from "../lib/theme-ui-preset-hasparus-homepage/styles";
+import { formatTitle } from "../lib/util/formatTitle";
 
 const ReferencesSection = ({ children }: { children: React.ReactNode }) => {
   return (

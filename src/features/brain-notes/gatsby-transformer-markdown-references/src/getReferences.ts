@@ -20,10 +20,8 @@ const cleanTitle = (s: string) => s.replace(/\s+/g, " ");
 export const getReferences = (s: string) => {
   const md = cleanupMarkdown(s);
 
-  const references: References = {
+  return {
     blocks: findInMarkdown(md, rxBlockLink()).map(cleanTitle),
     pages: findInMarkdown(md, rxWikiLink()).map(cleanTitle),
   };
-
-  return references;
 };

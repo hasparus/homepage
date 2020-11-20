@@ -1,19 +1,17 @@
 import {
-  CreateSchemaCustomizationArgs,
-  SetFieldsOnGraphQLNodeTypeArgs,
-  Node,
   CreateResolversArgs,
+  CreateSchemaCustomizationArgs,
+  Node,
 } from "gatsby";
-
-// @ts-ignore
+// @ts-expect-error types missing
 import genMDX from "gatsby-plugin-mdx/utils/gen-mdx";
 
-import { MarkdownReferencesPluginOptions, parseOptions } from "./options";
-import { generateData } from "./computeInbounds";
-import { getCachedNode, getInboundReferences } from "./cache";
-import { nonNullable } from "../../../../lib/util/nonNullable";
-import { findReferenceLinkParagraph } from "./findReferenceLinkParagraph";
 import { buildTime } from "../../../../lib/build-time/gatsby-node-utils";
+import { nonNullable } from "../../../../lib/util/nonNullable";
+import { getCachedNode, getInboundReferences } from "./cache";
+import { generateData } from "./computeInbounds";
+import { findReferenceLinkParagraph } from "./findReferenceLinkParagraph";
+import { MarkdownReferencesPluginOptions, parseOptions } from "./options";
 
 export const createSchemaCustomization = (
   { actions }: CreateSchemaCustomizationArgs,
@@ -85,13 +83,11 @@ export const createResolvers = (
           const ownRoute = mdx.fields!.route.replace(`/${contentPath}`, "");
 
           if (data) {
-            const inboundReferences = await Promise.all(
+            return Promise.all(
               (data[node.id] || [])
                 .map((nodeId) => getNode(nodeId))
                 .filter(nonNullable)
                 .map(async (node) => {
-                  debugger;
-
                   const paragraph = await findReferenceLinkParagraph(
                     node,
                     { linkedRoute: ownRoute },
@@ -104,8 +100,6 @@ export const createResolvers = (
                   };
                 })
             );
-
-            return inboundReferences;
           }
 
           return [];

@@ -2,12 +2,10 @@ import { CreateNodeArgs, Node } from "gatsby";
 import { isObject } from "lodash";
 
 import { getNodeTitle } from "../../../../lib/build-time/getNodeTitle";
-
 import { assert } from "../../../../lib/util";
-
+import { clearInboundReferences, setCachedNode } from "./cache";
 import { getReferences } from "./getReferences";
 import { MarkdownReferencesPluginOptions, parseOptions } from "./options";
-import { clearInboundReferences, setCachedNode } from "./cache";
 
 type AliasesFrontmatter = { aliases: string[] };
 const isAliasesFrontmatter = (x: unknown): x is AliasesFrontmatter =>

@@ -1,5 +1,7 @@
-import visit from "unist-util-visit";
 import type * as unist from "unist";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import visit from "unist-util-visit";
+
 import { slugifyTitle } from "../../../../lib/build-time/slugifyTitle";
 
 export async function findReferenceLinkParagraph(
@@ -58,9 +60,9 @@ export async function findReferenceLinkParagraph(
 
     if (parent === linkReference) {
       return nodes.push(`<strong>${node.value}</strong>`);
-    } else {
+    } 
       nodes.push(node.value);
-    }
+    
   });
   return nodes.join("");
 }

@@ -1,13 +1,13 @@
 /** @jsx jsx */
+import "vis-network/styles/vis-network.css";
+
+import { graphql, useStaticQuery } from "gatsby";
 import { useLayoutEffect, useRef } from "react";
 import { jsx, useThemeUI } from "theme-ui";
-import { graphql, useStaticQuery } from "gatsby";
-import type { Node, Edge, Network } from "vis-network/peer";
+import type { Edge, Network, Node } from "vis-network/peer";
 
 import { ExactTheme } from "../../../../gatsby-plugin-theme-ui";
 import { ColorMode } from "../../../../lib/theme-ui-preset-hasparus-homepage";
-
-import "vis-network/styles/vis-network.css";
 
 function getNodeStyle(colors: ColorMode): Node {
   return {
@@ -150,7 +150,7 @@ export function GraphOverview(props: GraphOverviewProps) {
     return () => {
       network.current?.destroy();
     };
-  }, []);
+  }, [data.allFile.nodes]);
 
   useLayoutEffect(() => {
     if (network.current) {
