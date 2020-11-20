@@ -60,7 +60,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
   // }
 
   if (isMdx(node)) {
-    const parent = (getNode(node.parent) as unknown) as buildTime.File;
+    const parent = (getNode(node.parent!) as unknown) as buildTime.File;
 
     const prefix =
       parent.sourceInstanceName === "posts"
