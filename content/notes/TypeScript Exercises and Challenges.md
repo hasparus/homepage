@@ -1,0 +1,2 @@
+- https://typescript-exercises.github.io/
+- https://dev.to/typescript/type-treat-challenge-1-829
