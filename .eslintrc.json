@@ -16,6 +16,8 @@
     "no-void": "off",
     "no-shadow": "off",
     "no-restricted-syntax": "off",
+    // "Unused `@ts-expect-error` directive" pops up seamingly without reason :/
+    "@typescript-eslint/ban-ts-comment": "off",
     "import/no-extraneous-dependencies": "off",
     // this actually makes emoji less accessible
     "jsx-a11y/accessible-emoji": "off",

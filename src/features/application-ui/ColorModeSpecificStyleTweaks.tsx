@@ -1,7 +1,7 @@
-import { Global, ObjectInterpolation } from "@emotion/core";
+import { Global } from "@emotion/react";
 import { lighten } from "@theme-ui/color";
 import React from "react";
-import { css,useColorMode } from "theme-ui";
+import { css, useColorMode } from "theme-ui";
 
 import {
   ColorModes,

@@ -1,4 +1,4 @@
-// @ts-expect-error no defs
+// @ts-ignore no defs
 import GatsbyParser from "gatsby/dist/query/file-parser";
 import glob from "glob";
 import path from "path";

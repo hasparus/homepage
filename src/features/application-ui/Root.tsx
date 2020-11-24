@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Global, ObjectInterpolation } from "@emotion/core";
+import { Global, Interpolation } from "@emotion/react";
 import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import {
@@ -44,7 +44,7 @@ const scrollbarStyles: ThemeUIStyleObject = {
   },
 };
 
-const globalStyles: ObjectInterpolation<any> = {
+const globalStyles: Interpolation<{}> = {
   html: {
     scrollBehavior: "smooth",
     fontSize: fontSize.base,
@@ -68,10 +68,12 @@ export interface RootProps
 export const Root = (props: RootProps) => {
   const { theme } = useThemeUI();
 
-  const global: ObjectInterpolation<any> = useMemo(() => {
+  const global = useMemo((): Interpolation<{}> => {
     return {
       ...globalStyles,
-      ...css({ ...scrollbarStyles, ...focusStyles })(theme),
+      ...(css({ ...scrollbarStyles, ...focusStyles })(
+        theme
+      ) as any) /* TODO update Theme UI */,
     };
   }, [theme]);
 

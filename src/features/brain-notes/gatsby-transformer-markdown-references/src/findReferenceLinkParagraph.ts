@@ -48,6 +48,7 @@ export async function findReferenceLinkParagraph(
   );
 
   if (!paragraph) {
+    // eslint-disable-next-line no-console
     console.dir({ linkedRoute, children }, { depth: 20 });
     throw new Error("[brain-notes] createResolvers paragraph not found");
   }

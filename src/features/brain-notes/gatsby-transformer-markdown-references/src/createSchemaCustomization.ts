@@ -3,7 +3,7 @@ import {
   CreateSchemaCustomizationArgs,
   Node,
 } from "gatsby";
-// @ts-expect-error types missing
+// @ts-ignore types missing
 import genMDX from "gatsby-plugin-mdx/utils/gen-mdx";
 
 import { buildTime } from "../../../../lib/build-time/gatsby-node-utils";
