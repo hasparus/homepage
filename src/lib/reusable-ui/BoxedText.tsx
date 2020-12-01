@@ -5,6 +5,7 @@ import { jsx, Styled as s } from "theme-ui";
 import { fontSize } from "../theme-ui-preset-hasparus-homepage/tokens";
 
 export type BoxedTextProps = ComponentPropsWithoutRef<typeof s.p>;
+
 export const BoxedText = (props: BoxedTextProps) => {
   return (
     <s.p
