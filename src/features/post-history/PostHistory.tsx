@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import preval from "preval.macro";
 import { ComponentPropsWithoutRef } from "react";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import {
   BlogpostHistory,
@@ -53,7 +53,7 @@ const ListItemDot = () => (
 );
 
 const PostHistoryList = (props: ComponentPropsWithoutRef<"ol">) => (
-  <s.ol
+  <th.ol
     reversed
     sx={{
       p: 0,
@@ -75,7 +75,7 @@ const PostHistoryListItem = ({
   entry: { abbreviatedCommit, authorDate, subject },
 }: PostHistoryListItemProps) => {
   return (
-    <s.li
+    <th.li
       sx={{
         display: "flex",
         alignItems: "center",
@@ -86,16 +86,16 @@ const PostHistoryListItem = ({
       }}
     >
       <ListItemDot />
-      <s.code
+      <th.code
         sx={{
           mr: 2,
           fontSize: fontSize.small,
         }}
       >
-        <s.a href={`${REPO_URL}/commit/${abbreviatedCommit}`}>
+        <th.a href={`${REPO_URL}/commit/${abbreviatedCommit}`}>
           {abbreviatedCommit}
-        </s.a>
-      </s.code>
+        </th.a>
+      </th.code>
       <span sx={{ width: "6.5em", flexShrink: 0 }}>
         {formatDate(authorDate)}
       </span>
@@ -110,7 +110,7 @@ const PostHistoryListItem = ({
       >
         {subject}
       </span>
-    </s.li>
+    </th.li>
   );
 };
 
@@ -161,9 +161,9 @@ export function PostHistory({
         </PostHistoryList>
       )}
       {entries.length > SHOWN_HISTORY_LENGTH && (
-        <s.a sx={{ fontSize: fontSize.small, ml: 3 }} href={url}>
+        <th.a sx={{ fontSize: fontSize.small, ml: 3 }} href={url}>
           see {entries.length - SHOWN_HISTORY_LENGTH} more on GitHub
-        </s.a>
+        </th.a>
       )}
     </section>
   );

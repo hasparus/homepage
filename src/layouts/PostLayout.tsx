@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import React, { Fragment } from "react";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { Footer, Header, Root } from "../features/application-ui";
 import { PostDetails } from "../features/blog/PostDetails";
@@ -65,7 +65,7 @@ export function PostLayout({
       </main>
       {history && (
         <Fragment>
-          <s.hr sx={{ mt: 5 }} />
+          <th.hr sx={{ mt: 5 }} />
           <PostHistory history={history} />
         </Fragment>
       )}

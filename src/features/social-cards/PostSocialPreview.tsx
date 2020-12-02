@@ -7,7 +7,7 @@ import { scaleLinear, scaleTime } from "@vx/scale";
 import { LinePath } from "@vx/shape";
 import { extent, max } from "d3-array";
 import { ComponentProps } from "react";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { Mdx } from "../../../__generated__/global";
 import { assert } from "../../lib/util/assert";
@@ -102,9 +102,9 @@ export function PostSocialPreview({ post, ...rest }: PostSocialImageProps) {
           zIndex: -1,
         }}
       />
-      <s.h1 sx={{ fontSize: [9, 9, 9], color: "text", mt: 0, mb: 3 }}>
+      <th.h1 sx={{ fontSize: [9, 9, 9], color: "text", mt: 0, mb: 3 }}>
         {title}
-      </s.h1>
+      </th.h1>
       <PostDetails
         date={date}
         readingTime={readingTime}

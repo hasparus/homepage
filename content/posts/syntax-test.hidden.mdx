@@ -11,7 +11,7 @@ Lorem ipsum, dolor sit amet.
 ```tsx
 /** @jsx jsx */
 import { graphql, Link, useStaticQuery } from "gatsby";
-import { Styled as s, jsx } from "theme-ui";
+import { Themed as s, jsx } from "theme-ui";
 
 import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
 import { Header, Root, theme } from "../components";
@@ -64,7 +64,10 @@ const IndexPage = () => {
                     {title}
                   </Link>
                 </s.h3>
-                <BlogpostDetails date={date} timeToRead={fields!.readingTime} />
+                <BlogpostDetails
+                  date={date}
+                  timeToRead={fields!.readingTime}
+                />
               </header>
               <s.p>{spoiler}</s.p>
             </article>
@@ -84,28 +87,28 @@ Text below is taken from [/refinement-types](/refinement-types) blogpost
 
 I've refined the **_number_** into **_Even_** during my
 [Wrocław TypeScript talk](https://github.com/hasparus/refinement-types-in-typescript).\
-Having a type for even numbers doesn't sound really useful but the idea stays the
-same for real world types with complex names copied from Jira.
+Having a type for even numbers doesn't sound really useful but the idea stays
+the same for real world types with complex names copied from Jira.
 
-_We can call the predicate once and if it's true, we remember this fact in the
-type system to avoid accidental errors._
+_We can call the predicate once and if it's true, we remember this fact in
+the type system to avoid accidental errors._
 
 ### Example time
 
 #### Almost real example
 
-Assume we're building a form in which users can enter a list of emails into a
-textarea to send activation links to give their friends write permissions for
-the app (let's say it's a CMS).
+Assume we're building a form in which users can enter a list of emails into
+a textarea to send activation links to give their friends write permissions
+for the app (let's say it's a CMS).
 
 We validate these emails once, and if they're all valid, we save them, and
 later, few steps further in the form, we send our activation links. Few days
-later, we get a new requirement -- the user should be able to edit the data at
-the last step of the form. Cool, the form is pretty long, we understand that it
-can be useful. Several lines of code and we're done. We go home happy about the
-good code we pushed. Next morning we see a new issue in the tracker --
-_"Validate emails after the user does final edits"_ -- We totally forgot about
-the validation.
+later, we get a new requirement -- the user should be able to edit the data
+at the last step of the form. Cool, the form is pretty long, we understand
+that it can be useful. Several lines of code and we're done. We go home
+happy about the good code we pushed. Next morning we see a new issue in the
+tracker -- _"Validate emails after the user does final edits"_ -- We totally
+forgot about the validation.
 
 #### How could we save the day with a refinement type?
 
@@ -122,8 +125,8 @@ the validation.
 
 #### Yeah right, but how can I create this "ValidEmail" type?
 
-However you want! It's just an idea from type theory and you can implement it in
-your favorite way. Few ideas:
+However you want! It's just an idea from type theory and you can implement
+it in your favorite way. Few ideas:
 
 - you can go full OOP and extend a **_String_**,
 - use [nominal](https://github.com/hasparus/nom-ts)&nbsp;
@@ -132,15 +135,15 @@ your favorite way. Few ideas:
 - put the string into a
   [value object](https://en.wikipedia.org/wiki/Value_object), because
   **_ValidEmail_** doesn't even have to be a subtype of **_string_**. \
-  The key is that **_string_** is not assignable to **_ValidEmail_**, because we
-  want to ensure validation.
+  The key is that **_string_** is not assignable to **_ValidEmail_**, because
+  we want to ensure validation.
 
 ### User defined type guards
 
 We can use TypeScript’s
 [user defined type guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates)
-to tell the compiler that our predicate checks the type and this is exactly what
-we’re interested in when we talk about refinements.
+to tell the compiler that our predicate checks the type and this is exactly
+what we’re interested in when we talk about refinements.
 
 Let’s empower our `isValidEmail` predicate by changing its signature from
 `(s: string) => boolean` to `(s: string) => s is ValidEmail`.
@@ -149,20 +152,20 @@ Let’s empower our `isValidEmail` predicate by changing its signature from
 
 - Refinements are not implemented in TypeScript, but you can make them in
   userspace.
-- You can use nominal typing to make sure your refinements have no runtime trail
-  (except predicate checks).
+- You can use nominal typing to make sure your refinements have no runtime
+  trail (except predicate checks).
 - You can use them to encode facts about your data in the type system.
 
 ---
 
 ## Further reading
 
-_This is mostly a reading list for future me, but I hope you can also find it
-interesting._
+_This is mostly a reading list for future me, but I hope you can also find
+it interesting._
 
 - [refined](https://github.com/fthomas/refined) for Scala sounds really
-  interesting and with [ScalaJs](https://www.scala-js.org/) I could target the
-  same platforms as TypeScript.
+  interesting and with [ScalaJs](https://www.scala-js.org/) I could target
+  the same platforms as TypeScript.
 
 - "[A taste of dependent types](http://kmcallister.github.io/talks/rust/2015-dependent-types/slides.html)"
   by Keegan McAllister

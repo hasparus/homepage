@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 
@@ -20,7 +20,7 @@ export const Footer = () => (
       },
     }}
   >
-    <s.a href="/rss.xml">RSS</s.a>
-    <s.a href="/sitemap.xml">Sitemap</s.a>
+    <th.a href="/rss.xml">RSS</th.a>
+    <th.a href="/sitemap.xml">Sitemap</th.a>
   </footer>
 );

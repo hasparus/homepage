@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { graphql, Link, useStaticQuery } from "gatsby";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { Intro, Outro } from "../features/index-page";
 import { Seo } from "../features/seo/Seo";
@@ -78,20 +78,20 @@ const IndexPage = () => {
           </p>
         )}
         <section>
-          <s.h4>Personal Favorites</s.h4>
-          <s.ul>
+          <th.h4>Personal Favorites</th.h4>
+          <th.ul>
             {favorites.nodes.map((post) => {
               const { fields, frontmatter } = post.childMdx!;
 
               return (
-                <s.li key={fields!.route}>
+                <th.li key={fields!.route}>
                   <Link to={fields!.route} sx={theme.styles.a}>
                     {frontmatter!.title}
                   </Link>
-                </s.li>
+                </th.li>
               );
             })}
-          </s.ul>
+          </th.ul>
         </section>
         <Outro />
       </main>

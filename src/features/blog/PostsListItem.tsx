@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { Link } from "gatsby";
 import { ComponentPropsWithoutRef } from "react";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { theme } from "../../gatsby-plugin-theme-ui";
 import { linkTextDecorationColor } from "../../lib/theme-ui-preset-hasparus-homepage/styles";
@@ -15,7 +15,7 @@ interface PostListItemHeadingProps {
   title: string;
 }
 PostsListItem.Heading = ({ title, ...rest }: PostListItemHeadingProps) => (
-  <s.h3
+  <th.h3
     sx={{
       marginBottom: 0,
       marginTop: "1.953rem",
@@ -24,7 +24,7 @@ PostsListItem.Heading = ({ title, ...rest }: PostListItemHeadingProps) => (
     {...rest}
   >
     {formatTitle(title)}
-  </s.h3>
+  </th.h3>
 );
 
 export interface PostListItemHeaderProps {
@@ -50,5 +50,5 @@ PostsListItem.Header = ({ linkTo, children }: PostListItemHeaderProps) => {
 };
 
 PostsListItem.Spoiler = (props: ComponentPropsWithoutRef<"p">) => (
-  <s.p sx={{ mt: 2 }} {...props} />
+  <th.p sx={{ mt: 2 }} {...props} />
 );

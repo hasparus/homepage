@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { graphql } from "gatsby";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import type { TweetDiscussEditLinksDataOnMdx } from "./__generated__/TweetDiscussEditLinksDataOnMdx";
 
@@ -20,8 +20,8 @@ export const TweetDiscussEditLinks = ({
         },
       }}
     >
-      <s.a href={tweet}>tweet</s.a> &middot;{" "}
-      <s.a href={edit}>edit on github</s.a>
+      <th.a href={tweet}>tweet</th.a> &middot;{" "}
+      <th.a href={edit}>edit on github</th.a>
     </footer>
   );
 };

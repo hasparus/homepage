@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 import { toArray } from "fp-ts/lib/Record";
 import { fromCompare, ordString } from "fp-ts/lib/Ord";
 import { ComponentPropsWithoutRef } from "react";
@@ -30,7 +30,7 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
   const entries = toArray(list);
 
   return (
-    <s.ul
+    <th.ul
       sx={{
         m: 0,
         fontFamily: "monospace",
@@ -42,32 +42,32 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
       {...rest}
     >
       {sortEntries(entries).map(([author, articles]) => (
-        <s.li key={author}>
+        <th.li key={author}>
           {author}
-          <s.ul>
+          <th.ul>
             {sortArticles(articles).map((article, i) => {
               if (typeof article === "string") {
                 return (
-                  <s.li key={i} sx={{ my: 2 }}>
-                    <s.a href={article}>
+                  <th.li key={i} sx={{ my: 2 }}>
+                    <th.a href={article}>
                       {article.replace(/^https:\/\/|\/$/g, "")}
-                    </s.a>
-                  </s.li>
+                    </th.a>
+                  </th.li>
                 );
               }
               const [text, link, commentary] = article;
               return (
-                <s.li
+                <th.li
                   key={i}
                   sx={{
                     my: 2,
                     p: { fontSize: fontSize.small },
                   }}
                 >
-                  <s.a href={link}>{text}</s.a>
+                  <th.a href={link}>{text}</th.a>
                   {commentary &&
                     (typeof commentary === "string" ? (
-                      <s.p>{dedent(commentary)}</s.p>
+                      <th.p>{dedent(commentary)}</th.p>
                     ) : (
                       <div
                         sx={{
@@ -78,12 +78,12 @@ export const ReadingList = ({ list, ...rest }: ReadingListProps) => {
                         <MDXProvider>{jsx(commentary)}</MDXProvider>
                       </div>
                     ))}
-                </s.li>
+                </th.li>
               );
             })}
-          </s.ul>
-        </s.li>
+          </th.ul>
+        </th.li>
       ))}
-    </s.ul>
+    </th.ul>
   );
 };

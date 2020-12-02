@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import React, { Fragment } from "react";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { Footer } from "../features/application-ui/Footer";
 import { Header } from "../features/application-ui/Header";
@@ -63,7 +63,7 @@ export function TalkNoteLayout({
       </main>
       {history && (
         <Fragment>
-          <s.hr sx={{ mt: 5 }} />
+          <th.hr sx={{ mt: 5 }} />
           <PostHistory history={history} />
         </Fragment>
       )}

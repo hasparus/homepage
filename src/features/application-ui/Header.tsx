@@ -12,8 +12,8 @@ import {
 } from "react";
 import {
   jsx,
-  Styled as s,
   Theme,
+  Themed as th,
   ThemeUICSSObject,
   useColorMode,
 } from "theme-ui";
@@ -32,16 +32,16 @@ const headerLinkStyle: ThemeUICSSObject = {
 };
 
 type HeaderStyledLinkProps<As extends ElementType> = { as?: As } & Omit<
-  ComponentPropsWithoutRef<typeof s.a> & ComponentPropsWithoutRef<As>,
+  ComponentPropsWithoutRef<typeof th.a> & ComponentPropsWithoutRef<As>,
   "as"
 >;
 const HeaderLink = <As extends ElementType = "a">(
   props: HeaderStyledLinkProps<As>
 ) => (
-  <s.a
+  <th.a
     sx={headerLinkStyle}
     {...(props as Omit<
-      ComponentPropsWithoutRef<typeof s.a>,
+      ComponentPropsWithoutRef<typeof th.a>,
       "sx" | "css" | "key"
     >)}
   />

@@ -3,7 +3,7 @@
 import { alpha } from "@theme-ui/color";
 import { graphql, Link } from "gatsby";
 import React, { isValidElement } from "react";
-import { jsx, Styled as s, ThemeUIStyleObject } from "theme-ui";
+import { jsx, Themed as th, ThemeUIStyleObject } from "theme-ui";
 
 import { Footer, Header, Root } from "../features/application-ui";
 // import { PostHistory } from "../components/PostHistory";
@@ -64,8 +64,8 @@ const ReferenceLink = ({
         },
       }}
     >
-      <s.p>{title}</s.p>
-      <s.p
+      <th.p>{title}</th.p>
+      <th.p
         dangerouslySetInnerHTML={{ __html: paragraphHtml }}
         sx={{
           color: "text092",
@@ -145,10 +145,10 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
             <ReferencesSection>
               {/* same styles as table-of-contents :: todo: make it a variant? */}
               <header>
-                <s.h3 id="referred-in" sx={sectionHeadingStyle}>
+                <th.h3 id="referred-in" sx={sectionHeadingStyle}>
                   Referred {inboundReferences.length} time
                   {inboundReferences.length === 1 ? "" : "s"} in
-                </s.h3>
+                </th.h3>
               </header>
               {inboundReferences.map(({ node: { fields }, paragraph }) => {
                 return (
@@ -165,9 +165,9 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
           {outboundReferences.length === 0 ? null : (
             <ReferencesSection>
               <header>
-                <s.h3 id="outbound-references" sx={sectionHeadingStyle}>
+                <th.h3 id="outbound-references" sx={sectionHeadingStyle}>
                   Outbound references
-                </s.h3>
+                </th.h3>
               </header>
               {outboundReferences.map(({ fields, excerpt }) => {
                 return (

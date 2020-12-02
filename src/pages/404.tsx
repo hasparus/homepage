@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { Link } from "gatsby";
 import { useEffect, useLayoutEffect, useRef } from "react";
-import { jsx, Styled as s, useThemeUI } from "theme-ui";
+import { jsx, Themed as th, useThemeUI } from "theme-ui";
 import { Ellipse, Group, Illustration, Shape } from "zdog";
 
 import { Seo } from "../features/seo/Seo";
@@ -129,22 +129,22 @@ const FourOhFourPage = () => {
             height: "auto",
           }}
         />
-        <s.p>
+        <th.p>
           Oops! I couldn't find this page.
           <br />
-          <s.a
+          <th.a
             href={`https://twitter.com/messages/compose?recipient_id=754073418446671873&text=${encodeURIComponent(
               `Hey, I'm on 404 page on your website on ${href}. This is probably a screw-up.`
             )}`}
           >
             DM me
-          </s.a>{" "}
+          </th.a>{" "}
           if you think a page should be there. Otherwise, go back to{" "}
           <Link to="/" sx={styles.a}>
             home
           </Link>
           .
-        </s.p>
+        </th.p>
       </main>
     </PageLayout>
   );

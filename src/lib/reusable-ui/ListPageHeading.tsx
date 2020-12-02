@@ -1,12 +1,12 @@
 /** @jsx jsx */
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 interface ListPageHeadingProps {
   children: React.ReactNode;
 }
 export function ListPageHeading({ children }: ListPageHeadingProps) {
   return (
-    <s.h1
+    <th.h1
       sx={{
         mb: [-2, 2],
         mt: [0, 5],
@@ -30,7 +30,7 @@ export function ListPageHeading({ children }: ListPageHeadingProps) {
       }}
     >
       {children}
-    </s.h1>
+    </th.h1>
   );
 }
 

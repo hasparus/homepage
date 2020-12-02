@@ -3,7 +3,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { collect, filter, keys } from "fp-ts/lib/Record";
 import { Link } from "gatsby";
 import { last } from "lodash";
-import { jsx, Styled as s, useColorMode } from "theme-ui";
+import { jsx, Themed as th, useColorMode } from "theme-ui";
 
 import { PostSocialPreview } from "../features/social-cards/PostSocialPreview";
 import { theme } from "../gatsby-plugin-theme-ui";
@@ -46,7 +46,7 @@ type ThemeHeadingProps = {
   as: "h1" | "h2" | "h3" | "h4" | "h5";
 };
 const ThemeHeading: React.FC<ThemeHeadingProps> = ({ as }) => {
-  const H = s[as];
+  const H = th[as];
 
   const fontSize = theme.styles[as].fontSize as number | number[];
   const fontSizeIndex =
@@ -91,7 +91,7 @@ const ThemePage = () => {
 
   return (
     <PageLayout>
-      <s.h1>Theme</s.h1>
+      <th.h1>Theme</th.h1>
       <div>
         {keys(colorModes).map((colorMode) => (
           <Button
@@ -109,7 +109,7 @@ const ThemePage = () => {
         ))}
       </div>
       <section>
-        <s.h2>Colors</s.h2>
+        <th.h2>Colors</th.h2>
         <ColorSquareList>
           {pipe(
             currentColorMode,
@@ -125,7 +125,7 @@ const ThemePage = () => {
         </ColorSquareList>
       </section>
       <section>
-        <s.h2>Typography</s.h2>
+        <th.h2>Typography</th.h2>
         <div>
           <ThemeHeading as="h1" />
         </div>
@@ -143,7 +143,7 @@ const ThemePage = () => {
         </div>
       </section>
       <section>
-        <s.h2>Links</s.h2>
+        <th.h2>Links</th.h2>
         <ul>
           <li>
             <Link sx={{ color: "primary" }} to="/syntax-test.hidden">
@@ -153,7 +153,7 @@ const ThemePage = () => {
         </ul>
       </section>
       <section>
-        <s.h2>Blogpost Social Preview</s.h2>
+        <th.h2>Blogpost Social Preview</th.h2>
         <PostSocialPreview
           sx={{
             border: "1px solid currentColor",

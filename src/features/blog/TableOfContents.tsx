@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { MdxPostPageContext } from "../../../gatsby-node";
 import { pageCtx } from "../pageCtx";
@@ -32,7 +32,7 @@ export function TableOfContents() {
         pt: 2,
       }}
     >
-      <s.h3
+      <th.h3
         id="table-of-contents"
         sx={{
           fontSize: 1,
@@ -42,23 +42,23 @@ export function TableOfContents() {
         }}
       >
         Table of Contents
-      </s.h3>
-      <s.ul sx={{ m: 0, mt: 1 }}>
+      </th.h3>
+      <th.ul sx={{ m: 0, mt: 1 }}>
         {tableOfContents.items.map(({ url, title, items }, i) => (
-          <s.li key={i}>
-            {url && <s.a href={url}>{title!}</s.a>}
+          <th.li key={i}>
+            {url && <th.a href={url}>{title!}</th.a>}
             {items && items.length !== 0 && (
               <ul>
                 {items.map((x, j) => (
                   <li key={j}>
-                    {x.url && <s.a href={x.url}>{x.title!}</s.a>}
+                    {x.url && <th.a href={x.url}>{x.title!}</th.a>}
                   </li>
                 ))}
               </ul>
             )}
-          </s.li>
+          </th.li>
         ))}
-      </s.ul>
+      </th.ul>
     </section>
   );
 }

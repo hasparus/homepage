@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { graphql, useStaticQuery } from "gatsby";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { PostDetails } from "../features/blog/PostDetails";
 import { PostsListItem } from "../features/blog/PostsListItem";

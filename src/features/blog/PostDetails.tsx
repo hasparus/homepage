@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { transparentize } from "@theme-ui/color";
 import { ComponentProps } from "react";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { MdxFrontmatter, Venue } from "../../../__generated__/global";
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
@@ -23,7 +23,7 @@ const VenueLink = ({ venue }: VenueLinkProps) => {
   return (
     <span sx={{ ":not(:last-child)::after": { content: "', '" } }}>
       {venue.link ? (
-        <s.a
+        <th.a
           sx={{
             color: "unset",
             textDecoration: "underline",
@@ -32,7 +32,7 @@ const VenueLink = ({ venue }: VenueLinkProps) => {
           href={venue.link || undefined}
         >
           {venue.name}
-        </s.a>
+        </th.a>
       ) : (
         venue.name
       )}

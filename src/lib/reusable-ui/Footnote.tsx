@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { alpha } from "@theme-ui/color";
 import { ComponentProps, Fragment, ReactNode } from "react";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { fontSize } from "../theme-ui-preset-hasparus-homepage/tokens";
 import { isInViewport } from "../util/isInViewport";
@@ -41,7 +41,7 @@ export function Footnote({ number, children, ...rest }: FootnoteProps) {
       }}
       {...rest}
     >
-      <s.a
+      <th.a
         href={`#${target}`}
         onClick={() => {
           setTimeout(() => {
@@ -57,7 +57,7 @@ export function Footnote({ number, children, ...rest }: FootnoteProps) {
         }}
       >
         <Brackets>{number}</Brackets>
-      </s.a>{" "}
+      </th.a>{" "}
       {children}
     </div>
   );
@@ -72,7 +72,7 @@ Footnote.A = ({ number, ...rest }: FootnoteAnchorProps) => {
   const target = `${FOOTNOTE_ID_PREFIX}${number}`;
   return (
     <sup {...rest}>
-      <s.a
+      <th.a
         id={`${REVERSE}${FOOTNOTE_ID_PREFIX}${number}`}
         href={`#${target}`}
         onClick={() => {
@@ -94,7 +94,7 @@ Footnote.A = ({ number, ...rest }: FootnoteAnchorProps) => {
         }}
       >
         <Brackets>{number}</Brackets>
-      </s.a>
+      </th.a>
     </sup>
   );
 };

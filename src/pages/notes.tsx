@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
 import { graphql, Link, useStaticQuery } from "gatsby";
-import { jsx, Styled as s } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
 import { GraphOverview } from "../features/brain-notes/gatsby-theme-notes-brain/components";
 import { Seo } from "../features/seo/Seo";
@@ -53,13 +53,13 @@ const NotesIndexPage = () => {
     <PageLayout>
       <Seo title="notes" />
       <main sx={{ mt: 6 }}>
-        <s.p>
+        <th.p>
           These are my notes — short pieces of markdown focused on one
           topic, connected together with bidirectional links. They're all
           work-in-progress and unfinished, and that's okay. You can get a
           sneak peek of my thoughts 😉
-        </s.p>
-        <s.p>Enjoy the adventure!</s.p>
+        </th.p>
+        <th.p>Enjoy the adventure!</th.p>
         <GraphOverview />
         <ul>
           {allFile.nodes.map((node, i) => {

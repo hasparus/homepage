@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import {
   css,
   jsx,
-  Styled as s,
+  Themed as th,
   ThemeUIStyleObject,
   useThemeUI,
 } from "theme-ui";
@@ -63,7 +63,7 @@ const globalStyles: Interpolation<{}> = {
 };
 
 export interface RootProps
-  extends Omit<React.ComponentProps<typeof s.root>, "ref"> {}
+  extends Omit<React.ComponentProps<typeof th.root>, "ref"> {}
 
 export const Root = (props: RootProps) => {
   const { theme } = useThemeUI();
@@ -84,7 +84,7 @@ export const Root = (props: RootProps) => {
       </Helmet>
       <Global styles={global} />
       <ColorModeSpecificStyleTweaks />
-      <s.root
+      <th.root
         {...props}
         sx={{
           maxWidth: "738px", // ~63ch with Fira Sans 21px
