@@ -1,8 +1,6 @@
 import { alpha } from "@theme-ui/color";
 import { Theme, ThemeUICSSObject } from "theme-ui";
 
-import { randomElement } from "../util";
-import { sketchyBorders } from "./sketchyBorders";
 import { makeStyles } from "./theme-ui-utils";
 import { fontSize } from "./typography";
 
@@ -143,9 +141,9 @@ export const styles = makeStyles({
       bg: "inherit !important",
       padding: "0 !important",
     },
-    mx: [-3, -3, -5],
+    mx: [-3, -3, -4],
+    p: [2, 3, 4],
     "--scrollbar-color": "255, 255, 255",
-    "@media (min-width: 745px)": randomElement(sketchyBorders),
   }),
   table: {
     width: "100%",
@@ -188,7 +186,7 @@ export const styles = makeStyles({
   },
   hr: {
     border: "none",
-    borderBottom: "2px dashed",
-    opacity: 0.4,
+    borderBottom: "6px dashed",
+    opacity: 0.125,
   },
 });
