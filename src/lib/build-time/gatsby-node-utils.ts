@@ -1,20 +1,18 @@
 import { Node as GatsbyNodeNode } from "gatsby";
 
-import * as g from "../../../__generated__/global";
-
 export declare namespace buildTime {
   type OverwrittenFields = "parent" | "children" | "internal" | "id";
   export interface File
-    extends Omit<g.File, OverwrittenFields>,
+    extends Omit<GatsbyTypes.File, OverwrittenFields>,
       GatsbyNodeNode {}
   export interface Mdx
-    extends Omit<g.Mdx, OverwrittenFields>,
+    extends Omit<GatsbyTypes.Mdx, OverwrittenFields>,
       GatsbyNodeNode {}
   export interface Node
-    extends Omit<g.Node, OverwrittenFields>,
+    extends Omit<GatsbyTypes.Node, OverwrittenFields>,
       GatsbyNodeNode {}
   export interface SitePage
-    extends Omit<g.SitePage, OverwrittenFields>,
+    extends Omit<GatsbyTypes.SitePage, OverwrittenFields>,
       GatsbyNodeNode {}
 }
 

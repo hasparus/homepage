@@ -2,7 +2,6 @@ import "./src/__generated__/gatsby-types";
 
 import { readdirSync } from "fs-extra";
 
-import { Mdx } from "./__generated__/global";
 import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
 import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
 
@@ -41,7 +40,7 @@ const utilityPlugins = [
   "gatsby-plugin-sharp",
   {
     resolve: "gatsby-plugin-typescript",
-    options: {  
+    options: {
       allowNamespaces: true,
     },
   },
@@ -137,7 +136,7 @@ const utilityPlugins = [
               }
             `,
           serialize: ({ query: { site, allMdx } }: any) => {
-            return allMdx.nodes.map((node: Mdx) => ({
+            return allMdx.nodes.map((node: GatsbyTypes.Mdx) => ({
               ...node.frontmatter,
               description: node.frontmatter!.spoiler,
               url: site.siteMetadata.siteUrl + node.fields!.route,

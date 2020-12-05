@@ -3,7 +3,6 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { DeepNonNullable } from "utility-types";
 
-import { ImageSharpOriginal } from "../../../__generated__/global";
 import { SeoData } from "../../lib/reusable-ui/__generated__/SeoData";
 
 const query = graphql`
@@ -28,7 +27,7 @@ type SeoProps = {
   title?: string;
   description?: string;
   titleTemplate?: string;
-  image?: string | ImageSharpOriginal;
+  image?: string | GatsbyTypes.ImageSharpOriginal;
   pathname?: string;
   article?: boolean;
 };

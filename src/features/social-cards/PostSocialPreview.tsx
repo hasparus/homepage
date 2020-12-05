@@ -9,7 +9,6 @@ import { extent, max } from "d3-array";
 import { ComponentProps } from "react";
 import { jsx, Themed as th } from "theme-ui";
 
-import { Mdx } from "../../../__generated__/global";
 import { assert } from "../../lib/util/assert";
 import { PostDetails } from "../blog/PostDetails";
 
@@ -68,7 +67,7 @@ const Lines = (props: React.ComponentProps<"svg">) => {
 };
 
 interface PostSocialImageProps extends ComponentProps<"article"> {
-  post: Pick<Mdx, "fields" | "frontmatter">;
+  post: Pick<GatsbyTypes.Mdx, "fields" | "frontmatter">;
 }
 export function PostSocialPreview({ post, ...rest }: PostSocialImageProps) {
   assert(post.fields);
@@ -106,7 +105,7 @@ export function PostSocialPreview({ post, ...rest }: PostSocialImageProps) {
         {title}
       </th.h1>
       <PostDetails
-        date={date}
+        date={date!}
         readingTime={readingTime}
         sx={{
           fontSize: [6, 6, 6],
