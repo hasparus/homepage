@@ -3,6 +3,7 @@ import "./src/__generated__/gatsby-types";
 import { readdirSync } from "fs-extra";
 import type { PluginOptions as TypegenPluginOptions } from "gatsby-plugin-typegen/types";
 
+import { Mdx } from "./__generated__/global";
 import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
 import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
 
@@ -65,6 +66,8 @@ const utilityPlugins = [
       ]
     : []),
   // todo: consider if I can slowly remove this
+  // okay, I think I can't.
+  // Building a codegen plugin for TypeScript must be immensely hard.
   {
     resolve: "gatsby-plugin-codegen",
     options: {
@@ -139,7 +142,7 @@ const utilityPlugins = [
               }
             `,
           serialize: ({ query: { site, allMdx } }: any) => {
-            return allMdx.nodes.map((node: GatsbyTypes.Mdx) => ({
+            return allMdx.nodes.map((node: Mdx) => ({
               ...node.frontmatter,
               description: node.frontmatter!.spoiler,
               url: site.siteMetadata.siteUrl + node.fields!.route,

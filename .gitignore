@@ -71,4 +71,5 @@ yarn-error.log
 # Generated on build
 gql-schema.json
 
-__generated__
+# generating it on Netlify takes too long
+# __generated__
