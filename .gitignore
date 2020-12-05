@@ -71,3 +71,4 @@ yarn-error.log
 # Generated on build
 gql-schema.json
 
+__generated__
