@@ -58,7 +58,8 @@ const IndexPage = () => {
         <section>
           <th.h4>Personal Favorites</th.h4>
           <th.ul>
-            {favorites.nodes.map((post) => {
+            {/* jesus gatsby codegen is terrible */}
+            {favorites.nodes.map((post: any) => {
               const { fields, frontmatter } = post.childMdx!;
 
               return (
