@@ -6,12 +6,12 @@ import {
 } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 import { resolve } from "path";
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import puppeteer, { Browser } from "puppeteer";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
 
+import type * as g from "./__generated__/global";
 import { createBlogpostHistoryNodeField } from "./src/features/post-history/createBlogpostHistoryNodeField";
 import { createSocialImageNodeField } from "./src/features/social-cards/createSocialImageNodeField";
 import * as socialSharing from "./src/features/social-sharing/gatsby-node";
@@ -20,11 +20,11 @@ import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
 import { slugifyTitle } from "./src/lib/build-time/slugifyTitle";
 import { assert } from "./src/lib/util";
 
-export interface MdxPostPageContext extends GatsbyTypes.MdxFields {
-  frontmatter: GatsbyTypes.Mdx["frontmatter"];
+export interface MdxPostPageContext extends g.MdxFields {
+  frontmatter: g.Mdx["frontmatter"];
   readingTime: number;
-  socialLinks: GatsbyTypes.Mdx["socialLinks"];
-  tableOfContents: GatsbyTypes.Mdx["tableOfContents"];
+  socialLinks: g.Mdx["socialLinks"];
+  tableOfContents: g.Mdx["tableOfContents"];
   parentId?: string | null;
 }
 
@@ -40,7 +40,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
 
   // console.log("onCreateNode", node.id, node.parent, node.internal.type);
 
-  // It makes sense, but I don't need it yet. Moderately useful for debugginGatsbyTypes.
+  // It makes sense, but I don't need it yet. Moderately useful for debugging.
   // // eslint-disable-next-line sonarjs/no-collapsible-if
   // if (node.internal.type === "SitePage") {
   //   const sitePage = node as generated.SitePage;
@@ -88,7 +88,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
     createNodeField({
       node,
       name: "readingTime",
-      value: Math.ceil(readingTime(node.rawBody).minutes),
+      value: Math.ceil(readingTime(node.rawBody as string).minutes),
     });
 
     const mdxArgs = { ...args, node };
@@ -123,7 +123,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
 
   return new Promise((resolve, reject) => {
     resolve(
-      graphql<{ allMdx: GatsbyTypes.MdxConnection }>(/* graphql */ `
+      graphql<{ allMdx: g.MdxConnection }>(/* graphql */ `
         ${fragments}
         query CreatePagesQuery {
           allMdx {
@@ -194,7 +194,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
             return;
           }
 
-          const { sourceInstanceName } = node.parent as GatsbyTypes.File;
+          const { sourceInstanceName } = node.parent as g.File;
 
           if (!["posts", "speaking"].includes(sourceInstanceName)) {
             return;

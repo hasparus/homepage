@@ -1,5 +1,3 @@
-import "./src/__generated__/gatsby-types";
-
 import { readdirSync } from "fs-extra";
 import type { PluginOptions as TypegenPluginOptions } from "gatsby-plugin-typegen/types";
 
@@ -48,26 +46,8 @@ const utilityPlugins = [
       allowNamespaces: true,
     },
   },
-  // use this
-  ...(process.env.NODE_ENV === "production"
-    ? [
-        {
-          resolve: "gatsby-plugin-typegen",
-          options: {
-            emitSchema: {
-              "src/__generated__/gatsby-introspection.json": true,
-              "src/__generated__/gatsby-schema.graphql": true,
-            },
-            emitPluginDocuments: {
-              "src/__generated__/gatsby-plugin-documents.graphql": true,
-            },
-          } as TypegenPluginOptions,
-        },
-      ]
-    : []),
-  // todo: consider if I can slowly remove this
-  // okay, I think I can't.
   // Building a codegen plugin for TypeScript must be immensely hard.
+  // I'm gonna try https://www.gatsbyjs.com/plugins/gatsby-plugin-graphql-codegen/
   {
     resolve: "gatsby-plugin-codegen",
     options: {

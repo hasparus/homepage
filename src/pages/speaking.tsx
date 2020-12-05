@@ -9,9 +9,7 @@ import { PageLayout } from "../layouts/PageLayout";
 import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 
 const SpeakingPage = () => {
-  const { allMdx } = useStaticQuery<
-    GatsbyTypes.GetSpeakingRaportsQuery
-  >(graphql`
+  const { allMdx } = useStaticQuery</* todo */ any>(graphql`
     query GetSpeakingRaports {
       allMdx(
         filter: {

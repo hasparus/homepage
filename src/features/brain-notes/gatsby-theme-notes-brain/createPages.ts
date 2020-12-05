@@ -1,13 +1,27 @@
 import { GatsbyNode } from "gatsby";
 import { resolve } from "path";
 
+import { SocialLinks } from "../../../../__generated__/global";
 import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
+import type { TweetDiscussEditLinksDataOnMdx } from "../../social-sharing/TweetDiscussEditLinks";
 import { parseOptions } from "./parseOptions";
 import { shouldHandleFile } from "./shouldHandleFile";
 
+// todo: codegen me somehow?
+type GatsbyGardenReferencesOnMdxFragment = {
+  inboundReferences: {
+    fields: { route: string; title: string };
+    excerpt: string;
+  }[];
+  outboundReferences: {
+    fields: { route: string; title: string };
+    pararaph: string;
+  };
+};
+
 export interface NoteFieldsOnMdx
-  extends GatsbyTypes.TweetDiscussEditLinksDataOnMdxFragment,
-    GatsbyTypes.GatsbyGardenReferencesOnMdxFragment {
+  extends TweetDiscussEditLinksDataOnMdx,
+    GatsbyGardenReferencesOnMdxFragment {
   fields: {
     title: string;
     route: string;
@@ -15,6 +29,7 @@ export interface NoteFieldsOnMdx
   frontmatter: {
     isHidden: boolean;
   };
+  socialLinks: SocialLinks;
 }
 
 export interface NotePagePathContext

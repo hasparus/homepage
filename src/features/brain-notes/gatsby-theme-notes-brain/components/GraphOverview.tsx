@@ -86,12 +86,15 @@ export interface GraphOverviewProps {
   id?: string;
 }
 
+// TODO
+type GraphOverviewNotesQuery = any;
+
 // TODO: Get rid of background images and use unicode arrows
 // https://en.wikipedia.org/wiki/Arrows_(Unicode_block)
 export function GraphOverview(props: GraphOverviewProps) {
   const { colors } = useThemeUI().theme as ExactTheme;
 
-  const data = useStaticQuery<GatsbyTypes.GraphOverviewNotesQuery>(graphql`
+  const data = useStaticQuery<GraphOverviewNotesQuery>(graphql`
     query GraphOverviewNotes {
       allFile(filter: { sourceInstanceName: { eq: "notes" } }) {
         nodes {

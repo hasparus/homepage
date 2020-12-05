@@ -2,6 +2,10 @@
 import preval from "preval.macro";
 import { ComponentPropsWithoutRef } from "react";
 import { jsx, Themed as th } from "theme-ui";
+import {
+  BlogpostHistory,
+  BlogpostHistoryEntry,
+} from "../../../__generated__/global";
 
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 import { formatDate } from "../../lib/util/formatDate";
@@ -65,7 +69,7 @@ const PostHistoryList = (props: ComponentPropsWithoutRef<"ol">) => (
 );
 
 interface PostHistoryListItemProps {
-  entry: GatsbyTypes.BlogpostHistoryEntry;
+  entry: BlogpostHistoryEntry;
 }
 const PostHistoryListItem = ({
   entry: { abbreviatedCommit, authorDate, subject },
@@ -120,7 +124,7 @@ const editionDates = (...dates: DateRange) => {
 const SHOWN_HISTORY_LENGTH = 15;
 
 interface PostHistoryProps {
-  history: GatsbyTypes.BlogpostHistory;
+  history: BlogpostHistory;
 }
 export function PostHistory({
   history: { entries, url },

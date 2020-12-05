@@ -2,6 +2,7 @@ import { CreateSchemaCustomizationArgs, PluginOptions } from "gatsby";
 import * as path from "path";
 import slash from "slash";
 
+import { SiteSiteMetadata } from "../../../__generated__/global";
 import packageJson from "../../../package.json";
 import { buildTime, isMdx } from "../../lib/build-time/gatsby-node-utils";
 import { assert } from "../../lib/util";
@@ -25,7 +26,7 @@ export const createSchemaCustomization = async (
   `);
 
   const { siteUrl } = store.getState().config
-    .siteMetadata as GatsbyTypes.SiteSiteMetadata;
+    .siteMetadata as SiteSiteMetadata;
 
   createFieldExtension(
     {

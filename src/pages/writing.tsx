@@ -9,9 +9,7 @@ import { PageLayout } from "../layouts/PageLayout";
 import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 
 const WritingPage = () => {
-  const { allMdx } = useStaticQuery<
-    GatsbyTypes.GetBlogPostDataQuery
-  >(graphql`
+  const { allMdx } = useStaticQuery</* todo */ any>(graphql`
     query GetBlogPostData {
       allMdx(
         filter: {

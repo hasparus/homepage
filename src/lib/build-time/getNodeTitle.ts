@@ -1,13 +1,15 @@
 import * as path from "path";
 
+import type * as g from "../../../__generated__/global";
 import { findTopLevelHeading } from "./markdown-utils";
 
 interface Node {
-  absolutePath?: GatsbyTypes.File["absolutePath"];
-  frontmatter?: Partial<
-    Pick<Exclude<GatsbyTypes.Mdx["frontmatter"], undefined>, "title">
-  >;
-  fileAbsolutePath?: GatsbyTypes.Mdx["fileAbsolutePath"];
+  absolutePath?: g.File["absolutePath"];
+  frontmatter?: Partial<Pick<
+    Exclude<g.Mdx["frontmatter"], undefined | null>,
+    "title"
+  > | null>;
+  fileAbsolutePath?: g.Mdx["fileAbsolutePath"];
 }
 
 /**

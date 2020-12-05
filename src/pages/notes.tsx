@@ -7,12 +7,9 @@ import { GraphOverview } from "../features/brain-notes/gatsby-theme-notes-brain/
 import { Seo } from "../features/seo/Seo";
 import { theme } from "../gatsby-plugin-theme-ui";
 import { PageLayout } from "../layouts/PageLayout";
-import { NotesIndexQuery } from "./__generated__/NotesIndexQuery";
 
 const NotesIndexPage = () => {
-  const { allFile } = useStaticQuery<
-    GatsbyTypes.NotesIndexQueryQuery
-  >(graphql`
+  const { allFile } = useStaticQuery<any /* TODO */>(graphql`
     query NotesIndexQuery {
       allFile(
         filter: {

@@ -3,6 +3,7 @@ import { transparentize } from "@theme-ui/color";
 import { ComponentProps } from "react";
 import { jsx, Themed as th } from "theme-ui";
 
+import type * as g from "../../../__generated__/global";
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 import { formatDate } from "../../lib/util/formatDate";
 
@@ -16,7 +17,7 @@ const readingTimeEmoji = (minutes: number) => {
 };
 
 interface VenueLinkProps {
-  venue: GatsbyTypes.Venue;
+  venue: g.Venue;
 }
 const VenueLink = ({ venue }: VenueLinkProps) => {
   return (
@@ -42,7 +43,7 @@ const VenueLink = ({ venue }: VenueLinkProps) => {
 const Venues = ({
   venues,
 }: {
-  venues: readonly GatsbyTypes.Venue[] | null | undefined;
+  venues: readonly g.Venue[] | null | undefined;
 }) => {
   return venues ? (
     <span>
@@ -57,7 +58,7 @@ const Venues = ({
 interface PostDetailsProps extends ComponentProps<"small"> {
   date: Date | string;
   readingTime?: number;
-  venues?: GatsbyTypes.MdxFrontmatter["venues"];
+  venues?: g.MdxFrontmatter["venues"];
 }
 
 export const PostDetails = ({
