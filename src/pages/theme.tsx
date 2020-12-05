@@ -1,19 +1,23 @@
 /** @jsx jsx */
-import { filter, collect, keys } from "fp-ts/lib/Record";
-import { last } from "lodash";
-import { Link } from "gatsby";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Styled as s, jsx, useColorMode } from "theme-ui";
+import { collect, filter, keys } from "fp-ts/lib/Record";
+import { Link } from "gatsby";
+import { last } from "lodash";
+import { jsx, Themed as th, useColorMode } from "theme-ui";
 
+import { PostSocialPreview } from "../features/social-cards/PostSocialPreview";
+import { theme } from "../gatsby-plugin-theme-ui";
+import { PageLayout } from "../layouts/PageLayout";
+import { Button } from "../lib/reusable-ui";
 import {
-  theme,
   ColorModes,
   colorModes,
-  Button,
-  PostSocialPreview,
-} from "../components";
-import { contrastingTextColor, copyToClipboard, isString } from "../lib";
-import { PageLayout } from "../layouts/PageLayout";
+} from "../lib/theme-ui-preset-hasparus-homepage/colorModes";
+import {
+  contrastingTextColor,
+  copyToClipboard,
+  isString,
+} from "../lib/util";
 
 const ColorSquareList = (props: React.ComponentProps<"ul">) => (
   <ul
@@ -42,7 +46,7 @@ type ThemeHeadingProps = {
   as: "h1" | "h2" | "h3" | "h4" | "h5";
 };
 const ThemeHeading: React.FC<ThemeHeadingProps> = ({ as }) => {
-  const H = s[as];
+  const H = th[as];
 
   const fontSize = theme.styles[as].fontSize as number | number[];
   const fontSizeIndex =
@@ -87,23 +91,25 @@ const ThemePage = () => {
 
   return (
     <PageLayout>
-      <s.h1>Theme</s.h1>
-      {keys(colorModes).map(colorMode => (
-        <Button
-          key={colorMode}
-          sx={{
-            bg: "highlight",
-            color: contrastingTextColor(currentColorMode.highlight),
-            p: 1,
-            mr: 2,
-          }}
-          onClick={() => setColorMode(colorMode)}
-        >
-          {colorMode}
-        </Button>
-      ))}
+      <th.h1>Theme</th.h1>
+      <div>
+        {keys(colorModes).map((colorMode) => (
+          <Button
+            key={colorMode}
+            sx={{
+              bg: "highlight",
+              color: contrastingTextColor(currentColorMode.highlight),
+              p: 1,
+              mr: 2,
+            }}
+            onClick={() => setColorMode(colorMode)}
+          >
+            {colorMode}
+          </Button>
+        ))}
+      </div>
       <section>
-        <s.h2>Colors</s.h2>
+        <th.h2>Colors</th.h2>
         <ColorSquareList>
           {pipe(
             currentColorMode,
@@ -119,15 +125,25 @@ const ThemePage = () => {
         </ColorSquareList>
       </section>
       <section>
-        <s.h2>Typography</s.h2>
-        <ThemeHeading as="h1" />
-        <ThemeHeading as="h2" />
-        <ThemeHeading as="h3" />
-        <ThemeHeading as="h4" />
-        <ThemeHeading as="h5" />
+        <th.h2>Typography</th.h2>
+        <div>
+          <ThemeHeading as="h1" />
+        </div>
+        <div>
+          <ThemeHeading as="h2" />
+        </div>
+        <div>
+          <ThemeHeading as="h3" />
+        </div>
+        <div>
+          <ThemeHeading as="h4" />
+        </div>
+        <div>
+          <ThemeHeading as="h5" />
+        </div>
       </section>
       <section>
-        <s.h2>Links</s.h2>
+        <th.h2>Links</th.h2>
         <ul>
           <li>
             <Link sx={{ color: "primary" }} to="/syntax-test.hidden">
@@ -137,7 +153,7 @@ const ThemePage = () => {
         </ul>
       </section>
       <section>
-        <s.h2>Blogpost Social Preview</s.h2>
+        <th.h2>Blogpost Social Preview</th.h2>
         <PostSocialPreview
           sx={{
             border: "1px solid currentColor",

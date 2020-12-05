@@ -2,11 +2,12 @@
 // needed for inlineMdx macro
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { mdx as jsx } from "@mdx-js/react";
-import { inlineMdx } from "../../src/lib/inlineMdx.macro";
+
+import { inlineMdx } from "../../src/lib/util/inlineMdx.macro";
 
 const _ = jsx;
 
-export namespace ReadingList {
+export declare namespace ReadingList {
   export type Author = string;
   export type LinkText = string & { __brand?: "LinkText" };
   export type Link = string;

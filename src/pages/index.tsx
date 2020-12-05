@@ -1,44 +1,47 @@
 /** @jsx jsx */
-import { graphql, useStaticQuery, Link } from "gatsby";
-import { Styled as s, jsx } from "theme-ui";
+import { graphql, Link, useStaticQuery } from "gatsby";
+import { jsx, Themed as th } from "theme-ui";
 
-import { theme } from "../components";
-import { Seo } from "../components/Seo";
-import { IndexPageQuery } from "./__generated__/IndexPageQuery";
+import { Intro, Outro } from "../features/index-page";
+import { Seo } from "../features/seo/Seo";
+import { theme } from "../gatsby-plugin-theme-ui/index";
 import { PageLayout } from "../layouts/PageLayout";
-import Intro from "../components/Intro";
-import IndexOutro from "../components/IndexOutro";
+import { IndexPageQuery } from "./__generated__/IndexPageQuery";
 
 const IndexPage = () => {
-  const { recent, favorites } = useStaticQuery<IndexPageQuery>(graphql`
-    fragment PostTitleAndRoute on MdxConnection {
+  const { favorites } = useStaticQuery<IndexPageQuery>(graphql`
+    fragment PostTitleAndRoute on FileConnection {
       nodes {
-        frontmatter {
-          title
-        }
-        fields {
-          route
+        childMdx {
+          parent {
+            ... on File {
+              sourceInstanceName
+            }
+          }
+          frontmatter {
+            date
+            title
+          }
+          fields {
+            route
+            title
+          }
         }
       }
     }
 
     query IndexPageQuery {
-      recent: allMdx(
-        sort: { fields: frontmatter___date, order: DESC }
-        limit: 1
-      ) {
-        ...PostTitleAndRoute
-      }
-
-      favorites: allMdx(
+      favorites: allFile(
         filter: {
-          fields: {
-            route: {
-              in: [
-                "/refinement-types"
-                "/deliver"
-                "/you-deserve-more-than-proptypes"
-              ]
+          childMdx: {
+            fields: {
+              route: {
+                in: [
+                  "/refinement-types"
+                  "/notes/advent-of-code-2020/day-1-report-repair"
+                  "/you-deserve-more-than-proptypes"
+                ]
+              }
             }
           }
         }
@@ -48,33 +51,28 @@ const IndexPage = () => {
     }
   `);
 
-  const recentPost = recent.nodes[0];
-
   return (
     <PageLayout>
       <Seo titleTemplate="%s" />
       <main sx={{ mt: 6 }}>
         <Intro />
-        <p>
-          My most recent post is{" "}
-          <Link to={recentPost.fields!.route} sx={theme.styles.a}>
-            "{recentPost.frontmatter!.title}"
-          </Link>
-          .
-        </p>
         <section>
-          <s.h4>Personal Favorites</s.h4>
-          <s.ul>
-            {favorites.nodes.map(post => (
-              <s.li key={post.fields!.route}>
-                <Link to={post.fields!.route} sx={theme.styles.a}>
-                  {post.frontmatter!.title}
-                </Link>
-              </s.li>
-            ))}
-          </s.ul>
+          <th.h4>Personal Favorites</th.h4>
+          <th.ul>
+            {favorites.nodes.map((post) => {
+              const { fields, frontmatter } = post.childMdx!;
+
+              return (
+                <th.li key={fields!.route}>
+                  <Link to={fields!.route} sx={theme.styles.a}>
+                    {frontmatter!.title || fields!.title}
+                  </Link>
+                </th.li>
+              );
+            })}
+          </th.ul>
         </section>
-        <IndexOutro />
+        <Outro />
       </main>
     </PageLayout>
   );

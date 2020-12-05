@@ -1,0 +1,175 @@
+---
+title: My personal space
+spoiler: What is this place?
+date: 2020-01-18T09:58:45.820Z
+history: DatesOnly
+---
+
+⚠ _unfinished post_
+
+This is a README of this website, describing the interesting bits of the
+tech stack, the motivation behind it, and the goals of it.
+
+I encountered swyx's
+[Learn in Public](https://www.swyx.io/writing/learn-in-public/) and realized
+I'm doing something wrong. I was doing a heckload of notes. It was before I
+found out about [Roam](https://roamresearch.com/), so my notes were a
+chaotic mess of random Notion pages, Dropbox Paper docs and sheets I took
+out of the printer to cover with illegible hieroglyphs. One future awaited
+all of them. Forgotten and lost. Thrown away with the rubbish.
+
+"Maybe I can make them helpful for somebody else," I thought. Spellcheck
+them in Grammarly. Write a bunch of MDX files. Publish them with Gatsby.
+
+I started a blog. Turns out, blogging is hard for me. Polishing one piece of
+notes to "blog post quality" took a few days of writing and two weeks of
+minor fixes. I tried hard because I heard a lot about building a personal
+brand. Somebody asked how many impressions I make and where do they come
+from. What? I didn't set up analytics. I don't want to!
+
+I want to publish the good parts of my notes and link to cool stuff I find
+on the internet. I want to have a personal website, like my former
+[lecturers] at the uni. A bit ugly. Practical and fun in a little weird way.
+
+[lecturers]: http://www.ii.uni.wroc.pl/~wzychla/
+
+Take a look at swyx.io. It has a big heading saying "SWYX'S SITE!". The
+about page is empty. These gradient link hovers aren't pretty, but they put
+a big smile on my face. It's awesome.
+
+I'm gonna go this way. I want to stop spending half of my free evenings on
+this website and have fun with it.
+
+Turns out I'm not the only one.
+
+Here are the articles that clarified the idea for me and inspired me in the
+order I read them.
+
+- [Joel Hooks's Digital Garden](https://joelhooks.com/digital-garden)
+- [Tom Critchlow's Building a digital garden](https://tomcritchlow.com/2019/02/17/building-digital-garden/)
+- [Amy Hoy's How the Blog Broke the Web](https://stackingthebricks.com/how-blogs-broke-the-web/)
+- [Joel Hooks' On Writing More](https://joelhooks.com/on-writing-more)
+- [Brendan Schlagels's Canonize: Creating a Personal Canon Template](https://www.brendanschlagel.com/2017/11/05/canonize-creating-personal-canon-template/)
+- [github.com/johno/digital-garden readme.md](https://github.com/johno/digital-garden/blob/afe6e622fac33b33225b27071f627eb9475a6ed3/readme.md)
+
+My goal isn't to reach many and build my brand through a stream of targeted
+blog posts. I want to just enjoy having this garden. This is what gardens
+are about, right? Both pleasant and useful for their owner.
+I'm&nbsp;tweaking it a bit here and there, and writing posts occasionally.
+
+I have encountered a few exciting problems while building it, and I'd love
+to write more about them and the solutions for them that I have implemented.
+I believe this website to be a good example of what is possible in a limited
+time with the sheer power of Gatsby. The two most interesting things I did:
+
+- Rendering social card images with React
+- Collecting post commits to display a history of edits in a blog post
+
+I may turn them into standalone blog posts one day, but let me focus on the
+latter one here.
+
+### A Blog Post Git History
+
+The publishing dates of posts are pretty problematic. I update my posts
+sometimes. Should I change the date then?
+
+Kent C. Dodds asked why doesn't he have dates on his blog posts [said] he
+just keeps all of them up to date. Publish dates would be confusing. I get
+that point, but I kind of want to keep the dates, at least for myself as a
+_created_at_ information.
+
+[said]: https://twitter.com/kentcdodds/status/1205885556091015168
+
+I firmly believe that knowing the road is more valuable than knowing only
+the destination.
+
+Instead of showing fewer dates, I decided to show more. I keep my posts in a
+git repository, so I have a fairly good idea of what and when was changed.
+
+Using [createSchemaCustomization], I added a `history` field to posts
+frontmatter. This is nullable, so not all posts have history displayed and
+for those which do, I'd like to decide whether we show full commits or just
+a number of edits and a time span. You can find the `Verbose` variant in my
+[reading list](/reading) and the `DatesOnly` variant here, right below this
+post.
+
+[createschemacustomization]:
+  https://www.gatsbyjs.org/docs/schema-customization/
+
+<style>{`.vscode-highlight-line .mtk5.mtk5 { color: unset; }`}</style>
+
+```graphql
+type Mdx implements Node {
+  frontmatter: MdxFrontmatter
+}
+
+enum BlogpostHistoryType {
+  Verbose
+  DatesOnly
+}
+
+type MdxFrontmatter @dontInfer {
+  title: String!
+  spoiler: String!
+  date: Date!
+  history: BlogpostHistoryType
+}
+```
+
+Based on a code I copied from a gist, I have formatted the git log in a
+parseable way. ([see the code])
+
+[see the code]:
+  https://github.com/hasparus/homepage/blob/dcb621790da3e062d006d0c21a2c428ac99392fb/scripts/getGitLogJsonForFile.ts
+
+Then, I have added the corresponding property to MDXFields.
+
+```graphql
+type Mdx implements Node {
+  frontmatter: MdxFrontmatter
+  fields: MdxFields
+}
+
+type BlogpostHistoryEntry {
+  abbreviatedCommit: String
+  authorDate: Date!
+  subject: String
+  body: String
+}
+
+type BlogpostHistory {
+  entries: [BlogpostHistoryEntry!]!
+  url: String!
+}
+
+type MdxFields {
+  route: String!
+  history: BlogpostHistory
+}
+```
+
+Connected it all together with about 50 lines of code and a one function
+call in onCreateNode in `gatsby-node-ts.ts`.
+
+```ts
+export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
+  const { node, getNode } = args;
+
+  if (node.internal.type === "Mdx") {
+    const mdxNode = (node as unknown) as generated.Mdx;
+
+    const route = toLower(createFilePath({ node, getNode }));
+
+    createBlogpostHistoryNodeField(args, route);
+  }
+};
+```
+
+You can find the code of the function
+[here](https://github.com/hasparus/homepage/blob/4f4025aaabf8053dde3155c571f80594f9c96799/gatsby-node-ts.ts#L233-L287).
+Adding the [UI] to the post layout was fairly straightforward.
+
+[ui]:
+  https://github.com/hasparus/homepage/blob/7e04cd4775078e8177213ea26a53071364c213d2/src/layouts/PostLayout.tsx#L123-L166
+
+_to be continued_

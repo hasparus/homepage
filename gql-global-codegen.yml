@@ -7,10 +7,11 @@ schema: ./gql-schema.json
 generates:
   ./__generated__/global.d.ts:
     plugins:
-      - "typescript"
+      - typescript
 config:
   scalars:
     DateTime: Date
   immutableTypes: true
   namingConvention: keep
   transformUnderscore: false
+  enumsAsTypes: true

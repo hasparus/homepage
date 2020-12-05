@@ -1,16 +1,18 @@
 /** @jsx jsx */
 import { graphql, useStaticQuery } from "gatsby";
-import { Styled as s, jsx } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
-import { SpeakingRaportsQuery } from "./__generated__/SpeakingRaportsQuery";
-import { PostDetails } from "../components/PostDetails";
-import { Seo } from "../components/Seo";
-import { PostsListItem } from "../components/PostsListItem";
+import { PostDetails } from "../features/blog/PostDetails";
+import { PostsListItem } from "../features/blog/PostsListItem";
+import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
+import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 
 const SpeakingPage = () => {
-  const { allMdx } = useStaticQuery<SpeakingRaportsQuery>(graphql`
-    query SpeakingRaportsQuery {
+  const { allMdx } = useStaticQuery<
+    GatsbyTypes.GetSpeakingRaportsQuery
+  >(graphql`
+    query GetSpeakingRaports {
       allMdx(
         filter: {
           fields: { isHidden: { ne: true }, route: { glob: "/speaking/*" } }
@@ -38,8 +40,7 @@ const SpeakingPage = () => {
   return (
     <PageLayout>
       <Seo title="speaking" />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Speaking</s.h1>
-      {/* TODO: A paragraph of description? */}
+      <ListPageHeading>Speaking</ListPageHeading>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;
@@ -47,9 +48,9 @@ const SpeakingPage = () => {
 
           return (
             <PostsListItem key={i}>
-              <PostsListItem.Header>
-                <PostsListItem.Heading title={title!} fields={fields!} />
-                <PostDetails date={date} venues={venues} />
+              <PostsListItem.Header linkTo={fields!.route}>
+                <PostsListItem.Heading title={title!} />
+                <PostDetails date={date!} venues={venues} />
               </PostsListItem.Header>
               <PostsListItem.Spoiler>{spoiler}</PostsListItem.Spoiler>
             </PostsListItem>

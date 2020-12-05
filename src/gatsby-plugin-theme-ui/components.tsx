@@ -1,17 +1,19 @@
 /** @jsx jsx */
-import { jsx, Box } from "theme-ui";
-import { ComponentProps, ComponentPropsWithoutRef } from "react";
 import { Link } from "gatsby";
+import { ComponentProps, ComponentPropsWithoutRef } from "react";
+import { Box, jsx } from "theme-ui";
 
-import { fontSize, theme } from "../gatsby-plugin-theme-ui";
+import { TableOfContents } from "../features/blog/TableOfContents";
 import {
-  EpistemicNote,
-  CodesandboxIframe,
-  ReadingList,
   BoxedText,
   Button,
-  TableOfContents,
-} from "../components";
+  CodesandboxIframe,
+  EpistemicNote,
+  Footnote,
+  ReadingList,
+} from "../lib/reusable-ui";
+import { theme } from "./index";
+import { fontSize } from "./tokens";
 
 // eslint-disable-next-line import/no-default-export
 export default {
@@ -22,11 +24,16 @@ export default {
   Box,
   Button,
   TableOfContents,
+  Footnote,
+  FootnoteA: Footnote.A,
   small: (props: ComponentProps<"small">) => (
     <small sx={{ fontSize: fontSize.small }} {...props} />
   ),
   figure: (props: ComponentProps<"figure">) => (
-    <figure sx={{ margin: 0, "> pre": { mb: 2 } }} {...props} />
+    <figure
+      sx={{ margin: 0, "> pre": { mb: 2 }, "> p": { mb: 0 } }}
+      {...props}
+    />
   ),
   figcaption: (props: ComponentProps<"figcaption">) => (
     <figcaption

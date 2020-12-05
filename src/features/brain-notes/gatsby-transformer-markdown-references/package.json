@@ -1,0 +1,9 @@
+{
+  "name": "gatsby-transformer-markdown-references",
+  "private": true,
+  "author": "Mathieu Dutour <mathieu@dutour.me>",
+  "license": "MIT",
+  "peerDependencies": {
+    "gatsby": "*"
+  }
+}

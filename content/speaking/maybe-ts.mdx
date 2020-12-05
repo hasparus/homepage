@@ -1,0 +1,154 @@
+---
+title: Maybe-ts. A softer approach to optionals
+spoiler:
+  Null. Monads. TypeScript. We go through problems with hard Option types
+  and try to implement a "softer" one in fp-ts.
+date: 2019-12-18T18:30:00Z
+venues:
+  - name: WrocTypeScript
+    link: https://www.meetup.com/WrocTypeScript/events/sjzhvqyzqbhc/
+history: Verbose
+---
+
+[fp-ts]: https://github.com/gcanti/fp-ts
+[maybe not]: https://youtu.be/YR5WdGrpoug
+
+**Slides**: https://maybe-ts.now.sh/ \
+**The library**: https://github.com/hasparus/maybe-ts \
+**Talk duration**: 15 minutes
+
+---
+
+I spoke about problems with hard Option type (like the one from fp-ts)
+mentioned in Rich Hickey's ["Maybe Not"][maybe not] and presented a foldable
+traversable monad instance which can used instead of Option to avoid the
+problems mentioned by Rich.
+
+**Edit: It breaks composition law :(**
+
+Thanks to [@oliverjash] and the [FP Slack] I learned and [@gcanti] released
+the version 0.2.1 of fp-ts-laws 😅.
+
+[@oliverjash]: https://oliverjash.me/
+[@gcanti]: https://dev.to/gcanti/
+[fp slack]: https://functionalprogramming.slack.com/
+
+A functor is a mapping between categories. gcanti's [post on dev.to]
+excellently explains what a category is.
+
+[post on dev.to]:
+  https://dev.to/gcanti/getting-started-with-fp-ts-category-4c9a
+
+An endofunctor is a functor which maps a category into itself 🔄
+
+An endofunctor in TypeScript is a type `F<A>` with a `map` function of type
+`<A, B>(fa: F<A>, f: (a: A) => B) => F<B>`.
+
+We're pretty used to how `map` works for the most popular functor, the
+Array. It would be cool if the definition of Functor was limited to the
+types where `map` behaves similarly. It is. These are the [laws]:
+
+[laws]: https://en.wikipedia.org/wiki/Functor#Definition
+
+```
+1. functors preserve identity:
+   F.map(fa, a => a) = fa
+2. functors preserve composition:
+   F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)
+```
+
+Our type is defined as
+
+```ts
+type Maybe<T> = T | null | undefined;
+```
+
+Since `Maybe<Maybe<T>>` collapses to `Maybe<T>`, we do not preserve
+composition. It is not a functor over nullables. Similar scenario takes
+place for `Promise` and thenables.
+
+#### Counterexample
+
+```ts
+const f = (x: string | null) => (x ? x.length : 0);
+const g = (y: number) => (y === 10 ? null : String(y * 2));
+
+const left = map(10, (x) => f(g(x)));
+const right = map(map(10, g), f);
+
+console.log(left, right); // 0 null
+```
+
+#### Can we save it?
+
+But hey! I don't really need `Maybe<null | undefined>`. It's useless. What
+if we could just get rid of these two empty values?
+
+Let's constrain the generic parameter. We'll have to say goodbye to the
+fp-ts HKT, but let's just try for educational purposes.
+
+```ts
+export type Nothing = null | undefined;
+
+type NotNothing =
+  | string
+  | number
+  | boolean
+  | bigint
+  | symbol
+  | Function
+  | Date
+  | Error
+  | RegExp;
+
+export type Maybe<T extends NotNothing> = T | Nothing;
+```
+
+Let's just paste `extends NotNothing` into every function that's now glowing
+red.
+
+import imgSrc from "../assets/maybe-ts__ha.png";
+
+<img
+  src={imgSrc}
+  alt="A type error that defends us from the counterexample."
+/>
+
+Our `Maybe` is not an endofunctor in TypeScript, but it is a mapping between
+_non-nullable TypeScript_ to TypeScript! Yeah! It is a functor then! **Just
+not an useful one.**
+
+### Outline
+
+- who am I
+- wtf is Option
+- problems with Option in fp-ts
+  - small problems
+    - fp-ts.Option.None is truthy
+    - incompatible with TS syntactic sugar optional chaining `(.?)` and
+      nullish coalescing `(??)`
+  - big problems (mentioned in Maybe Not)
+    - relaxing a requirement should be a compatible change
+    - strengthening a promise should be a compatible change
+- a simple solution
+  ```ts
+  type Maybe<T> = T | null | undefined;
+  ```
+- implementing a fp-ts typeclass instance to use instead of Option
+  - rad [codesurfer](https://github.com/pomber/code-surfer)
+    [slides](https://maybe-ts.now.sh/10)
+- problems solved
+  - ✔ relaxing a requirement is a compatible change
+  - ✔ strengthening a promise is a compatible change
+  - ✔ it just works™ with optional chaining and nullish coalescing operators
+  - ✔ Nothing is properly empty value `(Nothing == null) === true`
+- when would you prefer Option?
+  - strictNullChecks: false
+  - `null` (or `undefined`) is an important part of T
+
+### More links
+
+[maybe not]: https://www.youtube.com/watch?v=YR5WdGrpoug
+
+- [Optional in Swift](https://developer.apple.com/documentation/swift/optional)
+  -- look how familiar it is

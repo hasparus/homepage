@@ -1,16 +1,18 @@
 /** @jsx jsx */
 import { graphql, useStaticQuery } from "gatsby";
-import { Styled as s, jsx } from "theme-ui";
+import { jsx, Themed as th } from "theme-ui";
 
-import { BlogPostsQuery } from "./__generated__/BlogPostsQuery";
-import { PostDetails } from "../components/PostDetails";
-import { Seo } from "../components/Seo";
-import { PostsListItem } from "../components/PostsListItem";
+import { PostDetails } from "../features/blog/PostDetails";
+import { PostsListItem } from "../features/blog/PostsListItem";
+import { Seo } from "../features/seo/Seo";
 import { PageLayout } from "../layouts/PageLayout";
+import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 
 const WritingPage = () => {
-  const { allMdx } = useStaticQuery<BlogPostsQuery>(graphql`
-    query BlogPostsQuery {
+  const { allMdx } = useStaticQuery<
+    GatsbyTypes.GetBlogPostDataQuery
+  >(graphql`
+    query GetBlogPostData {
       allMdx(
         filter: {
           fields: { isHidden: { ne: true }, route: { glob: "/*" } }
@@ -35,7 +37,7 @@ const WritingPage = () => {
   return (
     <PageLayout>
       <Seo title="writing" />
-      <s.h1 sx={{ mb: [0, 2], mt: [0, 4] }}>Writing</s.h1>
+      <ListPageHeading>Writing</ListPageHeading>
       <main>
         {allMdx.nodes.map((node, i) => {
           const { frontmatter, fields } = node!;
@@ -43,10 +45,10 @@ const WritingPage = () => {
 
           return (
             <PostsListItem key={i}>
-              <PostsListItem.Header>
-                <PostsListItem.Heading title={title!} fields={fields!} />
+              <PostsListItem.Header linkTo={fields!.route}>
+                <PostsListItem.Heading title={title!} />
                 <PostDetails
-                  date={date}
+                  date={date!}
                   readingTime={fields!.readingTime}
                 />
               </PostsListItem.Header>

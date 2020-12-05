@@ -1,0 +1,10 @@
+{
+  "name": "@hasparus/homepage__gatsby-theme-notes-brain",
+  "private": true,
+  "dependencies": {
+    "gatsby-core-utils": "*"
+  },
+  "peerDependencies": {
+    "gatsby": "*"
+  }
+}
