@@ -5,7 +5,8 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "yarn codegen && gatsby build",
+    "build": "gatsby build",
+    "codegen-and-build": "yarn codegen && gatsby build",
     "dev": "GATSBY_EXPERIMENTAL_LAZY_DEVJS=true gatsby develop",
     "dev-eager": "gatsby develop",
     "start": "gatsby develop",
