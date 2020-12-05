@@ -47,10 +47,6 @@ export const onCreateNode = async (
 
   const outboundReferences = getReferences(content);
 
-  if (content.includes("Overengineering a personal")) {
-    debugger;
-  }
-
   assertIsMdxNode(node);
 
   const title = getNodeTitle(node, content);

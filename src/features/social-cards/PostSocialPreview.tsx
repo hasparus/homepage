@@ -8,6 +8,7 @@ import { LinePath } from "@vx/shape";
 import { extent, max } from "d3-array";
 import { ComponentProps } from "react";
 import { jsx, Themed as th } from "theme-ui";
+import { DeepPartial } from "utility-types";
 
 import { assert } from "../../lib/util/assert";
 import { PostDetails } from "../blog/PostDetails";
@@ -67,7 +68,7 @@ const Lines = (props: React.ComponentProps<"svg">) => {
 };
 
 interface PostSocialImageProps extends ComponentProps<"article"> {
-  post: Pick<GatsbyTypes.Mdx, "fields" | "frontmatter">;
+  post: DeepPartial<Pick<GatsbyTypes.Mdx, "fields" | "frontmatter">>;
 }
 export function PostSocialPreview({ post, ...rest }: PostSocialImageProps) {
   assert(post.fields);

@@ -6,10 +6,9 @@ import { Intro, Outro } from "../features/index-page";
 import { Seo } from "../features/seo/Seo";
 import { theme } from "../gatsby-plugin-theme-ui/index";
 import { PageLayout } from "../layouts/PageLayout";
-import { IndexPageQuery } from "./__generated__/IndexPageQuery";
 
 const IndexPage = () => {
-  const { favorites } = useStaticQuery<IndexPageQuery>(graphql`
+  const { favorites } = useStaticQuery<any>(graphql`
     fragment PostTitleAndRoute on FileConnection {
       nodes {
         childMdx {

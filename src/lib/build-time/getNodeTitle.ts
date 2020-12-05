@@ -4,7 +4,9 @@ import { findTopLevelHeading } from "./markdown-utils";
 
 interface Node {
   absolutePath?: GatsbyTypes.File["absolutePath"];
-  frontmatter?: GatsbyTypes.Mdx["frontmatter"];
+  frontmatter?: Partial<
+    Pick<Exclude<GatsbyTypes.Mdx["frontmatter"], undefined>, "title">
+  >;
   fileAbsolutePath?: GatsbyTypes.Mdx["fileAbsolutePath"];
 }
 

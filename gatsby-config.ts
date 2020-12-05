@@ -1,6 +1,7 @@
 import "./src/__generated__/gatsby-types";
 
 import { readdirSync } from "fs-extra";
+import type { PluginOptions as TypegenPluginOptions } from "gatsby-plugin-typegen/types";
 
 import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
 import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
@@ -41,6 +42,8 @@ const utilityPlugins = [
   {
     resolve: "gatsby-plugin-typescript",
     options: {
+      // There is a warning that this is an "unknown option", but namespaces
+      // don't work without it.
       allowNamespaces: true,
     },
   },
@@ -57,7 +60,7 @@ const utilityPlugins = [
             emitPluginDocuments: {
               "src/__generated__/gatsby-plugin-documents.graphql": true,
             },
-          },
+          } as TypegenPluginOptions,
         },
       ]
     : []),

@@ -25,7 +25,7 @@ export function createBlogpostHistoryNodeField(
   let blogpostHistoryType = node.frontmatter?.history;
 
   if (node.fields?.route.startsWith("/notes")) {
-    blogpostHistoryType = NOTES_DEFAULT_HISTORY_TYPE;
+    blogpostHistoryType = NOTES_DEFAULT_HISTORY_TYPE as any;
   }
 
   if (blogpostHistoryType) {

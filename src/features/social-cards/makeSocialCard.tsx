@@ -111,7 +111,7 @@ export async function makeSocialCard(
 
   if (!title) {
     console.error("title is missing");
-    debugger;
+    // debugger;
   }
 
   assert(title, "We can't render a social card for a post with no title.");

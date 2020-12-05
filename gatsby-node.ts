@@ -222,7 +222,7 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
   args: CreateSchemaCustomizationArgs,
   pluginOptions: PluginOptions
 ) => {
-  socialSharinGatsbyTypes.createSchemaCustomization(args, pluginOptions);
+  socialSharing.createSchemaCustomization(args, pluginOptions);
 
   const {
     actions: { createTypes },
