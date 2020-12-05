@@ -41,6 +41,7 @@ export const gatsbyPluginMdxConfig = {
             { identifier: "2gua.rainbow-brackets", version: "0.0.6" },
             { identifier: "fwcd.kotlin", version: "0.2.10" },
             { identifier: "prisma.vscode-graphql", version: "0.2.2" },
+            { identifier: "benfradet.vscode-unison", version: "0.3.0" },
           ],
         },
       },

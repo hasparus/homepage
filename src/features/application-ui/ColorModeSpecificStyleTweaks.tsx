@@ -13,7 +13,15 @@ export function ColorModeSpecificStyleTweaks() {
   const colorMode = useColorMode()[0] as ColorModes;
 
   if (process.env.NODE_ENV === "development") {
-    assert(colorMode in colorModes);
+    assert(
+      colorMode in colorModes,
+      `colorMode ${colorMode} is expected to be a key of ${JSON.stringify(
+        colorModes,
+        null,
+        2
+      )}
+      \nDid you leave a token from other ThemeUI app there?`
+    );
   }
 
   const styles =

@@ -6,6 +6,7 @@
  * remember to clean .cache (`gatsby clean`) after changing this file
  */
 
+import { join } from "path";
 import { Node } from "unist";
 import visit from "unist-util-visit";
 
@@ -29,7 +30,7 @@ function makeTitleToURL(options: TitleToURLOptions) {
       prefix = `/${prefix}`;
     }
 
-    return `${prefix}${slugifyTitle(title)}`;
+    return join(prefix, slugifyTitle(title));
   };
 }
 
@@ -89,6 +90,8 @@ const addDoubleBracketsLinks = (
 
     node.type = "link";
     node.url = titleToURL(node.label as string);
+
+    console.log(">> ", { node });
 
     node.title = node.label;
     if (!options?.stripBrackets && Array.isArray(node.children)) {

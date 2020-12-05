@@ -5,6 +5,7 @@ export function assert(
   message?: string
 ): asserts condition {
   if (!condition) {
+    console.error(message);
     throw new AssertionError({ message });
   }
 }

@@ -1,8 +1,13 @@
+import { last } from "lodash";
 import type * as unist from "unist";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import visit from "unist-util-visit";
 
 import { slugifyTitle } from "../../../../lib/build-time/slugifyTitle";
+
+const isParent = (node: unist.Node): node is unist.Parent => {
+  return "children" in node && Array.isArray(node.children);
+};
 
 export async function findReferenceLinkParagraph(
   mdxNode: any,
@@ -26,14 +31,22 @@ export async function findReferenceLinkParagraph(
   // find a paragraph containing our link
 
   let linkReference: unist.Node | undefined;
-  const paragraph = children.find(
-    (node) =>
-      node.type === "paragraph" &&
-      node.children.find((paragraphChild) => {
-        if (paragraphChild.type === "linkReference") {
-          const slug = slugifyTitle(paragraphChild.label as string);
+  // file name should be unique, directories serve only for editor convenience
+  const expectedLabelSlug = last(linkedRoute.split("/"));
 
-          const res = slug === linkedRoute;
+  // just for debugging
+  let linkReferences: unist.Node[] = [];
+
+  const lookForLinkReference = (
+    node: unist.Parent
+  ): unist.Node | undefined => {
+    if (node.type === "paragraph") {
+      return node.children.find((paragraphChild) => {
+        if (paragraphChild.type === "linkReference") {
+          linkReferences.push(paragraphChild);
+
+          const slug = slugifyTitle(paragraphChild.label as string);
+          const res = slug === expectedLabelSlug;
 
           if (res) {
             linkReference = paragraphChild;
@@ -44,13 +57,32 @@ export async function findReferenceLinkParagraph(
         }
 
         return false;
-      })
-  );
+      });
+    }
+    if (isParent(node)) {
+      return node.children.find(
+        (child) => isParent(child) && lookForLinkReference(child)
+      );
+    }
+  };
+
+  const paragraph = children.find(lookForLinkReference);
 
   if (!paragraph) {
     // eslint-disable-next-line no-console
-    console.dir({ linkedRoute, children }, { depth: 20 });
+    console.dir(
+      {
+        linkedRoute,
+        expectedLabelSlug,
+        paragraph,
+        linkReferences,
+        children,
+      },
+      { depth: 20 }
+    );
     throw new Error("[brain-notes] createResolvers paragraph not found");
+  } else {
+    linkReferences = [];
   }
 
   // turn the paragraph into a string
@@ -61,9 +93,9 @@ export async function findReferenceLinkParagraph(
 
     if (parent === linkReference) {
       return nodes.push(`<strong>${node.value}</strong>`);
-    } 
-      nodes.push(node.value);
-    
+    }
+
+    return nodes.push(node.value);
   });
   return nodes.join("");
 }

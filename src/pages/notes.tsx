@@ -19,6 +19,7 @@ const NotesIndexPage = () => {
           childMdx: { fields: { isHidden: { eq: false } } }
           sourceInstanceName: { eq: "notes" }
         }
+        sort: { order: ASC, fields: childMdx___slug }
       ) {
         nodes {
           childMdx {
@@ -49,6 +50,9 @@ const NotesIndexPage = () => {
     }
   `);
 
+  const nodes = [...allFile.nodes];
+  type Node = typeof nodes[number];
+
   return (
     <PageLayout>
       <Seo title="notes" />
@@ -61,18 +65,27 @@ const NotesIndexPage = () => {
         </th.p>
         <th.p>Enjoy the adventure!</th.p>
         <GraphOverview />
+        <th.p>All entries alphabetically:</th.p>
         <ul>
-          {allFile.nodes.map((node, i) => {
-            const { title, route } = node.childMdx!.fields!;
+          {nodes
+            // https://github.com/gatsbyjs/gatsby/issues/11368
+            // todo: sort in graphql query after 11368 is fixed
+            .sort((a: Node, b: Node) =>
+              a.childMdx!.fields!.title! > b.childMdx!.fields!.title!
+                ? 1
+                : -1
+            )
+            .map((node: Node, i) => {
+              const { title, route } = node.childMdx!.fields!;
 
-            return (
-              <li key={i}>
-                <Link sx={theme.styles.a} to={route}>
-                  {title}
-                </Link>
-              </li>
-            );
-          })}
+              return (
+                <li key={i}>
+                  <Link sx={theme.styles.a} to={route}>
+                    {title}
+                  </Link>
+                </li>
+              );
+            })}
         </ul>
       </main>
     </PageLayout>

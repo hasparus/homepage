@@ -100,8 +100,6 @@ export async function generateData(cache: any, getNode: Function) {
       );
     });
 
-    debugger;
-
     const inboundReferencesId = Object.keys(inboundReferences).reduce(
       (prev, x) => {
         prev[x] = inboundReferences[x]!.map((y) => y.id);

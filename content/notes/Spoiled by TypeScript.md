@@ -69,8 +69,8 @@ JavaScript.
 This is a language that can spoil you. It certainly spoiled me. Many
 languages I use feel... "less powerful" now.
 
-The important question is: do you need such powerful features to build good,
-reliable software?
+The important question is: do you need powerful language features to build
+good, reliable software?
 
 ---
 

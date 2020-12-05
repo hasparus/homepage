@@ -18,7 +18,6 @@ import {
   headingFontSizes,
   linkTextDecorationColor,
 } from "../lib/theme-ui-preset-hasparus-homepage/styles";
-import { formatTitle } from "../lib/util/formatTitle";
 
 const ReferencesSection = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -76,7 +75,7 @@ const ReferenceLink = ({
   );
 };
 
-function assertChildrenHaveMoreThanOneTopH1(children: React.ReactNode) {
+function assertChildrenHaveNoMoreThanOneTopH1(children: React.ReactNode) {
   if (process.env.NODE_ENV === "development") {
     React.Children.forEach(children, (child, i) => {
       const node: React.ReactNode = child;
@@ -99,7 +98,7 @@ const sectionHeadingStyle: ThemeUIStyleObject = {
   textTransform: "uppercase",
   letterSpacing: 3,
   color: "text092",
-  opacity: 0.92,
+  opacity: 0.9,
 };
 
 const titleHeadingFontSizeStyle = { h1: headingFontSizes[2] };
@@ -120,7 +119,7 @@ interface NoteLayoutProps {
 }
 
 export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
-  assertChildrenHaveMoreThanOneTopH1(children);
+  assertChildrenHaveNoMoreThanOneTopH1(children);
 
   const {
     title,
@@ -129,6 +128,7 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
     socialLinks,
   } = pathContext;
 
+  // I'm gonna finish it some day.
   const spoiler = "TODO";
   const date = new Date();
   const path = "TODO";
@@ -140,7 +140,7 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
       <main>
         <PostHeader title={title} sx={titleHeadingFontSizeStyle} />
         <article sx={noteHeadingsFontSizesStyle}>{children}</article>
-        <footer>
+        <footer sx={{ pt: 3 }}>
           {inboundReferences.length === 0 ? null : (
             <ReferencesSection>
               {/* same styles as table-of-contents :: todo: make it a variant? */}

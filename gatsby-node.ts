@@ -5,21 +5,21 @@ import {
   PluginOptions,
 } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
+import { resolve } from "path";
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import puppeteer, { Browser } from "puppeteer";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
-import { resolve } from "path";
 
 import * as g from "./__generated__/global";
 import { createBlogpostHistoryNodeField } from "./src/features/post-history/createBlogpostHistoryNodeField";
 import { createSocialImageNodeField } from "./src/features/social-cards/createSocialImageNodeField";
 import * as socialSharing from "./src/features/social-sharing/gatsby-node";
-import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
-import { assert } from "./src/lib/util";
 import { collectGraphQLFragments } from "./src/lib/build-time/collectGraphQLFragments";
+import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
 import { slugifyTitle } from "./src/lib/build-time/slugifyTitle";
+import { assert } from "./src/lib/util";
 
 export interface MdxPostPageContext extends g.MdxFields {
   frontmatter: g.Mdx["frontmatter"];
@@ -67,15 +67,12 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
         ? ""
         : `/${parent.sourceInstanceName}`;
 
-    const route =
-      prefix +
-      slugifyTitle(
-        createFilePath({
-          node,
-          getNode,
-          trailingSlash: false,
-        })
-      );
+    const filePath = createFilePath({
+      node,
+      getNode,
+      trailingSlash: false,
+    });
+    const route = prefix + slugifyTitle(filePath);
 
     createNodeField({
       node,
@@ -86,7 +83,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
     createNodeField({
       node,
       name: "isHidden",
-      value: route.endsWith(".hidden") || /[\w//]*\/_\w+/.test(route),
+      value: route.endsWith("-hidden") || /[\w//]*\/_\w+/.test(route),
     });
 
     createNodeField({

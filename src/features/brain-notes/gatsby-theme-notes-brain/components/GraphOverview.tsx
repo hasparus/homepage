@@ -1,13 +1,72 @@
 /** @jsx jsx */
 import "vis-network/styles/vis-network.css";
 
-import { graphql, useStaticQuery } from "gatsby";
-import { useLayoutEffect, useRef } from "react";
+import { graphql, navigate, useStaticQuery } from "gatsby";
+import { Fragment, useLayoutEffect, useRef } from "react";
 import { jsx, useThemeUI } from "theme-ui";
 import type { Edge, Network, Node } from "vis-network/peer";
 
 import { ExactTheme } from "../../../../gatsby-plugin-theme-ui";
 import { ColorMode } from "../../../../lib/theme-ui-preset-hasparus-homepage";
+
+const navigationButtonsStyles = /* css */ `
+  div.vis-network div.vis-navigation div.vis-button.vis-up, 
+  div.vis-network div.vis-navigation div.vis-button.vis-down, 
+  div.vis-network div.vis-navigation div.vis-button.vis-left, 
+  div.vis-network div.vis-navigation div.vis-button.vis-right, 
+  div.vis-network div.vis-navigation div.vis-button.vis-zoomIn, 
+  div.vis-network div.vis-navigation div.vis-button.vis-zoomOut, 
+  div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
+    background-image: none !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  div.vis-network div.vis-navigation div.vis-button:hover {
+    box-shadow: none !important;
+  }
+
+  .vis-button:after {
+    color: var(--theme-ui-colors-gray);
+    opacity: 0.5;
+  }
+
+  .vis-button:hover:after {
+    opacity: 1;
+  }
+
+  .vis-button.vis-up:after {
+    content: "▲";
+  }
+
+  .vis-button.vis-down:after {
+    content: "▼";
+  }
+
+  .vis-button.vis-left:after {
+    content: "◀";
+  }
+
+  .vis-button.vis-right:after {
+    content: "▶";
+  }
+
+  .vis-button.vis-zoomIn:after {
+    font-size: 2em;
+    content: "+";
+  }
+
+  .vis-button.vis-zoomOut:after {
+    font-size: 2em;
+    content: "−";
+  }
+
+  .vis-button.vis-zoomExtends:after {
+    font-size: 1.3em;
+    content: "⤧";
+  }
+`;
 
 function getNodeStyle(colors: ColorMode): Node {
   return {
@@ -65,7 +124,7 @@ export function GraphOverview(props: GraphOverviewProps) {
     const container = containerRef.current;
 
     if (!container) {
-      return;
+      return undefined;
     }
 
     void (async function makeGraph() {
@@ -105,7 +164,7 @@ export function GraphOverview(props: GraphOverviewProps) {
            */
           interaction: {
             hover: true,
-            dragView: false,
+            dragView: true,
             navigationButtons: true,
             keyboard: true,
           },
@@ -121,9 +180,20 @@ export function GraphOverview(props: GraphOverviewProps) {
         }
       );
 
-      net.on("click", function (this: Network, params: any) {
-        params.event = "[original event]";
-        console.log(params);
+      net.on("click", function handleClick(
+        this: Network,
+        params: {
+          pointer: unknown;
+          nodes: string[];
+          edges: string[];
+          items: unknown[];
+          event: unknown;
+        }
+      ) {
+        const node = params.nodes[0];
+        if (node) {
+          navigate(node);
+        }
       });
 
       net.on("hoverNode", () => {
@@ -143,8 +213,6 @@ export function GraphOverview(props: GraphOverviewProps) {
       });
 
       network.current = net;
-
-      console.log(network.current);
     })();
 
     return () => {
@@ -166,16 +234,22 @@ export function GraphOverview(props: GraphOverviewProps) {
   }
 
   return (
-    <div
-      id="graph-overview"
-      sx={{
-        border: "1px solid",
-        borderColor: "muted",
-        height: "600px",
-        maxHeight: "70vh",
-      }}
-      ref={containerRef}
-      {...props}
-    />
+    <Fragment>
+      <style
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: navigationButtonsStyles }}
+      />
+      <div
+        id="graph-overview"
+        sx={{
+          border: "1px solid",
+          borderColor: "muted",
+          height: "600px",
+          maxHeight: "70vh",
+        }}
+        ref={containerRef}
+        {...props}
+      />
+    </Fragment>
   );
 }
