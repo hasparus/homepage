@@ -1,10 +1,10 @@
+import "./src/__generated__/gatsby-types";
+
 import { readdirSync } from "fs-extra";
 
-import "./src/__generated__/gatsby-types";
 import { Mdx } from "./__generated__/global";
-
-import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
 import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
+import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
 
 const deployUrl = process.env.DEPLOY_PRIME_URL || "";
 const siteUrl =
@@ -41,7 +41,7 @@ const utilityPlugins = [
   "gatsby-plugin-sharp",
   {
     resolve: "gatsby-plugin-typescript",
-    options: {
+    options: {  
       allowNamespaces: true,
     },
   },

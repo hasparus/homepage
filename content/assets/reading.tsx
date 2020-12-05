@@ -7,7 +7,7 @@ import { inlineMdx } from "../../src/lib/util/inlineMdx.macro";
 
 const _ = jsx;
 
-export namespace ReadingList {
+export declare namespace ReadingList {
   export type Author = string;
   export type LinkText = string & { __brand?: "LinkText" };
   export type Link = string;

@@ -9,7 +9,7 @@ import { PageLayout } from "../layouts/PageLayout";
 import { IndexPageQuery } from "./__generated__/IndexPageQuery";
 
 const IndexPage = () => {
-  const { recent, favorites } = useStaticQuery<IndexPageQuery>(graphql`
+  const { favorites } = useStaticQuery<IndexPageQuery>(graphql`
     fragment PostTitleAndRoute on FileConnection {
       nodes {
         childMdx {
@@ -19,28 +19,18 @@ const IndexPage = () => {
             }
           }
           frontmatter {
-            title
             date
+            title
           }
           fields {
             route
+            title
           }
         }
       }
     }
 
     query IndexPageQuery {
-      recent: allFile(
-        filter: {
-          sourceInstanceName: { eq: "posts" }
-          childMdx: { frontmatter: { date: { ne: null } } }
-        }
-        sort: { fields: childMdx___frontmatter___date, order: DESC }
-        limit: 1
-      ) {
-        ...PostTitleAndRoute
-      }
-
       favorites: allFile(
         filter: {
           childMdx: {
@@ -48,7 +38,7 @@ const IndexPage = () => {
               route: {
                 in: [
                   "/refinement-types"
-                  "/deliver"
+                  "/notes/advent-of-code-2020/day-1-report-repair"
                   "/you-deserve-more-than-proptypes"
                 ]
               }
@@ -61,22 +51,11 @@ const IndexPage = () => {
     }
   `);
 
-  const recentPost = recent.nodes[0]?.childMdx;
-
   return (
     <PageLayout>
       <Seo titleTemplate="%s" />
       <main sx={{ mt: 6 }}>
         <Intro />
-        {recentPost && (
-          <p>
-            My most recent post is{" "}
-            <Link to={recentPost.fields!.route} sx={theme.styles.a}>
-              "{recentPost.frontmatter!.title}"
-            </Link>
-            .
-          </p>
-        )}
         <section>
           <th.h4>Personal Favorites</th.h4>
           <th.ul>
@@ -86,7 +65,7 @@ const IndexPage = () => {
               return (
                 <th.li key={fields!.route}>
                   <Link to={fields!.route} sx={theme.styles.a}>
-                    {frontmatter!.title}
+                    {frontmatter!.title || fields!.title}
                   </Link>
                 </th.li>
               );
