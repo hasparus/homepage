@@ -13,5 +13,5 @@ function download(srcUrl, destPath, progress) {
             .pipe(fs.createWriteStream(destPath));
     });
 }
-exports.download = download;
+exports.download = download;  
 //# sourceMappingURL=downloadUtils.js.map

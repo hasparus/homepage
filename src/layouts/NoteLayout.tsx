@@ -129,9 +129,9 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
   } = pathContext;
 
   // I'm gonna finish it some day.
-  const spoiler = "TODO";
+  const spoiler = ""; // TODO
   const date = new Date();
-  const path = "TODO";
+  const path = ""; // TODO
 
   return (
     <Root>

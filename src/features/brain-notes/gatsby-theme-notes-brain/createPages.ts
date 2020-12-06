@@ -10,13 +10,15 @@ import { shouldHandleFile } from "./shouldHandleFile";
 // todo: codegen me somehow?
 type GatsbyGardenReferencesOnMdxFragment = {
   inboundReferences: {
-    fields: { route: string; title: string };
-    excerpt: string;
+    node: {
+      fields: { route: string; title: string };
+    };
+    paragraph: string;
   }[];
   outboundReferences: {
     fields: { route: string; title: string };
-    pararaph: string;
-  };
+    excerpt: string;
+  }[];
 };
 
 export interface NoteFieldsOnMdx
