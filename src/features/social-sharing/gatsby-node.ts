@@ -1,5 +1,6 @@
-import { CreateSchemaCustomizationArgs, PluginOptions } from "gatsby";
 import * as path from "path";
+
+import { CreateSchemaCustomizationArgs, PluginOptions } from "gatsby";
 import slash from "slash";
 
 import type { SiteSiteMetadata } from "../../../graphql-types";
@@ -18,6 +19,7 @@ export const createSchemaCustomization = async (
     store,
   }: CreateSchemaCustomizationArgs,
   _: PluginOptions
+  // eslint-disable-next-line @typescript-eslint/require-await
 ) => {
   createTypes(/*graphql*/ `
     type Mdx implements Node {
@@ -40,7 +42,7 @@ export const createSchemaCustomization = async (
 
             assert(
               filePath && route,
-              `filePath (${filePath}) and route (${route}) must be defined`
+              `filePath (${filePath!}) and route (${route}) must be defined`
             );
 
             const relativePath = filePath.replace(PROJECT_ROOT, "");

@@ -2,17 +2,17 @@
 import preval from "preval.macro";
 import { ComponentPropsWithoutRef } from "react";
 import { jsx, Themed as th } from "theme-ui";
+
 import {
   BlogpostHistory,
   BlogpostHistoryEntry,
 } from "../../../graphql-types";
-
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 import { formatDate } from "../../lib/util/formatDate";
 
 const REPO_URL = preval/*js*/ `
   module.exports = require('../../../package.json').repository.url;
-`;
+` as string;
 
 const ListItemDot = () => (
   <div

@@ -38,11 +38,11 @@ const Lines = (props: React.ComponentProps<"svg">) => {
 
   const xScale = scaleTime({
     range: [0, xMax],
-    domain: extent(data, x) as any,
+    domain: (extent(data, x) as any) as number[],
   });
   const yScale = scaleLinear({
     range: [yMax, 0],
-    domain: [0, max(data, y)] as any,
+    domain: ([0, max(data, y)] as any) as number[],
   });
 
   return (
@@ -107,7 +107,7 @@ export function PostSocialPreview({ post, ...rest }: PostSocialImageProps) {
         {title}
       </th.h1>
       <PostDetails
-        date={date!}
+        date={date as Date}
         readingTime={readingTime}
         sx={{
           fontSize: [6, 6, 6],

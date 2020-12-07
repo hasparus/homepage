@@ -9,7 +9,7 @@ export type { TweetDiscussEditLinksDataOnMdxFragment };
 export const TweetDiscussEditLinks = ({
   socialLinks,
 }: TweetDiscussEditLinksDataOnMdxFragment) => {
-  const { edit, tweet } = socialLinks!;
+  const { edit, tweet } = socialLinks;
 
   return (
     <footer
