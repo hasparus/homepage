@@ -2,13 +2,13 @@
 import { graphql } from "gatsby";
 import { jsx, Themed as th } from "theme-ui";
 
-import type { TweetDiscussEditLinksDataOnMdx } from "./__generated__/TweetDiscussEditLinksDataOnMdx";
+import type { TweetDiscussEditLinksDataOnMdxFragment } from "../../../graphql-types";
 
-export type { TweetDiscussEditLinksDataOnMdx };
+export type { TweetDiscussEditLinksDataOnMdxFragment };
 
 export const TweetDiscussEditLinks = ({
   socialLinks,
-}: TweetDiscussEditLinksDataOnMdx) => {
+}: TweetDiscussEditLinksDataOnMdxFragment) => {
   const { edit, tweet } = socialLinks!;
 
   return (

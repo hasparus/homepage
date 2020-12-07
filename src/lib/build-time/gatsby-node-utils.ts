@@ -1,6 +1,6 @@
 import { Node as GatsbyNodeNode } from "gatsby";
 
-import * as g from "../../../__generated__/global";
+import type * as g from "../../../graphql-types";
 
 export declare namespace buildTime {
   type OverwrittenFields = "parent" | "children" | "internal" | "id";

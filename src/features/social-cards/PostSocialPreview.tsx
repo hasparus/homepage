@@ -10,7 +10,7 @@ import { ComponentProps } from "react";
 import { jsx, Themed as th } from "theme-ui";
 import { DeepPartial } from "utility-types";
 
-import { Mdx } from "../../../__generated__/global";
+import type { Mdx } from "../../../graphql-types";
 import { assert } from "../../lib/util/assert";
 import { PostDetails } from "../blog/PostDetails";
 

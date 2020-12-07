@@ -2,13 +2,14 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
 import { jsx, Themed as th } from "theme-ui";
 
+import { IndexPageQueryQuery } from "../../graphql-types";
 import { Intro, Outro } from "../features/index-page";
 import { Seo } from "../features/seo/Seo";
 import { theme } from "../gatsby-plugin-theme-ui/index";
 import { PageLayout } from "../layouts/PageLayout";
 
 const IndexPage = () => {
-  const { favorites } = useStaticQuery<any>(graphql`
+  const { favorites } = useStaticQuery<IndexPageQueryQuery>(graphql`
     fragment PostTitleAndRoute on FileConnection {
       nodes {
         childMdx {

@@ -1,7 +1,7 @@
 import { readdirSync } from "fs-extra";
 import type { PluginOptions as TypegenPluginOptions } from "gatsby-plugin-typegen/types";
 
-import { Mdx } from "./__generated__/global";
+import { Mdx } from "./graphql-types";
 import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
 import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
 
@@ -46,8 +46,20 @@ const utilityPlugins = [
       allowNamespaces: true,
     },
   },
-  // Building a codegen plugin for TypeScript must be immensely hard.
-  // I'm gonna try https://www.gatsbyjs.com/plugins/gatsby-plugin-graphql-codegen/
+  {
+    // @see https://www.gatsbyjs.com/plugins/gatsby-plugin-graphql-codegen/
+    resolve: "gatsby-plugin-graphql-codegen",
+    options: {
+      documentPaths: [
+        "./src/**/*.{ts,tsx,js,jsx}",
+        "./node_modules/gatsby-*/**/*.js",
+        // there are no defs in .cache right now, so I'm commenting this to get
+        // rid of redundancy warning
+        // "./.cache/fragments/*.js",
+      ],
+    },
+  },
+  // can I get rid of this?
   {
     resolve: "gatsby-plugin-codegen",
     options: {

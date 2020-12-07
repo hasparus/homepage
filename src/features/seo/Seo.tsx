@@ -3,10 +3,10 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { DeepNonNullable } from "utility-types";
 
-import { ImageSharpOriginal } from "../../../__generated__/global";
-
-// TODO
-type SeoData = any;
+import type {
+  ImageSharpOriginal,
+  SeoDataQuery,
+} from "../../../graphql-types";
 
 const query = graphql`
   query SeoData {
@@ -45,7 +45,7 @@ export const Seo = ({
 }: SeoProps) => (
   <StaticQuery
     query={query}
-    render={({ site: { siteMetadata } }: DeepNonNullable<SeoData>) => {
+    render={({ site: { siteMetadata } }: DeepNonNullable<SeoDataQuery>) => {
       const seo = {
         title: title || siteMetadata.defaultTitle,
         description: description || siteMetadata.defaultDescription,

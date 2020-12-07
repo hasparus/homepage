@@ -6,7 +6,6 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "codegen-and-build": "yarn codegen && gatsby build",
     "dev": "GATSBY_EXPERIMENTAL_LAZY_DEVJS=true gatsby develop",
     "dev-eager": "gatsby develop",
     "start": "gatsby develop",
@@ -16,7 +15,6 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src/**/*.{js,jsx,tsx,ts}",
-    "codegen": "graphql-codegen --config ./gql-global-codegen.yml",
     "debug:develop": "node --nolazy --inspect-brk node_modules/gatsby/dist/bin/gatsby develop",
     "postinstall": ""
   },
@@ -59,6 +57,7 @@
     "gatsby-plugin-catch-links": "^2.3.15",
     "gatsby-plugin-codegen": "^1.2.14",
     "gatsby-plugin-feed": "^2.5.14",
+    "gatsby-plugin-graphql-codegen": "^2.7.1",
     "gatsby-plugin-lodash": "^3.3.13",
     "gatsby-plugin-lunr": "^1.5.2",
     "gatsby-plugin-manifest": "^2.4.34",
@@ -95,7 +94,7 @@
     "slash": "^3.0.0",
     "slugify": "^1.4.5",
     "source-map-support": "^0.5.19",
-    "theme-ui": "^0.6.0-alpha.1",
+    "theme-ui": "^0.6.0-alpha.3",
     "ts-node": "^9.0.0",
     "typeface-fira-code": "^1.1.13",
     "typescript": "^4.1",

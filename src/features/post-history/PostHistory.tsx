@@ -5,7 +5,7 @@ import { jsx, Themed as th } from "theme-ui";
 import {
   BlogpostHistory,
   BlogpostHistoryEntry,
-} from "../../../__generated__/global";
+} from "../../../graphql-types";
 
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 import { formatDate } from "../../lib/util/formatDate";

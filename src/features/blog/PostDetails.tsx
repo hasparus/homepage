@@ -3,7 +3,7 @@ import { transparentize } from "@theme-ui/color";
 import { ComponentProps } from "react";
 import { jsx, Themed as th } from "theme-ui";
 
-import type * as g from "../../../__generated__/global";
+import type * as g from "../../../graphql-types";
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 import { formatDate } from "../../lib/util/formatDate";
 

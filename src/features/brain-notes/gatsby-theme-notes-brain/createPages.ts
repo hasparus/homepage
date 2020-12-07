@@ -1,28 +1,17 @@
 import { GatsbyNode } from "gatsby";
 import { resolve } from "path";
 
-import { SocialLinks } from "../../../../__generated__/global";
+import type {
+  GatsbyGardenReferencesOnMdxFragment,
+  SocialLinks,
+} from "../../../../graphql-types";
 import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
-import type { TweetDiscussEditLinksDataOnMdx } from "../../social-sharing/TweetDiscussEditLinks";
+import type { TweetDiscussEditLinksDataOnMdxFragment } from "../../social-sharing/TweetDiscussEditLinks";
 import { parseOptions } from "./parseOptions";
 import { shouldHandleFile } from "./shouldHandleFile";
 
-// todo: codegen me somehow?
-type GatsbyGardenReferencesOnMdxFragment = {
-  inboundReferences: {
-    node: {
-      fields: { route: string; title: string };
-    };
-    paragraph: string;
-  }[];
-  outboundReferences: {
-    fields: { route: string; title: string };
-    excerpt: string;
-  }[];
-};
-
 export interface NoteFieldsOnMdx
-  extends TweetDiscussEditLinksDataOnMdx,
+  extends TweetDiscussEditLinksDataOnMdxFragment,
     GatsbyGardenReferencesOnMdxFragment {
   fields: {
     title: string;

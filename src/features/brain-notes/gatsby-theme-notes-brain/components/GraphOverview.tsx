@@ -6,6 +6,7 @@ import { Fragment, useLayoutEffect, useRef } from "react";
 import { jsx, useThemeUI } from "theme-ui";
 import type { Edge, Network, Node } from "vis-network/peer";
 
+import { GraphOverviewNotesQuery } from "../../../../../graphql-types";
 import { ExactTheme } from "../../../../gatsby-plugin-theme-ui";
 import { ColorMode } from "../../../../lib/theme-ui-preset-hasparus-homepage";
 
@@ -86,11 +87,6 @@ export interface GraphOverviewProps {
   id?: string;
 }
 
-// TODO
-type GraphOverviewNotesQuery = any;
-
-// TODO: Get rid of background images and use unicode arrows
-// https://en.wikipedia.org/wiki/Arrows_(Unicode_block)
 export function GraphOverview(props: GraphOverviewProps) {
   const { colors } = useThemeUI().theme as ExactTheme;
 
@@ -143,7 +139,7 @@ export function GraphOverview(props: GraphOverviewProps) {
 
         nodes.push({
           id: route,
-          label: title,
+          label: title || undefined,
           // title: 'popup?'
         });
 

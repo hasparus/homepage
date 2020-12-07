@@ -11,7 +11,7 @@ import puppeteer, { Browser } from "puppeteer";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
 
-import type * as g from "./__generated__/global";
+import type * as g from "./graphql-types";
 import { createBlogpostHistoryNodeField } from "./src/features/post-history/createBlogpostHistoryNodeField";
 import { createSocialImageNodeField } from "./src/features/social-cards/createSocialImageNodeField";
 import * as socialSharing from "./src/features/social-sharing/gatsby-node";

@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Global, Interpolation } from "@emotion/react";
+import { CSSObject, Global, Interpolation } from "@emotion/react";
 import React, { Fragment, useMemo } from "react";
 import { Helmet } from "react-helmet";
 import {
@@ -68,12 +68,12 @@ export interface RootProps
 export const Root = (props: RootProps) => {
   const { theme } = useThemeUI();
 
-  const global = useMemo((): Interpolation<{}> => {
+  const global = useMemo((): CSSObject => {
     return {
       ...globalStyles,
       ...(css({ ...scrollbarStyles, ...focusStyles })(
         theme
-      ) as any) /* TODO update Theme UI */,
+      ) as any) /* todo: make it a test and fix this in theme UI */,
     };
   }, [theme]);
 

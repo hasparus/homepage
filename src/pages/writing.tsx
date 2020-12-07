@@ -2,6 +2,7 @@
 import { graphql, useStaticQuery } from "gatsby";
 import { jsx, Themed as th } from "theme-ui";
 
+import { GetBlogPostDataQuery } from "../../graphql-types";
 import { PostDetails } from "../features/blog/PostDetails";
 import { PostsListItem } from "../features/blog/PostsListItem";
 import { Seo } from "../features/seo/Seo";
@@ -9,7 +10,7 @@ import { PageLayout } from "../layouts/PageLayout";
 import { ListPageHeading } from "../lib/reusable-ui/ListPageHeading";
 
 const WritingPage = () => {
-  const { allMdx } = useStaticQuery</* todo */ any>(graphql`
+  const { allMdx } = useStaticQuery<GetBlogPostDataQuery>(graphql`
     query GetBlogPostData {
       allMdx(
         filter: {

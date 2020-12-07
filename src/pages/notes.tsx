@@ -3,14 +3,15 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
 import { jsx, Themed as th } from "theme-ui";
 
+import { GetNotesIndexQuery } from "../../graphql-types";
 import { GraphOverview } from "../features/brain-notes/gatsby-theme-notes-brain/components";
 import { Seo } from "../features/seo/Seo";
 import { theme } from "../gatsby-plugin-theme-ui";
 import { PageLayout } from "../layouts/PageLayout";
 
 const NotesIndexPage = () => {
-  const { allFile } = useStaticQuery<any /* TODO */>(graphql`
-    query NotesIndexQuery {
+  const { allFile } = useStaticQuery<GetNotesIndexQuery>(graphql`
+    query GetNotesIndex {
       allFile(
         filter: {
           childMdx: { fields: { isHidden: { eq: false } } }
