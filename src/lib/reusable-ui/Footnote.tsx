@@ -25,7 +25,7 @@ export function Footnote({ number, children, ...rest }: FootnoteProps) {
   const target = `${REVERSE}${FOOTNOTE_ID_PREFIX}${number}`;
   return (
     <div
-      id={FOOTNOTE_ID_PREFIX + number}
+      id={`${FOOTNOTE_ID_PREFIX}${number}`}
       sx={{
         display: ["flex", "flex", "block"],
         py: 1,

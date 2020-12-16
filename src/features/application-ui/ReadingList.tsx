@@ -1,12 +1,12 @@
 /** @jsx jsx */
 
-import { jsx, Themed as th } from "theme-ui";
-import { toArray } from "fp-ts/lib/Record";
-import { fromCompare, ordString } from "fp-ts/lib/Ord";
-import { ComponentPropsWithoutRef } from "react";
-import { sort } from "fp-ts/lib/Array";
 import { MDXProvider } from "@mdx-js/react";
 import dedent from "dedent";
+import { sort } from "fp-ts/lib/Array";
+import { fromCompare, ordString } from "fp-ts/lib/Ord";
+import { toArray } from "fp-ts/lib/Record";
+import { ComponentPropsWithoutRef } from "react";
+import { jsx, Themed as th } from "theme-ui";
 
 import { ReadingList as Reading } from "../../../content/assets/reading";
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";

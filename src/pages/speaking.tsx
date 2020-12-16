@@ -42,14 +42,14 @@ const SpeakingPage = () => {
       <ListPageHeading>Speaking</ListPageHeading>
       <main>
         {allMdx.nodes.map((node, i) => {
-          const { frontmatter, fields } = node!;
+          const { frontmatter, fields } = node;
           const { title, spoiler, date, venues } = frontmatter || {};
 
           return (
             <PostsListItem key={i}>
               <PostsListItem.Header linkTo={fields!.route}>
                 <PostsListItem.Heading title={title!} />
-                <PostDetails date={date!} venues={venues} />
+                <PostDetails date={date} venues={venues} />
               </PostsListItem.Header>
               <PostsListItem.Spoiler>{spoiler}</PostsListItem.Spoiler>
             </PostsListItem>

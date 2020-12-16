@@ -12,10 +12,15 @@ const preset = makeBasePreset({
 module.exports = {
   ...preset,
   parserOptions: {
+    ecmaVersion: 2017,
     project: "./tsconfig.json",
+  },
+  env: {
+    es6: true,
   },
   rules: {
     ...preset.rules,
+    // it's just a blog
     "no-nested-ternary": "off",
     "react/no-unescaped-entities": "off",
     "react/no-array-index-key": "off",
@@ -26,6 +31,9 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/prefer-regexp-exec": "off",
     "no-param-reassign": "off",
     "no-use-before-define": "off",
     "no-void": "off",

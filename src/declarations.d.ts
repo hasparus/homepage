@@ -8,6 +8,20 @@ declare module "@babel/core" {
   export type PluginPass = any;
   // I hope it works at runtime 🙈
   export type NodePath = any;
-  // I'll be really surprised if it works at runtime.
   export type PluginObj = any;
+}
+
+// file-parser.js is written in Flow
+/**
+ * @see https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby/src/query/file-parser.js
+ */
+declare module "gatsby/dist/query/file-parser" {
+  import { DocumentNode } from "graphql";
+
+  export default class FileParser {
+    parseFiles(
+      files: string[],
+      addError?: unknown
+    ): Promise<{ doc: DocumentNode }[]>;
+  }
 }

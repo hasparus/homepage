@@ -64,9 +64,9 @@ const IndexPage = () => {
               const { fields, frontmatter } = post.childMdx!;
 
               return (
-                <th.li key={fields!.route}>
-                  <Link to={fields!.route} sx={theme.styles.a}>
-                    {frontmatter!.title || fields!.title}
+                <th.li key={fields.route}>
+                  <Link to={fields.route} sx={theme.styles.a}>
+                    {frontmatter.title || fields.title}
                   </Link>
                 </th.li>
               );

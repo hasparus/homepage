@@ -1,6 +1,6 @@
 import { assert } from "../../../../lib/util";
 
-export namespace MarkdownReferencesPluginOptions {
+export declare namespace MarkdownReferencesPluginOptions {
   export interface Input {
     types?: string[];
     /**
@@ -33,6 +33,6 @@ export const parseOptions = ({
   };
 };
 
-export namespace MarkdownReferencesPluginOptions {
+export declare namespace MarkdownReferencesPluginOptions {
   export interface Parsed extends ReturnType<typeof parseOptions> {}
 }

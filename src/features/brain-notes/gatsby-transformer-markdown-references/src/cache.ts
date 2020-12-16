@@ -1,8 +1,10 @@
 import * as fs from "fs";
-import { Node } from "gatsby";
 import * as path from "path";
 
+import { Node } from "gatsby";
+
 import { nonNullable } from "../../../../lib/util/nonNullable";
+
 import { References } from "./getReferences";
 
 export const cacheDirectory = (cache: any): string => {

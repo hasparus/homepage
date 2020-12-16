@@ -2,6 +2,7 @@
 import { jsx } from "theme-ui";
 
 import { panic } from "../util";
+
 import { BoxedText, BoxedTextProps } from "./BoxedText";
 
 type EpistemicNoteProps = BoxedTextProps &

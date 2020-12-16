@@ -8,7 +8,7 @@ import { RGB } from "../../lib/util";
 type ColorName = keyof ColorMode;
 
 function luminance({ r, g, b }: RGB) {
-  var a = [r, g, b].map(function (v) {
+  const a = [r, g, b].map(function (v) {
     v /= 255;
     return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
   });
@@ -20,10 +20,10 @@ function luminance({ r, g, b }: RGB) {
  * @see https://stackoverflow.com/a/9733420/6003547
  */
 function contrast(rgb1: RGB, rgb2: RGB) {
-  var lum1 = luminance(rgb1);
-  var lum2 = luminance(rgb2);
-  var brightest = Math.max(lum1, lum2);
-  var darkest = Math.min(lum1, lum2);
+  const lum1 = luminance(rgb1);
+  const lum2 = luminance(rgb2);
+  const brightest = Math.max(lum1, lum2);
+  const darkest = Math.min(lum1, lum2);
 
   return (brightest + 0.05) / (darkest + 0.05);
 }

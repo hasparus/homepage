@@ -2,6 +2,7 @@ import { GatsbyNode } from "gatsby";
 
 import { buildTime } from "../../../lib/build-time/gatsby-node-utils";
 import { getNodeTitle } from "../../../lib/build-time/getNodeTitle";
+
 import { parseOptions } from "./parseOptions";
 import { shouldHandleFile } from "./shouldHandleFile";
 

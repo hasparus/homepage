@@ -1,5 +1,5 @@
-import { PluginOptions } from "./gatsby-remark-double-brackets-link";
 import { NotesBrainThemeOptions } from "./gatsby-theme-notes-brain/parseOptions";
+import { PluginOptions } from "./gatsby-remark-double-brackets-link";
 
 const PREFIX_PATH = "notes";
 

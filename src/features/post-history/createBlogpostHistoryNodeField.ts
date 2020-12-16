@@ -1,10 +1,12 @@
-import { Node, ParentSpanPluginArgs } from "gatsby";
 import * as path from "path";
+
+import { Node, ParentSpanPluginArgs } from "gatsby";
 import slash from "slash";
 
 import packageJson from "../../../package.json";
 import { buildTime } from "../../lib/build-time/gatsby-node-utils";
 import { NOTES_DEFAULT_HISTORY_TYPE } from "../brain-notes";
+
 import { getGitLogJsonForFile } from "./getGitLogJsonForFile";
 
 const REPO_URL = packageJson.repository.url;

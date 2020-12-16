@@ -3,6 +3,7 @@ import { Link } from "gatsby";
 import { ComponentProps, ComponentPropsWithoutRef } from "react";
 import { Box, jsx } from "theme-ui";
 
+import { ReadingList } from "../features/application-ui/ReadingList";
 import { TableOfContents } from "../features/blog/TableOfContents";
 import {
   BoxedText,
@@ -10,13 +11,12 @@ import {
   CodesandboxIframe,
   EpistemicNote,
   Footnote,
-  ReadingList,
 } from "../lib/reusable-ui";
+
 import { theme } from "./index";
 import { fontSize } from "./tokens";
 
-// eslint-disable-next-line import/no-default-export
-export default {
+const components = {
   Epistemic: EpistemicNote,
   CodesandboxIframe,
   ReadingList,
@@ -59,3 +59,5 @@ export default {
     return <Link sx={theme.styles.a} to={href} {...rest} />;
   },
 };
+
+export default components;

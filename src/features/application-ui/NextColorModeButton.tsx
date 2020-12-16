@@ -40,8 +40,7 @@ export const NextColorModeButton = ({
           bg: "muted",
           color: "text",
         },
-        // Theme UI 0.6.0-alpha.2 will have this bugfix
-        ...(rest as any).sx,
+        ...rest.sx,
       }}
     >
       {children || colorMode}

@@ -6,15 +6,17 @@
 import { createHash } from "crypto";
 import { writeFile } from "fs";
 import { resolve } from "path";
+import { promisify } from "util";
+
 import { Browser } from "puppeteer";
 import { renderToStaticMarkup } from "react-dom/server";
 import { jsx, ThemeProvider } from "theme-ui";
-import { promisify } from "util";
 
 import { theme } from "../../gatsby-plugin-theme-ui/index";
 import { buildTime } from "../../lib/build-time/gatsby-node-utils";
 import { getNodeTitle } from "../../lib/build-time/getNodeTitle";
 import { assert } from "../../lib/util/assert";
+
 import { PostSocialPreview } from "./PostSocialPreview";
 
 const writeFileAsync = promisify(writeFile);

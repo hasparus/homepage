@@ -1,6 +1,7 @@
 import * as path from "path";
 
 import type * as g from "../../../graphql-types";
+
 import { findTopLevelHeading } from "./markdown-utils";
 
 interface Node {

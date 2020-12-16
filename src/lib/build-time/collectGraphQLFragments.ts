@@ -1,7 +1,10 @@
-// @ts-ignore no defs
+import path from "path";
+
 import GatsbyParser from "gatsby/dist/query/file-parser";
 import glob from "glob";
-import path from "path";
+import type { FragmentDefinitionNode } from "graphql";
+
+import { assert } from "../util";
 
 /**
  * Collect all graphql fragments from a directory
@@ -16,32 +19,33 @@ export const collectGraphQLFragments = async (
   const result = await parser.parseFiles(files);
 
   return result
-    .filter((item: any) => item.doc && item.doc.kind === "Document")
-    .flatMap((file: any) => {
-      type Definition = {
-        kind: string;
-        name: { value: string };
-        loc: {
-          start: number;
-          end: number;
-          source: {
-            body: string;
-          };
-        };
-      };
-
-      const fragments: Definition[] =
+    .filter((item) => item.doc && item.doc.kind === "Document")
+    .flatMap((file) => {
+      const fragments =
         file.doc.definitions.filter(
-          (def: Definition) => def.kind === "FragmentDefinition"
+          (def): def is FragmentDefinitionNode =>
+            def.kind === "FragmentDefinition"
         ) || [];
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return fragments
         .filter((fragment) =>
           fragmentsNamesToExtract.includes(fragment.name.value)
         )
-        .map(({ loc: { start, end, source: { body } } }) =>
-          body.slice(start, end)
-        );
+        .map(({ loc }) => {
+          assert(
+            loc !== undefined,
+            "`fragment.loc` is undefined. Check your GraphQL files."
+          );
+
+          const {
+            start,
+            end,
+            source: { body },
+          } = loc;
+
+          return body.slice(start, end);
+        });
     })
     .join("\n");
 };

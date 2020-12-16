@@ -1,10 +1,12 @@
+import * as path from "path";
+
 import * as fs from "fs-extra";
 import { Actions, Node, ParentSpanPluginArgs } from "gatsby";
 import { createFileNode as baseCreateFileNode } from "gatsby-source-filesystem/create-file-node";
-import * as path from "path";
 import { Browser as PuppeteerBrowser } from "puppeteer";
 
 import { buildTime } from "../../lib/build-time/gatsby-node-utils";
+
 import { makeSocialCard } from "./makeSocialCard";
 
 interface CreateMdxNodeArgs extends ParentSpanPluginArgs {

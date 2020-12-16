@@ -1,4 +1,5 @@
 import { buildTime } from "../../../lib/build-time/gatsby-node-utils";
+
 import { NotesBrainThemeOptions } from "./parseOptions";
 import { MdxFile } from "./types";
 
@@ -13,7 +14,7 @@ export function shouldHandleFile(
   { extensions, mediaTypes, contentPath }: NotesBrainThemeOptions.Parsed
 ): node is MdxFile {
   return (
-    (extensions.includes(node.ext!) ||
+    (extensions.includes(node.ext) ||
       mediaTypes.includes(node.internal.mediaType!)) &&
     node.sourceInstanceName === contentPath
   );

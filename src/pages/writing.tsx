@@ -39,7 +39,7 @@ const WritingPage = () => {
       <ListPageHeading>Writing</ListPageHeading>
       <main>
         {allMdx.nodes.map((node, i) => {
-          const { frontmatter, fields } = node!;
+          const { frontmatter, fields } = node;
           const { title, spoiler, date } = frontmatter || {};
 
           return (
@@ -47,7 +47,7 @@ const WritingPage = () => {
               <PostsListItem.Header linkTo={fields!.route}>
                 <PostsListItem.Heading title={title!} />
                 <PostDetails
-                  date={date!}
+                  date={date}
                   readingTime={fields!.readingTime}
                 />
               </PostsListItem.Header>

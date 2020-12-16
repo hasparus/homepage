@@ -14,6 +14,8 @@ export const createResolvers = (
           if (source.isHidden == null) {
             return false;
           }
+
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return source.isHidden;
         },
       },

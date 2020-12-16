@@ -1,5 +1,6 @@
-import { GatsbyNode } from "gatsby";
 import { resolve } from "path";
+
+import { GatsbyNode } from "gatsby";
 
 import type {
   GatsbyGardenReferencesOnMdxFragment,
@@ -7,6 +8,7 @@ import type {
 } from "../../../../graphql-types";
 import { collectGraphQLFragments } from "../../../lib/build-time/collectGraphQLFragments";
 import type { TweetDiscussEditLinksDataOnMdxFragment } from "../../social-sharing/TweetDiscussEditLinks";
+
 import { parseOptions } from "./parseOptions";
 import { shouldHandleFile } from "./shouldHandleFile";
 
@@ -119,7 +121,7 @@ export const createPages: GatsbyNode["createPages"] = async (
     };
 
     createPage({
-      path: node.childMdx.fields!.route,
+      path: node.childMdx.fields.route,
       component: node.absolutePath,
       context,
     });

@@ -8,7 +8,7 @@ type WithRequired<T extends object, TRequired extends keyof T> = Required<
 > &
   Pick<T, Exclude<keyof T, TRequired>>;
 
-export namespace NotesBrainThemeOptions {
+export declare namespace NotesBrainThemeOptions {
   export interface PossibleInput {
     basePath?: string;
     contentPath?: string;
@@ -57,6 +57,6 @@ export const parseOptions = (
   };
 };
 
-export namespace NotesBrainThemeOptions {
+export declare namespace NotesBrainThemeOptions {
   export interface Parsed extends ReturnType<typeof parseOptions> {}
 }

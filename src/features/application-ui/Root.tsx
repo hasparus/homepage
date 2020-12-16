@@ -11,6 +11,7 @@ import {
 } from "theme-ui";
 
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
+
 import { ColorModeSpecificStyleTweaks } from "./ColorModeSpecificStyleTweaks";
 
 export const focusStyles: ThemeUIStyleObject = {
@@ -71,9 +72,7 @@ export const Root = (props: RootProps) => {
   const global = useMemo((): CSSObject => {
     return {
       ...globalStyles,
-      ...(css({ ...scrollbarStyles, ...focusStyles })(
-        theme
-      ) as any) /* todo: make it a test and fix this in theme UI */,
+      ...css({ ...scrollbarStyles, ...focusStyles })(theme),
     };
   }, [theme]);
 

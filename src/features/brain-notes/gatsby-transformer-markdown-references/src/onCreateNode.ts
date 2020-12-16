@@ -3,6 +3,7 @@ import { isObject } from "lodash";
 
 import { getNodeTitle } from "../../../../lib/build-time/getNodeTitle";
 import { assert } from "../../../../lib/util";
+
 import { clearInboundReferences, setCachedNode } from "./cache";
 import { getReferences } from "./getReferences";
 import { MarkdownReferencesPluginOptions, parseOptions } from "./options";
@@ -13,7 +14,7 @@ const isAliasesFrontmatter = (x: unknown): x is AliasesFrontmatter =>
 
 function getAliases(node: Node) {
   if (isAliasesFrontmatter(node.frontmatter)) {
-    return node.frontmatter.aliases as string[];
+    return node.frontmatter.aliases ;
   }
   return [];
 }

@@ -1,4 +1,5 @@
 import * as path from "path";
+
 import slugRemarkPlugin from "remark-slug";
 
 import { autolinkHeadingsRemarkPluginConfig } from "../autolink-headings/remark-plugin-config";
@@ -33,8 +34,11 @@ export const gatsbyPluginMdxConfig = {
             "__deps__/vscode-extensions"
           ),
           injectStyles: false,
-          colorTheme: ({ parsedOptions }: any) =>
-            parsedOptions.theme || "Night Owl (No Italics)",
+          colorTheme: ({
+            parsedOptions,
+          }: {
+            parsedOptions: { theme: string };
+          }) => parsedOptions.theme || "Night Owl (No Italics)",
           extensions: [
             { identifier: "hackwaly.ocaml", version: "0.6.43" },
             { identifier: "sdras.night-owl", version: "1.1.3" },
