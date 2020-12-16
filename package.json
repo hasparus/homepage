@@ -21,7 +21,7 @@
   "dependencies": {
     "@babel/parser": "^7.12.3",
     "@babel/preset-react": "^7.12.1",
-    "@emotion/react": "^11.1.2",
+    "@emotion/react": "^11.1.1",
     "@mdx-js/mdx": "1.6.17",
     "@mdx-js/react": "1.6.17",
     "@theme-ui/color": "^0.6.0-alpha.1",
