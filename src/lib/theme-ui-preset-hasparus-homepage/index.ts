@@ -15,6 +15,7 @@ export const preset = makeTheme({
   ...typography,
   ...makeColors(colorModes, "soft"),
 
+  useColorSchemeMediaQuery: true,
   useCustomProperties: true,
   useBodyStyles: true,
 
