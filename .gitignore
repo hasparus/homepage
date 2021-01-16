@@ -73,3 +73,5 @@ gql-schema.json
 
 # generating it on Netlify takes too long
 # __generated__
+
+.envrc

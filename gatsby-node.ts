@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import { resolve } from "path";
+
 import {
   CreateSchemaCustomizationArgs,
   GatsbyNode,
   PluginOptions,
 } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
-import { resolve } from "path";
 // @ts-ignore
 import puppeteer, { Browser } from "puppeteer";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
 
-import type * as g from "./graphql-types";
 import { createBlogpostHistoryNodeField } from "./src/features/post-history/createBlogpostHistoryNodeField";
 import { createSocialImageNodeField } from "./src/features/social-cards/createSocialImageNodeField";
 import * as socialSharing from "./src/features/social-sharing/gatsby-node";
@@ -19,6 +19,7 @@ import { collectGraphQLFragments } from "./src/lib/build-time/collectGraphQLFrag
 import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
 import { slugifyTitle } from "./src/lib/build-time/slugifyTitle";
 import { assert } from "./src/lib/util";
+import type * as g from "./graphql-types";
 
 export interface MdxPostPageContext extends g.MdxFields {
   frontmatter: g.Mdx["frontmatter"];
@@ -88,7 +89,7 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
     createNodeField({
       node,
       name: "readingTime",
-      value: Math.ceil(readingTime(node.rawBody as string).minutes),
+      value: Math.ceil(readingTime(node.rawBody).minutes),
     });
 
     const mdxArgs = { ...args, node };
@@ -222,7 +223,7 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
   args: CreateSchemaCustomizationArgs,
   pluginOptions: PluginOptions
 ) => {
-  socialSharing.createSchemaCustomization(args, pluginOptions);
+  await socialSharing.createSchemaCustomization(args, pluginOptions);
 
   const {
     actions: { createTypes },

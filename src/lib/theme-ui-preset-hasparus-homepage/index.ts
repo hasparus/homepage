@@ -13,7 +13,7 @@ export const preset = makeTheme({
   sizes: space,
 
   ...typography,
-  ...makeColors(colorModes, "soft"),
+  ...makeColors(colorModes, "soft", { printColorModeName: "light" }),
 
   useColorSchemeMediaQuery: true,
   useCustomProperties: true,

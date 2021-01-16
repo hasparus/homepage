@@ -916,6 +916,219 @@ export type FloatQueryOperatorInput = {
   nin?: Maybe<Array<Maybe<Scalars['Float']>>>;
 };
 
+export type GhContributions = Node & {
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  timestamp: Scalars['Float'];
+  info: GhContributionsInfo;
+  repositoriesWithMergedPRs: Array<GhRepository>;
+  internal: Internal;
+  mergedRepositories: Array<GhRepository>;
+};
+
+
+export type GhContributionsMergedRepositoriesArgs = {
+  first: Scalars['Int'];
+  sortByStars?: Maybe<Scalars['Boolean']>;
+};
+
+export type GhContributionsConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<GhContributionsEdge>;
+  nodes: Array<GhContributions>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  group: Array<GhContributionsGroupConnection>;
+};
+
+
+export type GhContributionsConnectionDistinctArgs = {
+  field: GhContributionsFieldsEnum;
+};
+
+
+export type GhContributionsConnectionGroupArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  field: GhContributionsFieldsEnum;
+};
+
+export type GhContributionsEdge = {
+  next?: Maybe<GhContributions>;
+  node: GhContributions;
+  previous?: Maybe<GhContributions>;
+};
+
+export type GhContributionsFieldsEnum = 
+  | 'id'
+  | 'parent___id'
+  | 'parent___parent___id'
+  | 'parent___parent___parent___id'
+  | 'parent___parent___parent___children'
+  | 'parent___parent___children'
+  | 'parent___parent___children___id'
+  | 'parent___parent___children___children'
+  | 'parent___parent___internal___content'
+  | 'parent___parent___internal___contentDigest'
+  | 'parent___parent___internal___description'
+  | 'parent___parent___internal___fieldOwners'
+  | 'parent___parent___internal___ignoreType'
+  | 'parent___parent___internal___mediaType'
+  | 'parent___parent___internal___owner'
+  | 'parent___parent___internal___type'
+  | 'parent___children'
+  | 'parent___children___id'
+  | 'parent___children___parent___id'
+  | 'parent___children___parent___children'
+  | 'parent___children___children'
+  | 'parent___children___children___id'
+  | 'parent___children___children___children'
+  | 'parent___children___internal___content'
+  | 'parent___children___internal___contentDigest'
+  | 'parent___children___internal___description'
+  | 'parent___children___internal___fieldOwners'
+  | 'parent___children___internal___ignoreType'
+  | 'parent___children___internal___mediaType'
+  | 'parent___children___internal___owner'
+  | 'parent___children___internal___type'
+  | 'parent___internal___content'
+  | 'parent___internal___contentDigest'
+  | 'parent___internal___description'
+  | 'parent___internal___fieldOwners'
+  | 'parent___internal___ignoreType'
+  | 'parent___internal___mediaType'
+  | 'parent___internal___owner'
+  | 'parent___internal___type'
+  | 'children'
+  | 'children___id'
+  | 'children___parent___id'
+  | 'children___parent___parent___id'
+  | 'children___parent___parent___children'
+  | 'children___parent___children'
+  | 'children___parent___children___id'
+  | 'children___parent___children___children'
+  | 'children___parent___internal___content'
+  | 'children___parent___internal___contentDigest'
+  | 'children___parent___internal___description'
+  | 'children___parent___internal___fieldOwners'
+  | 'children___parent___internal___ignoreType'
+  | 'children___parent___internal___mediaType'
+  | 'children___parent___internal___owner'
+  | 'children___parent___internal___type'
+  | 'children___children'
+  | 'children___children___id'
+  | 'children___children___parent___id'
+  | 'children___children___parent___children'
+  | 'children___children___children'
+  | 'children___children___children___id'
+  | 'children___children___children___children'
+  | 'children___children___internal___content'
+  | 'children___children___internal___contentDigest'
+  | 'children___children___internal___description'
+  | 'children___children___internal___fieldOwners'
+  | 'children___children___internal___ignoreType'
+  | 'children___children___internal___mediaType'
+  | 'children___children___internal___owner'
+  | 'children___children___internal___type'
+  | 'children___internal___content'
+  | 'children___internal___contentDigest'
+  | 'children___internal___description'
+  | 'children___internal___fieldOwners'
+  | 'children___internal___ignoreType'
+  | 'children___internal___mediaType'
+  | 'children___internal___owner'
+  | 'children___internal___type'
+  | 'timestamp'
+  | 'info___totalPullRequestContributions'
+  | 'info___totalCommitContributions'
+  | 'info___totalIssueContributions'
+  | 'info___totalPullRequestReviewContributions'
+  | 'info___popularPullRequestContribution___pullRequest___title'
+  | 'repositoriesWithMergedPRs'
+  | 'repositoriesWithMergedPRs___stargazerCount'
+  | 'repositoriesWithMergedPRs___nameWithOwner'
+  | 'internal___content'
+  | 'internal___contentDigest'
+  | 'internal___description'
+  | 'internal___fieldOwners'
+  | 'internal___ignoreType'
+  | 'internal___mediaType'
+  | 'internal___owner'
+  | 'internal___type';
+
+export type GhContributionsFilterInput = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  timestamp?: Maybe<FloatQueryOperatorInput>;
+  info?: Maybe<GhContributionsInfoFilterInput>;
+  repositoriesWithMergedPRs?: Maybe<GhRepositoryFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+};
+
+export type GhContributionsGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<GhContributionsEdge>;
+  nodes: Array<GhContributions>;
+  pageInfo: PageInfo;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+export type GhContributionsInfo = {
+  totalPullRequestContributions: Scalars['Int'];
+  totalCommitContributions: Scalars['Int'];
+  totalIssueContributions: Scalars['Int'];
+  totalPullRequestReviewContributions: Scalars['Int'];
+  popularPullRequestContribution: GhContributionsInfoPopularPullRequestContribution;
+};
+
+export type GhContributionsInfoFilterInput = {
+  totalPullRequestContributions?: Maybe<IntQueryOperatorInput>;
+  totalCommitContributions?: Maybe<IntQueryOperatorInput>;
+  totalIssueContributions?: Maybe<IntQueryOperatorInput>;
+  totalPullRequestReviewContributions?: Maybe<IntQueryOperatorInput>;
+  popularPullRequestContribution?: Maybe<GhContributionsInfoPopularPullRequestContributionFilterInput>;
+};
+
+export type GhContributionsInfoPopularPullRequestContribution = {
+  pullRequest: GhContributionsInfoPopularPullRequestContributionPullRequest;
+};
+
+export type GhContributionsInfoPopularPullRequestContributionFilterInput = {
+  pullRequest?: Maybe<GhContributionsInfoPopularPullRequestContributionPullRequestFilterInput>;
+};
+
+export type GhContributionsInfoPopularPullRequestContributionPullRequest = {
+  title: Scalars['String'];
+  repository: GhRepository;
+};
+
+export type GhContributionsInfoPopularPullRequestContributionPullRequestFilterInput = {
+  title?: Maybe<StringQueryOperatorInput>;
+  repository?: Maybe<GhRepositoryFilterInput>;
+};
+
+export type GhContributionsSortInput = {
+  fields?: Maybe<Array<Maybe<GhContributionsFieldsEnum>>>;
+  order?: Maybe<Array<Maybe<SortOrderEnum>>>;
+};
+
+export type GhRepository = {
+  stargazerCount: Scalars['Int'];
+  nameWithOwner: Scalars['String'];
+};
+
+export type GhRepositoryFilterInput = {
+  stargazerCount?: Maybe<IntQueryOperatorInput>;
+  nameWithOwner?: Maybe<StringQueryOperatorInput>;
+};
+
+export type GhRepositoryFilterListInput = {
+  elemMatch?: Maybe<GhRepositoryFilterInput>;
+};
+
 export type HeadingsMdx = 
   | 'h1'
   | 'h2'
@@ -1913,6 +2126,8 @@ export type Query = {
   allSitePage: SitePageConnection;
   themeUiConfig?: Maybe<ThemeUiConfig>;
   allThemeUiConfig: ThemeUiConfigConnection;
+  ghContributions?: Maybe<GhContributions>;
+  allGhContributions: GhContributionsConnection;
   mdx?: Maybe<Mdx>;
   allMdx: MdxConnection;
   imageSharp?: Maybe<ImageSharp>;
@@ -2087,6 +2302,25 @@ export type QueryThemeUiConfigArgs = {
 export type QueryAllThemeUiConfigArgs = {
   filter?: Maybe<ThemeUiConfigFilterInput>;
   sort?: Maybe<ThemeUiConfigSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryGhContributionsArgs = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  timestamp?: Maybe<FloatQueryOperatorInput>;
+  info?: Maybe<GhContributionsInfoFilterInput>;
+  repositoriesWithMergedPRs?: Maybe<GhRepositoryFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+};
+
+
+export type QueryAllGhContributionsArgs = {
+  filter?: Maybe<GhContributionsFilterInput>;
+  sort?: Maybe<GhContributionsSortInput>;
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
 };
@@ -3974,6 +4208,11 @@ export type GatsbyGardenReferencesOnMdxFragment = { outboundReferences: Array<(
     Pick<InboundReference, 'paragraph'>
     & { node: { fields?: Maybe<Pick<MdxFields, 'title' | 'route'>> } }
   )> };
+
+export type LastContributionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LastContributionsQuery = { allGhContributions: { nodes: Array<{ mergedRepositories: Array<Pick<GhRepository, 'nameWithOwner'>> }> } };
 
 export type SeoDataQueryVariables = Exact<{ [key: string]: never; }>;
 

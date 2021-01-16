@@ -1,9 +1,9 @@
 import { readdirSync } from "fs-extra";
-import type { PluginOptions as TypegenPluginOptions } from "gatsby-plugin-typegen/types";
 
-import { Mdx } from "./graphql-types";
 import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
 import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
+import { gitHubContributionsPluginConfig } from "./src/features/github-contributions/config";
+import { Mdx, Site } from "./graphql-types";
 
 const deployUrl = process.env.DEPLOY_PRIME_URL || "";
 const siteUrl =
@@ -133,12 +133,16 @@ const utilityPlugins = [
                 }
               }
             `,
-          serialize: ({ query: { site, allMdx } }: any) => {
+          serialize: ({
+            query: { allMdx, site },
+          }: {
+            query: { allMdx: { nodes: Mdx[] }; site: Site };
+          }) => {
             return allMdx.nodes.map((node: Mdx) => ({
               ...node.frontmatter,
               description: node.frontmatter!.spoiler,
-              url: site.siteMetadata.siteUrl + node.fields!.route,
-              guid: site.siteMetadata.siteUrl + node.fields!.route,
+              url: `${site.siteMetadata!.siteUrl}${node.fields!.route}`,
+              guid: `${site.siteMetadata!.siteUrl}${node.fields!.route}`,
               custom_elements: [{ "content:encoded": node.html }],
             }));
           },
@@ -152,10 +156,10 @@ const utilityPlugins = [
 
 const contentPlugins = [
   gatsbyPluginMdxConfig,
+  gitHubContributionsPluginConfig,
   // note. next time just put the posts in /pages dir
   // so gatsby-plugin-page-creator kicks in.
   // it would be easier to maintain
-
   ...readdirSync("./content").map((name) => ({
     resolve: "gatsby-source-filesystem",
     options: {

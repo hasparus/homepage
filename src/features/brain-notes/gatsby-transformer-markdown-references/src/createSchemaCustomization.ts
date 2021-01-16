@@ -40,7 +40,8 @@ export const createResolvers = (
 ) => {
   const { contentPath, pluginMdxOptions } = parseOptions(opts);
 
-  const processMDX = (node: any) =>
+  const processMDX = (node: unknown) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
     genMDX({
       ...args,
       node,

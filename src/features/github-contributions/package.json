@@ -1,0 +1,14 @@
+{
+  "name": "@hasparus/homepage__gatsby-source-gh-contributions",
+  "description": "unfortunately, this seems to be needed",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {},
+  "peerDependencies": {
+    "gatsby": "*"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin"
+  ]
+}
