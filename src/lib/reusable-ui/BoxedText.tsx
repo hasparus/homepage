@@ -1,10 +1,10 @@
 /** @jsx jsx */
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 import { jsx, Themed as th } from "theme-ui";
 
 import { fontSize } from "../theme-ui-preset-hasparus-homepage/tokens";
 
-export type BoxedTextProps = ComponentPropsWithoutRef<typeof th.p>;
+export interface BoxedTextProps extends ComponentPropsWithoutRef<"p"> {}
 
 export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
   // <p> cannot appear as descendant of <p>
@@ -15,7 +15,7 @@ export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
     "props" in children &&
     children.props.originalType === "p"
   ) {
-    children = children.props.children;
+    children = children.props.children as ReactNode;
   }
 
   return (

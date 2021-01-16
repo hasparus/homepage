@@ -127,6 +127,9 @@ export const styles = makeStyles({
       [linkTextDecorationColor.name]: getPrimary,
       textDecorationColor: linkTextDecorationColor.value,
     },
+    "@media print": {
+      color: "inherit",
+    },
   },
   code,
   pre: () => ({

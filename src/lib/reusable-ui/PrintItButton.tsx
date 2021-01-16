@@ -6,6 +6,9 @@ import { fontSize } from "../theme-ui-preset-hasparus-homepage/tokens";
 
 import { Button } from "./Button";
 
+// TODO: printColorModeName was merged into Theme UI,
+// so this could be greatly simplified
+
 function useWindowPrint(options: {
   onBeforePrint: () => void;
   onAfterPrint: () => void;

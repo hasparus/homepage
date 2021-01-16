@@ -18,12 +18,15 @@ export const makeColors = <
   TInitial extends keyof TModesDict
 >(
   colorModes: TModesDict,
-  initialColorModeName: TInitial
+  initialColorModeName: TInitial,
+  { printColorModeName }: { printColorModeName: keyof TModesDict }
 ): {
   initialColorModeName: TInitial;
+  printColorModeName: keyof TModesDict;
   colors: ColorModesScaleForDict<TModesDict, TInitial>;
 } => ({
   initialColorModeName,
+  printColorModeName,
   colors: {
     ...colorModes[initialColorModeName],
     modes: omit(colorModes, initialColorModeName),
