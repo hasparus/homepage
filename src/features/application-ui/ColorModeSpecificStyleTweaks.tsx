@@ -7,13 +7,12 @@ import {
   ColorModes,
   colorModes,
 } from "../../lib/theme-ui-preset-hasparus-homepage/colorModes";
-import { assert } from "../../lib/util";
 
 export function ColorModeSpecificStyleTweaks() {
   const colorMode = useColorMode()[0] as ColorModes;
 
   if (process.env.NODE_ENV === "development") {
-    assert(
+    console.error(
       colorMode in colorModes,
       `colorMode ${colorMode} is expected to be a key of ${JSON.stringify(
         colorModes,
