@@ -1,4 +1,4 @@
-import { Theme } from "theme-ui";
+import { BaseTheme } from "theme-ui";
 
 const commonButtonStyles = {
   display: "inline",
@@ -11,7 +11,7 @@ const commonButtonStyles = {
   borderRadius: 0,
 } as const;
 
-export const buttons: Theme["buttons"] = {
+export const buttons: BaseTheme["buttons"] = {
   clear: commonButtonStyles,
   primary: {
     ...commonButtonStyles,

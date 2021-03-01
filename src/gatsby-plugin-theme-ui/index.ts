@@ -10,9 +10,13 @@ export const theme = {
   styles: {
     ...preset.styles,
     root: merge(preset.styles.root, headingLinksBodyStyles),
-  },
+  } as typeof preset.styles,
 };
 
 export default theme;
 
 export type ExactTheme = typeof theme;
+
+declare module "theme-ui" {
+  export interface UserTheme extends ExactTheme {}
+}

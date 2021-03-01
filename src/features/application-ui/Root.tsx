@@ -67,7 +67,7 @@ export interface RootProps
   extends Omit<React.ComponentProps<typeof th.root>, "ref"> {}
 
 export const Root = (props: RootProps) => {
-  const { theme } = useThemeUI();
+  const { theme } = useTheme();
 
   const global = useMemo((): CSSObject => {
     return {

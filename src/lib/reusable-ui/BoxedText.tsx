@@ -4,7 +4,7 @@ import { jsx, Themed as th } from "theme-ui";
 
 import { fontSize } from "../theme-ui-preset-hasparus-homepage/tokens";
 
-export type BoxedTextProps = ComponentPropsWithoutRef<typeof th.p>;
+export type BoxedTextProps = ComponentPropsWithoutRef<"p">;
 
 export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
   // <p> cannot appear as descendant of <p>
@@ -15,6 +15,7 @@ export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
     "props" in children &&
     children.props.originalType === "p"
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     children = children.props.children;
   }
 

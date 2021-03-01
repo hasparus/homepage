@@ -1,17 +1,21 @@
 import { omit } from "lodash";
-import { ColorMode, Theme, ThemeStyles } from "theme-ui";
+import { ColorMode, ThemeStyles } from "theme-ui";
 
-// https://github.com/system-ui/theme-specification
-// I want to make sure my theme is correct (assignable to Theme) but narrow
-// the type to the actual value
-export const makeTheme = <T extends Theme>(t: T): T => t;
-export const makeStyles = <T extends ThemeStyles>(s: T): T => s;
+export { makeTheme } from "@theme-ui/css";
+
+// Use this when using styles.
+export const makeStyles = (s: ThemeStyles) =>
+  s as Record<
+    string,
+    Record<string, number | false | string | undefined | null> | undefined
+  >;
+// Uncomment this when writing styles:
+// export const makeStyles = <T extends ThemeStyles>(s: T): {} => s;
 
 type ColorModesDict = Record<string, ColorMode>;
-type ColorModesScaleForDict<
-  D extends ColorModesDict,
-  K extends keyof D
-> = D[K] & { modes: Pick<D, Exclude<keyof D, K>> };
+type ColorModesScaleForDict<D extends object, K extends keyof D> = D[K] & {
+  modes: Pick<D, Exclude<keyof D, K>>;
+};
 
 export const makeColors = <
   TModesDict extends ColorModesDict,

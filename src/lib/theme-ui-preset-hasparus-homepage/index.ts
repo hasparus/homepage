@@ -8,12 +8,16 @@ export type { ColorMode, ColorModes } from "./colorModes";
 
 const space = [0, 4, 8, 16, 32, 64, 128, 256, 512];
 
+const colors: {} = makeColors(colorModes, "soft", {
+  printColorModeName: "light",
+});
+
 export const preset = makeTheme({
   space,
   sizes: space,
 
   ...typography,
-  ...makeColors(colorModes, "soft", { printColorModeName: "light" }),
+  ...colors,
 
   useColorSchemeMediaQuery: true,
   useCustomProperties: true,
