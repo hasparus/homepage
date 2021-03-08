@@ -16,8 +16,8 @@ interface CreateMdxNodeArgs extends ParentSpanPluginArgs {
 async function createFileNode(
   filePath: string,
   createNode: Actions["createNode"],
-  createNodeId: unknown,
-  parentNodeId: unknown
+  createNodeId: (s: string) => string,
+  parentNodeId: string | null | undefined
 ) {
   const fileNode = await baseCreateFileNode(filePath, createNodeId);
   fileNode.parent = parentNodeId;

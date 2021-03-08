@@ -191,7 +191,7 @@ export function GraphOverview(props: GraphOverviewProps) {
       ) {
         const node = params.nodes[0];
         if (node) {
-          navigate(node);
+          void navigate(node);
         }
       });
 

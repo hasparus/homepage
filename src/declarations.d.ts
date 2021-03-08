@@ -1,5 +1,12 @@
 declare module "gatsby-plugin-mdx";
-declare module "gatsby-source-filesystem/create-file-node";
+declare module "gatsby-source-filesystem/create-file-node" {
+  import { NodeInput } from "gatsby";
+
+  export const createFileNode: (
+    filePath: string,
+    createNodeId: (s: string) => string
+  ) => Promise<NodeInput>;
+}
 declare module "@mdx-js/react";
 declare module "remark-slug";
 

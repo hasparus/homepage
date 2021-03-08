@@ -8,7 +8,7 @@ import { nonNullable } from "../../../../lib/util/nonNullable";
 import { References } from "./getReferences";
 
 export const cacheDirectory = (cache: any): string => {
-  return cache.directory;
+  return cache.directory as string;
 };
 
 export type CachedNode = {
@@ -77,6 +77,7 @@ export const getCachedNode = async (
       )
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return { node, ...data };
   } catch (err) {
     return undefined;
@@ -102,7 +103,7 @@ export const getInboundReferences = async (
         path.join(cacheDirectory(cache), inboundFile),
         "utf8"
       )
-    );
+    ) as InboundReferences;
   } catch (err) {
     return undefined;
   }

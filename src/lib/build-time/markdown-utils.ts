@@ -11,7 +11,7 @@ export const REGEX_FENCED_CODE_BLOCK = /^( {0,3}|\t)```[^`\r\n]*$[\w\W]+?^( {0,3
 export function markdownHeadingToPlainText(text: string) {
   // Remove Markdown syntax (bold, italic, links etc.) in a heading
   // For example: `_italic_` -> `italic`
-  return text.replace(/\[([^\]]*)\]\[[^\]]*\]/, (_, g1) => g1);
+  return text.replace(/\[([^\]]*)\]\[[^\]]*\]/, (_, g1) => g1 as string);
 }
 
 export function rxMarkdownHeading(level: number): RegExp {
