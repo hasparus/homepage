@@ -37,7 +37,7 @@ get(x, "a.b.c") === "banana";
 Typing `get` as `(object, string) -> unknown` is clearly inconvenient. I
 want to know that `get(x, 'a.d')` is incorrect without leaving my editor,
 and I want to know that `get(x, 'a.b')` is `{ c: string }` or even
-`{ c: 'banana'}` .
+`{ c: 'banana' }`.
 
 Why would you need such a weird API if you can just write `x.a.b.c` (or
 `x?.a?.b?.c ?? 'default'` to handle missing value)? It's quite convenient
@@ -71,6 +71,8 @@ languages I use feel... "less powerful" now.
 
 The important question is: do you need powerful language features to build
 good, reliable software?
+
+I wouldn't say so.
 
 ---
 

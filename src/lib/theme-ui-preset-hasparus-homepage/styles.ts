@@ -132,7 +132,7 @@ export const styles = makeStyles({
     },
   },
   code,
-  pre: () => ({
+  pre: {
     fontFamily: "monospace",
     fontSize: 0,
     lineHeight: "monospace",
@@ -147,7 +147,7 @@ export const styles = makeStyles({
     mx: [-3, -3, -4],
     p: [2, 3, 4],
     "--scrollbar-color": "255, 255, 255",
-  }),
+  },
   table: {
     width: "100%",
     borderCollapse: "separate",
