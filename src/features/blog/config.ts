@@ -9,6 +9,8 @@ const rootDir = path.resolve(__dirname, "../../../");
 const requirePath = (...args: string[]) =>
   require.resolve(path.resolve(...args));
 
+const extensionsDir = `${rootDir}/__deps__/vscode-extensions`;
+
 export const gatsbyPluginMdxConfig = {
   resolve: "gatsby-plugin-mdx",
   options: {
@@ -29,23 +31,12 @@ export const gatsbyPluginMdxConfig = {
       {
         resolve: "gatsby-remark-vscode",
         options: {
-          extensionDataDirectory: path.resolve(
-            rootDir,
-            "__deps__/vscode-extensions"
-          ),
           injectStyles: false,
-          colorTheme: ({
-            parsedOptions,
-          }: {
-            parsedOptions: { theme: string };
-          }) => parsedOptions.theme || "Night Owl (No Italics)",
+          default: "Night Owl (No Italics)",
           extensions: [
-            { identifier: "hackwaly.ocaml", version: "0.6.43" },
-            { identifier: "sdras.night-owl", version: "1.1.3" },
-            { identifier: "2gua.rainbow-brackets", version: "0.0.6" },
-            { identifier: "fwcd.kotlin", version: "0.2.10" },
-            { identifier: "prisma.vscode-graphql", version: "0.2.2" },
-            { identifier: "benfradet.vscode-unison", version: "0.3.0" },
+            "night-owl",
+            `${extensionsDir}/GraphQL.vscode-graphql-0.3.15.vsix`,
+            `${extensionsDir}/BenFradet.vscode-unison-0.3.0.vsix`,
           ],
         },
       },

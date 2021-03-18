@@ -30,7 +30,7 @@ export function ColorModeSpecificStyleTweaks() {
           html: {
             "--scrollbar-color": "255, 255, 255",
           },
-          ".night-owl-no-italics.vscode-highlight": {
+          ".night-owl-no-italics.grvsc-container": {
             backgroundColor: lighten("background", 0.03),
           } as {},
         })
