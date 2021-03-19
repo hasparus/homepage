@@ -4,11 +4,18 @@ I needed a Jest custom matcher a few days ago, and I couldn't any article I
 could copy-paste it from.
 [The docs](https://jestjs.io/docs/expect#expectextendmatchers) are okay, and
 they even mention how to use `extend.expect` in TypeScript, but I don't like
-their vibe and I think I have some interesting observations which are not
-included there.
+their vibe and I think I have some observations which are not included
+there.
 
 <BoxedText>
-  Dear future me, and other people who land here trying to copy-paste a matcher. [Here's the gist for you.](https://gist.github.com/hasparus/4ebaa17ec5d3d44607f522bcb1cda9fb)
+
+Dear future me, and other people who land here trying to copy-paste a
+matcher.
+[Here's the gist for you.](https://gist.github.com/hasparus/4ebaa17ec5d3d44607f522bcb1cda9fb)
+
+Later down the post I write a lot of unnecessary and overly complex
+typelevel code, so if you're a fan of this kind of stuff, bear with me.
+
 </BoxedText>
 
 I wanted to assert that a long string contains a shorter one, disregarding
@@ -58,21 +65,21 @@ A bunch of useful stuff, innit?
 <!-- TODO: The formatting is broken here. -->
 
 ```tsx
-const noWhitespace = (s: string) => s.replace(/\s/g, "");
+import type { MatcherState } from "expect";
 
-const printSubstring = (val: string): string => val.replace(/"|\\/g,
-"\\\$&");
-
-const printReceivedStringContainExpectedSubstring = ( received: string,
-start: number, length: number // not end ): string => RECEIVED_COLOR( '"' +
-printSubstring(received.slice(0, start)) + INVERTED_COLOR(
-printSubstring(received.slice(start, start + length)) ) +
-printSubstring(received.slice(start + length)) + '"' );
-
-const matchers = { toContainWithoutWhitespace(received: unknown, expected:
-unknown) { const matcherName = "toContainWithoutWhitespace"; const isNot =
-this.isNot; const options: MatcherHintOptions = { comment: "indexOf", isNot,
-promise: this.promise, };
+const matchers = {
+  toContainWithoutWhitespace(
+    this: MatcherState,
+    received: unknown,
+    expected: unknown
+  ) {
+    const matcherName = "toContainWithoutWhitespace";
+    const isNot = this.isNot;
+    const options: MatcherHintOptions = {
+      comment: "indexOf",
+      isNot,
+      promise: this.promise,
+    };
 
     if (typeof received !== "string") {
       throw new Error(
@@ -132,8 +139,30 @@ promise: this.promise, };
     };
 
     return { message, pass };
+  },
+};
+```
 
-}, };
+```tsx
+const noWhitespace = (s: string) => s.replace(/\s/g, "");
+
+const printSubstring = (val: string): string =>
+  val.replace(/"|\\/g, "\\$&");
+
+const printReceivedStringContainExpectedSubstring = (
+  received: string,
+  start: number,
+  length: number
+): string =>
+  RECEIVED_COLOR(
+    '"' +
+      printSubstring(received.slice(0, start)) +
+      INVERTED_COLOR(
+        printSubstring(received.slice(start, start + length))
+      ) +
+      printSubstring(received.slice(start + length)) +
+      '"'
+  );
 ```
 
 Now we need to register it.
@@ -195,4 +224,65 @@ function add(x, y) {
 -  return x + x;
 +  return x + y;
 }
+```
+
+<!-- Summarise it -->
+
+## Going too far with the types
+
+<!-- TODO: Describe why. -->
+<!-- TODO: Describe how. -->
+
+```tsx
+// TypeScript Playground: https://tsplay.dev/WyvXZw
+
+/// <reference types="@types/jest" />
+import type { MatcherState } from 'expect';
+
+
+const matchers = {
+  toHaveWordsCount(this: MatcherState, sentence: string, wordsCount: number) {
+    // implementation redacted
+  },
+};
+
+type Tail<T extends unknown[]> = T extends [infer _Head, ...infer Tail]
+  ? Tail
+  : never;
+
+type AnyFunction = (...args: never[]) => unknown;
+
+type GetMatchersType<
+  TMatchers,
+  TResult,
+  > = {
+    [P in keyof TMatchers]: TMatchers[P] extends AnyFunction
+      ? AnyFunction extends TMatchers[P]
+        ? (...args: Tail<Parameters<TMatchers[P]>>) => TResult
+        : TMatchers[P]
+      : TMatchers[P]
+  };
+
+
+type OnlyMethodsWhereFirstArgIsOfType<
+  TObject extends Record<string, (...args: never[]) => unknown>,
+  TWantedFirstArg
+  > = {
+    [P in keyof TObject]: Parameters<TObject[P]>[0] extends TWantedFirstArg ? TObject[P] : [`Error: this function is present only when received is:`, TWantedFirstArg]
+  }
+
+
+
+declare global {
+  namespace jest {
+    interface Matchers<R, T = {}> extends GetMatchersType<OnlyMethodsWhereFirstArgIsOfType<typeof matchers, T>, R> {
+    }
+  }
+}
+
+// ✅
+expect('foo bar').toHaveWordsCount(2);
+
+// 🔥 error as expected
+expect(20).toHaveWordsCount(2);
 ```
