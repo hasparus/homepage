@@ -16,3 +16,7 @@ export const theme = {
 export default theme;
 
 export type ExactTheme = typeof theme;
+
+export interface ExactThemeFromCtx extends ExactTheme {
+  rawColors: ExactTheme["colors"];
+}

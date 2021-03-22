@@ -1,7 +1,10 @@
 /** @jsx jsx */
 import { jsx, useThemeUI } from "theme-ui";
 
-import { ExactTheme } from "../../gatsby-plugin-theme-ui";
+import {
+  ExactTheme,
+  ExactThemeFromCtx,
+} from "../../gatsby-plugin-theme-ui";
 import { ColorMode } from "../../lib/theme-ui-preset-hasparus-homepage";
 import { RGB } from "../../lib/util";
 
@@ -33,10 +36,10 @@ export interface ContrastRatioProps {
 }
 
 export function ContrastRatio({ colorNames }: ContrastRatioProps) {
-  const theme = useThemeUI().theme as ExactTheme;
+  const theme = useThemeUI().theme as ExactThemeFromCtx;
 
   const [one, two] = colorNames.map((colorName) =>
-    RGB(theme.colors[colorName])
+    RGB(theme.rawColors[colorName])
   );
 
   const result = contrast(one!, two!).toFixed(2);
