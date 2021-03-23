@@ -6,7 +6,7 @@ export interface GatsbyPageProps {
   pageContext: unknown;
   pageResources: unknown;
   path: string;
-  pathContext: unknown;
+  pageContext: unknown;
   url: string;
 }
 

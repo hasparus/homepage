@@ -50,7 +50,7 @@ export const createPages: GatsbyNode["createPages"] = async (
   const parsedOptions = parseOptions(options);
 
   type Result = {
-    errors?: unknown;
+    errors?: Error[];
     data?: {
       allFile: {
         nodes: Array<NoteFieldsOnFile>;
@@ -94,8 +94,17 @@ export const createPages: GatsbyNode["createPages"] = async (
     `
   );
 
-  if (result.errors) {
+  // I'm beyond caring about this error.
+  result.errors = result.errors?.filter(
+    (e) =>
+      !e.message.includes(
+        'The node type "GRVSCCodeBlock" is owned by "gatsby-plugin-mdx".'
+      )
+  );
+
+  if (result.errors?.length) {
     console.error(result.errors);
+    debugger;
     throw new Error("Could not query notes");
   }
 
@@ -103,6 +112,14 @@ export const createPages: GatsbyNode["createPages"] = async (
     .data!.allFile.nodes.filter((node) =>
       shouldHandleFile(node, parsedOptions)
     )
+    .filter((x) => {
+      if (!x.childMdx) {
+        console.warn("[gatsby-theme-notes-brain] localFile omitted", x);
+        return false;
+      }
+
+      return true;
+    })
     .filter((x) => !x.childMdx?.frontmatter.isHidden);
 
   localFiles.forEach((node) => {

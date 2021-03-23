@@ -14,14 +14,7 @@ export const references = graphql`
       }
     }
     inboundReferences {
-      node {
-        ... on Mdx {
-          fields {
-            title
-            route
-          }
-        }
-      }
+      
       paragraph
     }
   }

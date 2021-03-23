@@ -114,11 +114,11 @@ const noteHeadingsFontSizesStyle = {
 
 interface NoteLayoutProps {
   children: React.ReactNode;
-  pathContext: NotePagePathContext;
+  pageContext: NotePagePathContext;
   // path: string;
 }
 
-export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
+export function NoteLayout({ children, pageContext }: NoteLayoutProps) {
   assertChildrenHaveNoMoreThanOneTopH1(children);
 
   const {
@@ -126,7 +126,7 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
     inboundReferences,
     outboundReferences,
     socialLinks,
-  } = pathContext;
+  } = pageContext;
 
   // I'm gonna finish it some day.
   const spoiler = ""; // TODO
@@ -150,7 +150,19 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
                   {inboundReferences.length === 1 ? "" : "s"} in
                 </th.h3>
               </header>
-              {inboundReferences.map(({ node: { fields }, paragraph }) => {
+              {inboundReferences.map(({ node, paragraph }) => {
+                if (!node) {
+                  if (process.env.NODE_ENV === 'development') {
+                    console.warn(
+                      'inbound reference node missing',
+                      { node, paragraph }
+                    )
+                  }
+                  return null;
+                }
+
+                const { fields } = node;
+
                 return (
                   <ReferenceLink
                     key={fields!.route}

@@ -19,9 +19,12 @@ export async function findReferenceLinkParagraph(
       node: any
     ) => Promise<{ mdast: { children: unist.Parent[] } }>;
   }
-) {
+): Promise<string> {
   if (mdxNode.paragraphWithWikiLink) {
-    return Promise.resolve(mdxNode.paragraphWithWikiLink);
+    // TODO: Is this still needed?
+    return Promise.resolve(mdxNode.paragraphWithWikiLink) as Promise<
+      string
+    >;
   }
 
   const { mdast } = await processMDX(mdxNode);
@@ -97,6 +100,7 @@ export async function findReferenceLinkParagraph(
 
     return nodes.push(node.value);
   });
+
   return nodes.join("");
 }
 

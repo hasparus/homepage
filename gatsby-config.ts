@@ -60,22 +60,22 @@ const utilityPlugins = [
     },
   },
   // can I get rid of this?
-  {
-    resolve: "gatsby-plugin-codegen",
-    options: {
-      localSchemaFile: "gql-schema.json",
-      output: "./__generated__",
-      includes: [
-        "./src/**/*.tsx",
-        "./src/**/*.ts",
-        "./src/**/*fragments.js",
-        // "./node_modules/gatsby-source-contentful/src/fragments.js",
-        // "./node_modules/gatsby-source-datocms/fragments/*.js",
-        // "./node_modules/gatsby-source-sanity/fragments/*.js",
-        // "./node_modules/gatsby-transformer-sharp/src/fragments.js",
-      ],
-    },
-  },
+  // {
+  //   resolve: "gatsby-plugin-codegen",
+  //   options: {
+  //     localSchemaFile: "gql-schema.json",
+  //     output: "./__generated__",
+  //     includes: [
+  //       "./src/**/*.tsx",
+  //       "./src/**/*.ts",
+  //       "./src/**/*fragments.js",
+  //       // "./node_modules/gatsby-source-contentful/src/fragments.js",
+  //       // "./node_modules/gatsby-source-datocms/fragments/*.js",
+  //       // "./node_modules/gatsby-source-sanity/fragments/*.js",
+  //       // "./node_modules/gatsby-transformer-sharp/src/fragments.js",
+  //     ],
+  //   },
+  // },
   "gatsby-plugin-react-helmet",
   "gatsby-plugin-robots-txt",
   {

@@ -3327,17 +3327,10 @@
     "@theme-ui/css" "^0.6.0"
     deepmerge "^4.2.2"
 
-<<<<<<< HEAD
-"@theme-ui/color@0.6.0-alpha.6":
-  version "0.6.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/@theme-ui/color/-/color-0.6.0-alpha.6.tgz#478aa905186bc6caef462fb5b78666e719cb1f90"
-  integrity sha512-1KaraACf9+hVx0jK5VegL4emjcN0ak42wGXywjAc+O2kFqJmvsGTCzI1zMHtH+teNIGvb5huFJi7cZk6VD4KKA==
-=======
 "@theme-ui/color@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@theme-ui/color/-/color-0.6.0.tgz#de95247f354fd7fd27f6d9c79735dd0e553bcf83"
   integrity sha512-YuksKwKUEbKbn4FIVZFHXeI775xAuxRFSoSG5vxZbwzR6vRt1lIgww7X9+7ZMGx0NtaJQC8lF4FHYW4SUyOguQ==
->>>>>>> master
   dependencies:
     "@theme-ui/css" "^0.6.0"
     polished "^4.0.5"
@@ -3365,17 +3358,10 @@
     "@theme-ui/parse-props" "^0.6.0"
     deepmerge "^4.2.2"
 
-<<<<<<< HEAD
-"@theme-ui/css@0.6.0-alpha.6":
-  version "0.6.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/@theme-ui/css/-/css-0.6.0-alpha.6.tgz#1dee7224e7531b635a96c7ce1f0ab7dbaafe8d8f"
-  integrity sha512-KB7+DZ2WXfO6EF+dTXLB3sr9HgtDLPSVw5tbVUIdH1WPJUMf0V9vdl+8BzHWDVxfYoyTo2d2F/4k1rmwm7jivA==
-=======
 "@theme-ui/css@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@theme-ui/css/-/css-0.6.0.tgz#4fca3a2e730da232fbb67a1431bf7199ae6db977"
   integrity sha512-+44BewW6nM4E4Fg4viutWV3y/AFxBDPgceStPoKNMWKB2h28KXFuEJIOyHse8sX39Keg/RIIcBk2q0EcDpB+LQ==
->>>>>>> master
   dependencies:
     "@emotion/react" "^11.1.1"
     csstype "^3.0.5"
@@ -9505,17 +9491,10 @@ gatsby-plugin-sitemap@^3.1.0:
     pify "^3.0.0"
     sitemap "^1.13.0"
 
-<<<<<<< HEAD
-gatsby-plugin-theme-ui@0.6.0-alpha.6:
-  version "0.6.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-theme-ui/-/gatsby-plugin-theme-ui-0.6.0-alpha.6.tgz#7ee2539eb572461806ca471d5dff9314b2d4eefa"
-  integrity sha512-+++3Qa1gEGDHv0F+vtA1CIX496xiMbm8QzYvszvgSlxGCyyIBL9ILYusrz0y6mPo54AdJuNpB/75Ap8At8HMZg==
-=======
-gatsby-plugin-theme-ui@^0.6.0:
+gatsby-plugin-theme-ui@0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-theme-ui/-/gatsby-plugin-theme-ui-0.6.0.tgz#a6c665783ed9b363bf1640f827c453286f0cfdaa"
   integrity sha512-3qUrw1DkpmrkviJ2BNTtXlhLceotKeC/idPIm9mioHKCYSZQA52+WvMDmE4yFCFcgEriqY4zCKQ3ELaBaIY/QQ==
->>>>>>> master
 
 gatsby-plugin-typescript@^3.1.0:
   version "3.1.0"
@@ -10437,12 +10416,10 @@ graphql-type-json@0.3.2, graphql-type-json@^0.3.2:
   resolved "https://registry.yarnpkg.com/graphql-type-json/-/graphql-type-json-0.3.2.tgz#f53a851dbfe07bd1c8157d24150064baab41e115"
   integrity sha512-J+vjof74oMlCWXSvt0DOf2APEdZOCdubEvGDUAlqH//VBYcOYsGgRW7Xzorr44LvkjiuvecWc8fChxuZZbChtg==
 
-"graphql@14.0.2 - 14.2.0 || ^14.3.1", graphql@14.5.8, graphql@^14.5.8, graphql@^15.4.0:
-  version "14.5.8"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.5.8.tgz#504f3d3114cb9a0a3f359bbbcf38d9e5bf6a6b3c"
-  integrity sha512-MMwmi0zlVLQKLdGiMfWkgQD7dY/TUKt4L+zgJ/aR0Howebod3aNgP5JkgvAULiR2HPVZaP2VEElqtdidHweLkg==
-  dependencies:
-    iterall "^1.2.2"
+"graphql@14.0.2 - 14.2.0 || ^14.3.1", graphql@15.4.0, graphql@^14.5.8, graphql@^15.4.0:
+  version "15.4.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.4.0.tgz#e459dea1150da5a106486ba7276518b5295a4347"
+  integrity sha512-EB3zgGchcabbsU9cFe1j+yxdzKQKAbGUWRb13DsrsMN1yyfmmIq+2+L5MqVWcDCE4V89R5AyUOi7sMOGxdsYtA==
 
 gray-matter@^4.0.2:
   version "4.0.2"
@@ -11868,7 +11845,7 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
-iterall@^1.2.1, iterall@^1.2.2, iterall@^1.3.0:
+iterall@^1.2.1, iterall@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.3.0.tgz#afcb08492e2915cbd8a0884eb93a8c94d0d72fea"
   integrity sha512-QZ9qOMdF+QLHxy1QIpUHUU1D5pS2CG2P69LF6L6CPjPYA/XMOmKV3PZpawHoAjHNyB0swdVTRxdYT4tbBbxqwg==
@@ -17604,19 +17581,6 @@ text-table@0.2.0, text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-<<<<<<< HEAD
-theme-ui@0.6.0-alpha.6:
-  version "0.6.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/theme-ui/-/theme-ui-0.6.0-alpha.6.tgz#c469bce1f069ae16f61e9108f194ffd1e4830237"
-  integrity sha512-25MxXgajFpZErHcc8l2VXAP/f3+oU3fgMkRvyjMQUUSj/IGYhLu4g5fPhmDK4eg2dNhEYDRw07zxE/L4vKrlZg==
-  dependencies:
-    "@theme-ui/color-modes" "0.6.0-alpha.6"
-    "@theme-ui/components" "0.6.0-alpha.6"
-    "@theme-ui/core" "0.6.0-alpha.6"
-    "@theme-ui/css" "0.6.0-alpha.6"
-    "@theme-ui/mdx" "0.6.0-alpha.6"
-    "@theme-ui/theme-provider" "0.6.0-alpha.6"
-=======
 theme-ui@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/theme-ui/-/theme-ui-0.6.0.tgz#21365591a154afad81cebb90753d25c33b8d4a57"
@@ -17628,7 +17592,6 @@ theme-ui@^0.6.0:
     "@theme-ui/css" "^0.6.0"
     "@theme-ui/mdx" "^0.6.0"
     "@theme-ui/theme-provider" "^0.6.0"
->>>>>>> master
 
 through2@^2.0.1:
   version "2.0.5"

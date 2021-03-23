@@ -15,21 +15,21 @@ import { formatTitle } from "../lib/util/formatTitle";
 
 interface TalkNoteLayoutProps {
   children: React.ReactNode;
-  pathContext: import("../../gatsby-node").MdxPostPageContext;
+  pageContext: import("../../gatsby-node").MdxPostPageContext;
   path: string;
 }
 
 // eslint-disable-next-line import/no-default-export
 export function TalkNoteLayout({
   children,
-  pathContext,
+  pageContext,
   path,
 }: TalkNoteLayoutProps) {
-  if (!pathContext.frontmatter) {
+  if (!pageContext.frontmatter) {
     return null;
   }
 
-  const { frontmatter, socialImage, history } = pathContext;
+  const { frontmatter, socialImage, history, socialLinks } = pageContext;
   const title = frontmatter.title || "";
   const spoiler = frontmatter.spoiler || "";
   const date = frontmatter.date as Date | string;
@@ -57,7 +57,7 @@ export function TalkNoteLayout({
           </PostHeader>
           {children}
           <footer>
-            <TweetDiscussEditLinks socialLinks={pathContext.socialLinks} />
+            <TweetDiscussEditLinks socialLinks={socialLinks} />
           </footer>
         </article>
       </main>

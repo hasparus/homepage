@@ -14,7 +14,7 @@ const isAliasesFrontmatter = (x: unknown): x is AliasesFrontmatter =>
 
 function getAliases(node: Node) {
   if (isAliasesFrontmatter(node.frontmatter)) {
-    return node.frontmatter.aliases ;
+    return node.frontmatter.aliases;
   }
   return [];
 }
@@ -37,27 +37,34 @@ export const onCreateNode = async (
   { cache, node, loadNodeContent }: CreateNodeArgs,
   opts?: MarkdownReferencesPluginOptions.Input
 ) => {
-  const options = parseOptions(opts);
+  try {
+    const options = parseOptions(opts);
 
-  // if we shouldn't process this node, then return
-  if (!options.types.includes(node.internal.type)) {
-    return;
+    // if we shouldn't process this node, then return
+    if (!options.types.includes(node.internal.type)) {
+      return;
+    }
+
+    const content = await loadNodeContent(node);
+
+    const outboundReferences = getReferences(content);
+
+    assertIsMdxNode(node);
+
+    const title = getNodeTitle(node, content);
+    const aliases = getAliases(node);
+
+    await clearInboundReferences(cache);
+    await setCachedNode(cache, node.id, {
+      node,
+      outboundReferences,
+      title,
+      aliases,
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error(
+      `[gatsby-transformer-markdown-references] Failed in onCreateNode: ${err.message}`
+    );
   }
-
-  const content = await loadNodeContent(node);
-
-  const outboundReferences = getReferences(content);
-
-  assertIsMdxNode(node);
-
-  const title = getNodeTitle(node, content);
-  const aliases = getAliases(node);
-
-  await clearInboundReferences(cache);
-  await setCachedNode(cache, node.id, {
-    node,
-    outboundReferences,
-    title,
-    aliases,
-  });
 };

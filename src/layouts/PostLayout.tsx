@@ -11,22 +11,25 @@ import { TweetDiscussEditLinks } from "../features/social-sharing/TweetDiscussEd
 
 interface PostLayoutProps {
   children: React.ReactNode;
-  pathContext: import("../../gatsby-node").MdxPostPageContext;
+  pageContext: import("../../gatsby-node").MdxPostPageContext;
   path: string;
 }
 
 // eslint-disable-next-line import/no-default-export
 export function PostLayout({
   children,
-  pathContext,
+  pageContext,
   path,
 }: PostLayoutProps) {
   // HMR issue?
-  if (!pathContext.frontmatter) {
+  if (!pageContext.frontmatter) {
     return null;
   }
 
-  const { frontmatter, readingTime, socialImage, history } = pathContext;
+  const {
+    frontmatter, readingTime, socialImage, history, socialLinks
+  } = pageContext;
+
   const title = frontmatter.title || "";
   const spoiler = frontmatter.spoiler || "";
   const date = frontmatter.date as Date | string;
@@ -59,7 +62,7 @@ export function PostLayout({
           </PostHeader>
           {children}
           <footer>
-            <TweetDiscussEditLinks socialLinks={pathContext.socialLinks} />
+            <TweetDiscussEditLinks socialLinks={socialLinks} />
           </footer>
         </article>
       </main>
