@@ -5,7 +5,7 @@ import { jsx, Themed as th, useThemeUI } from "theme-ui";
 import { Ellipse, Group, Illustration, Shape } from "zdog";
 
 import { Seo } from "../features/seo/Seo";
-import { ExactTheme } from "../gatsby-plugin-theme-ui";
+import { ExactThemeFromCtx } from "../gatsby-plugin-theme-ui";
 import { PageLayout } from "../layouts/PageLayout";
 
 function useMousePositionRef() {
@@ -30,7 +30,8 @@ function useMousePositionRef() {
 
 // TODO: Test if it affects bundle size on other pages
 const FourOhFourPage = () => {
-  const { colors, styles } = useThemeUI().theme as ExactTheme;
+  const { rawColors: colors, styles } = useThemeUI()
+    .theme as ExactThemeFromCtx;
   const svgElement = useRef<SVGSVGElement>(null);
   const mousePos = useMousePositionRef();
 

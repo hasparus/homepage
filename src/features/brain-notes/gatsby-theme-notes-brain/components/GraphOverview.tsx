@@ -5,7 +5,7 @@ import { jsx, useThemeUI } from "theme-ui";
 import type { Edge, Network, Node } from "vis-network/peer";
 
 import { GraphOverviewNotesQuery } from "../../../../../graphql-types";
-import { ExactTheme } from "../../../../gatsby-plugin-theme-ui";
+import { ExactTheme, ExactThemeFromCtx } from "../../../../gatsby-plugin-theme-ui";
 import { ColorMode } from "../../../../lib/theme-ui-preset-hasparus-homepage";
 
 import "vis-network/styles/vis-network.css";
@@ -88,7 +88,7 @@ export interface GraphOverviewProps {
 }
 
 export function GraphOverview(props: GraphOverviewProps) {
-  const { colors } = useThemeUI().theme as ExactTheme;
+  const { rawColors: colors } = useThemeUI().theme as ExactThemeFromCtx;
 
   const data = useStaticQuery<GraphOverviewNotesQuery>(graphql`
     query GraphOverviewNotes {

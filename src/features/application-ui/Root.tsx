@@ -10,6 +10,7 @@ import {
   useThemeUI,
 } from "theme-ui";
 
+import { ExactThemeFromCtx } from "../../gatsby-plugin-theme-ui";
 import { fontSize } from "../../gatsby-plugin-theme-ui/tokens";
 
 import { ColorModeSpecificStyleTweaks } from "./ColorModeSpecificStyleTweaks";
@@ -67,7 +68,7 @@ export interface RootProps
   extends Omit<React.ComponentProps<typeof th.root>, "ref"> {}
 
 export const Root = (props: RootProps) => {
-  const { theme } = useThemeUI();
+  const theme = useThemeUI().theme as ExactThemeFromCtx;
 
   const global = useMemo((): CSSObject => {
     return {
@@ -79,7 +80,7 @@ export const Root = (props: RootProps) => {
   return (
     <Fragment>
       <Helmet>
-        <meta name="theme-color" content={theme.colors!.background} />
+        <meta name="theme-color" content={theme.rawColors.background} />
       </Helmet>
       <Global styles={global} />
       <ColorModeSpecificStyleTweaks />
