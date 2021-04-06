@@ -176,3 +176,7 @@ export const plugins = [
   ...contentPlugins,
   ...utilityPlugins,
 ];
+
+export const flags = {
+  DEV_SSR: true,
+};
