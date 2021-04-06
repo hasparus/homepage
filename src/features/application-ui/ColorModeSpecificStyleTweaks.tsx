@@ -19,7 +19,7 @@ export function ColorModeSpecificStyleTweaks() {
           null,
           2
         )}
-        \nDid you leave a token from other ThemeUI app there?`
+        \nDid you leave a color mode name from other ThemeUI app there?`
       );
     }
   }
