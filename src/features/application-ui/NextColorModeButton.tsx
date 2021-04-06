@@ -17,9 +17,8 @@ export const NextColorModeButton = ({
   const [colorMode, setColorMode] = useColorMode();
 
   const modes = keys(colorModes);
-  const nextColorMode = modes[
-    (modes.indexOf(colorMode as ColorModes) + 1) % modes.length
-  ]!;
+  const nextColorMode =
+    modes[(modes.indexOf(colorMode as ColorModes) + 1) % modes.length];
 
   return (
     <Button
@@ -29,13 +28,16 @@ export const NextColorModeButton = ({
         // we'd like to prevent it
         e.preventDefault();
 
-        setColorMode(nextColorMode);
+        if (nextColorMode) {
+          setColorMode(nextColorMode);
+        }
       }}
       title={`change color mode to "${nextColorMode}"`}
       {...rest}
       sx={{
         px: "0.5em",
         color: "text092",
+        whiteSpace: "pre-wrap",
         ":hover, :focus": {
           bg: "muted",
           color: "text",
@@ -43,7 +45,7 @@ export const NextColorModeButton = ({
         ...rest.sx,
       }}
     >
-      {children || colorMode}
+      {children || colorMode || "    "}
     </Button>
   );
 };

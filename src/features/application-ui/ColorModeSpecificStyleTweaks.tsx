@@ -12,7 +12,7 @@ export function ColorModeSpecificStyleTweaks() {
   const colorMode = useColorMode()[0] as ColorModes;
 
   if (process.env.NODE_ENV === "development") {
-    if (!(colorMode in colorModes)) {
+    if (colorMode && !(colorMode in colorModes)) {
       console.error(
         `colorMode ${colorMode} is expected to be a key of ${JSON.stringify(
           colorModes,

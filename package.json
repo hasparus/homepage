@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src/**/*.{js,jsx,tsx,ts}",
     "debug:develop": "node --nolazy --inspect-brk node_modules/gatsby/dist/bin/gatsby develop",
-    "postinstall": ""
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@babel/parser": "^7.12.3",
@@ -68,7 +68,7 @@
     "gatsby-plugin-manifest": "^2.4.34",
     "gatsby-plugin-mdx": "^1.2.46",
     "gatsby-plugin-netlify-cache": "^1.2.0",
-    "gatsby-plugin-react-helmet": "^3.3.13",
+    "gatsby-plugin-react-helmet": "^3.10.0",
     "gatsby-plugin-robots-txt": "^1.5.3",
     "gatsby-plugin-sharp": "^2.6.39",
     "gatsby-plugin-sitemap": "^2.4.15",
