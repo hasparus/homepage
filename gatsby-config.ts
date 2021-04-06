@@ -46,36 +46,40 @@ const utilityPlugins = [
       allowNamespaces: true,
     },
   },
-  {
-    // @see https://www.gatsbyjs.com/plugins/gatsby-plugin-graphql-codegen/
-    resolve: "gatsby-plugin-graphql-codegen",
-    options: {
-      documentPaths: [
-        "./src/**/*.{ts,tsx,js,jsx}",
-        "./node_modules/gatsby-*/**/*.js",
-        // there are no defs in .cache right now, so I'm commenting this to get
-        // rid of redundancy warning
-        // "./.cache/fragments/*.js",
-      ],
-    },
-  },
-  // can I get rid of this?
-  {
-    resolve: "gatsby-plugin-codegen",
-    options: {
-      localSchemaFile: "gql-schema.json",
-      output: "./__generated__",
-      includes: [
-        "./src/**/*.tsx",
-        "./src/**/*.ts",
-        "./src/**/*fragments.js",
-        // "./node_modules/gatsby-source-contentful/src/fragments.js",
-        // "./node_modules/gatsby-source-datocms/fragments/*.js",
-        // "./node_modules/gatsby-source-sanity/fragments/*.js",
-        // "./node_modules/gatsby-transformer-sharp/src/fragments.js",
-      ],
-    },
-  },
+  ...(process.env.NODE_ENV !== "development"
+    ? [
+        {
+          // @see https://www.gatsbyjs.com/plugins/gatsby-plugin-graphql-codegen/
+          resolve: "gatsby-plugin-graphql-codegen",
+          options: {
+            documentPaths: [
+              "./src/**/*.{ts,tsx,js,jsx}",
+              "./node_modules/gatsby-*/**/*.js",
+              // there are no defs in .cache right now, so I'm commenting this to get
+              // rid of redundancy warning
+              // "./.cache/fragments/*.js",
+            ],
+          },
+        },
+        // can I get rid of this?
+        {
+          resolve: "gatsby-plugin-codegen",
+          options: {
+            localSchemaFile: "gql-schema.json",
+            output: "./__generated__",
+            includes: [
+              "./src/**/*.tsx",
+              "./src/**/*.ts",
+              "./src/**/*fragments.js",
+              // "./node_modules/gatsby-source-contentful/src/fragments.js",
+              // "./node_modules/gatsby-source-datocms/fragments/*.js",
+              // "./node_modules/gatsby-source-sanity/fragments/*.js",
+              // "./node_modules/gatsby-transformer-sharp/src/fragments.js",
+            ],
+          },
+        },
+      ]
+    : []),
   "gatsby-plugin-react-helmet",
   "gatsby-plugin-robots-txt",
   {
