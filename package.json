@@ -86,6 +86,7 @@
     "js-levenshtein": "^1.1.6",
     "lodash": "^4.17.20",
     "lunr": "^2.3.9",
+    "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
     "preval.macro": "^5.0.0",
     "puppeteer": "^5.3.1",
