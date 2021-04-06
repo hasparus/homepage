@@ -15,3 +15,5 @@ config:
   namingConvention: keep
   transformUnderscore: false
   enumsAsTypes: true
+scalars:
+  Date: "Date | string"

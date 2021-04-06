@@ -93,7 +93,7 @@ const ThemePage = () => {
     <PageLayout>
       <th.h1>Theme</th.h1>
       <div>
-        {keys(colorModes).map((colorMode) => (
+        {currentColorMode && keys(colorModes).map((colorMode) => (
           <Button
             key={colorMode}
             sx={{
@@ -111,7 +111,7 @@ const ThemePage = () => {
       <section>
         <th.h2>Colors</th.h2>
         <ColorSquareList>
-          {pipe(
+          {currentColorMode && pipe(
             currentColorMode,
             filter(isString),
             collect((colorName, colorValue) => (
