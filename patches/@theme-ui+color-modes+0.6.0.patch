@@ -1,0 +1,52 @@
+diff --git a/node_modules/@theme-ui/color-modes/dist/index.esm.js b/node_modules/@theme-ui/color-modes/dist/index.esm.js
+index 6eafc0a..70f571e 100644
+--- a/node_modules/@theme-ui/color-modes/dist/index.esm.js
++++ b/node_modules/@theme-ui/color-modes/dist/index.esm.js
+@@ -185,7 +185,7 @@ var useColorModeState = function useColorModeState(theme) {
+     }
+ 
+     var preferredMode = theme.useColorSchemeMediaQuery !== false && getPreferredColorScheme();
+-    return preferredMode || theme.initialColorModeName;
++    return preferredMode // || theme.initialColorModeName; — TODO: Should I merge this change upstream to Theme UI?
+   }),
+       mode = _useState[0],
+       setMode = _useState[1]; // on first render, we read the color mode from localStorage and
+diff --git a/node_modules/@theme-ui/color-modes/dist/index.js b/node_modules/@theme-ui/color-modes/dist/index.js
+index ba32917..94398e1 100644
+--- a/node_modules/@theme-ui/color-modes/dist/index.js
++++ b/node_modules/@theme-ui/color-modes/dist/index.js
+@@ -189,7 +189,7 @@ var useColorModeState = function useColorModeState(theme) {
+     }
+ 
+     var preferredMode = theme.useColorSchemeMediaQuery !== false && getPreferredColorScheme();
+-    return preferredMode || theme.initialColorModeName;
++    return preferredMode // || theme.initialColorModeName; — TODO: Should I merge this change upstream to Theme UI?
+   }),
+       mode = _useState[0],
+       setMode = _useState[1]; // on first render, we read the color mode from localStorage and
+diff --git a/node_modules/@theme-ui/color-modes/dist/index.modern.js b/node_modules/@theme-ui/color-modes/dist/index.modern.js
+index c5e48c1..b83b6d5 100644
+--- a/node_modules/@theme-ui/color-modes/dist/index.modern.js
++++ b/node_modules/@theme-ui/color-modes/dist/index.modern.js
+@@ -170,7 +170,7 @@ const useColorModeState = (theme = {}) => {
+     }
+ 
+     const preferredMode = theme.useColorSchemeMediaQuery !== false && getPreferredColorScheme();
+-    return preferredMode || theme.initialColorModeName;
++    return preferredMode // || theme.initialColorModeName; — TODO: Should I merge this change upstream to Theme UI?
+   }); // on first render, we read the color mode from localStorage and
+   // clear the class on document element body
+ 
+diff --git a/node_modules/@theme-ui/color-modes/dist/index.umd.js b/node_modules/@theme-ui/color-modes/dist/index.umd.js
+index d0b67c8..684c500 100644
+--- a/node_modules/@theme-ui/color-modes/dist/index.umd.js
++++ b/node_modules/@theme-ui/color-modes/dist/index.umd.js
+@@ -189,7 +189,7 @@
+       }
+ 
+       var preferredMode = theme.useColorSchemeMediaQuery !== false && getPreferredColorScheme();
+-      return preferredMode || theme.initialColorModeName;
++      return preferredMode || // || theme.initialColorModeName; — TODO: Should I merge this change upstream to Theme UI?
+     }),
+         mode = _useState[0],
+         setMode = _useState[1]; // on first render, we read the color mode from localStorage and
