@@ -1,5 +1,6 @@
 export const fontSize = {
   base: "21px",
+  smaller: [-1, 0],
   small: [0, 1],
   normal: [1, 2],
 };
@@ -25,8 +26,8 @@ export const typography = {
    */
   fontSizes: Object.assign(
     [
-      "0.694em",
-      "0.833em",
+      "0.694rem",
+      "0.833rem",
       "1rem",
       "1.5rem",
       "1.563rem",

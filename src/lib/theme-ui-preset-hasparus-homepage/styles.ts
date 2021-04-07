@@ -112,7 +112,10 @@ export const styles = makeStyles({
     lineHeight: "body",
     width: "63ch",
     maxWidth: "100%",
-    code,
+    "& code": {
+      ...code,
+      verticalAlign: "middle",
+    },
     sup: {
       fontSize: 0,
     },

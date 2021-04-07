@@ -26,6 +26,9 @@ export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
         fontSize: fontSize.small,
         width: "100%",
         fontStyle: "italic",
+        "& code": {
+          fontSize: fontSize.smaller,
+        },
       }}
       {...rest}
     >
