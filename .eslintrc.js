@@ -20,6 +20,8 @@ module.exports = {
   },
   rules: {
     ...preset.rules,
+    "react/jsx-pascal-case": "off", // todo: remove this from Flick's preset
+
     // it's just a blog
     "no-nested-ternary": "off",
     "react/no-unescaped-entities": "off",

@@ -115,11 +115,16 @@ export const styles = makeStyles({
     "& code": {
       ...code,
       verticalAlign: "middle",
+      display: "inline-flex",
     },
-    sup: {
+    "& sup": {
       fontSize: 0,
+      "& code": {
+        fontSize: [0],
+      },
     },
   },
+
   a: {
     overflowWrap: "break-word",
     color: "primary",
@@ -179,6 +184,9 @@ export const styles = makeStyles({
   li: {
     width: "63ch",
     maxWidth: "100%",
+    "& code": {
+      verticalAlign: "middle",
+    },
   },
   blockquote: {
     margin: 0,
@@ -188,6 +196,10 @@ export const styles = makeStyles({
     "*": {
       color: "mutedText",
       fontSize: fontSize.small,
+    },
+    "& p > code": {
+      fontSize: fontSize.smaller,
+      verticalAlign: "middle",
     },
   },
   hr: {

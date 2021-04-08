@@ -1,4 +1,5 @@
 import { Button } from "../../src/lib/reusable-ui/Button";
+import { Annotation } from "../../src/lib/reusable-ui/Annotation";
 
 # Going too far with Jest Custom Matchers in TypeScript
 
@@ -225,9 +226,10 @@ const _2 = matcherHint(matcherName, "text", "substring", {
 // const _2 = "expect(text).resolves.not.toContainWithoutWhitespace(substring);"
 ```
 
-`isNot` and `promise` are slots for `this.isNot` <sup>_`boolean`_</sup> and
-`this.promise` <sup>_`"resolves" | "rejects" | ""`_</sup> from Jest matcher
-context.
+`isNot` and `promise` are slots
+for&nbsp;<Annotation type="boolean">this.isNot</Annotation>
+and&nbsp;<Annotation type='"rejects" | "resolves" | ""'>this.promise</Annotation>
+from Jest matcher context.
 
 We can also add a comment and customize colors of first and second arguments
 (_"text"_ and _"substring"_ in our exmmple)
