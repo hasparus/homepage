@@ -130,7 +130,6 @@ export function NoteLayout({ children, pathContext }: NoteLayoutProps) {
 
   // I'm gonna finish it some day.
   const spoiler = ""; // TODO
-  const date = new Date();
   const path = ""; // TODO
 
   return (
