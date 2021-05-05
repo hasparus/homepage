@@ -16,6 +16,8 @@ import {
 import { theme } from "./index";
 import { fontSize } from "./tokens";
 
+const isApple = /Mac|IPad|IPhone/i.test(navigator.platform);
+
 const components = {
   Epistemic: EpistemicNote,
   CodesandboxIframe,
@@ -57,6 +59,16 @@ const components = {
     }
     const { href, ...rest } = props;
     return <Link sx={theme.styles.a} to={href} {...rest} />;
+  },
+  Kbd: ({
+    children,
+    ...rest
+  }: ComponentPropsWithoutRef<"kbd"> & { children: string }) => {
+    if (isApple) {
+      children = children.replace("Ctrl", "Cmd");
+    }
+
+    return <kbd {...rest}>{children}</kbd>;
   },
 };
 
