@@ -1,7 +1,7 @@
 <BoxedText>
 
-TLDR: A set of documentation components in your framework of choice
-rendered inside of your app on /docs page.
+TLDR: A set of documentation components in your framework of choice rendered
+inside of your app on /docs page.
 
 </BoxedText>
 
@@ -15,8 +15,8 @@ has tons of awesome features — a huge surface, multiplicity of choices.
 
 But do you really need it when you're trying to launch an app?
 
-Where Storybook shines the brightest is libraries. You can presume that
-most frontend folk are familiar with Storybook or will be able to pick it up
+Where Storybook shines the brightest is libraries. You can presume that most
+frontend folk are familiar with Storybook or will be able to pick it up
 fast. It's so popular we could probably call it a standard for component
 examples.
 
@@ -81,8 +81,8 @@ Obviously, this idea has trade-offs that we need to consider.
 - Storybook supports 12 component frameworks, but I just need one at a time.
 - I lose access to a huge plugin ecosystem, but I want to go _smaller_ and
   remove everything we don't desperately need.
-- I will definitely not handle all corner cases at first, so I'll need to
-  revisit the code and expand it as I use it. We're not free from
-  maintenance. Question is — Is maintaining a set of _programmable_
-  components in your language/framework of choice easier than maintaining a
-  bunch of config files?
+- And the most serious problem — I will definitely not handle all corner
+  cases at first, so I'll need to revisit the code and expand it as I use
+  it. We're not free from maintenance. Question is — Is maintaining a set of
+  _programmable_ components in your language/framework of choice easier than
+  maintaining a bunch of config files?
