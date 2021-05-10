@@ -16,7 +16,12 @@ import {
 import { theme } from "./index";
 import { fontSize } from "./tokens";
 
-const isApple = /Mac|IPad|IPhone/i.test(navigator.platform);
+const isApple =
+  // It's more convenient to default to "Cmd" on the server, as MacOS does
+  // have Ctrl key, but other devices don't have "Cmd", so we minimize total
+  // confusion.
+  typeof window === "undefined" ||
+  /Mac|IPad|IPhone/i.test(navigator.platform);
 
 const components = {
   Epistemic: EpistemicNote,
