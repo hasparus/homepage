@@ -69,7 +69,7 @@ getting them started quickly.
 However, in 2021, thanks to wide-spread file-system routing and fast
 development servers we can easily create a `/docs` page or a few of them.
 
-So we're down to _UI to render examples_. I have a [CodeSandbox with React
+So we're down to _"UI to render examples"_. I have a [CodeSandbox with React
 components][codesandbox] I'm using for docs in one of my projects.
 
 [codesandbox]: https://example.com
