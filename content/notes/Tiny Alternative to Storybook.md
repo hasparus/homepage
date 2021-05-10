@@ -1,5 +1,9 @@
-**TLDR: A set of documentation components in your framework of choice
-rendered inside of your app on /docs page.**
+<BoxedText>
+
+TLDR: A set of documentation components in your framework of choice
+rendered inside of your app on /docs page.
+
+</BoxedText>
 
 The main problem I have with Storybook is that it's _another set of config
 files to maintain_. What's worse — there's a Webpack config hidden inside!
