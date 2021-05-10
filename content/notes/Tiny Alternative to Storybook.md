@@ -15,7 +15,7 @@ has tons of awesome features — a huge surface, multiplicity of choices.
 
 But do you really need it when you're trying to launch an app?
 
-Where @storybookjs shines the brightest is libraries. You can presume that
+Where Storybook shines the brightest is libraries. You can presume that
 most frontend folk are familiar with Storybook or will be able to pick it up
 fast. It's so popular we could probably call it a standard for component
 examples.
