@@ -4631,84 +4631,84 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@theme-ui/color-modes@0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/color-modes/-/color-modes-0.8.4.tgz#d09bff439e990bc8751677b1d06adf73534a5571"
-  integrity sha512-3Ueb6yKBFkyHsLEFlLH3Igl6ZHbVamJHn6YoAwIut0QQrAOAfTSG1vZr/4LJUCILc/U0y9kPvTw7MBpUKi1hWg==
+"@theme-ui/color-modes@0.9.0-develop.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/color-modes/-/color-modes-0.9.0-develop.0.tgz#459b9aeb82e123d626a4ee0f706bf78d8f8957f6"
+  integrity sha512-1i7/fsxJLxRaPvHfqWLjMGYpv56JBsJSEV1cmaMTWNuJXNgM9vjC3bo/LJQH9X0Djc8hzZLXvWP+1W4HsL/1gw==
   dependencies:
     "@emotion/react" "^11.1.1"
-    "@theme-ui/core" "0.8.4"
-    "@theme-ui/css" "0.8.4"
+    "@theme-ui/core" "0.9.0-develop.0"
+    "@theme-ui/css" "0.9.0-develop.0"
     deepmerge "^4.2.2"
 
-"@theme-ui/color@^0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/color/-/color-0.8.4.tgz#8582720614b52b441a49a61909a2111a83b847d7"
-  integrity sha512-VL4OZIN4MFO6RMbG5e68AB4sPO6a44WeFQshreEB5DytYL5z3NDolsmW15d4ofxkzRp9+F/tNN5BbgaWUaM7vw==
+"@theme-ui/color@^0.9.0--canary.1721.d505443f087fd8c87c66e50728a4cb9823914ff5.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/color/-/color-0.9.0-develop.0.tgz#f15eb84b4a94483774f12f15de8c7534ea27c8de"
+  integrity sha512-T4IQOjLO5jRclsykZRF0vQieH0VF346LA/LDY2Cj4NqdNIlHb3W0phfcb5sy0D8/pB7CqnkFl0FjmarSyNWX4w==
   dependencies:
-    "@theme-ui/css" "0.8.4"
+    "@theme-ui/css" "0.9.0-develop.0"
     polished "^4.0.5"
 
-"@theme-ui/components@0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/components/-/components-0.8.4.tgz#a362d0625f6a6efacc35a2db29fb6c2368257fd2"
-  integrity sha512-JOP/rABNS2Bu/hWA68Tdt6pUyCtCU+nMMWZAyvj2qDIn2mBrLwBKvvxyrwaGT5tHniIX4oVG57GH1Sb94Rw+mg==
+"@theme-ui/components@0.9.0-develop.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/components/-/components-0.9.0-develop.0.tgz#588e918fd65f99a846bd99af10b239bfd99cb673"
+  integrity sha512-XgoHTvYsez2a8zSPQ8OmFvwGlc+q+xzEokt7IAC//u0SBtkQrqKb1tjJbN8VigCmjYutRujAxMNE9vM8fNLO0g==
   dependencies:
     "@emotion/react" "^11.1.1"
     "@emotion/styled" "^11.0.0"
     "@styled-system/color" "^5.1.2"
     "@styled-system/should-forward-prop" "^5.1.2"
     "@styled-system/space" "^5.1.2"
-    "@theme-ui/css" "0.8.4"
+    "@theme-ui/css" "0.9.0-develop.0"
     "@types/styled-system" "^5.1.10"
 
-"@theme-ui/core@0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/core/-/core-0.8.4.tgz#64ce2db0b2d50768cb8726e61f9d391cabae0448"
-  integrity sha512-zHOLJ/Zw024SlQEl7+mpIk2wuNaWRFCr9brYtV+2kyLwQeETIIBXEdmQ6yJ6wc1nSJNs0VOHk/sLRPvreb+5uQ==
+"@theme-ui/core@0.9.0-develop.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/core/-/core-0.9.0-develop.0.tgz#c02ad47f7b2b48f67bad18b64f83db7fce125f6b"
+  integrity sha512-9a4fz5e68fP3MFIpEqEJ7MWCHRGD1VspPqMpWNG389Xl9mgLsLQAD9EQ6iLrI8rTS1Stv50MtdDoOzese/AQMQ==
   dependencies:
     "@emotion/react" "^11.1.1"
-    "@theme-ui/css" "0.8.4"
-    "@theme-ui/parse-props" "0.8.4"
+    "@theme-ui/css" "0.9.0-develop.0"
+    "@theme-ui/parse-props" "0.9.0-develop.0"
     deepmerge "^4.2.2"
 
-"@theme-ui/css@0.8.4", "@theme-ui/css@^0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/css/-/css-0.8.4.tgz#2539c8ccb52054d54593786e5f1e89f118e908c0"
-  integrity sha512-ZubYp4glaDpsJSd2z38FlwkItvXk8+t0i0323ZWNO7Liqg4t/hJT+7RmtWj1NQ2IPVqTUEmsH/hVdz5SIPu2LA==
+"@theme-ui/css@0.9.0-develop.0", "@theme-ui/css@^0.9.0--canary.1721.d505443f087fd8c87c66e50728a4cb9823914ff5.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/css/-/css-0.9.0-develop.0.tgz#9ce6c8fb496d4ba55cdcc901765fcfd552e54566"
+  integrity sha512-ZpgXeWuGRNpKB+MbJjxdVUACIx8lc+RJrkgGFhDNf4JOExuFhm/rIdJ1pRpjV25XRfLnJs3vE5Wk4/1Ht5IPdQ==
   dependencies:
     "@emotion/react" "^11.1.1"
     csstype "^3.0.5"
 
-"@theme-ui/mdx@0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/mdx/-/mdx-0.8.4.tgz#86bee495402216f65bd3244303f2248d91ca90d0"
-  integrity sha512-pI2XalkIV+Ky2q/y+RBuHi9fBxzCECXZDSMYH98FExO3C6X5sdPDJ1u9kDKgbqJxUxTBQlZKSvU+fG9hjN3oQQ==
+"@theme-ui/mdx@0.9.0-develop.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/mdx/-/mdx-0.9.0-develop.0.tgz#0f742de05b385fbeee9b0b30e791c1edc14e63d2"
+  integrity sha512-WL7z6lVgJejTAPUjpOD86/x1MA/YxoWt0mFy9EHipYGF6RJAhui09zYUv2bm9yHz67+rFnz6/v3yrQRwa5WGMw==
   dependencies:
     "@emotion/react" "^11.1.1"
     "@emotion/styled" "^11.0.0"
     "@mdx-js/react" "^1.6.22"
-    "@theme-ui/core" "0.8.4"
-    "@theme-ui/css" "0.8.4"
+    "@theme-ui/core" "0.9.0-develop.0"
+    "@theme-ui/css" "0.9.0-develop.0"
 
-"@theme-ui/parse-props@0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/parse-props/-/parse-props-0.8.4.tgz#398e54e11768248938c2c505c04bc44042b66409"
-  integrity sha512-2CgPKsApLVRu9wYzaaC/+ZhmKwohQ5uZylbf0HzVA3X4rGIfs7aktsM16FvCeiTyAn+7Z8MTShgSOSsD0S8l3Q==
+"@theme-ui/parse-props@0.9.0-develop.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/parse-props/-/parse-props-0.9.0-develop.0.tgz#2e7400ae0883c3ba012256d975ec7ef70a7910c1"
+  integrity sha512-wpv/vxzZWEiYhIO7EWt8Ex9aheT7jEUIPIQQLMnbLCdx9PleQ9tn/fZbxZHxhBj00rG7LTdW33Dc6qyHErnjyw==
   dependencies:
     "@emotion/react" "^11.1.1"
-    "@theme-ui/css" "0.8.4"
+    "@theme-ui/css" "0.9.0-develop.0"
 
-"@theme-ui/theme-provider@0.8.4":
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/@theme-ui/theme-provider/-/theme-provider-0.8.4.tgz#87ba378f2bd4d07af5c04a215db193eb78843e89"
-  integrity sha512-xYXqs2y9hkZmqSTA76X2dfrAfUw8LDHnBa1Xp6J41Zb4iXcxbLp3Aq1yRT1xGBAAVRGyhfMkYqxSXfNxN8R1ig==
+"@theme-ui/theme-provider@0.9.0-develop.0":
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/@theme-ui/theme-provider/-/theme-provider-0.9.0-develop.0.tgz#40989b1f769ac259721f6ad41233069edb4ef9e2"
+  integrity sha512-lluWTTViqMjWB86JPp1ajURdlA0gS705x2HYxtvOi26XrBfRXSb9GyyURmIJhEgsrvhG5n4Aqs9HuM3NecYY/A==
   dependencies:
     "@emotion/react" "^11.1.1"
-    "@theme-ui/color-modes" "0.8.4"
-    "@theme-ui/core" "0.8.4"
-    "@theme-ui/css" "0.8.4"
-    "@theme-ui/mdx" "0.8.4"
+    "@theme-ui/color-modes" "0.9.0-develop.0"
+    "@theme-ui/core" "0.9.0-develop.0"
+    "@theme-ui/css" "0.9.0-develop.0"
+    "@theme-ui/mdx" "0.9.0-develop.0"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -11285,10 +11285,10 @@ gatsby-plugin-sitemap@^2.4.15:
     pify "^3.0.0"
     sitemap "^1.13.0"
 
-gatsby-plugin-theme-ui@^0.8.4:
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/gatsby-plugin-theme-ui/-/gatsby-plugin-theme-ui-0.8.4.tgz#5763a2fbf4340b8f7cb06cc2591f6fe9a2fb8d13"
-  integrity sha512-rvCpanIlr8R18QhhNtyrv2SYgi7fo0gvXlzGIK6Hwa9QeADxoV0BZC1cz+ei7rJOpSE1/E2fZKHKU98WLmub5w==
+gatsby-plugin-theme-ui@^0.9.0--canary.1721.d505443f087fd8c87c66e50728a4cb9823914ff5.0:
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/gatsby-plugin-theme-ui/-/gatsby-plugin-theme-ui-0.9.0-develop.0.tgz#dea2c4f2ac5588acc0c94d3ba9706e5e261691df"
+  integrity sha512-u+CDO694Ha1IatTxYCEGElH9QsqLC+2fnCDquFWhLfAPeDl9u3HCOuIeNFjoN6VTS61UXXkIReVkCnirWIEPpg==
 
 gatsby-plugin-typescript@^2.12.1:
   version "2.12.1"
@@ -20063,17 +20063,17 @@ text-table@0.2.0, text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-theme-ui@^0.8.4:
-  version "0.8.4"
-  resolved "https://registry.npmjs.org/theme-ui/-/theme-ui-0.8.4.tgz#c2e2aebd6266d71a9b6be70cfff018fa8337866e"
-  integrity sha512-vBIixheMRmFf3YuqqonYeWg0dhbshWqUzTIx4ROYLSlkbsGwcCAxSwZBtwxwnTvieaInwNUBvQ+KOZ3HpWbT6A==
+theme-ui@^0.9.0--canary.1721.d505443f087fd8c87c66e50728a4cb9823914ff5.0:
+  version "0.9.0-develop.0"
+  resolved "https://registry.npmjs.org/theme-ui/-/theme-ui-0.9.0-develop.0.tgz#26739ed05261c5e826e8cd87b7de3854bd456792"
+  integrity sha512-QbIrp3MBLYQqnFxL1Lr5/XpZwGnPR5j6gG9aOC8yVB7lcZaejWjyJGoOY8IfyZmPukh/YdD2ESDXkr2LPlmotw==
   dependencies:
-    "@theme-ui/color-modes" "0.8.4"
-    "@theme-ui/components" "0.8.4"
-    "@theme-ui/core" "0.8.4"
-    "@theme-ui/css" "0.8.4"
-    "@theme-ui/mdx" "0.8.4"
-    "@theme-ui/theme-provider" "0.8.4"
+    "@theme-ui/color-modes" "0.9.0-develop.0"
+    "@theme-ui/components" "0.9.0-develop.0"
+    "@theme-ui/core" "0.9.0-develop.0"
+    "@theme-ui/css" "0.9.0-develop.0"
+    "@theme-ui/mdx" "0.9.0-develop.0"
+    "@theme-ui/theme-provider" "0.9.0-develop.0"
 
 through2@^2.0.0, through2@^2.0.1:
   version "2.0.5"
