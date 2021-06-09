@@ -194,7 +194,6 @@ export const styles = makeStyles({
     borderLeft: ".25em solid",
     borderColor: "highlight",
     "*": {
-      color: "mutedText",
       fontSize: fontSize.small,
     },
     "& p > code": {
@@ -206,5 +205,19 @@ export const styles = makeStyles({
     border: "none",
     borderBottom: "6px dashed",
     opacity: 0.125,
+  },
+
+  details: {
+    borderRight: "0.25em dashed",
+    paddingRight: "1em",
+    borderColor: "muted",
+    "> summary": {
+      cursor: "pointer",
+    },
+    "&[open]": {
+      borderBottom: "0.25em dashed",
+      borderColor: "muted",
+      paddingBottom: "0.5em",
+    },
   },
 });

@@ -75,6 +75,9 @@ const components = {
 
     return <kbd {...rest}>{children}</kbd>;
   },
+  details: (props: ComponentPropsWithoutRef<"details">) => (
+    <details sx={theme.styles.details} {...props} />
+  ),
 };
 
 export default components;

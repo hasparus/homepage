@@ -1,5 +1,6 @@
 import * as path from "path";
 
+import exec from "execa";
 import { CreateSchemaCustomizationArgs, PluginOptions } from "gatsby";
 import slash from "slash";
 
@@ -30,6 +31,10 @@ export const createSchemaCustomization = async (
   const { siteUrl } = store.getState().config
     .siteMetadata as SiteSiteMetadata;
 
+  const branch =
+    process.env.BRANCH! ||
+    (await exec("git branch --show-current").then((x) => x.stdout));
+
   createFieldExtension(
     {
       name: "socialLinks",
@@ -51,7 +56,7 @@ export const createSchemaCustomization = async (
             );
 
             return {
-              edit: `${REPO_URL}/edit/master/${relativePath}`,
+              edit: `${REPO_URL}/edit/${branch}/${relativePath}`,
               tweet: `https://twitter.com/intent/tweet?url=${url}&text=${encodeURIComponent(
                 `.@hasparus`
               )}`,
