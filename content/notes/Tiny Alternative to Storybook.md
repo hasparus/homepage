@@ -60,7 +60,7 @@ developing my app.
 
 <details>
 <summary>
-  <i>Historical Context: Good times I had with Storybook years ago.</i>
+  Historical Context: In the past Storybook was awesome, because the ecosystem was worse.
 </summary>
 
 A lifetime ago, I used to work on a sizeable legacy codebase and wait for 4
