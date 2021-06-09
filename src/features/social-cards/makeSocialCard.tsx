@@ -49,6 +49,7 @@ async function imageFromHtml(
   browser: Browser,
   title: string,
   html: string
+  
 ) {
   const filePath = await writeCachedFile(cacheDir, title, html, "html");
   const page = await browser.newPage();

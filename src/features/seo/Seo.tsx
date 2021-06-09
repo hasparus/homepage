@@ -26,6 +26,19 @@ const query = graphql`
   }
 `;
 
+// react-helmet checks children types
+export function seoImage(imageSrc: string) {
+  return [
+    <meta key="seoImage-image" name="image" content={imageSrc} />,
+    <meta key="seoImage-og:image" property="og:image" content={imageSrc} />,
+    <meta
+      key="seoImage-twitter:image"
+      name="twitter:image"
+      content={imageSrc}
+    />,
+  ];
+}
+
 type SeoProps = {
   title?: string;
   description?: string;
@@ -65,7 +78,8 @@ export const Seo = ({
             titleTemplate={titleTemplate || siteMetadata.titleTemplate}
           >
             <meta name="description" content={seo.description} />
-            <meta name="image" content={seo.imageSrc} />
+
+            {seo.imageSrc && seoImage(seo.imageSrc)}
 
             {/* open graph */}
             {seo.url && <meta property="og:url" content={seo.url} />}
@@ -73,9 +87,6 @@ export const Seo = ({
             {seo.title && <meta property="og:title" content={seo.title} />}
             {seo.description && (
               <meta property="og:description" content={seo.description} />
-            )}
-            {seo.imageSrc && (
-              <meta property="og:image" content={seo.imageSrc} />
             )}
             {typeof image === "object" && [
               <meta
@@ -101,9 +112,6 @@ export const Seo = ({
             {seo.title && <meta name="twitter:title" content={seo.title} />}
             {seo.description && (
               <meta name="twitter:description" content={seo.description} />
-            )}
-            {seo.imageSrc && (
-              <meta name="twitter:image" content={seo.imageSrc} />
             )}
           </Helmet>
         </>

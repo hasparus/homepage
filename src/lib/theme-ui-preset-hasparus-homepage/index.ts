@@ -1,8 +1,8 @@
-import { buttons } from "./buttons";
 import { colorModes } from "./colorModes";
 import { styles } from "./styles";
 import { makeColors, makeTheme } from "./theme-ui-utils";
 import { typography } from "./typography";
+import { buttons, layouts } from "./variants";
 
 export type { ColorMode, ColorModes } from "./colorModes";
 
@@ -24,6 +24,7 @@ export const preset = makeTheme({
 
   styles,
   buttons,
+  layouts,
 
   config: {
     useColorSchemeMediaQuery: true,

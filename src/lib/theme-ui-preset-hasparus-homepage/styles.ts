@@ -208,16 +208,8 @@ export const styles = makeStyles({
   },
 
   details: {
-    borderRight: "0.25em dashed",
-    paddingRight: "1em",
-    borderColor: "muted",
     "> summary": {
       cursor: "pointer",
-    },
-    "&[open]": {
-      borderBottom: "0.25em dashed",
-      borderColor: "muted",
-      paddingBottom: "0.5em",
     },
   },
 });

@@ -104,7 +104,7 @@
     "theme-ui": "^0.9.0--canary.1721.d505443f087fd8c87c66e50728a4cb9823914ff5.0",
     "ts-node": "^9.0.0",
     "typeface-fira-code": "^1.1.13",
-    "typescript": "^4.1",
+    "typescript": "^4.3",
     "unist-util-visit": "^2.0.3",
     "utility-types": "^3.10.0",
     "vis-data": "^7.1.0",

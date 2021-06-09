@@ -86,6 +86,10 @@ const pullRequestsQuery = (after?: Cursor) => `
 `;
 
 async function gqlRequest(query: string) {
+  if (!process.env.GITHUB_TOKEN) {
+    console.error("🔥 process.env.GITHUB_TOKEN is missing!");
+  }
+
   return (await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
@@ -100,7 +104,7 @@ function panicOnErrors<T>(
   res: GitHub.Response<T>,
   ctx: object = {}
 ): asserts res is GitHub.Response.Success<T> {
-  if ("errors" in res) {
+  if ("errors" in res || "message" in res) {
     console.dir(
       {
         ...res,
@@ -108,7 +112,9 @@ function panicOnErrors<T>(
       },
       { depth: Infinity }
     );
-    throw new Error(res.errors[0]?.message);
+
+    const message = "message" in res ? res.message : res.errors[0]?.message;
+    throw new Error(message);
   }
 }
 
@@ -120,6 +126,8 @@ async function getMergedPullRequests() {
     const res = (await gqlRequest(query)) as PullRequests;
 
     panicOnErrors(res, { query });
+
+    console.debug(">> res", res);
 
     return res.data.viewer.contributionsCollection.pullRequestContributions
       .edges;

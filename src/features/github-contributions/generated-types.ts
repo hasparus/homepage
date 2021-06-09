@@ -2,9 +2,14 @@
 export declare namespace GitHubGenerated {
   export namespace Response {
     export type Success<T> = { data: T };
-    export type Errors = {
-      errors: { message: string }[];
-    };
+    export type Errors =
+      | {
+          errors: { message: string }[];
+        }
+      | {
+          message: string;
+          documentation_url: string;
+        };
   }
 
   export type Response<T> = Response.Success<T> | Response.Errors;

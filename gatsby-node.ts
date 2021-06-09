@@ -235,6 +235,7 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
         fields: MdxFields
         socialLinks: SocialLinks! @socialLinks
         tableOfContents: TableOfContents!
+        date: Date @dateformat
       }
 
       enum BlogpostHistoryType {

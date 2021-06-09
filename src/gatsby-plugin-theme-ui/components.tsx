@@ -1,10 +1,12 @@
 /** @jsx jsx */
 import { Link } from "gatsby";
 import { ComponentProps, ComponentPropsWithoutRef } from "react";
+import { Helmet, HelmetProps } from "react-helmet";
 import { Box, jsx } from "theme-ui";
 
 import { ReadingList } from "../features/application-ui/ReadingList";
 import { TableOfContents } from "../features/blog/TableOfContents";
+import { seoImage } from "../features/seo/Seo";
 import {
   BoxedText,
   Button,
@@ -76,8 +78,23 @@ const components = {
     return <kbd {...rest}>{children}</kbd>;
   },
   details: (props: ComponentPropsWithoutRef<"details">) => (
-    <details sx={theme.styles.details} {...props} />
+    <details
+      sx={{
+        ...theme.styles.details,
+        ...theme.layouts.boxedText,
+      }}
+      {...props}
+    />
   ),
+  // a workaround to allow using react-helmet from MDX
+  Helmet: ({
+    imageSrc,
+    ...rest
+  }: {
+    imageSrc: string;
+  } & Omit<HelmetProps, "children">) => {
+    return <Helmet {...rest}>{seoImage(imageSrc)}</Helmet>;
+  },
 };
 
 export default components;

@@ -4,17 +4,6 @@ import { jsx, Themed as th, ThemeUIStyleObject } from "theme-ui";
 
 import { fontSize } from "../theme-ui-preset-hasparus-homepage/tokens";
 
-const styles: ThemeUIStyleObject = {
-  bg: "muted",
-  p: 2,
-  fontSize: fontSize.small,
-  width: "100%",
-  fontStyle: "italic",
-  "& code": {
-    fontSize: fontSize.smaller,
-  },
-};
-
 export interface BoxedTextProps extends ComponentPropsWithoutRef<"p"> {}
 
 export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
@@ -24,12 +13,12 @@ export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
     return (
       <div
         sx={{
-          ...styles,
+          variant: "layouts.boxedText",
           marginBottom: 3,
           "& p": {
             font: "inherit",
-            "&:first-child": { marginTop: 0 },
-            "&:last-child": { marginBottom: 0 },
+            "&:first-of-type": { marginTop: 0 },
+            "&:last-of-type": { marginBottom: 0 },
           },
         }}
       >
@@ -45,5 +34,9 @@ export const BoxedText = ({ children, ...rest }: BoxedTextProps) => {
     children = children.props.children as ReactNode;
   }
 
-  return <th.p {...rest}>{children}</th.p>;
+  return (
+    <th.p sx={{ variant: "layouts.boxedText" }} {...rest}>
+      {children}
+    </th.p>
+  );
 };
