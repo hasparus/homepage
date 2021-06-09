@@ -48,7 +48,7 @@ export const Seo = ({
     render={({ site: { siteMetadata } }: DeepNonNullable<SeoDataQuery>) => {
       const seo = {
         title: title || siteMetadata.defaultTitle,
-        description: description || siteMetadata.defaultDescription,
+        description: description ?? siteMetadata.defaultDescription,
         imageSrc:
           image &&
           `${siteMetadata.siteUrl}${
