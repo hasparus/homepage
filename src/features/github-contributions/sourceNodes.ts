@@ -7,6 +7,8 @@ import { assert } from "../../lib/util";
 import { NODE_TYPE } from "./common";
 import type { GitHubGenerated as GitHub } from "./generated-types";
 
+const VERBOSE = (process.env.DEBUG || "").includes("github-contributions");
+
 // I already mention I contribute tDo Theme UI
 const IGNORED_REPOS = ["theme-ui"];
 // my own orgs, work and friends
@@ -127,7 +129,9 @@ async function getMergedPullRequests() {
 
     panicOnErrors(res, { query });
 
-    console.debug(">> res", res);
+    if (VERBOSE) {
+      console.debug(">> getMergedPullRequests res", res);
+    }
 
     return res.data.viewer.contributionsCollection.pullRequestContributions
       .edges;
