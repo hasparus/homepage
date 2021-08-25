@@ -11,6 +11,7 @@ import { jsx, Themed as th } from "theme-ui";
 import { DeepPartial } from "utility-types";
 
 import type { Mdx } from "../../../graphql-types";
+import { getNodeTitle } from "../../lib/build-time/getNodeTitle";
 import { assert } from "../../lib/util/assert";
 import { PostDetails } from "../blog/PostDetails";
 
@@ -70,14 +71,19 @@ const Lines = (props: React.ComponentProps<"svg">) => {
 
 interface PostSocialImageProps extends ComponentProps<"article"> {
   post: DeepPartial<Pick<Mdx, "fields" | "frontmatter">>;
+  title: string;
 }
-export function PostSocialPreview({ post, ...rest }: PostSocialImageProps) {
+export function PostSocialPreview({
+  post,
+  title,
+  ...rest
+}: PostSocialImageProps) {
   assert(post.fields);
   assert(post.frontmatter);
 
   const {
     fields: { readingTime },
-    frontmatter: { date, title },
+    frontmatter: { date },
   } = post;
 
   return (

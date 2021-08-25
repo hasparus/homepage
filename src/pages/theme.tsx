@@ -93,35 +93,37 @@ const ThemePage = () => {
     <PageLayout>
       <th.h1>Theme</th.h1>
       <div>
-        {currentColorMode && keys(colorModes).map((colorMode) => (
-          <Button
-            key={colorMode}
-            sx={{
-              bg: "highlight",
-              color: contrastingTextColor(currentColorMode.highlight),
-              p: 1,
-              mr: 2,
-            }}
-            onClick={() => setColorMode(colorMode)}
-          >
-            {colorMode}
-          </Button>
-        ))}
+        {currentColorMode &&
+          keys(colorModes).map((colorMode) => (
+            <Button
+              key={colorMode}
+              sx={{
+                bg: "highlight",
+                color: contrastingTextColor(currentColorMode.highlight),
+                p: 1,
+                mr: 2,
+              }}
+              onClick={() => setColorMode(colorMode)}
+            >
+              {colorMode}
+            </Button>
+          ))}
       </div>
       <section>
         <th.h2>Colors</th.h2>
         <ColorSquareList>
-          {currentColorMode && pipe(
-            currentColorMode,
-            filter(isString),
-            collect((colorName, colorValue) => (
-              <ColorSquare
-                key={colorName}
-                name={colorName}
-                value={colorValue}
-              />
-            ))
-          )}
+          {currentColorMode &&
+            pipe(
+              currentColorMode,
+              filter(isString),
+              collect((colorName, colorValue) => (
+                <ColorSquare
+                  key={colorName}
+                  name={colorName}
+                  value={colorValue}
+                />
+              ))
+            )}
         </ColorSquareList>
       </section>
       <section>
@@ -161,6 +163,7 @@ const ThemePage = () => {
             height: 440,
             maxWidth: "100%",
           }}
+          title="You Deserve More than PropTypes"
           post={{
             fields: {
               isHidden: false,

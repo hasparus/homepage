@@ -49,18 +49,27 @@ async function imageFromHtml(
   browser: Browser,
   title: string,
   html: string
-  
 ) {
-  const filePath = await writeCachedFile(cacheDir, title, html, "html");
-  const page = await browser.newPage();
-  await page.goto(`file://${filePath}`);
-  await page.evaluateHandle("document.fonts.ready");
-  await page.setViewport({ width: 880, height: 440 });
-  const file = await page.screenshot({ type: "png" });
+  let file: Buffer;
+  try {
+    const filePath = await writeCachedFile(cacheDir, title, html, "html");
+    const page = await browser.newPage();
+    await page.goto(`file://${filePath}`);
+    await page.evaluateHandle("document.fonts.ready");
+    await page.setViewport({ width: 880, height: 440 });
+    file = await page.screenshot({ type: "png" });
+  } catch (err: unknown) {
+    console.error("failed to create image from HTML", {
+      err,
+      title,
+      cacheDir,
+    });
+    throw err;
+  }
   return writeCachedFile(cacheDir, title, file, "png");
 }
 
-function getSocialCardHtml(post: buildTime.Mdx) {
+function getSocialCardHtml(post: buildTime.Mdx, title: string) {
   return renderToStaticMarkup(
     <html lang="en">
       <head>
@@ -98,7 +107,7 @@ function getSocialCardHtml(post: buildTime.Mdx) {
             },
           }}
         >
-          <PostSocialPreview post={post} />
+          <PostSocialPreview post={post} title={title} />
         </body>
       </ThemeProvider>
     </html>
@@ -110,7 +119,7 @@ export async function makeSocialCard(
   browser: Browser,
   post: buildTime.Mdx
 ) {
-  const title = getNodeTitle(post, "");
+  const title = getNodeTitle(post, post.rawBody);
 
   if (!title) {
     console.error("title is missing");
@@ -119,6 +128,6 @@ export async function makeSocialCard(
 
   assert(title, "We can't render a social card for a post with no title.");
 
-  const html = getSocialCardHtml(post);
+  const html = getSocialCardHtml(post, title);
   return imageFromHtml(CACHE_DIR, browser, title, html);
 }

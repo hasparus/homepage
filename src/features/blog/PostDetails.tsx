@@ -56,7 +56,7 @@ const Venues = ({
 };
 
 interface PostDetailsProps extends ComponentProps<"small"> {
-  date: Date | string;
+  date: Date | string | null | undefined;
   readingTime?: number;
   venues?: g.MdxFrontmatter["venues"];
 }
@@ -76,9 +76,11 @@ export const PostDetails = ({
     }}
     {...rest}
   >
-    {date && formatDate(date)}
-    {readingTime &&
-      ` · ${readingTimeEmoji(readingTime)} ${readingTime} min read`}
+    {[
+      date && formatDate(date),
+      readingTime &&
+        `${readingTimeEmoji(readingTime)} ${readingTime} min read`,
+    ].join(" · ")}
     <Venues venues={venues} />
   </small>
 );

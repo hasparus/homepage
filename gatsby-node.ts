@@ -311,7 +311,7 @@ let browser: Browser;
 export async function onPreInit() {
   browser = await puppeteer.launch({
     // Toggle to preview generated images
-    headless: true,
+    headless: process.env.PUPPETEER_HEADLESS === "false" ? false : true,
   });
 }
 
