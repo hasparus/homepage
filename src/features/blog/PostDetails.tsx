@@ -80,7 +80,9 @@ export const PostDetails = ({
       date && formatDate(date),
       readingTime &&
         `${readingTimeEmoji(readingTime)} ${readingTime} min read`,
-    ].join(" · ")}
+    ]
+      .filter(Boolean)
+      .join(" · ")}
     <Venues venues={venues} />
   </small>
 );

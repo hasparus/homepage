@@ -641,6 +641,7 @@ export type FileFieldsEnum =
   | 'childrenMdx___fields___socialImage___id'
   | 'childrenMdx___fields___socialImage___children'
   | 'childrenMdx___fields___title'
+  | 'childrenMdx___date'
   | 'childrenMdx___id'
   | 'childrenMdx___parent___id'
   | 'childrenMdx___parent___parent___id'
@@ -756,6 +757,7 @@ export type FileFieldsEnum =
   | 'childMdx___fields___socialImage___id'
   | 'childMdx___fields___socialImage___children'
   | 'childMdx___fields___title'
+  | 'childMdx___date'
   | 'childMdx___id'
   | 'childMdx___parent___id'
   | 'childMdx___parent___parent___id'
@@ -1929,6 +1931,7 @@ export type Mdx = Node & {
   wordCount?: Maybe<MdxWordCount>;
   socialLinks: SocialLinks;
   fields?: Maybe<MdxFields>;
+  date?: Maybe<Scalars['Date']>;
   id: Scalars['ID'];
   parent?: Maybe<Node>;
   children: Array<Node>;
@@ -1944,6 +1947,14 @@ export type MdxExcerptArgs = {
 
 export type MdxHeadingsArgs = {
   depth?: Maybe<HeadingsMdx>;
+};
+
+
+export type MdxDateArgs = {
+  formatString?: Maybe<Scalars['String']>;
+  fromNow?: Maybe<Scalars['Boolean']>;
+  difference?: Maybe<Scalars['String']>;
+  locale?: Maybe<Scalars['String']>;
 };
 
 export type MdxConnection = {
@@ -2073,6 +2084,7 @@ export type MdxFieldsEnum =
   | 'fields___socialImage___childrenMdx___html'
   | 'fields___socialImage___childrenMdx___mdxAST'
   | 'fields___socialImage___childrenMdx___timeToRead'
+  | 'fields___socialImage___childrenMdx___date'
   | 'fields___socialImage___childrenMdx___id'
   | 'fields___socialImage___childrenMdx___children'
   | 'fields___socialImage___childMdx___inboundReferences'
@@ -2085,6 +2097,7 @@ export type MdxFieldsEnum =
   | 'fields___socialImage___childMdx___html'
   | 'fields___socialImage___childMdx___mdxAST'
   | 'fields___socialImage___childMdx___timeToRead'
+  | 'fields___socialImage___childMdx___date'
   | 'fields___socialImage___childMdx___id'
   | 'fields___socialImage___childMdx___children'
   | 'fields___socialImage___childrenImageSharp'
@@ -2107,6 +2120,7 @@ export type MdxFieldsEnum =
   | 'fields___socialImage___internal___owner'
   | 'fields___socialImage___internal___type'
   | 'fields___title'
+  | 'date'
   | 'id'
   | 'parent___id'
   | 'parent___parent___id'
@@ -2219,6 +2233,7 @@ export type MdxFilterInput = {
   wordCount?: Maybe<MdxWordCountFilterInput>;
   socialLinks?: Maybe<SocialLinksFilterInput>;
   fields?: Maybe<MdxFieldsFilterInput>;
+  date?: Maybe<DateQueryOperatorInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
@@ -2585,6 +2600,7 @@ export type QueryMdxArgs = {
   wordCount?: Maybe<MdxWordCountFilterInput>;
   socialLinks?: Maybe<SocialLinksFilterInput>;
   fields?: Maybe<MdxFieldsFilterInput>;
+  date?: Maybe<DateQueryOperatorInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;

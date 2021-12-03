@@ -36,17 +36,18 @@ export async function createSocialImageNodeField(
   }: CreateMdxNodeArgs,
   browser: PuppeteerBrowser
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { program } = store.getState();
 
   const cacheDir = path.resolve(`${program.directory}/.cache/social/`);
   await fs.ensureDir(cacheDir);
 
-  // console.log(
-  //   "createSocialImageNodeField",
-  //   node.id,
-  //   node.internal.type,
-  //   node.fields?.route
-  // );
+  console.log(
+    "createSocialImageNodeField",
+    node.id,
+    node.internal.type,
+    node.fields?.route
+  );
 
   const ogImage = await makeSocialCard(cacheDir, browser, node);
 

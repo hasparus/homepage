@@ -19,6 +19,9 @@ import { assert } from "../../lib/util/assert";
 
 import { PostSocialPreview } from "./PostSocialPreview";
 
+const VERBOSE = true;
+const log = VERBOSE ? console.log : () => {};
+
 const writeFileAsync = promisify(writeFile);
 
 /**
@@ -41,6 +44,8 @@ async function writeCachedFile(
   return absolutePath;
 }
 
+const _screenshotStatus: Record<string /* title */, string> = {};
+
 /*
  * Returns the path to an image generated from the provided HTML.
  */
@@ -50,19 +55,36 @@ async function imageFromHtml(
   title: string,
   html: string
 ) {
+  const status = (str: string) => {
+    _screenshotStatus[title] = str;
+    log(`${title}: ${str}`);
+  };
+
   let file: Buffer;
+  const filePath = await writeCachedFile(cacheDir, title, html, "html");
   try {
-    const filePath = await writeCachedFile(cacheDir, title, html, "html");
     const page = await browser.newPage();
-    await page.goto(`file://${filePath}`, { timeout: 120000 });
-    await page.evaluateHandle("document.fonts.ready");
-    await page.setViewport({ width: 880, height: 440 });
-    file = await page.screenshot({ type: "png" });
+
+    try {
+      status(`Visiting ${filePath}`);
+      await page.goto(`file://${filePath}`, { timeout: 60000 });
+      status(`Waiting for document.fonts.ready`);
+      await page.evaluateHandle("document.fonts.ready");
+      await page.setViewport({ width: 880, height: 440 });
+      log(`Taking a screenshot`);
+      file = await page.screenshot({ type: "png" });
+      status(`Screenshot taken`);
+    } finally {
+      await page.close();
+    }
   } catch (err: unknown) {
     console.error("failed to create image from HTML", {
       err,
       title,
       cacheDir,
+      filePath,
+      status: _screenshotStatus[title],
+      _screenshotStatus,
     });
     throw err;
   }
@@ -114,6 +136,30 @@ function getSocialCardHtml(post: buildTime.Mdx, title: string) {
   );
 }
 
+const MAX_POOL_SIZE = 8;
+let currentPoolSize = 0;
+const listenersQueue: (() => void)[] = [];
+async function pool<T>(f: () => Promise<T>): Promise<T> {
+  if (currentPoolSize < MAX_POOL_SIZE) {
+    currentPoolSize++;
+    const res = await f();
+    currentPoolSize--;
+
+    if (currentPoolSize < MAX_POOL_SIZE) {
+      const listener = listenersQueue.shift();
+      listener?.();
+    }
+
+    return res;
+  } else {
+    return new Promise((resolve) => {
+      listenersQueue.push(() => {
+        void pool(f).then(resolve);
+      });
+    });
+  }
+}
+
 export async function makeSocialCard(
   CACHE_DIR: string,
   browser: Browser,
@@ -129,5 +175,5 @@ export async function makeSocialCard(
   assert(title, "We can't render a social card for a post with no title.");
 
   const html = getSocialCardHtml(post, title);
-  return imageFromHtml(CACHE_DIR, browser, title, html);
+  return pool(() => imageFromHtml(CACHE_DIR, browser, title, html));
 }
