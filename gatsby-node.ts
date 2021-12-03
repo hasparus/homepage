@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { resolve } from "path";
 
+import chromium from "chrome-aws-lambda";
 import {
   CreateSchemaCustomizationArgs,
   GatsbyNode,
   PluginOptions,
 } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
-// @ts-ignore
-import puppeteer, { Browser } from "puppeteer";
+import { Browser } from "puppeteer-core";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
 
 import { createBlogpostHistoryNodeField } from "./src/features/post-history/createBlogpostHistoryNodeField";
-import { createSocialImageNodeField } from "./src/features/social-cards/createSocialImageNodeField";
+// import { createSocialImageNodeField } from "./src/features/social-cards/createSocialImageNodeField";
 import * as socialSharing from "./src/features/social-sharing/gatsby-node";
 import { collectGraphQLFragments } from "./src/lib/build-time/collectGraphQLFragments";
 import { buildTime, isMdx } from "./src/lib/build-time/gatsby-node-utils";
@@ -94,7 +94,10 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
 
     const mdxArgs = { ...args, node };
     createBlogpostHistoryNodeField(mdxArgs, { route, rootDir: __dirname });
-    await createSocialImageNodeField(mdxArgs, browser);
+
+    // Too many problems with puppeteer on Netlify
+    // I really need to rebuild this blog...
+    // await createSocialImageNodeField(mdxArgs, browser);
   }
 };
 
@@ -150,15 +153,15 @@ export const createPages: GatsbyNode["createPages"] = async ({
                   }
                   url
                 }
-                socialImage {
-                  childImageSharp {
-                    original {
-                      width
-                      height
-                      src
-                    }
-                  }
-                }
+                # socialImage {
+                #   childImageSharp {
+                #     original {
+                #       width
+                #       height
+                #       src
+                #     }
+                #   }
+                # }
               }
               ...TweetDiscussEditLinksDataOnMdx
               tableOfContents {
@@ -309,9 +312,12 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
 let browser: Browser;
 
 export async function onPreInit() {
-  browser = await puppeteer.launch({
+  browser = await chromium.puppeteer.launch({
     // Toggle to preview generated images
     headless: process.env.PUPPETEER_HEADLESS !== "false",
+    executablePath: await chromium.executablePath,
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
   });
 }
 

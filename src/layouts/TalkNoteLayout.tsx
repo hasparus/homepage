@@ -29,16 +29,17 @@ export function TalkNoteLayout({
     return null;
   }
 
-  const { frontmatter, socialImage, history } = pathContext;
+  const { frontmatter, history } = pathContext;
   const title = frontmatter.title || "";
   const spoiler = frontmatter.spoiler || "";
   const date = frontmatter.date as Date | string;
   const venues = frontmatter.venues;
 
-  const image = socialImage?.childImageSharp?.original;
+  const image = undefined;
+  // const image = socialImage?.childImageSharp?.original;
 
-  // see gatsby-node-ts.ts onPreInit
-  assert(image, "socialImage is missing");
+  // // see gatsby-node-ts.ts onPreInit
+  // assert(image, "socialImage is missing");
 
   return (
     <Root>
@@ -47,7 +48,7 @@ export function TalkNoteLayout({
         title={title}
         description={spoiler}
         pathname={path}
-        image={image}
+        image={image || undefined}
       />
       <Header />
       <main>

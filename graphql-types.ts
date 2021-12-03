@@ -3061,7 +3061,6 @@ export type SitePageContext = {
   route?: Maybe<Scalars['String']>;
   readingTime?: Maybe<Scalars['Int']>;
   history?: Maybe<SitePageContextHistory>;
-  socialImage?: Maybe<SitePageContextSocialImage>;
   tableOfContents?: Maybe<SitePageContextTableOfContents>;
   parentId?: Maybe<Scalars['String']>;
 };
@@ -3075,7 +3074,6 @@ export type SitePageContextFilterInput = {
   route?: Maybe<StringQueryOperatorInput>;
   readingTime?: Maybe<IntQueryOperatorInput>;
   history?: Maybe<SitePageContextHistoryFilterInput>;
-  socialImage?: Maybe<SitePageContextSocialImageFilterInput>;
   tableOfContents?: Maybe<SitePageContextTableOfContentsFilterInput>;
   parentId?: Maybe<StringQueryOperatorInput>;
 };
@@ -3194,34 +3192,6 @@ export type SitePageContextOutboundReferencesFilterInput = {
 
 export type SitePageContextOutboundReferencesFilterListInput = {
   elemMatch?: Maybe<SitePageContextOutboundReferencesFilterInput>;
-};
-
-export type SitePageContextSocialImage = {
-  childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharp>;
-};
-
-export type SitePageContextSocialImageChildImageSharp = {
-  original?: Maybe<SitePageContextSocialImageChildImageSharpOriginal>;
-};
-
-export type SitePageContextSocialImageChildImageSharpFilterInput = {
-  original?: Maybe<SitePageContextSocialImageChildImageSharpOriginalFilterInput>;
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginal = {
-  width?: Maybe<Scalars['Int']>;
-  height?: Maybe<Scalars['Int']>;
-  src?: Maybe<Scalars['String']>;
-};
-
-export type SitePageContextSocialImageChildImageSharpOriginalFilterInput = {
-  width?: Maybe<IntQueryOperatorInput>;
-  height?: Maybe<IntQueryOperatorInput>;
-  src?: Maybe<StringQueryOperatorInput>;
-};
-
-export type SitePageContextSocialImageFilterInput = {
-  childImageSharp?: Maybe<SitePageContextSocialImageChildImageSharpFilterInput>;
 };
 
 export type SitePageContextSocialLinks = {

@@ -8,7 +8,7 @@ import { writeFile } from "fs";
 import { resolve } from "path";
 import { promisify } from "util";
 
-import { Browser } from "puppeteer";
+import type { Browser } from "puppeteer-core";
 import { renderToStaticMarkup } from "react-dom/server";
 import { jsx, ThemeProvider } from "theme-ui";
 
@@ -19,7 +19,8 @@ import { assert } from "../../lib/util/assert";
 
 import { PostSocialPreview } from "./PostSocialPreview";
 
-const VERBOSE = false || process.env.NETLIFY;
+const VERBOSE =
+  true || process.env.NETLIFY || process.env.VERBOSE === "true";
 const log = VERBOSE ? console.log : () => {};
 
 const writeFileAsync = promisify(writeFile);
@@ -60,18 +61,18 @@ async function imageFromHtml(
     log(`${title}: ${str}`);
   };
 
-  let file: Buffer;
+  let file: Buffer | string;
   const filePath = await writeCachedFile(cacheDir, title, html, "html");
   try {
     const page = await browser.newPage();
 
     try {
       status(`Visiting ${filePath}`);
-      await page.goto(`file://${filePath}`, { timeout: 60000 });
+      await page.goto(`file://${filePath}`, { timeout: 5 * 60 * 1000 });
       status(`Waiting for document.fonts.ready`);
       await page.evaluateHandle("document.fonts.ready");
       await page.setViewport({ width: 880, height: 440 });
-      log(`Taking a screenshot`);
+      status(`Taking a screenshot`);
       file = await page.screenshot({ type: "png" });
       status(`Screenshot taken`);
     } catch (err: any) {
@@ -139,7 +140,7 @@ function getSocialCardHtml(post: buildTime.Mdx, title: string) {
   );
 }
 
-const MAX_POOL_SIZE = process.env.NETLIFY ? 1 : 4;
+const MAX_POOL_SIZE = process.env.NETLIFY ? 2 : 16;
 let currentPoolSize = 0;
 const listenersQueue: (() => void)[] = [];
 async function pool<T>(f: () => Promise<T>): Promise<T> {

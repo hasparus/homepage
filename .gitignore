@@ -53,6 +53,7 @@ typings/
 
 # dotenv environment variables file
 .env
+.envrc.ps1
 
 # gatsby files
 .cache/
