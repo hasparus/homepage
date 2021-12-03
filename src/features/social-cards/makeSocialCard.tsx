@@ -19,7 +19,7 @@ import { assert } from "../../lib/util/assert";
 
 import { PostSocialPreview } from "./PostSocialPreview";
 
-const VERBOSE = true;
+const VERBOSE = false;
 const log = VERBOSE ? console.log : () => {};
 
 const writeFileAsync = promisify(writeFile);
@@ -74,6 +74,9 @@ async function imageFromHtml(
       log(`Taking a screenshot`);
       file = await page.screenshot({ type: "png" });
       status(`Screenshot taken`);
+    } catch (err: any) {
+      status(`Failure at "${_screenshotStatus[title]}" ${err.message}`);
+      throw err;
     } finally {
       await page.close();
     }
@@ -136,7 +139,7 @@ function getSocialCardHtml(post: buildTime.Mdx, title: string) {
   );
 }
 
-const MAX_POOL_SIZE = 8;
+const MAX_POOL_SIZE = 4;
 let currentPoolSize = 0;
 const listenersQueue: (() => void)[] = [];
 async function pool<T>(f: () => Promise<T>): Promise<T> {
