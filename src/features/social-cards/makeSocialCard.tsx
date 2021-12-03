@@ -8,7 +8,7 @@ import { writeFile } from "fs";
 import { resolve } from "path";
 import { promisify } from "util";
 
-import type { Browser } from "puppeteer-core";
+import type { Browser } from "puppeteer";
 import { renderToStaticMarkup } from "react-dom/server";
 import { jsx, ThemeProvider } from "theme-ui";
 

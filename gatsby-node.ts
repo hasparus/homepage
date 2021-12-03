@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { resolve } from "path";
 
-import chromium from "chrome-aws-lambda";
+// import chromium from "chrome-aws-lambda";
 import {
   CreateSchemaCustomizationArgs,
   GatsbyNode,
   PluginOptions,
 } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
-import { Browser } from "puppeteer-core";
+// import { Browser } from "puppeteer-core";
 import readingTime from "reading-time";
 import WebpackNotifierPlugin from "webpack-notifier";
 
@@ -32,6 +32,7 @@ export interface MdxPostPageContext extends g.MdxFields {
 /**
  * Intercept and modify the GraphQL schema
  */
+// eslint-disable-next-line @typescript-eslint/require-await
 export const onCreateNode: GatsbyNode["onCreateNode"] = async (args) => {
   const {
     node,
@@ -309,18 +310,18 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
   `);
 };
 
-let browser: Browser;
+// let browser: Browser;
 
-export async function onPreInit() {
-  browser = await chromium.puppeteer.launch({
-    // Toggle to preview generated images
-    headless: process.env.PUPPETEER_HEADLESS !== "false",
-    executablePath: await chromium.executablePath,
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-  });
-}
+// export async function onPreInit() {
+//   browser = await chromium.puppeteer.launch({
+//     // Toggle to preview generated images
+//     headless: process.env.PUPPETEER_HEADLESS !== "false",
+//     executablePath: await chromium.executablePath,
+//     args: chromium.args,
+//     defaultViewport: chromium.defaultViewport,
+//   });
+// }
 
-export async function onPostBuild() {
-  await browser.close();
-}
+// export async function onPostBuild() {
+//   await browser.close();
+// }

@@ -3,7 +3,7 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import { Actions, Node, ParentSpanPluginArgs } from "gatsby";
 import { createFileNode as baseCreateFileNode } from "gatsby-source-filesystem/create-file-node";
-import { Browser as PuppeteerBrowser } from "puppeteer-core";
+import type { Browser as PuppeteerBrowser } from "puppeteer";
 
 import { buildTime } from "../../lib/build-time/gatsby-node-utils";
 
