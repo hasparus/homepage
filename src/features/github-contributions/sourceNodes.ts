@@ -197,7 +197,7 @@ async function fetchContributions(): Promise<Contributions> {
 
   const pullRequests = await getMergedPullRequests();
 
-  console.debug({ pullRequests });
+  if (VERBOSE) console.debug({ pullRequests });
 
   const repositoriesSet = new Set();
 

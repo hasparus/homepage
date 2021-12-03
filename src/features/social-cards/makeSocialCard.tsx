@@ -19,7 +19,7 @@ import { assert } from "../../lib/util/assert";
 
 import { PostSocialPreview } from "./PostSocialPreview";
 
-const VERBOSE = false;
+const VERBOSE = false || process.env.NETLIFY;
 const log = VERBOSE ? console.log : () => {};
 
 const writeFileAsync = promisify(writeFile);
@@ -139,7 +139,7 @@ function getSocialCardHtml(post: buildTime.Mdx, title: string) {
   );
 }
 
-const MAX_POOL_SIZE = 4;
+const MAX_POOL_SIZE = process.env.NETLIFY ? 1 : 4;
 let currentPoolSize = 0;
 const listenersQueue: (() => void)[] = [];
 async function pool<T>(f: () => Promise<T>): Promise<T> {
