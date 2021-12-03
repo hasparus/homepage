@@ -6,7 +6,15 @@ import { PrintItButton } from "../lib/reusable-ui/PrintItButton";
 import { LastContributions } from "../features/github-contributions/LastContributions";
 
 <PageLayout>
-<Box as="main" sx={{ pt: 4 }}>
+<Box
+  as="main"
+  sx={{
+    pt: 4,
+    "@media print": { 
+      a: { textDecoration: "none !important" }
+    }
+  }}
+>
 
 
 ## Piotr Monwid-Olechnowicz
@@ -22,13 +30,25 @@ My&nbsp;PRs were recently merged to <LastContributions />.
 
 ### Experience
 
+#### dethcrypto
+
+- Open Source Engineer
+  - October 2021 - Present
+
+Maintaining TypeChain, eth-sdk and Earl to help push dApp developers into
+the Pit of Success.
+
 #### Flick
 
 - Software Engineer
-  - August 2020 — Present
+  - August 2020 — October 2021
 
-Working on an app for Instagram hashtag tracking, suggestions and analytics.
-Main tools: TypeScript, GraphQL, React, AWS.
+Building a suite of apps for social media managers and influencers.
+Maintaining internal tooling, including codegen plugins, shared libraries
+and release automation. Decreased database costs by 8 times by changing
+_O(n)_ db query into _O(1)_ read from custom queue.
+
+Main tools: TypeScript, GraphQL, React.
 
 #### Chop-Chop
 
@@ -73,7 +93,9 @@ C or x86-64 assembly.
 
 <Box
   sx={{
-    "@media print": { display: "none" },
+    "@media print": {
+      display: "none",
+    },
   }}
 >
   <hr />

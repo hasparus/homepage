@@ -9,8 +9,8 @@ import type { GitHubGenerated as GitHub } from "./generated-types";
 
 const VERBOSE = (process.env.DEBUG || "").includes("github-contributions");
 
-// I already mention I contribute tDo Theme UI
-const IGNORED_REPOS = ["theme-ui"];
+// I already mention I contribute to Theme UI
+const IGNORED_REPOS = ["theme-ui", "dethcrypto"];
 // my own orgs, work and friends
 const IGNORED_OWNERS = [
   "zagrajmy",

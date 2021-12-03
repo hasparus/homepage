@@ -54,7 +54,7 @@ async function imageFromHtml(
   try {
     const filePath = await writeCachedFile(cacheDir, title, html, "html");
     const page = await browser.newPage();
-    await page.goto(`file://${filePath}`);
+    await page.goto(`file://${filePath}`, { timeout: 120000 });
     await page.evaluateHandle("document.fonts.ready");
     await page.setViewport({ width: 880, height: 440 });
     file = await page.screenshot({ type: "png" });
