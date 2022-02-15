@@ -22,7 +22,7 @@ export const headingLinksBodyStyles: ThemeUICSSObject = {
       borderRadius: "50%",
       transition: "all 150ms linear",
       ":focus, :hover": {
-        backgroundColor: alpha("primary", 0.07),
+        backgroundColor: "primary007",
       },
     },
     ":focus, :hover": {

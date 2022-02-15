@@ -35,7 +35,7 @@ export function Footnote({ number, children, ...rest }: FootnoteProps) {
         fontSize: fontSize.small,
         border: "1px dashed transparent",
         ":target": {
-          backgroundColor: alpha("highlight", 0.15),
+          backgroundColor: "highlight015",
           borderColor: "highlight",
         },
       }}

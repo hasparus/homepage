@@ -128,7 +128,7 @@ export const styles = makeStyles({
     overflowWrap: "break-word",
     color: "primary",
     cursor: "pointer",
-    textDecorationColor: alpha("primary", 0.15),
+    textDecorationColor: "primary015",
     ":focus, :hover": {
       // Fixme in Theme UI
       [linkTextDecorationColor.name]: getPrimary,

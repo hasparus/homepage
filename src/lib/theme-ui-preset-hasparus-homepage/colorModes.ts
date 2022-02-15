@@ -38,14 +38,17 @@ const soft: BaseColorMode = {
 //     - custom babel macro or TS transformer — i don't want to lose types with template literal
 //     - Closure Compiler?
 //     - prepack.io?
-// TODO:
-//   it seems that `getColor` from @theme-ui/color doesn't work with `hsl(165, 20%, 12%)`
-//   it strips trailing parenthesis
 const deriveAdditionalColors = (colors: BaseColorMode) => {
+  const theme = { colors };
+
   return {
     ...colors,
-    text092: alpha("text", 0.92)({ colors }),
-    mutedPrimary09: mix("muted", "primary", 0.9)({ colors }),
+    text092: alpha("text", 0.92)(theme),
+    mutedPrimary09: mix("muted", "primary", 0.9)(theme),
+    primary007: alpha("primary", 0.07)(theme),
+    primary015: alpha("primary", 0.15)(theme),
+    background025: alpha("background", 0.25)(theme),
+    highlight015: alpha("highlight", 0.15)(theme),
   };
 };
 

@@ -53,7 +53,7 @@ const ReferenceLink = ({
           width: "unset",
         },
         ":focus, :hover": {
-          backgroundColor: alpha("background", 0.25),
+          backgroundColor: "background025",
           p: {
             ":first-of-type": {
               textDecoration: "underline",
