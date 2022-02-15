@@ -58,7 +58,6 @@ export const headingFontSizes: HomogenicTuple<FontSize, 6> = [
   1,
 ];
 export const styles = makeStyles({
-  // used for <body>
   root: {
     fontSize: fontSize.normal,
     fontFamily: "body",

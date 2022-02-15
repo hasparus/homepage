@@ -88,8 +88,6 @@ const utilityPlugins = [
       name: "haspar.us",
       short_name: "haspar.us",
       start_url: "/",
-      background_color: "#fff",
-      theme_color: "#002FF4",
       icon: "src/favicon.png",
     },
   },

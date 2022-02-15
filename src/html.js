@@ -19,7 +19,9 @@ export default function HTML(props) {
         <noscript key="noscript" id="gatsby-noscript">
           {/* This is a blog. It should work properly without JavaScript. */}
           <style
-            dangerouslySetInnerHTML={{ __html: `.js-only{display:none!important;}` }}
+            dangerouslySetInnerHTML={{
+              __html: `.js-only{display:none!important;}`,
+            }}
           />
         </noscript>
         <div
