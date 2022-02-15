@@ -154,7 +154,7 @@ export const Header = memo(() => {
               transform: "translateY(calc(-100% - 2em))",
               py: 5,
               fontSize: 4,
-              borderBottom: (th: Theme) => `1px solid ${th.colors?.gray}`,
+              boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)",
               ":target": {
                 transform: "translateY(0)",
                 transition:
