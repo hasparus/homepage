@@ -3,3 +3,9 @@
   to = "https://hasparus-url-shortener.builtwithdark.com/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/freebooter/*"
+  to = "https://freebooter-generator.vercel.app/:splat"
+  status = 200
+  force = true
