@@ -3,6 +3,7 @@ import { Theme, ThemeUICSSObject } from "theme-ui";
 
 import { makeStyles } from "./theme-ui-utils";
 import { fontSize } from "./typography";
+import { layouts } from "./variants";
 
 export const linkTextDecorationColor = {
   name: "--link-text-decoration-color",
@@ -25,9 +26,6 @@ const headingStyles: ThemeUICSSObject = {
   fontFamily: "heading",
   fontWeight: "heading",
   lineHeight: "1.2",
-
-  display: "flex",
-  alignItems: "center",
 
   color: "text092",
 
@@ -207,8 +205,13 @@ export const styles = makeStyles({
   },
 
   details: {
+    ...layouts.boxedText,
     "> summary": {
       cursor: "pointer",
+    },
+    "> pre": {
+      mx: [0, 0, 0],
+      p: [1, 1, 1],
     },
   },
 });

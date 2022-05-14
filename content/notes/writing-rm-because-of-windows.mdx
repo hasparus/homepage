@@ -6,9 +6,9 @@ I happen to have a Windows laptop in my possession, and I'm stubborn enough
 to use it for coding. Fortunately, I am also stubborn enough to get it to
 work.
 
-### `rm -rf` doesn't work on Windows.
+### _rm -rf_ doesn't work on Windows.
 
-1.  Powershell on it has [`Remove-Item`] aliased to `rm`.
+1.  Powershell on it has _[Remove-Item]_ aliased to _rm_.
 
     This would almost solve the problem, but...
 
@@ -18,10 +18,10 @@ work.
     + rm -rf dist
     ```
 
-    Powershell, _unlike [`getopt`]_, doesn't allow specifying multiple
-    options together.
+    Powershell, unlike _[getopt]_, doesn't allow specifying multiple options
+    together.
 
-2.  `rm -r -f` doesn't work too, because -f is ambiguous.
+2.  _rm -r -f_ doesn't work too, because _-f_ is ambiguous.
 
     ```
     Remove-Item : Parameter cannot be processed because the parameter name 'f' is ambiguous.
@@ -30,10 +30,10 @@ work.
     + rm -r -f dist
     ```
 
-    All right, for a few months I've been writing `rm -r -fo` whenever I had
+    All right, for a few months I've been writing _rm -r -fo_ whenever I had
     to remove `node_modules`.
 
-    I aliased<Footnote.A number={1}/> it to `rmrf` for convenience and with
+    I aliased<FootnoteA number={1}/> it to _rmrf_ for convenience and with
     the following
 
     ```powershell
@@ -49,14 +49,18 @@ work.
     ```
 
 <Footnote number={1}>
-  Powershell aliases can't be used to partially apply arguments. Docs for
-  [`Set-Alias`] basically tell you to write a function instead.
+
+
+Powershell aliases can't be used to partially apply arguments. Docs for
+_[Set-Alias]_ basically tell you to write a function instead.
+
 </Footnote>
 
-[`remove-item`]:
+
+[remove-item]:
   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/remove-item?view=powershell-7.2
-[`getopt`]: https://en.wikipedia.org/wiki/Getopt
-[`set-alias`]:
+[getopt]: https://en.wikipedia.org/wiki/Getopt
+[set-alias]:
   https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/set-alias?view=powershell-7#example-5-create-an-alias-for-a-command-with-parameters
 
 ### Alias was not enough
@@ -151,6 +155,8 @@ fn main() {
 
 </details>
 
+
+{/_ TODO: Cargo.toml _/}
 
 I removed the alias by adding the following to my `$PROFILE`.
 

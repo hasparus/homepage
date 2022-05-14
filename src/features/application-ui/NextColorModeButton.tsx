@@ -22,6 +22,7 @@ export const NextColorModeButton = ({
 
   return (
     <Button
+      suppressHydrationWarning
       variant="clear"
       onClick={(e) => {
         // iOS safari scrolls a bit down on double tap of this button

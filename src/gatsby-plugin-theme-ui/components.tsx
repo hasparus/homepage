@@ -77,15 +77,10 @@ const components = {
 
     return <kbd {...rest}>{children}</kbd>;
   },
-  details: (props: ComponentPropsWithoutRef<"details">) => (
-    <details
-      sx={{
-        ...theme.styles.details,
-        ...theme.layouts.boxedText,
-      }}
-      {...props}
-    />
-  ),
+  details: (props: ComponentPropsWithoutRef<"details">) => {
+    console.log(">>", props);
+    return <details sx={theme.styles.details} {...props} />;
+  },
   // a workaround to allow using react-helmet from MDX
   Helmet: ({
     imageSrc,
