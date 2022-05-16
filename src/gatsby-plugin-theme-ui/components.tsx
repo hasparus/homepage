@@ -1,6 +1,12 @@
 /** @jsx jsx */
+import { boolean } from "fp-ts";
 import { Link } from "gatsby";
-import { ComponentProps, ComponentPropsWithoutRef } from "react";
+import React, {
+  ComponentProps,
+  ComponentPropsWithoutRef,
+  ReactElement,
+  ReactNode,
+} from "react";
 import { Helmet, HelmetProps } from "react-helmet";
 import { Box, jsx } from "theme-ui";
 
@@ -78,8 +84,34 @@ const components = {
     return <kbd {...rest}>{children}</kbd>;
   },
   details: (props: ComponentPropsWithoutRef<"details">) => {
-    console.log(">>", props);
-    return <details sx={theme.styles.details} {...props} />;
+    const hasCode =
+      Array.isArray(props.children) &&
+      !!props.children.find((child: ReactNode) => {
+        const childProps = (child as ReactElement).props as {
+          className?: string;
+          mdxType?: string;
+        };
+        return (
+          childProps.mdxType === "pre" &&
+          childProps.className?.includes("vscode-highlight")
+        );
+      });
+
+    return (
+      <details
+        sx={
+          hasCode
+            ? {
+                "&, > summary code": {
+                  bg: "var(--syntax-bg-color)",
+                  color: "#D6DEEB",
+                },
+              }
+            : {}
+        }
+        {...props}
+      />
+    );
   },
   // a workaround to allow using react-helmet from MDX
   Helmet: ({

@@ -24,17 +24,26 @@ export function ColorModeSpecificStyleTweaks() {
     }
   }
 
-  const styles =
+  const syntaxBackgroundColor =
+    colorMode === "dark" ? lighten("background", 0.03) : "#011627";
+
+  const styles = css(
     colorMode === "dark"
-      ? css({
+      ? {
           html: {
             "--scrollbar-color": "255, 255, 255",
+            "--syntax-bg-color": syntaxBackgroundColor,
           },
           ".night-owl-no-italics.vscode-highlight": {
-            backgroundColor: lighten("background", 0.03),
+            backgroundColor: "var(--syntax-bg-color)",
           } as {},
-        })
-      : {};
+        }
+      : {
+          html: {
+            "--syntax-bg-color": syntaxBackgroundColor,
+          },
+        }
+  );
 
   return <Global styles={styles} />;
 }

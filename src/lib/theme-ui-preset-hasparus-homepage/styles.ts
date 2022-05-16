@@ -206,12 +206,15 @@ export const styles = makeStyles({
 
   details: {
     ...layouts.boxedText,
+    width: "auto",
+    mx: [-3, -3, -4],
+    p: [2, 3, 4],
     "> summary": {
       cursor: "pointer",
     },
     "> pre": {
       mx: [0, 0, 0],
-      p: [1, 1, 1],
+      p: [0, 0, 0],
     },
   },
 });

@@ -112,7 +112,7 @@ from `std::fs` is totally fine for my use case.
 
 
 <details>
-  <summary><code>src/main.rs</code></summary>
+  <summary><code>main.rs</code></summary>
 
 
 ```rust
@@ -156,7 +156,22 @@ fn main() {
 </details>
 
 
-{/_ TODO: Cargo.toml _/}
+<details>
+<summary><code>Cargo.toml</code></summary>
+
+
+```toml
+[package]
+name = "rust-rm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "3.1.18", features = ["derive"] }
+```
+
+</details>
+
 
 I removed the alias by adding the following to my `$PROFILE`.
 
