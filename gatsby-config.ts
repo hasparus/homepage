@@ -34,7 +34,6 @@ export const siteMetadata = {
 
 const utilityPlugins = [
   // gatsby-plugin-catch-links breaks menu # link
-  "gatsby-plugin-netlify-cache",
   "gatsby-plugin-lodash",
   "gatsby-transformer-sharp",
   "gatsby-plugin-sharp",
