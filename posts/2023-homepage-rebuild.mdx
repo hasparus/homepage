@@ -1,3 +1,12 @@
+---
+title: "Draft: 2023 Homepage Rebuild"
+---
+
+Hey, this blog post is a work in progress. It will grow. Come back in week or
+two.
+
+---
+
 I've managed a couple of years without redesigning my website, a nice score for
 a person building user interfaces daily. Surprisingly, I'm not motivated by the
 framework churn and the hype for Astro, nor frustration with the tech debt decay
@@ -5,11 +14,31 @@ and dependency drift of my previous homepage codebase.
 
 Neither am I pursuing better performance metrics. Going from a static website
 built with Gatsby to a static website built with Astro gets me less JavaScript
-shipped, and shorter build times, and the fact that I don't have to use GraphQL
-to read a markdown file, but it's not a _huge_ change.
+shipped, shorter build times, and frees me from using GraphQL to read a markdown
+file, but it's not a _huge_ change.
 
-![](/content/2023-homepage-rebuild/old-desktop.png)
+There are some perf improvements that could have been done on my old site, but
+it's still all green.
 
-![](/public/content/2023-homepage-rebuild/old-mobile.png)
+export const Temporary = () => {
+  /*  Uncomment when images are no longer clipped in Zaduma
+ To be honest, this would be nice as a row/table with a lightbox
+ Tailwind should probably look into MDX files too
+ ![](/content/2023-homepage-rebuild/old-desktop.png) 
+ ![](/content/2023-homepage-rebuild/old-mobile.png) */
+  return null;
+};
 
-![](2023-01-14-20-19-08.png)
+And to be frank, it's not like I was very frugal with my bundle size. I used
+fp-ts to build a blog. I&nbsp;had&nbsp;_fun_.
+
+<img
+  style="height:200px"
+  src="/content/2023-homepage-rebuild/bro-wtf-fp-ts.png"
+/>
+
+**Fun is over. I'm a boring person now, and I want simplicity.**
+
+Simpler tech, more minimal design. I had handwrote and animated an SVG hamburger
+for my menu icon on [my old website](https://old-hasparus.netlify.app/). An
+actual sandwich. Good lord, what an infant.
