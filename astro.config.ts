@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Production URL
-const hostname = "zaduma.vercel.app";
+const hostname = "hasparus.vercel.app";
 const site = `https://${hostname}/`;
 
 // https://astro.build/config

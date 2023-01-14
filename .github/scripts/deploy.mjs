@@ -10,7 +10,7 @@ const { token, prod } = parseArgs(process.argv.slice(2));
 // 1. Pull vercel environment information
 // 2. Build project artifacts
 // 3. Deploy project artifacts to vercel
-// 4. Alias deployment to ${branch}--zaduma.vercel.app and write to GITHUB_ENV
+// 4. Alias deployment to ${branch}--hasparus.vercel.app and write to GITHUB_ENV
 execSync(
   `\
   vercel pull \
