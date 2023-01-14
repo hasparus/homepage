@@ -16,36 +16,38 @@ const separator = (index: number, items: unknown[]) => {
 };
 
 export function LastContributions() {
-  const { allGhContributions } = useStaticQuery<
-    LastContributionsQuery
-  >(graphql`
-    query LastContributions {
-      allGhContributions {
-        nodes {
-          mergedRepositories(first: 6) {
-            nameWithOwner
-          }
-        }
-      }
-    }
-  `);
+  return null;
 
-  return allGhContributions.nodes[0]!.mergedRepositories.map(
-    ({ nameWithOwner }, i, repos) => {
-      const name = nameWithOwner.split("/")[1];
+  // const { allGhContributions } = useStaticQuery<
+  //   LastContributionsQuery
+  // >(graphql`
+  //   query LastContributions {
+  //     allGhContributions {
+  //       nodes {
+  //         mergedRepositories(first: 6) {
+  //           nameWithOwner
+  //         }
+  //       }
+  //     }
+  //   }
+  // `);
 
-      return (
-        <>
-          <th.a
-            href={`https://github.com/${nameWithOwner}`}
-            target="_blank"
-            rel="noopener"
-          >
-            {name}
-          </th.a>
-          {separator(i, repos)}
-        </>
-      );
-    }
-  );
+  // return allGhContributions.nodes[0]!.mergedRepositories.map(
+  //   ({ nameWithOwner }, i, repos) => {
+  //     const name = nameWithOwner.split("/")[1];
+
+  //     return (
+  //       <>
+  //         <th.a
+  //           href={`https://github.com/${nameWithOwner}`}
+  //           target="_blank"
+  //           rel="noopener"
+  //         >
+  //           {name}
+  //         </th.a>
+  //         {separator(i, repos)}
+  //       </>
+  //     );
+  //   }
+  // );
 }
