@@ -2,7 +2,7 @@ import { readdirSync } from "fs-extra";
 
 import { gatsbyPluginMdxConfig } from "./src/features/blog/config";
 import { makeBrainNotesGatsbyPluginConfig } from "./src/features/brain-notes/config";
-import { gitHubContributionsPluginConfig } from "./src/features/github-contributions/config";
+// import { gitHubContributionsPluginConfig } from "./src/features/github-contributions/config";
 import { Mdx, Site } from "./graphql-types";
 
 const deployUrl = process.env.DEPLOY_PRIME_URL || "";
@@ -157,7 +157,8 @@ const utilityPlugins = [
 
 const contentPlugins = [
   gatsbyPluginMdxConfig,
-  gitHubContributionsPluginConfig,
+  // gitHubContributionsPluginConfig,
+
   // note. next time just put the posts in /pages dir
   // so gatsby-plugin-page-creator kicks in.
   // it would be easier to maintain
