@@ -1,3 +1,8 @@
+import { readFile, writeFile } from "fs/promises";
+
+const MIN_STARGAZERS = 5;
+const FETCHED_PRS_HUNDREDS = 2;
+
 const VERBOSE = (import.meta.env.DEBUG || "").includes("github-contributions");
 
 // I already mention I contribute to Theme UI
@@ -5,17 +10,35 @@ const IGNORED_REPOS = ["theme-ui", "dethcrypto"];
 // my own orgs, work and friends
 const IGNORED_OWNERS = ["zagrajmy", "Flick-Tech", "ChopChopOrg", "Zolwiastyl"];
 
-export function getGitHubContributions() {}
+export async function getGitHubContributions() {
+  const infoRes = (await gqlRequest(
+    contributionsInfoQuery
+  )) as ContributionsInfo;
 
-import { readFile, writeFile } from "fs/promises";
+  panicOnErrors(infoRes);
 
-const MIN_STARGAZERS = 5;
+  const pullRequests = await getMergedPullRequests();
 
-const CACHE_DURATION = 1000 * 3600 * 48;
+  if (VERBOSE) console.debug({ pullRequests });
 
-const FETCHED_PRS_HUNDREDS = 2;
+  const repositoriesSet = new Set();
 
-const CAN_CACHE = process.env.NO_CACHE !== "true";
+  const repositoriesWithMergedPRs = pullRequests.filter((repo) => {
+    if (repositoriesSet.has(repo.nameWithOwner)) {
+      return false;
+    }
+    repositoriesSet.add(repo.nameWithOwner);
+    return true;
+  });
+
+  const contributions = {
+    timestamp: Date.now(),
+    info: infoRes.data.viewer.contributionsCollection,
+    repositoriesWithMergedPRs,
+  };
+
+  return contributions;
+}
 
 type ContributionsInfo = GitHub.Response<
   GitHub.Viewer<GitHub.ContributionsCollectionInfo>
@@ -143,7 +166,9 @@ async function getMergedPullRequests() {
 
       const [owner, repo] = repository.nameWithOwner.split("/");
 
-      assert(owner && repo, "nameWithOwner must look like `:owner/:name`");
+      if (!owner || !repo) {
+        throw new Error("nameWithOwner must look like `:owner/:name`");
+      }
 
       return !IGNORED_OWNERS.includes(owner) && !IGNORED_REPOS.includes(repo);
     })
@@ -154,13 +179,11 @@ const cachePath = `${__dirname}/__contributions-cache.json`;
 
 const fsCache = {
   write: async (data: object) => {
-    await writeJson(cachePath, data, {
-      spaces: 2,
-    });
+    await writeJson(cachePath, data);
   },
   read: async () => {
     try {
-      const content = (await readJson(cachePath)) as unknown;
+      const content = await readJson(cachePath);
       return content;
     } catch (_err) {
       return null;
@@ -168,83 +191,85 @@ const fsCache = {
   },
 };
 
+async function writeJson(path: string, data: unknown) {
+  await writeFile(path, JSON.stringify(data, null, 2), "utf8");
+}
+
+async function readJson(path: string) {
+  const content = await readFile(path, "utf8");
+  return JSON.parse(content) as unknown;
+}
+
 export interface Contributions {
   timestamp: number;
   info: GitHub.ContributionsCollectionInfo;
   repositoriesWithMergedPRs: GitHub.Repository[];
 }
 
-async function fetchContributions(): Promise<Contributions> {
-  const infoRes = (await gqlRequest(
-    contributionsInfoQuery
-  )) as ContributionsInfo;
+declare namespace GitHub {
+  export namespace Response {
+    export type Success<T> = { data: T };
+    export type Errors =
+      | {
+          errors: { message: string }[];
+        }
+      | {
+          message: string;
+          documentation_url: string;
+        };
+  }
 
-  panicOnErrors(infoRes);
+  export type Response<T> = Response.Success<T> | Response.Errors;
 
-  const pullRequests = await getMergedPullRequests();
+  export interface Viewer<ContributionsCollection extends object> {
+    viewer: {
+      contributionsCollection: ContributionsCollection;
+    };
+  }
 
-  if (VERBOSE) console.debug({ pullRequests });
+  export interface ContributionsCollectionInfo {
+    totalPullRequestContributions: number;
+    totalCommitContributions: number;
+    totalIssueContributions: number;
+    totalPullRequestReviewContributions: number;
+    popularPullRequestContribution: PopularPullRequestContribution;
+  }
 
-  const repositoriesSet = new Set();
+  export interface contributionsCollectionPullRequests {
+    pullRequestContributions: PullRequestContributions;
+  }
 
-  const repositoriesWithMergedPRs = pullRequests.filter((repo) => {
-    if (repositoriesSet.has(repo.nameWithOwner)) {
-      return false;
-    }
-    repositoriesSet.add(repo.nameWithOwner);
-    return true;
-  });
+  export interface PopularPullRequestContribution {
+    pullRequest: PopularPullRequest;
+  }
 
-  const contributions = {
-    timestamp: Date.now(),
-    info: infoRes.data.viewer.contributionsCollection,
-    repositoriesWithMergedPRs,
-  };
+  export interface PopularPullRequest {
+    title: string;
+    repository: {
+      nameWithOwner: string;
+    };
+  }
 
-  return contributions;
+  export interface PullRequestContributions {
+    edges: {
+      cursor: string;
+      node: Node;
+    }[];
+  }
+
+  export interface Node {
+    pullRequest: PullRequest;
+  }
+
+  export interface PullRequest {
+    repository: Repository;
+    merged: boolean;
+    // title: string;
+    // mergedAt: string | Date | null;
+  }
+
+  export interface Repository {
+    stargazerCount: number;
+    nameWithOwner: string;
+  }
 }
-
-export const sourceNodes: GatsbyNode["sourceNodes"] = async ({
-  actions,
-  cache,
-  createNodeId,
-  createContentDigest,
-}: SourceNodesArgs) => {
-  const { createNode } = actions;
-
-  let contributions: Contributions | undefined;
-
-  if (CAN_CACHE) {
-    const fromCache = (await (process.env.CI
-      ? cache.get("haspar.us|contributions")
-      : fsCache.read())) as Contributions | null;
-
-    if (fromCache && fromCache.timestamp - Date.now() < CACHE_DURATION) {
-      contributions = fromCache;
-    }
-  }
-
-  if (!contributions) {
-    contributions = await fetchContributions();
-
-    if (CAN_CACHE) {
-      if (process.env.CI) {
-        await cache.set("haspar.us|contributions", contributions);
-      } else {
-        await fsCache.write(contributions);
-      }
-    }
-  }
-
-  createNode({
-    ...contributions,
-    id: createNodeId(`${NODE_TYPE}-0`),
-    parent: null,
-    children: [],
-    internal: {
-      type: NODE_TYPE,
-      content: JSON.stringify(contributions),
-      contentDigest: createContentDigest(contributions),
-    },
-  });
-};
