@@ -13,6 +13,9 @@ query GetGitHubContributionsInfo {
 
 type Cursor = string;
 
+// We're using contributoinsCollection.pullRequestContributions instead of
+// repositoriesContributedTo because the latter doesn't contain older PRs,
+// and we can't filter by merged status.
 export type PullRequests = GitHub.Response<
   GitHub.Viewer<GitHub.contributionsCollectionPullRequests>
 >;
@@ -110,3 +113,18 @@ export declare namespace GitHub {
     nameWithOwner: string;
   }
 }
+
+// TODO: I'll have to use `from` and `to` by years.
+
+// contributionsCollection
+// The collection of contributions this user has made to different repositories.
+
+// ContributionsCollection!
+// from: DateTime
+// Only contributions made at this time or later will be counted. If omitted, defaults to a year ago.
+
+// organizationID: ID
+// The ID of the organization used to filter contributions.
+
+// to: DateTime
+// Only contributions made before and up to (including) this time will be counted. If omitted, defaults to the current time or one year from the provided from argument.

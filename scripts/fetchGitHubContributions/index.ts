@@ -126,8 +126,9 @@ async function getMergedPullRequests(totalPullRequestContributions: number) {
       console.dir(res, { depth: 99 });
     }
 
-    return res.data.viewer.contributionsCollection.pullRequestContributions
-      .edges;
+    return res.data.viewer.contributionsCollection.pullRequestContributions.edges.filter(
+      (edge): edge is Exclude<typeof edge, null> => !!edge
+    );
   };
 
   let pullRequests = await getEdges();
