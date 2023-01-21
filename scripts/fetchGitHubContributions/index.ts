@@ -48,7 +48,7 @@ export async function fetchGitHubContributions(): Promise<Contributions> {
 
   if (VERBOSE) console.debug({ pullRequests });
 
-  const repositoriesSet = new Set();
+  const pullRequestsByRepo = new Map();
   const repositoriesWithMergedPRs = Object.values(pullRequests)
     .flat(2)
     .filter((pr) => {
@@ -57,9 +57,6 @@ export async function fetchGitHubContributions(): Promise<Contributions> {
         repository: { nameWithOwner, stargazerCount },
       } = pr;
 
-      if (repositoriesSet.has(nameWithOwner)) return false;
-      repositoriesSet.add(nameWithOwner);
-
       if (!merged || stargazerCount < MIN_STARGAZERS) return false;
 
       const [owner, repo] = nameWithOwner.split("/");
@@ -67,9 +64,19 @@ export async function fetchGitHubContributions(): Promise<Contributions> {
         throw new Error("nameWithOwner must look like `:owner/:name`");
       }
 
-      return !(IGNORED_REPOS.includes(repo) || IGNORED_OWNERS.includes(owner));
+      if (IGNORED_REPOS.includes(repo) || IGNORED_OWNERS.includes(owner))
+        return false;
+
+      const count = pullRequestsByRepo.get(nameWithOwner) || 0;
+      pullRequestsByRepo.set(nameWithOwner, count + 1);
+
+      return true;
     })
-    .map((pr) => pr.repository);
+    .map((pr) => ({
+      ...pr.repository,
+      pullRequestsMerged: pullRequestsByRepo.get(pr.repository.nameWithOwner),
+    }))
+    .sort((a, b) => b.pullRequestsMerged - a.pullRequestsMerged);
 
   const contributions: Contributions = {
     timestamp: Date.now(),
@@ -143,12 +150,15 @@ async function getMergedPullRequests() {
   const prsByYear: Contributions["pullRequestsByYear"] = {};
   let response: Awaited<ReturnType<typeof getEdges>>;
 
-  do {
+  while (true) {
+    console.log(`Fetching PRs for ${year}...`);
     const yearVars: Pick<GitHubPullRequestsQueryVariables, "from" | "to"> = {
       from: `${year}-01-01T00:00:00Z`,
       to: `${year}-12-31T23:59:59Z`,
     };
     response = await getEdges(yearVars);
+
+    if (response.pullRequests.length === 0) break;
 
     prsByYear[year] = [response.pullRequests];
 
@@ -160,7 +170,7 @@ async function getMergedPullRequests() {
     }
 
     year -= 1;
-  } while (response.pullRequests.length > 0);
+  }
 
   return prsByYear;
 }
