@@ -25,7 +25,7 @@ const CACHE_DURATION = 1000 * 3600 * 48;
 const VERBOSE = DEBUG.includes("contributions");
 
 // I already mention I contribute to Theme UI
-const IGNORED_REPOS: string | string[] = [];
+const IGNORED_REPOS: string | string[] = ["share-azgaar-map"];
 // my own orgs, work and friends
 const IGNORED_OWNERS = ["zagrajmy", "Flick-Tech", "ChopChopOrg", "Zolwiastyl"];
 
