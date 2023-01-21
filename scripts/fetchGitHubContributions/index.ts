@@ -70,7 +70,7 @@ export async function fetchGitHubContributions(): Promise<Contributions> {
       const count = pullRequestsByRepo.get(nameWithOwner) || 0;
       pullRequestsByRepo.set(nameWithOwner, count + 1);
 
-      return true;
+      return count === 0; // we only want unique repos
     })
     .map((pr) => ({
       ...pr.repository,
@@ -164,6 +164,12 @@ async function getMergedPullRequests() {
 
     let { cursor } = response;
     while (cursor) {
+      console.log(
+        `[${year}] after cursor "${cursor}".`,
+        `${prsByYear[year]!.flat().length} / ${
+          response.totalPullRequestContributions
+        }`
+      );
       response = await getEdges({ ...yearVars, after: cursor });
       prsByYear[year]!.push(response.pullRequests);
       cursor = response.cursor;
