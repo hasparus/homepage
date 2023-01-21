@@ -1,30 +1,34 @@
-export type ContributionsInfoQueryResult = GitHub.Response<
-  GitHub.Viewer<GitHub.ContributionsCollectionInfo>
->;
-export const contributionsInfoQuery = `
-query GetGitHubContributionsInfo {
-  viewer {
-    contributionsCollection {
-      totalPullRequestContributions
-    }
-  }
-}
-`;
-
-type Cursor = string;
+export type Cursor = string & { _brand: "Cursor" };
+export type DateISOString =
+  `${number}-${number}-${number}T${number}:${number}:${number}Z`;
 
 // We're using contributoinsCollection.pullRequestContributions instead of
 // repositoriesContributedTo because the latter doesn't contain older PRs,
 // and we can't filter by merged status.
-export type PullRequests = GitHub.Response<
+export type GitHubPullRequestsQueryResponse = GitHub.Response<
   GitHub.Viewer<GitHub.contributionsCollectionPullRequests>
 >;
-export const pullRequestsQuery = (after?: Cursor) => `
-query GetGitHubPullRequests {
+
+export interface GitHubPullRequestsQueryVariables {
+  after?: Cursor;
+  from: DateISOString;
+  to: DateISOString;
+}
+
+export const GitHubPullRequestsQuery = `
+query GitHubPullRequests(
+  $after: String
+  $from: DateTime!
+  $to: DateTime!
+) {
   viewer {
-    contributionsCollection {
+    contributionsCollection(
+      from: $from,
+      to: $to
+    ) {
+      totalPullRequestContributions
       pullRequestContributions(
-        ${after ? `, after: "${after}",` : ""}
+        after: $after,
         first: 100,
         orderBy: {direction: DESC}
       ) {
@@ -69,12 +73,9 @@ export declare namespace GitHub {
     };
   }
 
-  export interface ContributionsCollectionInfo {
-    totalPullRequestContributions: number;
-  }
-
   export interface contributionsCollectionPullRequests {
     pullRequestContributions: PullRequestContributions;
+    totalPullRequestContributions: number;
   }
 
   export interface PopularPullRequestContribution {
@@ -92,7 +93,7 @@ export declare namespace GitHub {
     // Edge for a private repo will be null if the access token doesn't have
     // the required scope.
     edges: Array<null | {
-      cursor: string;
+      cursor: Cursor;
       node: Node;
     }>;
   }
@@ -113,18 +114,3 @@ export declare namespace GitHub {
     nameWithOwner: string;
   }
 }
-
-// TODO: I'll have to use `from` and `to` by years.
-
-// contributionsCollection
-// The collection of contributions this user has made to different repositories.
-
-// ContributionsCollection!
-// from: DateTime
-// Only contributions made at this time or later will be counted. If omitted, defaults to a year ago.
-
-// organizationID: ID
-// The ID of the organization used to filter contributions.
-
-// to: DateTime
-// Only contributions made before and up to (including) this time will be counted. If omitted, defaults to the current time or one year from the provided from argument.

@@ -5,11 +5,10 @@ import { readFile, writeFile } from "fs/promises";
 import nextEnv from "@next/env";
 
 import {
-  contributionsInfoQuery,
-  ContributionsInfoQueryResult,
-  GitHub,
-  PullRequests,
-  pullRequestsQuery,
+  type GitHub,
+  type GitHubPullRequestsQueryResponse,
+  GitHubPullRequestsQuery,
+  GitHubPullRequestsQueryVariables,
 } from "./github-graphql";
 
 const __dirname = new URL(".", import.meta.url).pathname;
@@ -26,7 +25,7 @@ const CACHE_DURATION = 1000 * 3600 * 48;
 const VERBOSE = DEBUG.includes("contributions");
 
 // I already mention I contribute to Theme UI
-const IGNORED_REPOS = ["theme-ui", "dethcrypto"];
+const IGNORED_REPOS: string | string[] = [];
 // my own orgs, work and friends
 const IGNORED_OWNERS = ["zagrajmy", "Flick-Tech", "ChopChopOrg", "Zolwiastyl"];
 
@@ -45,31 +44,36 @@ export async function fetchGitHubContributions(): Promise<Contributions> {
     return fromCache;
   }
 
-  const infoRes = (await gqlRequest(
-    contributionsInfoQuery
-  )) as ContributionsInfoQueryResult;
-
-  panicOnErrors(infoRes);
-
-  const pullRequests = await getMergedPullRequests(
-    infoRes.data.viewer.contributionsCollection.totalPullRequestContributions
-  );
+  const pullRequests = await getMergedPullRequests();
 
   if (VERBOSE) console.debug({ pullRequests });
 
   const repositoriesSet = new Set();
+  const repositoriesWithMergedPRs = Object.values(pullRequests)
+    .flat(2)
+    .filter((pr) => {
+      const {
+        merged,
+        repository: { nameWithOwner, stargazerCount },
+      } = pr;
 
-  const repositoriesWithMergedPRs = pullRequests.filter((repo) => {
-    if (repositoriesSet.has(repo.nameWithOwner)) {
-      return false;
-    }
-    repositoriesSet.add(repo.nameWithOwner);
-    return true;
-  });
+      if (repositoriesSet.has(nameWithOwner)) return false;
+      repositoriesSet.add(nameWithOwner);
 
-  const contributions = {
+      if (!merged || stargazerCount < MIN_STARGAZERS) return false;
+
+      const [owner, repo] = nameWithOwner.split("/");
+      if (!owner || !repo) {
+        throw new Error("nameWithOwner must look like `:owner/:name`");
+      }
+
+      return !(IGNORED_REPOS.includes(repo) || IGNORED_OWNERS.includes(owner));
+    })
+    .map((pr) => pr.repository);
+
+  const contributions: Contributions = {
     timestamp: Date.now(),
-    info: infoRes.data.viewer.contributionsCollection,
+    pullRequestsByYear: pullRequests,
     repositoriesWithMergedPRs,
   };
 
@@ -82,7 +86,7 @@ await fetchGitHubContributions();
 
 // ---
 
-async function gqlRequest(query: string) {
+async function fetchPRs(query: string, variables: object = {}) {
   if (!GITHUB_TOKEN) {
     throw new Error("🔥 process.env.GITHUB_TOKEN is missing!");
   }
@@ -93,7 +97,7 @@ async function gqlRequest(query: string) {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ query }),
+    body: JSON.stringify({ query, variables }),
   }).then((res) => res.json())) as unknown;
 }
 
@@ -102,61 +106,63 @@ function panicOnErrors<T>(
   ctx: object = {}
 ): asserts res is GitHub.Response.Success<T> {
   if ("errors" in res || "message" in res) {
-    console.dir(
-      {
-        ...res,
-        ...ctx,
-      },
-      { depth: Infinity }
-    );
+    console.dir({ ...res, ...ctx }, { depth: Infinity });
 
     const message = "message" in res ? res.message : res.errors[0]?.message;
     throw new Error(message);
   }
 }
 
-async function getMergedPullRequests(totalPullRequestContributions: number) {
-  const getEdges = async (...args: Parameters<typeof pullRequestsQuery>) => {
-    const query = pullRequestsQuery(...args);
-    const res = (await gqlRequest(query)) as PullRequests;
+async function getMergedPullRequests() {
+  const getEdges = async (variables: GitHubPullRequestsQueryVariables) => {
+    const response = await fetchPRs(GitHubPullRequestsQuery, variables);
 
-    panicOnErrors(res, { query });
+    const res = response as GitHubPullRequestsQueryResponse;
+
+    panicOnErrors(res, { variables });
 
     if (VERBOSE) {
       console.dir(res, { depth: 99 });
     }
 
-    return res.data.viewer.contributionsCollection.pullRequestContributions.edges.filter(
+    const { pullRequestContributions, totalPullRequestContributions } =
+      res.data.viewer.contributionsCollection;
+
+    const edges = pullRequestContributions.edges.filter(
       (edge): edge is Exclude<typeof edge, null> => !!edge
     );
+
+    return {
+      totalPullRequestContributions,
+      pullRequests: edges.map((edge) => edge.node.pullRequest),
+      cursor: edges[edges.length - 1]?.cursor,
+    };
   };
 
-  let pullRequests = await getEdges();
+  let year = new Date().getFullYear();
+  const prsByYear: Contributions["pullRequestsByYear"] = {};
+  let response: Awaited<ReturnType<typeof getEdges>>;
 
-  for (let i = 0; i < totalPullRequestContributions / 100; ++i) {
-    const last = pullRequests[pullRequests.length - 1];
-    if (last) {
-      pullRequests = pullRequests.concat(await getEdges(last.cursor));
+  do {
+    const yearVars: Pick<GitHubPullRequestsQueryVariables, "from" | "to"> = {
+      from: `${year}-01-01T00:00:00Z`,
+      to: `${year}-12-31T23:59:59Z`,
+    };
+    response = await getEdges(yearVars);
+
+    prsByYear[year] = [response.pullRequests];
+
+    let { cursor } = response;
+    while (cursor) {
+      response = await getEdges({ ...yearVars, after: cursor });
+      prsByYear[year]!.push(response.pullRequests);
+      cursor = response.cursor;
     }
-  }
 
-  return pullRequests
-    .filter((pr): pr is Exclude<typeof pr, null> => !!pr)
-    .filter((pr) => {
-      const { merged, repository } = pr.node.pullRequest;
-      if (!merged || repository.stargazerCount < MIN_STARGAZERS) {
-        return false;
-      }
+    year -= 1;
+  } while (response.pullRequests.length > 0);
 
-      const [owner, repo] = repository.nameWithOwner.split("/");
-
-      if (!owner || !repo) {
-        throw new Error("nameWithOwner must look like `:owner/:name`");
-      }
-
-      return !IGNORED_OWNERS.includes(owner) && !IGNORED_REPOS.includes(repo);
-    })
-    .map((pr) => pr.node.pullRequest.repository);
+  return prsByYear;
 }
 
 function createFsCache(cachePath: string) {
@@ -186,6 +192,6 @@ async function readJson(path: string) {
 
 export interface Contributions {
   timestamp: number;
-  info: GitHub.ContributionsCollectionInfo;
+  pullRequestsByYear: Record<number, GitHub.PullRequest[][]>;
   repositoriesWithMergedPRs: GitHub.Repository[];
 }
