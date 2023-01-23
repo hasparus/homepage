@@ -6,5 +6,5 @@
     "jsxImportSource": "solid-js",
     "skipLibCheck": true
   },
-  "include": ["src", "api", "*.ts"]
+  "include": ["src", "api", "*.ts", "scripts"]
 }

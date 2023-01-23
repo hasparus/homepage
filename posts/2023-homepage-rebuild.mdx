@@ -1,11 +1,27 @@
 ---
 title: "Draft: 2023 Homepage Rebuild"
+draft: true
 ---
 
-Hey, this blog post is a work in progress. It will grow. Come back in week or
-two.
+<div class="full-w-child">
 
----
+**TLDR Tech Stack**: [zaduma], [Astro], [Solid.js][solid], [Tailwind], [MDX],
+[Vercel OG][vercel-og] on Edge Functions, [Astro Image][astro-image],
+[Plaiceholder]
+
+</div>
+
+[zaduma]: https://github.com/hasparus/zaduma
+[astro]: https://astro.build/
+[solid]: https://www.solidjs.com/
+[tailwind]: https://tailwindcss.com/
+[mdx]: https://mdxjs.com/
+[vercel-og]:
+  https://vercel.com/docs/concepts/functions/edge-functions/og-image-generation
+[astro-image]: https://docs.astro.build/en/guides/integrations-guide/image/
+[plaiceholder]: https://plaiceholder.co/
+
+## Motivation
 
 I've managed a couple of years without redesigning my website, a nice score for
 a person building user interfaces daily. Surprisingly, I'm not motivated by the
@@ -16,6 +32,22 @@ Neither am I pursuing better performance metrics. Going from a static website
 built with Gatsby to a static website built with Astro gets me less JavaScript
 shipped, shorter build times, and frees me from using GraphQL to read a markdown
 file, but it's not a _huge_ change.
+
+And to be frank, it's not like I was very frugal with my bundle size. I used
+fp-ts to build a blog. I&nbsp;had&nbsp;_fun_.
+
+<img
+  style="height:200px"
+  src="/content/2023-homepage-rebuild/bro-wtf-fp-ts.png"
+/>
+
+**Fun is over. I'm a boring person now, and I want simplicity.**
+
+Simpler tech, almost minimal design. I had handwrote and animated an SVG hamburger for my menu icon on [my old website](https://old-hasparus.netlify.app/). An actual sandwich. Good lord, what an infant. I'm trying to do something more basic, more classic now.
+
+---
+
+## Performance & Metrics
 
 There are some perf improvements that could have been done on my old site, but
 it's still all green.
@@ -28,17 +60,3 @@ export const Temporary = () => {
  ![](/content/2023-homepage-rebuild/old-mobile.png) */
   return null;
 };
-
-And to be frank, it's not like I was very frugal with my bundle size. I used
-fp-ts to build a blog. I&nbsp;had&nbsp;_fun_.
-
-<img
-  style="height:200px"
-  src="/content/2023-homepage-rebuild/bro-wtf-fp-ts.png"
-/>
-
-**Fun is over. I'm a boring person now, and I want simplicity.**
-
-Simpler tech, more minimal design. I had handwrote and animated an SVG hamburger
-for my menu icon on [my old website](https://old-hasparus.netlify.app/). An
-actual sandwich. Good lord, what an infant.
