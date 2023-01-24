@@ -2,7 +2,7 @@ import { __dirname } from "./env";
 import type { FetchViewerPullRequestsResult } from "./fetch-prs";
 import { readJson, writeJson } from "./fs-utils";
 
-const MIN_STARGAZERS = 5;
+const MIN_STARGAZERS = 9;
 const IGNORED_REPOS_SUBSTRINGS: string[] = [];
 
 async function aggregateRepositoriesContributedTo() {
@@ -19,10 +19,10 @@ async function aggregateRepositoriesContributedTo() {
     .filter((pr) => {
       const {
         merged,
-        repository: { nameWithOwner, stargazerCount },
+        repository: { nameWithOwner },
       } = pr;
 
-      if (!merged || stargazerCount < MIN_STARGAZERS) return false;
+      if (!merged) return false;
 
       const [owner, repo] = nameWithOwner.split("/");
       if (!owner || !repo) {
@@ -39,18 +39,26 @@ async function aggregateRepositoriesContributedTo() {
       pullRequestsMerged:
         pullRequestsByRepo.get(pr.repository.nameWithOwner) || 0,
     }))
-    .sort((a, b) => b.pullRequestsMerged - a.pullRequestsMerged)
-    .filter(
-      (repo) =>
-        !IGNORED_REPOS_SUBSTRINGS.some((ignoredSubstring) =>
-          repo.nameWithOwner.includes(ignoredSubstring)
-        )
-    );
+    .sort((a, b) => b.pullRequestsMerged - a.pullRequestsMerged);
 
-  await writeJson(
-    `${__dirname}/out/repositories.json`,
-    repositoriesWithMergedPRs
+  const numberOfPRsMergedToPublicRepos = repositoriesWithMergedPRs.reduce(
+    (acc, val) => acc + val.pullRequestsMerged,
+    0
   );
+  const filteredRepositories = repositoriesWithMergedPRs.filter(
+    (repo) => repo.stargazerCount > MIN_STARGAZERS && !isIgnored(repo)
+  );
+
+  await writeJson(`${__dirname}/out/repositories.json`, {
+    numberOfPRsMergedToPublicRepos,
+    filteredRepositories,
+  });
 }
 
 await aggregateRepositoriesContributedTo();
+
+function isIgnored(repo: { nameWithOwner: string }) {
+  return IGNORED_REPOS_SUBSTRINGS.some((ignoredSubstring) =>
+    repo.nameWithOwner.includes(ignoredSubstring)
+  );
+}
