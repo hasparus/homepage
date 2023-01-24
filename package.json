@@ -15,7 +15,8 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write src",
     "ci": "pnpm lint && prettier --check src",
-    "scripts:fetch-contribs": "tsx scripts/fetchGitHubContributions"
+    "contribs:fetch-prs": "tsx scripts/gh-contributions/fetch-prs",
+    "contribs:aggregate": "tsx scripts/gh-contributions/aggregate-repos"
   },
   "dependencies": {
     "@astrojs/image": "^0.13.0",
