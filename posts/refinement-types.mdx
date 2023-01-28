@@ -17,13 +17,19 @@ _**T**_ called _**P**_.
 Even numbers are a nice example. Our _**T**_ is `number`, our _**P**_ is
 `isEven`.
 
+```twoslash include brand
+type Even = number & { _brand: "Even" };
+```
+
 ```twoslash include def
 type T = number;
 
-function isEven(x: T): boolean {
+let isEven = (x: T): boolean => {
   return x % 2 === 0;
 }
+
 // - 1
+
 type Even = number & { _brand: "Even" };
 ```
 
@@ -45,8 +51,13 @@ Our _**PT**_ is made from the type `number` and refined with the predicate
 type Even = 0 | 2 | 4 | 6 | 8 | //...
 ```
 
+Problem is, we can't just list out all the even numbers, and even if we could
+have an infinite type that would work in this case, our complex business domains
+often deal with types we cannot represent in the typesystem, like
+_AuthorizedUser_.
+
 We have some understanding of refinement types, maybe we've even skimmed the
-Wikipedia article, but it doesn't seem very practical yet, right?
+Wikipedia article...
 
 <figure>
 
@@ -62,17 +73,10 @@ Wikipedia article, but it doesn't seem very practical yet, right?
 </figcaption>
 </figure>
 
-Problem is, we can't just list out all the even numbers, and even if we could
-have an infinite type that would work in this case, our complex business domains
-often deal with types we cannot represent in the typesystem, like
-_AuthorizedUser_.
+But it doesn't seem very practical yet, right? Let's get leave the theory for a
+bit, and implement the missing pieces.
 
 ## How can I use them?
-
-Refinement types are not supported on language level by any mainstream
-programming language, but they're a concept from type theory (just math!), so we
-can make use of them in userspace and reap the benefits with a little ~~hack~~
-effort.
 
 There are a few ways we can go about it. Pick your poison.
 
@@ -89,88 +93,94 @@ There are a few ways we can go about it. Pick your poison.
 [typing]: https://github.com/hasparus/nom-ts
 
 ```tsx twoslash
-type Even = number & { _brand: "Even" };
+// @include: brand
 ```
 
-Now `Even` is a `number` with the string _"Even"_ sprayed on it. We'll never
+Now `Even` is a `number` with a big _"Even"_ string sprayed on it. We'll never
 assign anything to the `_brand` property. It exists only on the type level.
 
 ```tsx twoslash
-type Even = number & { _brand: "Even" };
+// @include: brand
 // ---cut---
-const x: Even = 3 as Even;
+const evenNumber: Even = 3 as Even;
 ```
 
-Ensuring that the name means something is up to our predicate function.
+If we use a type assertion, we can pretend 3 is an even number, but we won't be
+doing it. Ensuring that the name means something is up to our predicate
+function.
 
-{/* prettier-ignore */}
 ```tsx twoslash
+//
 // @include: def
 // ---cut---
 
-const x: number = 4;
-let y: Even;
+const anyNumber: number = 4;
+let evenNumber: Even;
 // @errors: 2322
-if (isEven(x)) y = x;
+if (isEven(anyNumber)) evenNumber = anyNumber; // oops
 ```
 
-_We can call the predicate once and if it's true, we remember this fact in the
-type system to avoid accidental errors._
+Any number isn't assignable to our special branded type, and that's what we
+wanted. However, we didn't let TypeScript know that `isEven` and `Even` are
+connected.
 
-### Example time
-
-#### Almost real example
-
-Assume we're building a form in which users can enter a list of emails into a
-textarea to send activation links to give their friends write permissions for
-the app (let's say it's a CMS).
-
-We validate these emails once, and if they're all valid, we save them, and
-later, few steps further in the form, we send our activation links. Few days
-later, we get a new requirement -- the user should be able to edit the data at
-the last step of the form. Cool, the form is pretty long, we understand that it
-can be useful. Several lines of code and we're done. We go home happy about the
-good code we pushed. Next morning we see a new issue in the tracker --
-_"Validate emails after the user does final edits"_ -- We totally forgot about
-the validation.
-
-#### How could we save the day with a refinement type?
-
-- Create a subtype of **_string_** called **_ValidEmail_**, such that
-  **_string_** is not assignable to **_ValidEmail_**.
-- Hold already validated emails in a list of type **_ValidEmails_**.
-- Now you can't push a string to a list of already validated emails ✨
-- Change the type of `sendEmail` function from `(email: string) => void` to
-  `(email: ValidEmail) => void*`. \
-  It doesn't make sense to send an email to `"🦄🐵💣"` which is a perfectly valid
-  string.
-
-( \* ) or IO, Result, choose your favorite.
-
-#### Yeah right, but how can I create this "ValidEmail" type?
-
-However you want! It's just an idea from type theory and you can implement it in
-your favorite way. Few ideas:
-
-- you can go full OOP and extend a **_String_**,
-- use [nominal](https://github.com/hasparus/nom-ts)&nbsp;
-  [typing](https://michalzalecki.com/nominal-typing-in-typescript/#approach-4-intersection-types-and-brands)
-  and leave no runtime trail _(my favorite option)_,
-- put the string into a
-  [value object](https://en.wikipedia.org/wiki/Value_object), because
-  **_ValidEmail_** doesn't even have to be a subtype of **_string_**. \
-  The key is that **_string_** is not assignable to **_ValidEmail_**, because we
-  want to ensure validation.
-
-### User defined type guards
-
-We can use TypeScript’s
+We'll use
 [user defined type guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates)
-to tell the compiler that our predicate checks the type and this is exactly what
-we’re interested in when we talk about refinements.
+to tell the compiler that our predicate checks the type. It's exactly what we
+need in this case.
 
-Let’s empower our `isValidEmail` predicate by changing its signature from
-`(s: string) => boolean` to `(s: string) => s is ValidEmail`.
+Let’s empower our `isEven` predicate by changing its return type.
+
+```twoslash include new-def
+function isEven(x: number): x is Even {
+  return x % 2 === 0;
+}
+```
+
+```tsx twoslash
+// @include: brand
+// ---cut---
+// @include: new-def
+```
+
+Now our predicate will narrow the type of its argument.
+
+```tsx twoslash
+// @include: brand
+// @include: new-def
+const anyNumber: number = 4;
+let evenNumber: Even;
+// ---cut---
+
+// @errors: 2322
+if (isEven(anyNumber)) evenNumber = anyNumber;
+```
+
+We can call the predicate once and if returns true, we remember this fact in the
+type system to avoid accidental errors.
+
+In languages without type guards, we can create a constructor function.
+
+```tsx twoslash
+// @noErrors
+// @include: brand
+// @include: def
+// ---cut---
+
+function parseEven(x: number): Even | null {
+  return isEven(x) ? x as Even : null
+}
+
+function Even(x: number) {
+  if (isEven(x)) {
+    return x as Even;
+  } else {
+    throw new Error(`${x} is not even`});
+  }
+}
+
+const evenNumber: Even = Even(4);
+```
 
 ## Takeaways
 
@@ -180,9 +190,25 @@ Let’s empower our `isValidEmail` predicate by changing its signature from
   (except predicate checks).
 - You can use them to encode facts about your data in the type system.
 
-## Sources
+---
 
-- [Refinement Types for TypeScript](https://goto.ucsd.edu/~pvekris/docs/pldi16.pdf)
+## Past Meetup Talks
+
+**TODO: I'll add summaries of my talks on the topic here.**
+
+## Further reading
+
+This is mostly a reading list for future me, but I hope you can also find it
+interesting.
+
+- [refined](https://github.com/fthomas/refined) for Scala sounds really
+  interesting and with [ScalaJs](https://www.scala-js.org/) I could target the
+  same platforms as TypeScript.
+
+- "[A taste of dependent types](http://kmcallister.github.io/talks/rust/2015-dependent-types/slides.html)"
+  by Keegan McAllister
+
+- "[Refinement Types for TypeScript](https://goto.ucsd.edu/~pvekris/docs/pldi16.pdf)"
 
   > A basic refinement type is a basic type, e.g. number, refined with a logical
   > formula from an SMT decidable logic.\
@@ -198,19 +224,3 @@ Let’s empower our `isValidEmail` predicate by changing its signature from
   > describe (the set of values corresponding to) non-negative numbers, positive
   > numbers, numbers equal to some value n, and valid indexes for an array a,
   > respectively...
-
----
-
-## Further reading
-
-This is mostly a reading list for future me, but I hope you can also find it
-interesting.
-
-- [refined](https://github.com/fthomas/refined) for Scala sounds really
-  interesting and with [ScalaJs](https://www.scala-js.org/) I could target the
-  same platforms as TypeScript.
-
-- "[A taste of dependent types](http://kmcallister.github.io/talks/rust/2015-dependent-types/slides.html)"
-  by Keegan McAllister
-
-export const TODO = "Summaries of my talks on the topic";
