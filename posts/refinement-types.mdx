@@ -2,6 +2,7 @@
 title: Refinement Types
 spoiler: Tremendous type safety through the power of an if statement.
 date: 2019-10-07
+tags: typescript, meetup
 ---
 
 ## What are they?
@@ -43,12 +44,34 @@ Our _**PT**_ is made from the type `number` and refined with the predicate
 type Even = 0 | 2 | 4 | 6 | 8 | //...
 ```
 
-## How can I use them?
+We have some understanding of refinement types, maybe we've even skimmed the
+Wikipedia article, but it doesn't seem very practical yet, right?
+
+<figure>
+
+> In type theory, a refinement type is a type endowed with a predicate which is
+> assumed to hold for any element of the refined type.
+
+<figcaption>
+
+<div class="p-1" />
+
+[Wikipedia, "Refinement type"](https://en.wikipedia.org/wiki/Refinement_type)
+
+</figcaption>
+</figure>
 
 Problem is, we can't just list out all the even numbers, and even if we could
 have an infinite type that would work in this case, our complex business domains
 often deal with types we cannot represent in the typesystem, like
 _AuthorizedUser_.
+
+## How can I use them?
+
+Refinement types are not supported on language level by any mainstream
+programming language, but they're a concept from type theory (just math!), so we
+can make use of them in userspace and reap the benefits with a little ~~hack~~
+effort.
 
 There are a few ways we can go about it. Pick your poison.
 
@@ -64,12 +87,20 @@ There are a few ways we can go about it. Pick your poison.
   https://michalzalecki.com/nominal-typing-in-typescript/#approach-4-intersection-types-and-brands
 [typing]: https://github.com/hasparus/nom-ts
 
-```tsx
+```tsx twoslash
 type Even = number & { _brand: "Even" };
 ```
 
-Now `Even` is a `number` with the string _"Even"_ sprayed on it. Ensuring that
-the name means something is up to our predicate function.
+Now `Even` is a `number` with the string _"Even"_ sprayed on it. We'll never
+assign anything to the `_brand` property. It exists only on the type level.
+
+```tsx twoslash
+type Even = number & { _brand: "Even" };
+// ---cut---
+const x: Even = 3 as Even;
+```
+
+Ensuring that the name means something is up to our predicate function.
 
 {/* prettier-ignore */}
 ```tsx twoslash
@@ -81,16 +112,6 @@ let y: Even;
 // @errors: 2322
 if (isEven(x)) y = x;
 ```
-
-Refinement types are not supported on language level by any mainstream
-programming language, but they're a concept from type theory (just math!),
-and&nbsp;TypeScript gives us foundations to work with them. We can make them in
-userspace and reap the benefits with a little ~~hack~~ effort.
-
-I've refined the **_number_** into **_Even_** during my
-[Wrocław TypeScript talk](https://github.com/hasparus/refinement-types-in-typescript).\
-Having a type for even numbers doesn't sound really useful but the idea stays the
-same for real world types with complex names copied from Jira.
 
 _We can call the predicate once and if it's true, we remember this fact in the
 type system to avoid accidental errors._
@@ -160,11 +181,6 @@ Let’s empower our `isValidEmail` predicate by changing its signature from
 
 ## Sources
 
-- [Wikipedia](https://en.wikipedia.org/wiki/Refinement_type)
-
-  > In type theory, a refinement type is a type endowed with a predicate which
-  > is assumed to hold for any element of the refined type.
-
 - [Refinement Types for TypeScript](https://goto.ucsd.edu/~pvekris/docs/pldi16.pdf)
 
   > A basic refinement type is a basic type, e.g. number, refined with a logical
@@ -195,3 +211,5 @@ interesting.
 
 - "[A taste of dependent types](http://kmcallister.github.io/talks/rust/2015-dependent-types/slides.html)"
   by Keegan McAllister
+
+export const TODO = "Summaries of my talks on the topic";
