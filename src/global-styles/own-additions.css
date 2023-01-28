@@ -3,3 +3,22 @@
 .zaduma-prose .full-w-child > p {
   max-width: 100%;
 }
+
+.zaduma-prose {
+  /* TODO: This should be moved to Zaduma. */
+  /* Needed for my Refinement Types post. */
+  & li blockquote {
+    margin: 1em 0.5em;
+  }
+
+  & aside pre {
+    &:last-child,
+    &:nth-last-child(2) {
+      padding-bottom: 0;
+    }
+  }
+
+  & li {
+    line-height: 1.75;
+  }
+}

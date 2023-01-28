@@ -1,0 +1,197 @@
+---
+title: Refinement Types
+spoiler: Tremendous type safety through the power of an if statement.
+date: 2019-10-07
+---
+
+## What are they?
+
+_TLDR: type + predicate = refinement type_
+
+We have a type called _**T**_ and a
+[predicate](<https://en.wikipedia.org/wiki/Predicate_(mathematical_logic)>) on
+_**T**_ called _**P**_.
+
+Even numbers are a nice example. Our _**T**_ is `number`, our _**P**_ is
+`isEven`.
+
+```twoslash include def
+type T = number;
+
+function isEven(x: T): boolean {
+  return x % 2 === 0;
+}
+// - 1
+type Even = number & { _brand: "Even" };
+```
+
+```tsx twoslash
+// @include: def-1
+```
+
+<style>{`.zaduma-prose pre { padding-top: 0; padding-bottom: 0;}`}</style>
+
+We can say that _**P**_ refines _**T**_ into a type _**PT**_, where _**PT**_ is
+a subtype of _**T**_ containing all values _**x**_ of type _**T**_ for which
+`P(x) === true`.
+
+Our _**PT**_ is made from the type `number` and refined with the predicate
+`isEven`:
+
+{/* prettier-ignore */}
+```tsx
+type Even = 0 | 2 | 4 | 6 | 8 | //...
+```
+
+## How can I use them?
+
+Problem is, we can't just list out all the even numbers, and even if we could
+have an infinite type that would work in this case, our complex business domains
+often deal with types we cannot represent in the typesystem, like
+_AuthorizedUser_.
+
+There are a few ways we can go about it. Pick your poison.
+
+1. Full OOP, make a new class `Even` and extend a `Number`.
+2. In cases like _AuthorizedUser_ or _ValidEmail_, we may not even need a
+   subtype of the original type, so we can wrap it in a [value object]. It's
+   just important that the refinement type isn't assignable to the original
+   type, because want the validation to happen.
+3. My favorite — use [nominal] [typing] and leave no runtime trail.
+
+[value object]: https://en.wikipedia.org/wiki/Value_object
+[nominal]:
+  https://michalzalecki.com/nominal-typing-in-typescript/#approach-4-intersection-types-and-brands
+[typing]: https://github.com/hasparus/nom-ts
+
+```tsx
+type Even = number & { _brand: "Even" };
+```
+
+Now `Even` is a `number` with the string _"Even"_ sprayed on it. Ensuring that
+the name means something is up to our predicate function.
+
+{/* prettier-ignore */}
+```tsx twoslash
+// @include: def
+// ---cut---
+
+const x: number = 4;
+let y: Even;
+// @errors: 2322
+if (isEven(x)) y = x;
+```
+
+Refinement types are not supported on language level by any mainstream
+programming language, but they're a concept from type theory (just math!),
+and&nbsp;TypeScript gives us foundations to work with them. We can make them in
+userspace and reap the benefits with a little ~~hack~~ effort.
+
+I've refined the **_number_** into **_Even_** during my
+[Wrocław TypeScript talk](https://github.com/hasparus/refinement-types-in-typescript).\
+Having a type for even numbers doesn't sound really useful but the idea stays the
+same for real world types with complex names copied from Jira.
+
+_We can call the predicate once and if it's true, we remember this fact in the
+type system to avoid accidental errors._
+
+### Example time
+
+#### Almost real example
+
+Assume we're building a form in which users can enter a list of emails into a
+textarea to send activation links to give their friends write permissions for
+the app (let's say it's a CMS).
+
+We validate these emails once, and if they're all valid, we save them, and
+later, few steps further in the form, we send our activation links. Few days
+later, we get a new requirement -- the user should be able to edit the data at
+the last step of the form. Cool, the form is pretty long, we understand that it
+can be useful. Several lines of code and we're done. We go home happy about the
+good code we pushed. Next morning we see a new issue in the tracker --
+_"Validate emails after the user does final edits"_ -- We totally forgot about
+the validation.
+
+#### How could we save the day with a refinement type?
+
+- Create a subtype of **_string_** called **_ValidEmail_**, such that
+  **_string_** is not assignable to **_ValidEmail_**.
+- Hold already validated emails in a list of type **_ValidEmails_**.
+- Now you can't push a string to a list of already validated emails ✨
+- Change the type of `sendEmail` function from `(email: string) => void` to
+  `(email: ValidEmail) => void*`. \
+  It doesn't make sense to send an email to `"🦄🐵💣"` which is a perfectly valid
+  string.
+
+( \* ) or IO, Result, choose your favorite.
+
+#### Yeah right, but how can I create this "ValidEmail" type?
+
+However you want! It's just an idea from type theory and you can implement it in
+your favorite way. Few ideas:
+
+- you can go full OOP and extend a **_String_**,
+- use [nominal](https://github.com/hasparus/nom-ts)&nbsp;
+  [typing](https://michalzalecki.com/nominal-typing-in-typescript/#approach-4-intersection-types-and-brands)
+  and leave no runtime trail _(my favorite option)_,
+- put the string into a
+  [value object](https://en.wikipedia.org/wiki/Value_object), because
+  **_ValidEmail_** doesn't even have to be a subtype of **_string_**. \
+  The key is that **_string_** is not assignable to **_ValidEmail_**, because we
+  want to ensure validation.
+
+### User defined type guards
+
+We can use TypeScript’s
+[user defined type guards](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates)
+to tell the compiler that our predicate checks the type and this is exactly what
+we’re interested in when we talk about refinements.
+
+Let’s empower our `isValidEmail` predicate by changing its signature from
+`(s: string) => boolean` to `(s: string) => s is ValidEmail`.
+
+## Takeaways
+
+- Refinements are not implemented in TypeScript, but you can make them in
+  userspace.
+- You can use nominal typing to make sure your refinements have no runtime trail
+  (except predicate checks).
+- You can use them to encode facts about your data in the type system.
+
+## Sources
+
+- [Wikipedia](https://en.wikipedia.org/wiki/Refinement_type)
+
+  > In type theory, a refinement type is a type endowed with a predicate which
+  > is assumed to hold for any element of the refined type.
+
+- [Refinement Types for TypeScript](https://goto.ucsd.edu/~pvekris/docs/pldi16.pdf)
+
+  > A basic refinement type is a basic type, e.g. number, refined with a logical
+  > formula from an SMT decidable logic.\
+  > For example, the types:
+  >
+  > ```
+  > type nat = { v: number | 0 ≤ v }
+  > type pos = { v: number | 0 < v }
+  > type natN<n> = { v: nat | v = n }
+  > type idx<a> = { v: nat | v < len(a) }
+  > ```
+  >
+  > describe (the set of values corresponding to) non-negative numbers, positive
+  > numbers, numbers equal to some value n, and valid indexes for an array a,
+  > respectively...
+
+---
+
+## Further reading
+
+This is mostly a reading list for future me, but I hope you can also find it
+interesting.
+
+- [refined](https://github.com/fthomas/refined) for Scala sounds really
+  interesting and with [ScalaJs](https://www.scala-js.org/) I could target the
+  same platforms as TypeScript.
+
+- "[A taste of dependent types](http://kmcallister.github.io/talks/rust/2015-dependent-types/slides.html)"
+  by Keegan McAllister
