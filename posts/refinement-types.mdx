@@ -2,8 +2,7 @@
 title: Refinement Types
 spoiler: Tremendous type safety through the power of an if statement.
 date: 2019-10-07
-tags: typescript, meetup
-draft: true
+tags: typescript, speaking
 ---
 
 ## What are they?
@@ -162,20 +161,18 @@ type system to avoid accidental errors.
 In languages without type guards, we can create a constructor function.
 
 ```tsx twoslash
-// @noErrors
-// @include: brand
 // @include: def
 // ---cut---
 
 function parseEven(x: number): Even | null {
-  return isEven(x) ? x as Even : null
+  return isEven(x) ? (x as Even) : null;
 }
 
 function Even(x: number) {
   if (isEven(x)) {
     return x as Even;
   } else {
-    throw new Error(`${x} is not even`});
+    throw new Error(`${x} is not even`);
   }
 }
 
@@ -191,10 +188,6 @@ const evenNumber: Even = Even(4);
 - You can use them to encode facts about your data in the type system.
 
 ---
-
-## Past Meetup Talks
-
-**TODO: I'll add summaries of my talks on the topic here.**
 
 ## Further reading
 
@@ -224,3 +217,37 @@ interesting.
   > describe (the set of values corresponding to) non-negative numbers, positive
   > numbers, numbers equal to some value n, and valid indexes for an array a,
   > respectively...
+
+## Past Meetup Talks
+
+I gave two short talks on refinement types in the past.
+
+- [WrocTypeScript Sept 2019](https://www.meetup.com/WrocTypeScript/events/sjzhvqyzmbhc/),
+  [slides](https://github.com/hasparus/refinement-types-in-typescript),
+  [notes](https://paper.dropbox.com/doc/Refinement-Types-in-TypeScript--AtRTxIb1NxWvFpBv3oxBx9jpAg-cZxqOn3c6GkVCONvPTjtE)
+
+- [Kraków TUG Feb 2022](https://www.meetup.com/typescript-krakow/events/266226393/),
+  [slides](https://github.com/hasparus/refinement-types-in-typescript/tree/extended-15-minutes),
+  (bad) [video](https://youtu.be/4ccCeAbwmbU)
+
+**Pitch:** I’m gonna explain what refinement types are, geek out about a
+research paper that adds them to the TypeScript type system, and live-code a
+userland refinement type you can already use in your codebase.
+
+- **How?** Lightning talk with VSCode, Quokka and browser as software.
+
+- **What?** Refinement types are easy. Use them to encode more info on the type
+  level.
+
+- **Why?** Encoding information on the type level helps you write less bugs.
+
+**Outline:**
+
+- Why and when should I type stronger?
+  - JS without JSDoc vs Idris proofs
+  - Refinement types are one step further into bulletproof programs.
+- Refined TypeScript
+- It’s not rocket science
+- You can do it yourself
+  - Live demo
+- Libraries with refinements
