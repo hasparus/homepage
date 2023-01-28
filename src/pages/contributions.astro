@@ -1,0 +1,49 @@
+---
+import {
+  filteredRepositories,
+  numberOfPRsMergedToPublicRepos,
+} from "../../scripts/gh-contributions/out/repositories.json";
+import PostLayout from "../layouts/PostLayout.astro";
+
+const fauxFrontmatter = {
+  date: new Date().toLocaleDateString("sv-SE"),
+  title: "Contributions",
+  readingTime: { minutes: 0, text: "", time: 0, words: 0 },
+  tags: [],
+  path: "",
+};
+---
+
+<PostLayout frontmatter={fauxFrontmatter} headings={[]}>
+  <p>
+    TODO: Something about the fact that I believe in grassroots improvement of
+    public domain.
+  </p>
+  <dl>
+    <dt>Pull Requests merged to public repositories with more than 9 stars</dt>
+    <dd>
+      {numberOfPRsMergedToPublicRepos}
+    </dd>
+  </dl>
+  <ul>
+    {
+      filteredRepositories.map((repo) => {
+        return (
+          <li>
+            {repo.nameWithOwner} {repo.pullRequestsMerged} {repo.stargazerCount}
+          </li>
+        );
+      })
+    }
+  </ul>
+</PostLayout>
+
+<style>
+  dd,
+  dt {
+    display: inline;
+  }
+  dt::after {
+    content: ":";
+  }
+</style>

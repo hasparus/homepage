@@ -11,9 +11,15 @@ import BaseLayout from "./BaseLayout.astro";
 
 import "../global-styles/shiki.css";
 
-interface Props extends Omit<MarkdownLayoutProps<{}>, "frontmatter"> {
+// They're all accessible, but we're not using all of them, and I want to
+// reuse PostLayout in other pages, so I'm just picking the ones I need.
+interface AllPropsFromMarkdownLayout
+  extends Omit<MarkdownLayoutProps<{}>, "frontmatter"> {
   frontmatter: PostFrontmatter;
 }
+
+interface Props
+  extends Pick<AllPropsFromMarkdownLayout, "frontmatter" | "headings"> {}
 
 const { frontmatter, headings } = Astro.props;
 

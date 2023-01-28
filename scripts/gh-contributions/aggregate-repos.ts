@@ -45,6 +45,7 @@ async function aggregateRepositoriesContributedTo() {
     (acc, val) => acc + val.pullRequestsMerged,
     0
   );
+
   const filteredRepositories = repositoriesWithMergedPRs.filter(
     (repo) => repo.stargazerCount > MIN_STARGAZERS && !isIgnored(repo)
   );
