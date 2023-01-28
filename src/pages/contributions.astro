@@ -4,6 +4,7 @@ import {
   numberOfPRsMergedToPublicRepos,
 } from "../../scripts/gh-contributions/out/repositories.json";
 import PostLayout from "../layouts/PostLayout.astro";
+import { Link } from "../lib/Link";
 
 const fauxFrontmatter = {
   date: new Date().toLocaleDateString("sv-SE"),
@@ -12,6 +13,15 @@ const fauxFrontmatter = {
   tags: [],
   path: "",
 };
+
+let repositories = filteredRepositories;
+
+if (import.meta.env.PROD) {
+  repositories = filteredRepositories.filter(repo => repo.pullRequestsMerged > 1);
+}
+
+// TODO: Star icon.
+// TODO: Link to PRs made be me, not just to the repo.
 ---
 
 <PostLayout frontmatter={fauxFrontmatter} headings={[]}>
@@ -20,17 +30,44 @@ const fauxFrontmatter = {
     public domain.
   </p>
   <dl>
-    <dt>Pull Requests merged to public repositories with more than 9 stars</dt>
+    <dt>PRs Merged</dt>
     <dd>
       {numberOfPRsMergedToPublicRepos}
     </dd>
   </dl>
-  <ul>
+  <p class="!mb-0">
+    Repositories with more than 9 stars that have at least 2 of my PRs merged: 
+  </p>
+  <ul class="contribs">
     {
-      filteredRepositories.map((repo) => {
+      repositories.map((repo) => {
+        const href = `https://github.com/${repo.nameWithOwner}`
+        const [owner, repoName] = repo.nameWithOwner.split("/");
+
         return (
           <li>
-            {repo.nameWithOwner} {repo.pullRequestsMerged} {repo.stargazerCount}
+            <article>
+              <Link
+                href={href}
+                class="flex flex-row gap-2 justify-between items-center"
+                noUnderline
+              >
+                <h2 class="!m-0">
+                  <!-- prettier-ignore -->
+                  <span class="!font-normal">{owner}/</span><span class="!font-semibold">{repoName}</span>
+                </h2>
+                <span class="tabular-nums tracking-tighter flex gap-1.5">
+                  <span class="bg-gray-400/20 py-1 px-1.5 rounded-md">
+                    {repo.pullRequestsMerged}
+                    prs
+                  </span>
+                  <span class="bg-gray-400/20 py-1 px-1.5 rounded-md">
+                    ⭐️
+                    {repo.stargazerCount}
+                  </span>
+                </span>
+              </Link>
+            </article>
           </li>
         );
       })
@@ -45,5 +82,18 @@ const fauxFrontmatter = {
   }
   dt::after {
     content: ":";
+  }
+
+  ul.contribs {
+    padding-left: 0;
+  }
+  li {
+    list-style: none;
+  }
+  ul:hover li:not(:hover) * {
+    @apply text-gray-600 transition-colors;
+    :global(.dark) & {
+      @apply text-gray-500;
+    }
   }
 </style>
