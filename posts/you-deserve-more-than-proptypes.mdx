@@ -1,0 +1,280 @@
+---
+title: You Deserve More than PropTypes
+spoiler: Use static typing instead. It does wonders.
+date: 2019-11-17
+history: DatesOnly
+tags: React, TypeScript
+draft: true
+---
+
+<Epistemic effort>
+  I've spent a good amount of time discussing it. I'm willing to engage in a
+  conversation if you'd like to teach me something new on the matter or prove me
+  wrong.
+</Epistemic>
+
+I'm starting with reasons why I think PropTypes are not good enough, and later
+I'm showing what TypeScript gives you to solve these problems and improve your
+React code even more on top of it.
+
+I'd like to be clear -- I'm not bashing
+[prop-types](https://www.npmjs.com/package/prop-types) -- It's a really good
+library, but the last publish was 9 months ago. As I'm writing this, it's
+November 2019, and there are much better alternatives for prop types.
+
+I've chosen TypeScript because of its popularity, but my arguments fit any
+language with first-class type composition you can use to build React apps
+(Flow,&nbsp;Reason, Kotlin, Scala).
+
+## Why?
+
+### It's easy to half-ass PropTypes
+
+I've seen too many of lines with
+`//eslint-disable-next-line react/forbid-prop-types`. Few codebases leverage
+PropTypes to their full potential -- mostly libraries (see [Reach UI tabs]).
+
+[reach ui tabs]:
+  https://github.com/reach/reach-ui/blob/master/packages/tabs/src/index.js#L68
+
+I find exporting propTypes uncommon. Instead of using exported common types,
+developers either use PropTypes.object or copy PropTypes.shape from another
+component.
+
+Maybe it is hard to remember that you strip them out in production build, and
+that's why the devs I've met don't want to make them too big and heavy?
+
+### PropTypes.func is just not enough
+
+Functions make stuff happen. They are pretty important. Types of functions are
+important too. Stating that a prop is just a function, doesn't document intent.
+You still need to read the implementation to get the slightest idea of what's
+happening.
+
+<figure>
+
+```kt
+interface VideoListProps : RProps {
+    var videos: List<Video>
+    var selectedVideo: Video?
+    var onSelectVideo: (Video) -> Unit
+}
+```
+
+<figcaption>
+
+copied from
+[Kotlin React tutorial](https://play.kotlinlang.org/hands-on/Building%20Web%20Applications%20with%20React%20and%20Kotlin%20JS/05_Working_Together_Composing_Components)
+
+</figcaption>
+
+</figure>
+
+Take a look at the props above. `onSelectVideo` takes a video and returns a
+unit. This is a lot more information than "`onSelectVideo` is a function". We
+could argue that the name of the function should be enough, but what if a
+possibility to select multiple videos was added later, as an additional feature?
+If someone forgot to change the function name, `PropTypes.func` would still fit,
+and some other poor soul would get surprised by a runtime error.
+
+### Optional is a bad default for application code
+
+I do agree that nullable by default is a good design choice in some cases.
+GraphQL is a [perfect example]. Responses stitched from many data stores may
+return partial data. This is the complexity we have to handle.
+
+And I'd say we have about enough of it. We should avoid introducing more
+complexity ourselves. Every optional field without a default of the same type
+increases cyclomatic complexity.
+
+[perfect example]: https://github.com/graphql/graphql-spec/issues/63
+
+<figure>
+
+```js
+Person.propTypes = {
+  car: PropTypes.shape({
+    registrationNumber: PropTypes.string,
+    year: PropTypes.number,
+  }),
+};
+```
+
+<figcaption>
+
+source:
+[first blogpost](https://codeburst.io/validating-props-easily-with-react-proptypes-96e80208207)
+in google search results for "PropTypes isRequired"
+
+</figcaption>
+
+</figure>
+
+Does this person have a car? Maybe. I live in a big city; I don't have one too.
+But is an empty object `{}` really a valid car for our app? Do we display an
+error message here? Did we just forget to write `isRequired`, or are we okay
+with cars without license plates?
+
+Typing `isRequired` is yet another small decision for a programmer. The fact
+that stating that a prop is nullable is an easier way allows to accidentally
+introduce complexity. `isOptional` instead of `isRequired` would be a better API
+design.
+
+## type Props = ?
+
+TypeScript is much better in describing React component props than PropTypes.
+Let's look at how it solves the problems I've mentioned before.
+
+### _easy to half-ass?_
+
+Add `strict: true` to your tsconfig.json, stray from `any` and now you're forced
+to maintain a decent level of type safety. Also, it's pretty obvious, even
+before a morning coffee, that it has no runtime cost.
+
+### _typing functions?_
+
+`(selected: Video) => void`. Pretty easy, amiright? Programming, even OOP, is
+mostly about using functions to do stuff. Ability to describe the type of a
+function is quite useful.
+
+### _optional by default?_
+
+In TypeScript, you gotta stick this `?` every time you want an optional
+property.
+
+<figure>
+
+```ts
+type Car = {
+  registrationNumber: string;
+  year?: number;
+};
+```
+
+<figcaption>We deal only with registered cars up in here.</figcaption>
+
+</figure>
+
+And look at what else we get!
+
+{/* ### `ComponentProps<"button">` */}
+
+I could talk about subtyping and Liskov Substitution Principle, but I'll
+simplify it a little bit. **If it's a button, it should be buttony.**\
+Props you expect on a button should be accepted by all of your design system buttons.
+What do I expect? At least `onClick`, `onFocus`, `disabled`, `className`, and `style`.
+We can handle all attributes of HTML [`<button>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
+element, including all [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)
+with a simple [spread](https://reactpatterns.com/#jsx-spread-attributes)
+
+<figure>
+
+```tsx
+import { ComponentProps, FC } from "react";
+
+type ButtonVariant = "default" | "call-to-action";
+
+interface ButtonProps extends ComponentProps<"button"> {
+  variant?: ButtonVariant;
+}
+```
+
+<figcaption>
+
+[See more on CodeSandbox](https://codesandbox.io/embed/github/hasparus/componentprops-example/tree/master/)
+
+</figcaption>
+
+</figure>
+
+Do you want **your Button** to be inferior to **a button**? I don't think so.
+
+{/* ### `Omit<LinkProps, "to">` */}
+
+But what if my component comes "batteries included" and I don't want to accept
+all props of the component I'm building upon?\
+Only like... most of them? We can Omit what we don't like. Just like that.
+
+```tsx
+interface JoinMeetingButton
+  extends Omit<ButtonProps, "onClick">,
+    Pick<Meeting, "id"> {}
+```
+
+### Union Types
+
+The anchors and the buttons often look the same in the mockups, but they are
+different kinds of animals. We want to reuse the styling and behavior between
+them and make choosing the right one for the job effortless.
+
+We can use [union types] to build a Button component which renders an anchor,
+given a `href` prop and renders a `<button>` otherwise.
+
+[union types]:
+  https://www.typescriptlang.org/docs/handbook/advanced-types.html#union-types
+
+```tsx
+import { ComponentProps } from "react";
+
+interface ButtonAsAnchorProps extends ComponentProps<"a"> {
+  href: string;
+}
+interface ButtonAsButtonProps extends ComponentProps<"button"> {
+  href?: undefined;
+}
+
+type ButtonProps = ButtonAsAnchorProps | ButtonAsButtonProps;
+
+function Button({ className: propsClassName, ...rest }: ButtonProps) {
+  const className = ["Button", propsClassName].join(" ");
+
+  if (rest.href !== undefined) {
+    return <a className={className} {...rest} />;
+  }
+
+  return <button className={className} {...rest} />;
+}
+```
+
+[playroom]: https://github.com/seek-oss/playroom
+[jsx in zeplin]:
+  https://blog.zeplin.io/introducing-connected-components-components-in-design-and-code-in-harmony-aa894ed5bd95
+
+### `Pick<Meeting, "date" | "organizer">`
+
+We can select properties from our types with `Pick`.
+
+```tsx
+type MeetingInfoProps = Pick<Meeting, "date" | "organizer">;
+const MeetingInfo = ({ date, organizer }: MeetingInfoProps) => (
+  <>
+    {new Date(date).toLocaleString()} • {organizer.name}
+  </>
+);
+```
+
+Imagine that _Meeting_ is a type of data we get from the backend. We want to
+show MeetingInfo -- a date and organizer of the meeting and we don't really care
+about the type of these `date` and `organizer` props. We care about their
+origin. They come from the _Meeting_ type and that's what's important for this
+component. Will this component break when the representation of our meetings
+change? Yes. And we want it to. Also,&nbsp;[we&nbsp;avoid introducing new
+names][new-names]\
+(e.g.`<MeetingInfo author={meeting.organizer} />`).
+
+[new-names]:
+  https://www.swyx.io/writing/how-to-name-things/#not-naming-things-aug-2019-edit
+
+## Summary
+
+PropTypes are not _first class_. They're a library trying to implement what is
+often a language feature. If you're building an app, you don't need runtime
+typechecking. Try swapping `prop-types` for TypeScript or Flow and
+[tweet me](https://twitter.com/hasparus) what you think.
+
+You can see the types I've written about used together in the sandbox below.
+
+<CodesandboxIframe
+  src="https://codesandbox.io/embed/github/hasparus/componentprops-omit-tagged-union-button/tree/master/?fontsize=14&hidenavigation=1&runonclick=1"
+  title="componentprops-omit-and-tagged-union"
+/>

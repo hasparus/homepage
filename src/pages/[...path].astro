@@ -8,6 +8,8 @@ import { Link } from "../lib/Link";
 import { OrderedList } from "../lib/OrderedList";
 import type { PostFrontmatter } from "../types";
 
+import { CodesandboxIframe } from "../own/CodesandboxIframe";
+
 export const getStaticPaths = async () => {
   let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
 
@@ -40,6 +42,9 @@ const mdxComponents = {
   h5: createHeading("h5"),
   h6: createHeading("h6"),
   img: Image,
+
+  // own
+  CodesandboxIframe,
 };
 ---
 
