@@ -9,7 +9,7 @@ import { OrderedList } from "../lib/OrderedList";
 import type { PostFrontmatter } from "../types";
 
 import { CodesandboxIframe } from "../own/CodesandboxIframe";
-import { BoxedText } from "../own/BoxedText";
+import { Callout } from "../own/Callout";
 
 export const getStaticPaths = async () => {
   let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
@@ -46,7 +46,7 @@ const mdxComponents = {
 
   // own
   CodesandboxIframe,
-  BoxedText,
+  Callout,
 };
 ---
 
