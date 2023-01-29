@@ -7,10 +7,10 @@ tags: React, TypeScript
 draft: true
 ---
 
-<BoxedText>
+<Callout icon="✍️">
   **Epistemic Effort:** I've spent a good amount of time discussing it. I'd love
   to chat if you want to teach me something new on the matter or prove me wrong.
-</BoxedText>
+</Callout>
 
 I'll start with reasons why I think PropTypes are not good enough, and later
 I'll show what TypeScript gives you to solve these problems and improve your
@@ -43,7 +43,7 @@ component.
 Maybe it is hard to remember that you strip them out in production build, and
 that's why the devs I've met don't want to make them too big and heavy?
 
-### PropTypes.func is just not enough
+### PropTypes.func is not enough
 
 Functions make stuff happen. They are pretty important. Types of functions are
 important too. Stating that a prop is just a function, doesn't document intent.
@@ -76,7 +76,9 @@ possibility to select multiple videos was added later, as an additional feature?
 If someone forgot to change the function name, `PropTypes.func` would still fit,
 and some other poor soul would get surprised by a runtime error.
 
-### Optional is a bad default for application code
+### Optional by default
+
+Optional is a bad default for application code.
 
 I do agree that nullable by default is a good design choice in some cases.
 GraphQL is a [perfect example]. Responses stitched from many data stores may
@@ -124,19 +126,19 @@ design.
 TypeScript is much better in describing React component props than PropTypes.
 Let's look at how it solves the problems I've mentioned before.
 
-### _easy to half-ass?_
+### Harder to half-ass
 
 Add `strict: true` to your tsconfig.json, stray from `any` and now you're forced
 to maintain a decent level of type safety. Also, it's pretty obvious, even
 before a morning coffee, that it has no runtime cost.
 
-### _typing functions?_
+### Typing functions
 
 `(selected: Video) => void`. Pretty easy, amiright? Programming, even OOP, is
 mostly about using functions to do stuff. Ability to describe the type of a
 function is quite useful.
 
-### _optional by default?_
+### Required by default
 
 In TypeScript, you gotta stick this `?` every time you want an optional
 property.
@@ -239,7 +241,7 @@ function Button({ className: propsClassName, ...rest }: ButtonProps) {
 [jsx in zeplin]:
   https://blog.zeplin.io/introducing-connected-components-components-in-design-and-code-in-harmony-aa894ed5bd95
 
-### `Pick<Meeting, "date" | "organizer">`
+### `Picking` a subset
 
 We can select properties from our types with `Pick`.
 
