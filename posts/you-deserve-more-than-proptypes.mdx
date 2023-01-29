@@ -4,7 +4,6 @@ spoiler: Use static typing instead. It does wonders.
 date: 2019-11-17
 history: DatesOnly
 tags: React, TypeScript
-draft: true
 ---
 
 <Callout icon="✍️">
@@ -29,9 +28,14 @@ language with first-class type composition you can use to build React apps
 
 ### It's easy to half-ass PropTypes
 
-I've seen too many of lines with
-`//eslint-disable-next-line react/forbid-prop-types`. Few codebases leverage
-PropTypes to their full potential -- mostly libraries (see [Reach UI tabs]).
+I've seen too many of lines like this:
+
+```js
+//eslint-disable-next-line react/forbid-prop-types
+```
+
+Few codebases leverage PropTypes to their full potential -- mostly libraries
+(see [Reach UI tabs]).
 
 [reach ui tabs]:
   https://github.com/reach/reach-ui/blob/master/packages/tabs/src/index.js#L68
@@ -259,9 +263,18 @@ show MeetingInfo -- a date and organizer of the meeting and we don't really care
 about the type of these `date` and `organizer` props. We care about their
 origin. They come from the _Meeting_ type and that's what's important for this
 component. Will this component break when the representation of our meetings
-change? Yes. And we want it to. Also,&nbsp;[we&nbsp;avoid introducing new
-names][new-names]\
-(e.g.`<MeetingInfo author={meeting.organizer} />`).
+change? Yes. And we want it to.
+
+<aside>
+Also,&nbsp;[we&nbsp;avoid introducing new names][new-names]:
+{/* prettier-ignore */}
+```tsx
+<MeetingInfo
+  author={meeting.organizer}
+/>
+```
+
+</aside>
 
 [new-names]:
   https://www.swyx.io/writing/how-to-name-things/#not-naming-things-aug-2019-edit
