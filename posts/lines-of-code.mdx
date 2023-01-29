@@ -1,0 +1,136 @@
+---
+title: Lines of Code
+spoiler: A lousy metric. Can we do better?
+date: 2020-03-28
+---
+
+Lines of Code is a lousy metric — at least on a small scale. I accept that it
+may be useful to compare big projects or repositories, but most often, when I
+encounter it, it is just meaningless.
+
+## The Big Scale
+
+It may be valuable on a big scale.
+
+> Google Stores Billions of Lines of Code in a Single Repository
+
+A billion is a big number, a meaningful number. We can state things and ask
+questions about it.
+
+- Google has a huge repository. Maybe even the biggest one in the world.
+- Did they modify git/svn/Perforce to make it possible?
+- My workflow is git-centric. I'm curious about how this repository affects
+  their workflow? How is it different from mine?
+
+> The Linux kernel has around 27.8 million lines of code in its Git repository
+
+- The Linux kernel is way smaller than the Google codebase.
+- It's still a tremendous effort.
+- But hey. Isn't it too big for a "kernel"? Oh! The drivers are there. Makes
+  sense!
+
+Developers seem to care about lines of code much more than I'd expect.
+
+## Why care about LoC?
+
+I heard a story about a programmer paid by lines of code. I hope it was a joke.
+This is like paying a construction worker by the materials he uses! Lines of
+code have no intrinsic value. This is a cost we pay, a ballast.
+
+<aside>
+
+Edit from late 2022: Elon Musk reportedly fired engineers from Twitter based on
+LoC.
+
+https://news.ycombinator.com/item?id=33472339
+
+</aside>
+
+We can use it as an approximation of the effort we already invested. Better yet,
+we can take numbers of added and deleted lines of code through a timespan and
+compare it to LoC of the entire repository, so we get the idea of how the
+project is changing over time. I'd argue that a changelog or a list of work
+items (Jira tickets, PRs merged?) gives us more information.
+
+On its own, LoC of a file for example -- It' just a number. Sad and lonely.
+
+## 150 🍎 &lt; 75 🍊
+
+Can we say that a 500 line long file is long? Or short? Or is it just perfect?
+
+We can't and this would be pointless. Don't let
+[any lint rule](https://eslint.org/docs/rules/max-lines) tell you otherwise. We
+need more information. The language isn't enough. Let's take modern JavaScript.
+
+Is it declarative, imperative, or functional? The answer may differ between
+files in the same repository, and when we're actually close enough to read
+what's inside the file, we may form better models to think about it than LoC.
+
+Let me continue with the declarative. Declarative is easier to read than
+imperative, right? We don't have to think as much while reading, because it just
+**is**, while imperative **does**. For example, HTML is easier to read than
+JavaScript of the same length.
+
+In a React class component, 150 lines of JSX in a `render` function is "less
+code" than 75 lines of class logic.
+
+I will go further. 150 lines of JSX in a functional component is "less code"
+than 75 lines of hooks. `useState`, `useEffect`, `useLayoutEffect`,
+`useSelector`, `useMachine`. A lot happens there. The difference may not be as
+big as when comparing declarative UI composition with imperative code in
+lifecycle hooks, but I'd argue that it still holds. We have fewer things to
+comprehend in JSX because much of it is self-explanatory. (Go away `<Fetch />`
+component, you're the outlier.)
+
+This is all JavaScript, but aren't we comparing apples to oranges?
+
+There are different _kinds_ of code.
+
+- Declarative, but non-functional code, like HTML, CSS, SQL and GraphQL may be
+  verbose, but it's trivial to read.
+- Imperative code will certainly be harder to read, and way harder to maintain.
+- Functional code doing the same thing may be more concise and easier to debug,
+  but require detailed reading at first.
+
+We can divide it in more ways! In the same language, the same codebase, there
+will be some important code and some cheap code. The text doesn't hold this
+information.
+
+## Better Metrics
+
+We would like to measure things that matter, obviously.
+
+Ease of comprehension is a good one. It is a very soft thing, though. Can we
+measure something easier and assume it's correlated with cognitive complexity?
+
+Enter
+[**cyclomatic complexity**](https://en.wikipedia.org/wiki/Cyclomatic_complexity),
+a measure of the number of linearly independent paths in a program's control
+flow graph.
+
+The more paths we have, the more we need to think about, and what's important,
+the more we have to test.
+
+## Further reading
+
+- SonarSource has a nice heuristic for cognitive complexity. I didn't read their
+  whitepaper thoroughly, but it makes a lot of sense. This is the rule I'm using
+  in my ESLint config.
+  - https://blog.sonarsource.com/cognitive-complexity-because-testability-understandability
+- "Danger of Simplicity" is a good read
+  - https://asthasr.github.io/posts/danger-of-simplicity/
+
+<figure>
+
+> Measuring programming progress by lines of code is like measuring aircraft
+> building progress by weight.
+
+<figcaption>
+
+<div class="p-1" />
+
+—Bill Gates, reportedly:
+https://ask.metafilter.com/114578/Did-he-really-say-that
+
+</figcaption>
+</figure>
