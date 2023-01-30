@@ -2,10 +2,11 @@ import { JSX, splitProps } from "solid-js";
 
 export interface CalloutProps extends JSX.HTMLAttributes<HTMLDivElement> {
   icon?: string;
+  unwrapChildP?: boolean;
 }
 
 export function Callout(props: CalloutProps) {
-  const [own, rest] = splitProps(props, ["icon"]);
+  const [own, rest] = splitProps(props, ["icon", "unwrapChildP"]);
 
   return (
     <div
