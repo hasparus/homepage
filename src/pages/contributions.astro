@@ -5,6 +5,7 @@ import {
 } from "../../scripts/gh-contributions/out/repositories.json";
 import PostLayout from "../layouts/PostLayout.astro";
 import { Link } from "../lib/Link";
+import { StarIcon } from "../own/icons/StarIcon";
 
 const fauxFrontmatter = {
   date: new Date().toLocaleDateString("sv-SE"),
@@ -61,8 +62,8 @@ if (import.meta.env.PROD) {
                     {repo.pullRequestsMerged}
                     prs
                   </span>
-                  <span class="bg-gray-400/20 dark:bg-gray-700/40 py-1 px-1.5 rounded-md">
-                    ⭐️
+                  <span class="bg-gray-400/20 dark:bg-gray-700/40 py-1 px-1.5 rounded-md inline-flex items-center gap-1">
+                    <StarIcon class="opacity-50 dark:filter dark:invert w-3.5 h-3.5 translate-y-[0.125px]" />
                     {repo.stargazerCount}
                   </span>
                 </span>
