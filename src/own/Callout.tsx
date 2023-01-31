@@ -42,8 +42,9 @@ export function Callout(props: CalloutProps) {
       classList={{
         "bg-gray-100 dark:bg-gray-800/60 rounded py-2 px-3 text-sm relative":
           true,
-        [`relative after:content-[var(--icon)] after:absolute after:top-2 after:right-3 after:text-base`]:
+        [`relative pr-8 after:content-[var(--icon)] after:absolute after:top-2 after:right-3 after:text-base`]:
           !!own.icon,
+        "after:leading-[1.2]": own.unwrapChildP && !!own.icon,
       }}
       {...rest}
     >
