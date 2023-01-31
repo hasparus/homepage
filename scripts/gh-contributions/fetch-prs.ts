@@ -1,9 +1,5 @@
-// TODO: Use Turbo Remote Caching for this.
-
-import { readFile, writeFile } from "fs/promises";
-
-import nextEnv from "@next/env";
-
+import { __dirname, VERBOSE } from "./env";
+import { createFsCache } from "./fs-utils";
 import {
   type GitHub,
   type GitHubPullRequestsQueryResponse,
@@ -11,30 +7,19 @@ import {
   GitHubPullRequestsQueryVariables,
 } from "./github-graphql";
 
-const __dirname = new URL(".", import.meta.url).pathname;
-nextEnv.loadEnvConfig(`${__dirname}../..`);
-
-const DEBUG = process.env.DEBUG || "";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
 const IGNORE_CACHE =
   process.env.IGNORE_CACHE === "true" || process.env.IGNORE_CACHE === "1";
 
-const MIN_STARGAZERS = 5;
 const CACHE_DURATION = 1000 * 3600 * 48;
 
-const VERBOSE = DEBUG.includes("contributions");
-
-// I already mention I contribute to Theme UI
-const IGNORED_REPOS: string | string[] = ["share-azgaar-map"];
-// my own orgs, work and friends
-const IGNORED_OWNERS = ["zagrajmy", "Flick-Tech", "ChopChopOrg", "Zolwiastyl"];
-
-export async function fetchGitHubContributions(): Promise<Contributions> {
-  const fsCache = createFsCache(`${__dirname}/.cache/contributions.json`);
+export async function fetchViewerPullRequests(): Promise<FetchViewerPullRequestsResult> {
+  const fsCache = createFsCache(`${__dirname}/out/prs.json`);
 
   console.log("Fetching GitHub contributions...");
 
-  const fromCache = (await fsCache.read()) as Contributions | null;
+  const fromCache =
+    (await fsCache.read()) as FetchViewerPullRequestsResult | null;
 
   if (
     !IGNORE_CACHE &&
@@ -48,40 +33,9 @@ export async function fetchGitHubContributions(): Promise<Contributions> {
 
   if (VERBOSE) console.debug({ pullRequests });
 
-  const pullRequestsByRepo = new Map();
-  const repositoriesWithMergedPRs = Object.values(pullRequests)
-    .flat(2)
-    .filter((pr) => {
-      const {
-        merged,
-        repository: { nameWithOwner, stargazerCount },
-      } = pr;
-
-      if (!merged || stargazerCount < MIN_STARGAZERS) return false;
-
-      const [owner, repo] = nameWithOwner.split("/");
-      if (!owner || !repo) {
-        throw new Error("nameWithOwner must look like `:owner/:name`");
-      }
-
-      if (IGNORED_REPOS.includes(repo) || IGNORED_OWNERS.includes(owner))
-        return false;
-
-      const count = pullRequestsByRepo.get(nameWithOwner) || 0;
-      pullRequestsByRepo.set(nameWithOwner, count + 1);
-
-      return count === 0; // we only want unique repos
-    })
-    .map((pr) => ({
-      ...pr.repository,
-      pullRequestsMerged: pullRequestsByRepo.get(pr.repository.nameWithOwner),
-    }))
-    .sort((a, b) => b.pullRequestsMerged - a.pullRequestsMerged);
-
-  const contributions: Contributions = {
+  const contributions: FetchViewerPullRequestsResult = {
     timestamp: Date.now(),
     pullRequestsByYear: pullRequests,
-    repositoriesWithMergedPRs,
   };
 
   await fsCache.write(contributions);
@@ -89,7 +43,7 @@ export async function fetchGitHubContributions(): Promise<Contributions> {
   return contributions;
 }
 
-await fetchGitHubContributions();
+await fetchViewerPullRequests();
 
 // ---
 
@@ -147,7 +101,7 @@ async function getMergedPullRequests() {
   };
 
   let year = new Date().getFullYear();
-  const prsByYear: Contributions["pullRequestsByYear"] = {};
+  const prsByYear: FetchViewerPullRequestsResult["pullRequestsByYear"] = {};
   let response: Awaited<ReturnType<typeof getEdges>>;
 
   while (true) {
@@ -181,33 +135,7 @@ async function getMergedPullRequests() {
   return prsByYear;
 }
 
-function createFsCache(cachePath: string) {
-  return {
-    write: async (data: object) => {
-      await writeJson(cachePath, data);
-    },
-    read: async () => {
-      try {
-        const content = await readJson(cachePath);
-        return content;
-      } catch (_err) {
-        return null;
-      }
-    },
-  };
-}
-
-async function writeJson(path: string, data: unknown) {
-  await writeFile(path, JSON.stringify(data, null, 2), "utf8");
-}
-
-async function readJson(path: string) {
-  const content = await readFile(path, "utf8");
-  return JSON.parse(content) as unknown;
-}
-
-export interface Contributions {
+export interface FetchViewerPullRequestsResult {
   timestamp: number;
   pullRequestsByYear: Record<number, GitHub.PullRequest[][]>;
-  repositoriesWithMergedPRs: GitHub.Repository[];
 }

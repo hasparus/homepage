@@ -1,0 +1,99 @@
+---
+import {
+  filteredRepositories,
+  numberOfPRsMergedToPublicRepos,
+} from "../../scripts/gh-contributions/out/repositories.json";
+import PostLayout from "../layouts/PostLayout.astro";
+import { Link } from "../lib/Link";
+import { PullRequestIcon } from "../own/icons/PullRequestIcon";
+import { StarIcon } from "../own/icons/StarIcon";
+
+const deploymentDate = new Date().toLocaleDateString("sv-SE");
+
+const fauxFrontmatter = {
+  date: deploymentDate,
+  title: "Contributions",
+  readingTime: { minutes: 0, text: "", time: 0, words: 0 },
+  tags: [],
+  path: "",
+};
+
+let repositories = filteredRepositories;
+
+if (import.meta.env.PROD) {
+  repositories = filteredRepositories.filter(repo => repo.pullRequestsMerged > 1);
+}
+
+// TODO: Star icon.
+// TODO: Link to PRs made be me, not just to the repo.
+---
+
+<PostLayout frontmatter={fauxFrontmatter} headings={[]}>
+  <p>
+    I believe in community-driven collaboration through open source.
+    It's what makes the web the most expansive and accessible ecosystem in the industry.
+    I've seen it change people's lives, including my own.
+  </p>
+  <p>
+    More than {numberOfPRsMergedToPublicRepos} of my PRs were merged to public repositories.
+    Below you can find some of the projects I've contributed to.
+  </p>
+  <ul class="contribs">
+    {
+      repositories.map((repo) => {
+        const href = `https://github.com/${repo.nameWithOwner}`
+        const [owner, repoName] = repo.nameWithOwner.split("/");
+
+        return (
+          <li>
+            <article>
+              <Link
+                href={href}
+                class="flex flex-row gap-2 justify-between items-center"
+                noUnderline
+              >
+                <h2 class="!m-0">
+                  <!-- prettier-ignore -->
+                  <span class="!font-normal">{owner}/</span><span class="!font-semibold">{repoName}</span>
+                </h2>
+                <span class="tabular-nums tracking-tighter flex gap-1.5">
+                  <span class="bg-gray-400/20 dark:bg-gray-700/40 py-1 px-1.5 rounded-md inline-flex items-center gap-1">
+                    <PullRequestIcon class="opacity-50 dark:filter dark:invert w-3.5 h-3.5 translate-y-[0.125px]" />
+                    {repo.pullRequestsMerged}
+                  </span>
+                  <span class="bg-gray-400/20 dark:bg-gray-700/40 py-1 px-1.5 rounded-md inline-flex items-center gap-1">
+                    <StarIcon class="opacity-50 dark:filter dark:invert w-3.5 h-3.5 translate-y-[0.125px]" />
+                    {repo.stargazerCount}
+                  </span>
+                </span>
+              </Link>
+            </article>
+          </li>
+        );
+      })
+    }
+  </ul>
+</PostLayout>
+
+<style>
+  dd,
+  dt {
+    display: inline;
+  }
+  dt::after {
+    content: ":";
+  }
+
+  ul.contribs {
+    padding-left: 0;
+  }
+  li {
+    list-style: none;
+  }
+  ul:hover li:not(:hover) * {
+    @apply text-gray-600 transition-colors;
+    :global(.dark) & {
+      @apply text-gray-500;
+    }
+  }
+</style>

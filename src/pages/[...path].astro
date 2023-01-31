@@ -6,10 +6,9 @@ import { createHeading } from "../lib/Heading";
 import Image from "../lib/Image.astro";
 import { Link } from "../lib/Link";
 import { OrderedList } from "../lib/OrderedList";
-import type { PostFrontmatter } from "../types";
-
-import { CodesandboxIframe } from "../own/CodesandboxIframe";
 import { Callout } from "../own/Callout";
+import { CodesandboxIframe } from "../own/CodesandboxIframe";
+import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
   let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
