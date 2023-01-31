@@ -1,0 +1,266 @@
+---
+title: Reasonable Language Choice
+spoiler:
+  Notes on TypeScript and ReasonML as JavaScript alternatives, language
+  ecosystems and Build vs Install trade-off.
+date: 2020-03-08
+---
+
+<Callout icon="✍️">
+  **Epistemic Effort:** I talked about it a few times and wanted to formalize my
+  notes.
+</Callout>
+
+I believe that language choice isn't the most crucial in software development.
+Significant problems translate fairly well between the languages, and many
+developers I respect are polyglots.
+
+However, let me ponder the choice between ReasonML and TypeScript. I&nbsp;hope
+you'll find it interesting.
+
+---
+
+I find ML family languages pleasing. Despite this, I couldn't recommend ReasonML
+to many teams. TypeScript is a nonromantic, and possibly unpleasant, but
+**reasonable** language choice.
+
+Let me explain.
+
+I work in the web ecosystem -- The JavaScript ecosystem. I build apps and
+libraries, which solve real but fairly ordinary problems. I won't call it
+simple, but it's not really rocket science. I strive to do it well, aim for
+a&nbsp;short feedback loop with correct, maintainable, and cheap to produce
+code.
+
+## Correct
+
+I need correctness, so I reach for a static type system. Tests are simply [not
+enough][not-enough]. I want to describe types passing through my system. The
+person who reads my code can then read them, and see the bird's-eye view.
+
+[not-enough]: https://css-tricks.com/types-or-tests-why-not-both
+
+You might be familiar with the famous quote "TypeError: undefined is not a
+function."
+
+I claim that writing strict functional TypeScript provides the same level of
+correctness and control over your codebase as ReasonML.
+
+I'd like to avoid expanding on it now, but what I mean by strict functional
+TypeScript is shortly:
+
+- `compilerOptions.strict: true`. Avoid `any` and `!`
+- Prefers `head(array)` over `array[0]` ([#11122])
+- Generous use of discriminated unions
+- Prefers libraries designed for TypeScript over JavaScript typed in DT (fp-ts
+  over lodash-fp or ramda)
+
+[#11122]:
+  https://github.com/Microsoft/TypeScript/issues/11122#issuecomment-251686473
+
+## Maintainable
+
+Let's assume that it is easier to have maintainable code in a "good" language
+with which our developers are familiar. "Good" is highly subjective and not easy
+to define. Take the following with a grain of salt.
+
+### Language "Quality"
+
+TypeScript fixes a lot of JavaScript [problems], but it still inherits a big
+chunk of them.
+
+[problems]:
+  https://blog.campvanilla.com/javascript-the-curious-case-of-null-0-7b131644e274
+
+`null >= 0` is a build-time error, not [`true`][null-true], but [adding
+methods][adding-methods] to the right-hand side of the assignment is still
+possible. What's more, it is a thing that really smart people seriously
+consider.
+
+[null-true]:
+  https://blog.campvanilla.com/javascript-the-curious-case-of-null-0-7b131644e274
+[adding-methods]:
+  https://github.com/WICG/construct-stylesheets/issues/45#issuecomment-521224893
+
+ReasonML certainly wins this competition by not being JavaScript. Pattern
+matching and [Hindley-Milner] [type inference][type-inference] of ReasonML are
+beautiful things, but we don't even have to mention them. Not being JavaScript
+is enough.
+
+[hindley-milner]: http://okmij.org/ftp/ML/generalization.html
+[type-inference]:
+  https://www.cs.cornell.edu/courses/cs3110/2016fa/l/17-inference/notes.html
+
+One could respond: "Git gud. Just learn JavaScript!" The thing is, I have no
+intention to remember the quirks of JavaScript! I want to focus on delivering
+business value, and this is just accidental complexity! I don't care that
+`{} + []` equals `0`. If I wrote this, it was an accident; I didn't have my
+morning coffee. I want my tools to protect me and tell me "Yo dude, that's
+weird" with bright red squigglies.
+
+TypeScript is not meant to be pretty. It is designed for the gradual migration
+of big JavaScript codebases. You can type some wildly dynamic code with a
+[Turing complete type system](https://github.com/Microsoft/TypeScript/issues/14833).
+
+- Is TS type system absurdly powerful? Yes.
+- Can you write some hideous incomprehensible [conditional types] spaghetti in
+  it? Yes.
+- Does this result in excellent editor support and precise types even for weird
+  dynamic patterns? Absolutely.
+
+[conditional types]:
+  https://www.typescriptlang.org/docs/handbook/advanced-types.html#conditional-types
+
+We can posit the question: "Do we care if our dependencies are readable and easy
+to develop? Or do we just need them to be well-tested?"
+
+### Language Familiarity
+
+It is easier to maintain code written in a way that's familiar to us. "Legacy
+code" often means "code written by someone else.", because we're afraid of the
+unknown.
+
+TypeScript, built for adoption in existing JS codebases, promises that all
+JavaScript developers already know some TypeScript. It is a superset, right?
+Just rename tada file, check if the few squigglies that appeared indicate bugs,
+maybe tweak your config a little bit, to make it less strict. Tada. It's a
+tempting promise for people who don't want to learn another language, who want
+to improve their existing codebase, who want to get shit done.
+
+There are legions of them. Web-development agencies are full of JavaScript
+developers. On top of it, C-like syntax and the short feedback loop of
+JavaScript make it a language suitable for beginners. The number of JS
+developers will grow.
+
+Statically typed JavaScript is doomed to be popular.
+
+## Cheap to produce
+
+I find the "Build or Install" decision interesting. <small>(Build vs Buy / Make
+Or Buy)</small>
+
+How much of our code should be other people's code? The answer can be "all of
+it" if we're using no-code tools. It can also be "zero" if you're building a
+language or "next to none" for a library for building user interfaces.
+
+[language]:
+  https://github.com/microsoft/TypeScript/blob/master/package.json#L132
+[library]:
+  https://github.com/facebook/react/blob/master/packages/react/package.json#L28-L31
+
+For most web apps built in consulting agencies, I believe the answer to be "as
+much as we're comfortable with." Gluing together libraries that fix parts of
+your problem is a valid way to build a product. Using no-code and gluing
+together entire products is also an entirely correct way. It isn't as glorious
+as [Real Man C++ Programming], but it solves people's problems, and this is the
+important part. More so, it allows building better products in a limited time.
+Time to swallow our pride, and stand on the shoulder of giants, my friend.
+
+[real man c++ programming]:
+  https://www.urbandictionary.com/define.php?term=C%2B%2B&defid=2583707#.XmO26-jht3E.twitter
+
+But hey! Popular open source projects proceed in entirely different way. React
+has almost no dependencies, TypeScript and Mitt have exactly zero.
+
+React contains a purpose-built [min heap implementation][min-heap].
+
+[![](/content/reasonable-language-choice/min-heap.png)][min-heap-twitter]
+
+[min-heap]: https://github.com/facebook/react/pull/16245/files
+[min-heap-twitter]: https://twitter.com/imohitbhatia/status/1159932373955297280
+
+Whenever we install a library, we trade off control for time.
+
+Libraries need more control than apps do. Few kB of difference in bundle size or
+one corner case vulnerability may be a difference between mass adoption and
+oblivion.
+
+Another argument for zero-dependency policy might be, that the dependencies are
+not expected. We'd like to avoid the question "What&nbsp;is&nbsp;this? Why is it
+in our bundle?". \
+You are invited to a party. Is it appropriate to bring your friends? It&nbsp;depends.
+Are you the party person, and the hosts expect you to bring your squad (`redux-toolkit`)?
+Or are you expected to come alone?
+
+Languages and OSes need even more control. Fuchsia devs pin all dependencies to
+an exact version [by policy][by-policy]. It is important to notice the
+difference in scale. I mentioned projects which plan for years, not months. They
+aim to topple the giants.
+
+[by-policy]:
+  https://fuchsia.dev/fuchsia-src/project/policy/external_dependencies
+
+If you know you are going to compose your app from chunks of existing code,
+choosing a language with the bigger ecosystem is a good idea.
+
+How do the ecosystems of these two languages compare? As I am writing this,
+DefinitelyTyped has 10,669 contributors[^1] and 26,828 stars with a 0.4
+contributors to stars ratio.
+
+For comparison:
+
+- Vue: 290 👩‍💻 and 158k ⭐ ➡ 0.00182 ratio
+- TypeScript: 448 👩‍💻 and 59k ⭐ ➡ 0.00765 ratio
+- ReasonML: 124 👩‍💻 and 8.6k ⭐ ➡ 0.01455 ratio
+
+Look at the ratio! Four tenths! DefinitelyTyped is not a fun thing people star,
+because they like it! I hate contributing to DT! Yet, there are many excellent
+libraries in the JavaScript ecosystem, and I want to use them in my statically
+typed projects.
+
+ReasonML ecosystem is growing, but there's a long way ahead of it.
+
+There are 10 thousand people who introduce the best JavaScript libraries[^2] to
+TypeScript. The sheer number is astonishing. There are more people who actively
+improve TypeScript ecosystem than people who declare that they like Reason! The
+numbers speak in favor of TypeScript. I realize that this is a cold argument and
+that I am betting for Goliath against David.
+
+[^1]:
+    [State of the Octoverse][octoverse] reports different numbers. GitHub isn't
+    clear what "contributor" means. I believe that repository pages indicate the
+    number of commit authors, and the State of the Octoverse reports the number
+    of issue authors.
+
+[octoverse]: https://octoverse.github.com/#top-and-trending-projects
+
+[^2]:
+    Kind of. Many libraries "introduce themselves." JavaScript ecosystem is a
+    superset of the TypeScript ecosystem. Your favorite libraries you use in
+    JavaScript might be written in TypeScript. Notable mentions: Jest, XState,
+    both Redux and MobX.
+
+## Summary
+
+Both TypeScript and ReasonML have a positive effect on the industry. They ease
+the transition for web developers who'd like to build bigger and more complex
+applications and for programmers with no love for JavaScript who'd like to build
+for the web without WASM.
+
+I am not fond of the fact, but for my ordinary work projects choosing the
+uglier, more popular language seems to be the reasonable choice.
+
+One exception. My gaming laptop explodes when I open 4th Electron-based project.
+**[ReveryUI](https://github.com/revery-ui) is love.**
+
+---
+
+##### Loose notes
+
+<small>
+
+- `import`/`export` vs `module`/`open`/all files are `module`s
+- ReasonReact feels underpowered
+  - ([props-spread]) Spreading props is not an "anti-pattern" in TypeScript, and
+    it's tremendously useful for design systems and libraries. It feels
+    especially weird for me because Reason
+    [Records](https://reasonml.github.io/docs/en/record) support spread.
+
+[props-spread]:
+  https://github.com/reasonml/reason-react/blob/master/docs/props-spread.md
+
+</small>
+
+<p></p>
+
+---
