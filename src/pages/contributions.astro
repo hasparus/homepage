@@ -8,8 +8,10 @@ import { Link } from "../lib/Link";
 import { PullRequestIcon } from "../own/icons/PullRequestIcon";
 import { StarIcon } from "../own/icons/StarIcon";
 
+const deploymentDate = new Date().toLocaleDateString("sv-SE");
+
 const fauxFrontmatter = {
-  date: new Date().toLocaleDateString("sv-SE"),
+  date: deploymentDate,
   title: "Contributions",
   readingTime: { minutes: 0, text: "", time: 0, words: 0 },
   tags: [],
@@ -28,17 +30,13 @@ if (import.meta.env.PROD) {
 
 <PostLayout frontmatter={fauxFrontmatter} headings={[]}>
   <p>
-    TODO: Something about the fact that I believe in grassroots improvement of
-    public domain.
+    I believe in community-driven collaboration through open source.
+    It's what makes the web the most expansive and accessible ecosystem in the industry.
+    I've seen it change people's lives, including my own.
   </p>
-  <dl>
-    <dt>PRs Merged</dt>
-    <dd>
-      {numberOfPRsMergedToPublicRepos}
-    </dd>
-  </dl>
-  <p class="!mb-0">
-    Repositories with more than 9 stars that have at least 2 of my PRs merged: 
+  <p>
+    More than {numberOfPRsMergedToPublicRepos} of my PRs were merged to public repositories.
+    Below you can find some of the projects I've contributed to.
   </p>
   <ul class="contribs">
     {
