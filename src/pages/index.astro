@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
 import { Link } from "../lib/Link";
+import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
 
 let posts = await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx");
@@ -27,18 +28,18 @@ posts.sort((a, b) => {
       Piotr Monwid-Olechnowicz
     </h1>
     <div class="zaduma-prose">
-      <p>
+      <Paragraph>
         a subversive software sculptor, optimist opensource oarsman, tenacious
         typelevel troubadour; devoted to details, complaining either
         courageously or ceaslessly, depending on who you ask.
-      </p>
-      <p>
+      </Paragraph>
+      <Paragraph>
         I'm working with
         <Link href="https://edgeandnode.com/">Edge & Node</Link>
         on The Graph applications and libraries. After work, I&nbsp;maintain Theme
         UI and contribute to
         <Link href="/contributions">other repositories</Link>.
-      </p>
+      </Paragraph>
     </div>
   </main>
   <ul>
