@@ -35,6 +35,8 @@ export default async function og(req: Request) {
 
     await assertTokenIsValid(stringifiedPost, token);
 
+    console.log("returning ImageResponse for", stringifiedPost);
+
     return new ImageResponse(
       h(
         "div",
@@ -74,6 +76,12 @@ export default async function og(req: Request) {
   } catch (err: unknown) {
     console.error(err);
 
+    if (err instanceof HttpError) {
+      return new Response(JSON.stringify({ message: err.message }), {
+        status: err.status,
+      });
+    }
+
     const error = err instanceof Error ? err : new Error(String(err));
 
     return new Response(JSON.stringify({ message: error.message }), {
@@ -95,7 +103,7 @@ function Illustration({
     "div",
     {
       tw: `
-          flex flex-1 justify-start items-end w-full pt-4 px-4 -mb-1.5 relative
+          flex flex-1 justify-start items-end w-full pt-4 px-4 relative
           bg-[rgb(23,23,23)]
         `,
     },
