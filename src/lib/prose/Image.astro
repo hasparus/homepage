@@ -70,7 +70,13 @@ if (!props.width && !props.height && !props.aspectRatio) {
 const attrs = await getImage(props);
 ---
 
-<span zaduma-image class="zaduma-image-box block relative overflow-hidden">
+<span
+  zaduma-image
+  class="zaduma-image-box block relative overflow-hidden"
+  style={props.width && props.width > 615 /* 43rem */
+    ? {} // TODO: This should be handled in Zaduma's CSS in Image.css, but I don't have an idea currently.
+    : { "--wide-breakout": 0 }}
+>
   <img
     {...attrs}
     class:list={["dark:opacity-80 rounded-sm", attrs.class]}
