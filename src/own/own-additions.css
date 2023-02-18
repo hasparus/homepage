@@ -22,3 +22,43 @@
     line-height: 1.75;
   }
 }
+
+.hsp--measurements {
+  @apply w-[var(--wide-content-width)];
+  transform: translateX(min(calc(-50% * var(--wide-breakout)), 0px));
+
+  & table {
+    width: 100%;
+
+    & td {
+      padding: 0;
+
+      &:hover {
+        z-index: 100;
+        position: relative;
+      }
+    }
+  }
+
+  & .zaduma-image-box {
+    & img {
+      width: 100%;
+    }
+
+    & > span {
+      display: none;
+    }
+
+    overflow: visible;
+
+    & img {
+      cursor: zoom-in;
+      transition: scale cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
+      &:hover {
+        scale: 1.1;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
