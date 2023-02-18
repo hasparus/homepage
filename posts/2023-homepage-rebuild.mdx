@@ -40,15 +40,17 @@ fp-ts to build a blog. I&nbsp;had&nbsp;_fun_.
 
 **Fun is over. I'm a boring person now, and I want simplicity.**
 
-Simpler tech, almost minimal design. I handwrote and animated an actual SVG sandwich
-for the menu icon on [my old website](https://old-hasparus.netlify.app/). Good
-lord, what an infant. And then I overengineered it to work without JavaScript with `#menu-id:target ~ &` trick.
-
+Simpler tech, almost minimal design. I handwrote and animated an actual SVG
+sandwich for the menu icon on
+[my old website](https://old-hasparus.netlify.app/). Good lord, what an infant.
+And then I overengineered it to work without JavaScript with
+`#menu-id:target ~ &` trick.
 
 import Hamburger from "../src/own/2023-homepage-rebuild/Hamburger.astro";
 
 <aside>
-  You've made some of my friends laugh, but it's time for you to go, my dear icon.
+  You've made some of my friends laugh, but it's time for you to go, my dear
+  icon.
   <Hamburger style="margin-top: 4px" />
 </aside>
 
@@ -56,8 +58,8 @@ I'm trying to do something more basic, more classic now.
 
 ## Design
 
-To get to that _boring and classic_, I chose a grayscale color scale,
-centered layout and Inter font.
+To get to that _boring and classic_, I chose a grayscale color scale, centered
+layout and Inter font.
 
 https://twitter.com/darylginn/status/1620371874609008640?s=20&t=pwuhIlc1LPfcH4K_xarZkg
 
@@ -66,11 +68,11 @@ https://twitter.com/darylginn/status/1620371874609008640?s=20&t=pwuhIlc1LPfcH4K_
 I've built an Astro starter, called [Zaduma] to work on all the features I want
 in isolation, and not when I'm writing a blogpost.
 
-[Aleksandra] had a Gatsby site
-too, so now we're collaborating on it. We'd like Zaduma to be a minimalistic
-starter for technical weblogs and documentation pages. We've added some personal
-touches like a grain overlay and [Shiki Twoslash][shiki-twoslash], assuming that
-TypeScript is already a most popular programming language.
+[Aleksandra] had a Gatsby site too, so now we're collaborating on it. We'd like
+Zaduma to be a minimalistic starter for technical weblogs and documentation
+pages. We've added some personal touches like a grain overlay and [Shiki
+Twoslash][shiki-twoslash], assuming that TypeScript is already a most popular
+programming language.
 
 [aleksandra]: https://aleksandra.codes
 
@@ -79,11 +81,11 @@ blog. Secondly, because I started before Next 13 was announced, and Astro was
 first on my list of new things to learn. We want to ship less JavaScript, and
 get nice perf out of the box.
 
-For the components framework, we're taking [Solid], because it's absurdly
-good, especially coming from React. It still doesn't have enough of an
-ecosystem, and until very recently it lacked equivalents of accessible
-foundations style libraries like Radix UI, but I won't need much here. I'm fine
-with writing my own command pallette instead of downloading `cmdk`.
+For the components framework, we're taking [Solid], because it's absurdly good,
+especially coming from React. It still doesn't have enough of an ecosystem, and
+until very recently it lacked equivalents of accessible foundations style
+libraries like Radix UI, but I won't need much here. I'm fine with writing my
+own command pallette instead of downloading `cmdk`.
 
 [Tailwind] gets us a nice set of design tokens, and it's popular enough we can
 use it in a public starter. Combined with the VSCode Extension, it becomes
@@ -91,18 +93,16 @@ arguably the best CSS-in-JS library, with an added benefit of not being a
 CSS-in-JS library, so you can use it in your old Rails projects and on your
 mom's Wordpress website.
 
-If you're not a person who builds design systems and
-frontend tooling daily, and you don't have time to check out every CSS solution,
-stick with Tailwind. Atomic&nbsp;CSS gets us the best performance and
-a surprisingly small number of footguns. It's just good.
+If you're not a person who builds design systems and frontend tooling daily, and
+you don't have time to check out every CSS solution, stick with Tailwind.
+Atomic&nbsp;CSS gets us the best performance and a surprisingly small number of
+footguns. It's just good.
 
 <aside>
 Read more:
 [React 18 CSS-in-JS Library Upgrade Guide: `<style>`](https://github.com/reactwg/react-18/discussions/110)
 [@sebmarkbage on Atomic CSS](https://twitter.com/sebmarkbage/status/1529622371333709825)
 </aside>
-
-
 
 [Vercel OG][vercel-og] takes care of social card pictures. It was a bit of an
 investment to set it up on Vercel Edge Functions with Astro, but I feel it will
@@ -113,12 +113,21 @@ pay off.
 There are some perf improvements that could have been done on my old site, but
 it's still all green.
 
+import Image from "../src/lib/prose/Image.astro";
+
+<div class="hsp--measurements">
+
+| Mobile with Gatsby                                                                         | Desktop with Gatsby                                                                        |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| <Image width="644px" height="560px" src="/content/2023-homepage-rebuild/old-mobile.png" /> | <Image width="644px" height="560px" src="/content/2023-homepage-rebuild/old-desktop.png"/> |
+
+</div>
+
 export const Temporary = () => {
   /*  Uncomment when images are no longer clipped in Zaduma
  To be honest, this would be nice as a row/table with a lightbox
  Tailwind should probably look into MDX files too
- ![](/content/2023-homepage-rebuild/old-desktop.png) 
- ![](/content/2023-homepage-rebuild/old-mobile.png) */
+  */
   return null;
 };
 
