@@ -31,7 +31,7 @@
     width: 100%;
 
     & td {
-      padding: 0;
+      padding: 2px;
 
       &:hover {
         z-index: 100;
@@ -52,7 +52,7 @@
     overflow: visible;
 
     & img {
-      cursor: zoom-in;
+      cursor: pointer;
       transition: scale cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
 
       &:hover {

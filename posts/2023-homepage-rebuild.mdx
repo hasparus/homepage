@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 ---
 
 <div class="full-w-child">
@@ -114,14 +114,15 @@ There are some perf improvements that could have been done on my old site, but
 it's still all green.
 
 import Image from "../src/lib/prose/Image.astro";
+import { Lightbox } from "../src/lib/Lightbox.tsx";
 
-<div class="hsp--measurements">
+<Lightbox client:visible class="hsp--measurements">
 
 | Mobile with Gatsby                                                                         | Desktop with Gatsby                                                                        |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | <Image width="644px" height="560px" src="/content/2023-homepage-rebuild/old-mobile.png" /> | <Image width="644px" height="560px" src="/content/2023-homepage-rebuild/old-desktop.png"/> |
 
-</div>
+</Lightbox>
 
 export const Temporary = () => {
   /*  Uncomment when images are no longer clipped in Zaduma
