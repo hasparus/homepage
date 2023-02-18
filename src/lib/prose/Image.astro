@@ -67,6 +67,8 @@ if (!props.width && !props.height && !props.aspectRatio) {
   props.aspectRatio ??= placeholder.img.width / placeholder.img.height;
 }
 
+props.alt ||= "";
+
 const attrs = await getImage(props);
 ---
 
