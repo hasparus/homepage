@@ -33,8 +33,8 @@ built with Gatsby to a static website built with Astro gets me less JavaScript
 shipped, shorter build times, and frees me from using GraphQL to read a markdown
 file, but it's not a _huge_ change from visitor's perspective.
 
-And to be frank, it's not like I was very frugal with my bundle size. I used
-fp-ts to build a blog. I&nbsp;had&nbsp;_fun_.
+I wasn't very frugal with the bundle size in my own website. I used fp-ts to
+build a blog. I&nbsp;had&nbsp;_fun_.
 
 ![](/content/2023-homepage-rebuild/bro-wtf-fp-ts.png)
 
@@ -114,15 +114,37 @@ There are some perf improvements that could have been done on my old site, but
 it's still all green.
 
 import Image from "../src/lib/prose/Image.astro";
-import { Lightbox } from "../src/lib/Lightbox.tsx";
 
-<Lightbox client:visible class="hsp--measurements">
-
-| Mobile with Gatsby                                                                     | Desktop with Gatsby                                                                    |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| <Image width={644} height={560} src="/content/2023-homepage-rebuild/old-mobile.png" /> | <Image width={644} height={560} src="/content/2023-homepage-rebuild/old-desktop.png"/> |
-
-</Lightbox>
+<Table class="hsp--measurements">
+  <thead>
+    <tr>
+      <td>Mobile with Gatsby</td>
+      <td>Desktop with Gatsby</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <Link href="/content/2023-homepage-rebuild/old-mobile.png">
+          <Image
+            width={644}
+            height={560}
+            src="/content/2023-homepage-rebuild/old-mobile.png"
+          />
+        </Link>
+      </td>
+      <td>
+        <Link href="/content/2023-homepage-rebuild/old-desktop.png">
+          <Image
+            width={644}
+            height={560}
+            src="/content/2023-homepage-rebuild/old-desktop.png"
+          />
+        </Link>
+      </td>
+    </tr>
+  </tbody>
+</Table>
 
 export const Temporary = () => {
   /*  Uncomment when images are no longer clipped in Zaduma
