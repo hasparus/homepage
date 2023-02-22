@@ -27,8 +27,16 @@
   @apply w-[var(--wide-content-width)];
   transform: translateX(min(calc(-50% * var(--wide-breakout)), 0px));
 
-  &&& td {
-    padding: 2px;
+  && thead {
+    border-color: transparent;
+
+    & td {
+      @apply pb-1;
+    }
+  }
+
+  && td {
+    @apply px-[2px] py-0;
 
     &:hover {
       z-index: 100;
@@ -37,15 +45,19 @@
   }
 
   & .zaduma-image-box {
-    transform: none;
+    @apply rounded-md py-0;
 
+    transform: none;
     transition: scale cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+
     &:hover {
       scale: 1.035;
       @apply shadow-xl;
     }
 
     & img {
+      @apply rounded-md border;
+
       width: 100%;
       cursor: pointer;
       opacity: 1;

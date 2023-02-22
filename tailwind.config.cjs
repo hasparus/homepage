@@ -9,7 +9,7 @@ module.exports = {
   experimental: {
     optimizeUniversalDefaults: true,
   },
-  content: ["./src/**/*.{astro,ts,tsx,css}"],
+  content: ["./src/**/*.{astro,ts,tsx,css,mdx}"],
   theme: {
     fontFamily: {
       sans: [
