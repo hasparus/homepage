@@ -113,7 +113,9 @@ Read more:
 investment to set it up on Vercel Edge Functions with Astro, but I feel it will
 pay off.
 
-## Performance & Metrics
+## Performance
+
+### Metrics
 
 There are some perf improvements that could have been done on my old site, but
 it was still all green.
@@ -206,3 +208,21 @@ scores on [web.dev/measure](https://web.dev/measure/) makes me smile a bit.
     </tr>
   </tbody>
 </Table>
+
+### Preloading fonts
+
+Preloading Inter helps me get away with `font-display: block`. I realize it's
+idiosyncratic, but my eyes strongly prefer invisible text over Flash Of Unstyled
+Text.
+
+<style>
+  {`.preloading { font-size: 0.75rem !important; padding-top: 0; padding-bottom: 0; }`}
+</style>
+
+```astro class="preloading"
+---
+import interPath from "@fontsource/inter/files/inter-latin-variable-wghtOnly-normal.woff2";
+---
+
+<link rel="preload" href={interPath} as="font" type="font/woff2" crossorigin />
+```
