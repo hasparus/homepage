@@ -36,7 +36,7 @@
   }
 
   && td {
-    @apply px-[2px] py-0;
+    @apply p-[2px];
 
     &:hover {
       z-index: 100;
@@ -45,14 +45,19 @@
   }
 
   & .zaduma-image-box {
-    @apply rounded-md py-0;
+    @apply rounded-md p-0 m-0 flex;
 
     transform: none;
-    transition: scale cubic-bezier(0.075, 0.82, 0.165, 1) 0.5s;
+    transition: scale cubic-bezier(0.08, 0.8, 0.165, 1) 0.75s,
+      box-shadow cubic-bezier(0.08, 0.8, 0.165, 1) 0.75s;
+
+    &:before {
+      transition: background-color cubic-bezier(0.08, 0.8, 0.165, 1) 0.75s;
+    }
 
     &:hover {
-      scale: 1.035;
-      @apply shadow-xl;
+      scale: 1.03;
+      @apply shadow-lg;
     }
 
     & img {
