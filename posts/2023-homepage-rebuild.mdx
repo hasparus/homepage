@@ -60,6 +60,14 @@ thinking about typography. I'm not completely satisfied, but I settled on the
 standard Inter and a personal touch of
 [Brygada 1918](https://fonts.google.com/specimen/Brygada+1918).
 
+I'm slowly starting to consider removing Brygada and going with just one font,
+but I do find the current state of things quite passable, and I can't keep
+fiddling with it ad infinitum.
+
+Centered layout is practical. It allows me to use the left side for a table of
+contents, and the right side for `aside`s with comments and tangentially related
+notes.
+
 ## Tech Stack
 
 ### Zaduma
@@ -212,8 +220,8 @@ scores on [web.dev/measure](https://web.dev/measure/) makes me smile a bit.
 ### Preloading fonts
 
 Preloading Inter helps me get away with `font-display: block`. I realize it's
-idiosyncratic, but my eyes strongly prefer invisible text over Flash Of Unstyled
-Text.
+silly, and I should use `swap`, but my eyes strongly prefer invisible text over
+Flash Of Unstyled Text.
 
 <style>
   {`.preloading { font-size: 0.75rem !important; padding-top: 0; padding-bottom: 0; }`}
