@@ -54,6 +54,12 @@ function makePublicURL() {
   const VERCEL_URL = process.env.VERCEL_URL;
   const DEPLOYMENT_ALIAS = process.env.DEPLOYMENT_ALIAS;
 
+  // If the site is built on CI, the branch is `main`, and we don't have VERCEL_URL,
+  // we'll assume GitHub Actions.
+  if (process.env.CI && process.env.GITHUB_REF === "refs/heads/main") {
+    return site;
+  }
+
   // If the site is built on vercel, we can just use VERCEL_URL.
   if (VERCEL_URL) return VERCEL_URL;
 
