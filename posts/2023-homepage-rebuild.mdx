@@ -27,7 +27,7 @@ the tech debt decay and dependency drift of my previous homepage codebase.
 Neither am I pursuing better performance metrics. Going from a static website
 built with Gatsby to a static website built with Astro gets me less JavaScript
 shipped, shorter build times, and frees me from using GraphQL to read a markdown
-file, but it's not a _huge_ change from visitor's perspective.
+file, but it's not a _huge_ change from the visitor's perspective.
 
 I had fun building my previous homepage. It was over-engineered, and it had
 everything: fp-ts, backlinks, a Roam-inspired force graph of notes, custom
@@ -48,8 +48,8 @@ import Hamburger from "../src/own/2023-homepage-rebuild/Hamburger.astro";
 **[Fun is over](/posts/2022-and-change.mdx). I'm a boring person now, and I want
 simplicity.**
 
-I'm trying to do something more basic, more classic now. I'm choosing simpler
-tech and almost minimal design.
+I'm trying to do something more basic, more classic. I'm choosing simpler tech
+and almost minimal design.
 
 ## Design
 
@@ -234,3 +234,19 @@ import interPath from "@fontsource/inter/files/inter-latin-variable-wghtOnly-nor
 
 <link rel="preload" href={interPath} as="font" type="font/woff2" crossorigin />
 ```
+
+### Caveats
+
+[Zaduma] was my first Astro project, and unsurprisingly, I had to confront my
+application developer habits with MPAs. Displaying a shared UI element which
+state depends on `localStorage` (like a color scheme toggle) is a hard problem.
+I wrote about it
+[in zaduma repo](https://github.com/hasparus/zaduma/blob/main/docs/tradeoffs-and-limitations.md#trade-offs--limitations).
+Even [Astro docs](https://docs.astro.build/en/getting-started/) have this issue,
+so I ended up pivoting to a command palette.
+
+---
+
+If you end up [generating](https://github.com/hasparus/zaduma/generate) your
+website with Zaduma, please let me know what you think and if you encountered
+any bugs. Thank you for your attention 🙏
