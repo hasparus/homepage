@@ -34,5 +34,13 @@
     ["tw: `([^`]*)`"]
   ],
 
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "grammarly.selectors": [
+    {
+      "language": "markdown",
+      "scheme": "file",
+      "pattern": "posts/**/*.mdx"
+    }
+  ]
 }
