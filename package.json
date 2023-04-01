@@ -20,7 +20,7 @@
     "contribs:aggregate": "tsx scripts/gh-contributions/aggregate-repos"
   },
   "dependencies": {
-    "@astrojs/image": "^0.13.0",
+    "@astrojs/image": "^0.16.4",
     "@astrojs/markdown-remark": "^2.0.0",
     "@astrojs/mdx": "^0.17.2",
     "@astrojs/solid-js": "^2.0.0",
