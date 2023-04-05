@@ -6,7 +6,11 @@
     @apply font-serif;
   }
 
+  & ol {
+    @apply bg-gray-50 py-1 px-2 rounded-lg;
+  }
+
   & ol > li > p {
-    @apply inline -mx-1;
+    @apply inline;
   }
 }

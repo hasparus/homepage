@@ -1,0 +1,139 @@
+---
+title: Malleable Software of Past Decades
+---
+
+For the past months, I've been reading a lot about malleable software and
+end-user programming.
+
+You can find the best summary I know of at [Goeffrey Litt's blog][geoffrey].
+
+[geoffrey]:
+  https://www.geoffreylitt.com/2023/03/25/llm-end-user-programming.html
+
+In my day job, I work a lot on design systems and user interfaces. I've been
+always interested in design and user experience. Recent advances in AI, which
+enable every slightly technical person<sup>\*</sup> to build software, make this
+time especially interesting.
+
+<aside>
+  (*) My mom, a 64yo small-town dentist, won't have a lot of success with GPT-4.
+  Most corporate white collars will probably be able to build fairly complex
+  tools for themselves.
+</aside>
+
+I'm writing this to make a prediction: The best and most widely used consumer
+software will be **malleable** in the coming decade.
+
+## Eternal reinvention
+
+<figure>
+
+> Whatever is has already been, and what will be has been before
+
+<figcaption>
+
+Ecclesiastes 3:15
+
+</figcaption>
+</figure>
+
+Remember how Elon Musk invented [the subway][elon-invent] and Zuck invented
+[MMORPG][mark-invent]?
+
+[elon-invent]: https://en.wikipedia.org/wiki/Hyperloop
+[mark-invent]:
+  https://www.nytimes.com/2022/10/09/technology/meta-zuckerberg-metaverse.html
+
+We tend to come up with that we have previously explored in the past. It's fine,
+we improve, iterate and expand on what was before. Well, that's if we're aware
+that some version of what we're working on already existed. We could also choose
+to be oblivious, repeat the mistakes, and miss the good things.
+
+<div class="flex justify-center">
+  <Image
+    width={220}
+    aspectRatio={0.4585300067}
+    src="/content/malleable-apps/i-made-this.webp"
+    alt="A meme showing a person claiming they invented something that was before. See https://knowyourmeme.com/memes/i-made-this."
+  />
+</div>
+
+We already have malleable apps, and they are _loved_ by their users. Let's think
+what can we learn from the past.
+
+I'm not talking about Excel and Notion. Yes, those are nice. I like them.
+Pretty&nbsp;excited about Microsoft Loop too.
+
+## What has been
+
+Twenty years ago, when I was in primary school, all the boys played video games.
+Games were expensive, and consoles were even more expensive, so we played the
+free stuff like [browser strategy games](https://www.tribalwars.us/) and
+[Korean MMORPGs](https://gameforge.com/en-US/play/metin2).
+
+Those online games have built communities around them. We talked about them at
+school. But there's a community-building stronger feature than being online,
+that I encountered a few years after, probably around 2008.
+
+The games that still sell copies after more than a decade, the games that people
+really fell in love with, those games have [**mod support**][mod-support].
+
+[mod-support]: https://en.wikipedia.org/wiki/Video_game_modding
+
+Nowadays, many triple-A PC games are designed with modding support from the
+get-go. It's no surprise because the mods extend the shelf life of the game
+drastically.
+
+We can find an example in the world of developer tools. The main disadvantage of
+[Zed](https://zed.dev/) in its competition with VSCode is VSCode's rich
+extension ecosystem and low entry barrier to publishing extensions. Even when
+your new software reaches feature parity with the incumbent, your extension
+ecosystem will need to be competitive. It would be ideal, if it was compatible
+with the extensions of the competition, or provided a compat layer. I probably
+wouldn't start using Arc if it wasn't based on Chromium, and it didn't support
+all extensions I was already using.
+
+Video games, browsers, IDEs and "workspaces" like Slack and Notion are built for
+audiences with a large share of nerds and power users. Among those nerds, some
+are willing to go the extra mile to customize the software they're using and
+share their work with others.
+
+Until this moment, social media apps, music players and direct messenger apps
+were not extensible. People who needed, or wanted to customize them had to use
+browser extensions for that (e.g. dark mode for Facebook, YouTube downloaders).
+
+With more people empowered to write code through LLMs, I expect a surge in the
+need to customize apps. In each of us, there's a need for expression and
+personalization.
+
+## What will be
+
+I expect that even if end users will be able to edit the apps they're using in
+real time, the most popular modifications will be created by power users. It
+requires time and dedication to build something polished, regardless of the
+tools and the medium.
+
+Apart from the joy of building and making something truly yours, would the
+extension creators of the future seek some other gratification?
+
+Let's consider the three levels of video game mod success. Successful mods have
+historically:
+
+1. Gained popularity, acclaim, and sponsorship on Patreon.
+
+2. Got merged into mainline, like DrZhark's
+   [Mo'Creatures](https://mocreatures.fandom.com/wiki/Mo%27_Creatures_Wiki)
+   which helped introduce horses to Minecraft.
+
+3. Became a standalone game like
+   [Garry's Mod](https://store.steampowered.com/app/4000/Garrys_Mod/), and
+   [DOTA 2](https://www.dota2.com/home).
+
+If we add the Freemium business model popular in browser extensions to the
+equation, I think we can expect a new generation of indie hackers and a new wave
+of personalized niche software.
+
+{/* Prophesy of Pendor */}
+{/* https://forums.taleworlds.com/index.php?threads/prophesy-of-pendor-v1-21-introduction-and-release-for-m-b-1-010-1-011.53027 */}
+{/* The first game I've fallen in love with was Neverwinter Nights 2. */}
+{/* The first game I played was "Command & Conquer: Red Alert 2". */}
