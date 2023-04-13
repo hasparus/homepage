@@ -1,53 +1,58 @@
 {
-  "numberOfPRsMergedToPublicRepos": 461,
+  "numberOfPRsMergedToPublicRepos": 455,
   "filteredRepositories": [
     {
-      "stargazerCount": 4830,
+      "stargazerCount": 4943,
       "nameWithOwner": "system-ui/theme-ui",
-      "pullRequestsMerged": 86
+      "pullRequestsMerged": 89
     },
     {
-      "stargazerCount": 2372,
+      "stargazerCount": 2488,
       "nameWithOwner": "dethcrypto/TypeChain",
       "pullRequestsMerged": 42
     },
     {
-      "stargazerCount": 15,
+      "stargazerCount": 30,
       "nameWithOwner": "l2beat/starkex-explorer",
       "pullRequestsMerged": 22
     },
     {
-      "stargazerCount": 369,
+      "stargazerCount": 390,
       "nameWithOwner": "dethcrypto/eth-sdk",
       "pullRequestsMerged": 20
     },
     {
-      "stargazerCount": 1166,
+      "stargazerCount": 13,
+      "nameWithOwner": "hasparus/zaduma",
+      "pullRequestsMerged": 20
+    },
+    {
+      "stargazerCount": 1212,
       "nameWithOwner": "dethcrypto/dethcode",
       "pullRequestsMerged": 19
     },
     {
-      "stargazerCount": 21,
+      "stargazerCount": 22,
       "nameWithOwner": "hasparus/share-azgaar-map",
       "pullRequestsMerged": 15
     },
     {
-      "stargazerCount": 229,
-      "nameWithOwner": "dethcrypto/earl",
+      "stargazerCount": 232,
+      "nameWithOwner": "l2beat/earl",
       "pullRequestsMerged": 11
     },
     {
-      "stargazerCount": 21063,
+      "stargazerCount": 22152,
       "nameWithOwner": "pmndrs/react-three-fiber",
       "pullRequestsMerged": 9
     },
     {
-      "stargazerCount": 20,
+      "stargazerCount": 26,
       "nameWithOwner": "dethcrypto/dethtools",
       "pullRequestsMerged": 8
     },
     {
-      "stargazerCount": 42455,
+      "stargazerCount": 43600,
       "nameWithOwner": "DefinitelyTyped/DefinitelyTyped",
       "pullRequestsMerged": 7
     },
@@ -57,17 +62,17 @@
       "pullRequestsMerged": 5
     },
     {
-      "stargazerCount": 12533,
+      "stargazerCount": 12718,
       "nameWithOwner": "blitz-js/blitz",
       "pullRequestsMerged": 3
     },
     {
-      "stargazerCount": 1909,
+      "stargazerCount": 1987,
       "nameWithOwner": "intuit/auto",
       "pullRequestsMerged": 3
     },
     {
-      "stargazerCount": 3416,
+      "stargazerCount": 3680,
       "nameWithOwner": "pmndrs/leva",
       "pullRequestsMerged": 3
     },
@@ -77,57 +82,52 @@
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 54030,
+      "stargazerCount": 54357,
       "nameWithOwner": "gatsbyjs/gatsby",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 14,
-      "nameWithOwner": "WrocTypeScript/past-events",
-      "pullRequestsMerged": 2
-    },
-    {
-      "stargazerCount": 979,
+      "stargazerCount": 1010,
       "nameWithOwner": "google/intermock",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 76189,
+      "stargazerCount": 78008,
       "nameWithOwner": "storybookjs/storybook",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 1394,
+      "stargazerCount": 1392,
       "nameWithOwner": "Raathigesh/retoggle",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 3669,
+      "stargazerCount": 3776,
       "nameWithOwner": "FormidableLabs/react-live",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 450,
+      "stargazerCount": 449,
       "nameWithOwner": "piglovesyou/graphql-let",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 167,
+      "stargazerCount": 168,
       "nameWithOwner": "beerose/use-comments",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 2182,
+      "stargazerCount": 2972,
       "nameWithOwner": "joe-bell/cva",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 10219,
+      "stargazerCount": 10586,
       "nameWithOwner": "callstack/react-native-paper",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 803,
+      "stargazerCount": 818,
       "nameWithOwner": "michalochman/react-pixi-fiber",
       "pullRequestsMerged": 1
     },
@@ -137,12 +137,12 @@
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 18905,
+      "stargazerCount": 18939,
       "nameWithOwner": "jorgebucaran/hyperapp",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 41882,
+      "stargazerCount": 42227,
       "nameWithOwner": "parcel-bundler/parcel",
       "pullRequestsMerged": 1
     },
@@ -152,77 +152,72 @@
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 10,
-      "nameWithOwner": "WrocTypeScript/talks",
-      "pullRequestsMerged": 1
-    },
-    {
-      "stargazerCount": 12136,
+      "stargazerCount": 12312,
       "nameWithOwner": "codesandbox/codesandbox-client",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 295,
+      "stargazerCount": 306,
       "nameWithOwner": "rburns/ansi-to-html",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 31,
+      "stargazerCount": 32,
       "nameWithOwner": "callmehiphop/pb-util",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 22353,
+      "stargazerCount": 22487,
       "nameWithOwner": "MostlyAdequate/mostly-adequate-guide",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 83881,
+      "stargazerCount": 85394,
       "nameWithOwner": "ant-design/ant-design",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 10388,
+      "stargazerCount": 10542,
       "nameWithOwner": "adambard/learnxinyminutes-docs",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 26226,
+      "stargazerCount": 29636,
       "nameWithOwner": "pmndrs/zustand",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 254,
+      "stargazerCount": 255,
       "nameWithOwner": "albinekb/favicon-emoji",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 29,
+      "stargazerCount": 30,
       "nameWithOwner": "cartant/ts-snippet",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 15942,
+      "stargazerCount": 16257,
       "nameWithOwner": "emotion-js/emotion",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 204,
+      "stargazerCount": 206,
       "nameWithOwner": "cometkim/gatsby-plugin-typegen",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 9477,
+      "stargazerCount": 9944,
       "nameWithOwner": "nextapps-de/flexsearch",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 588,
+      "stargazerCount": 615,
       "nameWithOwner": "mathieudutour/gatsby-digital-garden",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 8260,
+      "stargazerCount": 8395,
       "nameWithOwner": "jsx-eslint/eslint-plugin-react",
       "pullRequestsMerged": 1
     },
@@ -232,7 +227,7 @@
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 352,
+      "stargazerCount": 370,
       "nameWithOwner": "rametta/pratica",
       "pullRequestsMerged": 1
     },
@@ -242,47 +237,47 @@
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 1966,
+      "stargazerCount": 2045,
       "nameWithOwner": "maticzav/nookies",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 8832,
+      "stargazerCount": 9254,
       "nameWithOwner": "sindresorhus/ky",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 11022,
+      "stargazerCount": 11088,
       "nameWithOwner": "jxnblk/mdx-deck",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 7873,
+      "stargazerCount": 8616,
       "nameWithOwner": "sw-yx/spark-joy",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 21595,
+      "stargazerCount": 21855,
       "nameWithOwner": "conwnet/github1s",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 1435,
+      "stargazerCount": 1473,
       "nameWithOwner": "TrueFiEng/useDApp",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 121,
+      "stargazerCount": 124,
       "nameWithOwner": "dethcrypto/deth",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 4472,
+      "stargazerCount": 5051,
       "nameWithOwner": "pmndrs/drei",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 451,
+      "stargazerCount": 489,
       "nameWithOwner": "pmndrs/three-stdlib",
       "pullRequestsMerged": 1
     },
@@ -292,28 +287,28 @@
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 369,
+      "stargazerCount": 456,
       "nameWithOwner": "grafana/faro-web-sdk",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 14555,
+      "stargazerCount": 14831,
       "nameWithOwner": "graphql/graphiql",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 56,
-      "nameWithOwner": "graphprotocol/docs",
-      "pullRequestsMerged": 1
-    },
-    {
-      "stargazerCount": 240,
+      "stargazerCount": 244,
       "nameWithOwner": "gulpjs/interpret",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 20,
+      "stargazerCount": 22,
       "nameWithOwner": "yjs/docs",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 13211,
+      "nameWithOwner": "typescript-eslint/typescript-eslint",
       "pullRequestsMerged": 1
     }
   ]

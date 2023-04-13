@@ -24,7 +24,7 @@ export async function fetchViewerPullRequests(): Promise<FetchViewerPullRequests
   if (
     !IGNORE_CACHE &&
     fromCache &&
-    fromCache.timestamp - Date.now() < CACHE_DURATION
+    Date.now() - fromCache.timestamp < CACHE_DURATION
   ) {
     return fromCache;
   }
