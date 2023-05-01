@@ -33,7 +33,7 @@ specifiers:
   cssnano: ^5.1.14
   eslint: ^8.30.0
   eslint-plugin-markdown: ^3.0.0
-  estree-util-value-to-estree: ^2.0.0
+  estree-util-value-to-estree: ^3.0.1
   plaiceholder: ^2.5.0
   postcss: 8.4.20
   prettier: ^2.8.1
@@ -68,7 +68,7 @@ dependencies:
   astro: 2.0.2_@types+node@18.11.18
   astro-eslint-parser: 0.11.0
   eslint-plugin-markdown: 3.0.0_eslint@8.31.0
-  estree-util-value-to-estree: 2.0.0
+  estree-util-value-to-estree: 3.0.1
   plaiceholder: 2.5.0_sharp@0.31.3
   postcss: 8.4.20
   reading-time: 1.5.0
@@ -3513,9 +3513,9 @@ packages:
       source-map: 0.7.4
     dev: false
 
-  /estree-util-value-to-estree/2.0.0:
-    resolution: {integrity: sha512-FkLnkL5INXOWAXYxO3zNxaODCPbkpdB96WJKhNKmesT4ZEGuGRQ+oGfDyJXMCLvoVCDn2UV5M1svA/uZkizGNQ==}
-    engines: {node: '>=14.0.0'}
+  /estree-util-value-to-estree/3.0.1:
+    resolution: {integrity: sha512-b2tdzTurEIbwRh+mKrEcaWfu1wgb8J1hVsgREg7FFiecWwK/PhO8X0kyc+0bIcKNtD4sqxIdNoRy6/p/TvECEA==}
+    engines: {node: '>=16.0.0'}
     dependencies:
       '@types/estree': 1.0.0
       is-plain-obj: 4.1.0
