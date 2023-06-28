@@ -4,6 +4,8 @@ import { CodesandboxIframe } from "../own/CodesandboxIframe";
 import { Blockquote } from "./prose/Blockquote";
 import { Code, Pre } from "./prose/code-and-pre";
 import { createHeading } from "./prose/Heading";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore // TS ran in CLI doesn't see .astro files
 import Image from "./prose/Image.astro";
 import { Ol } from "./prose/Ol";
 import { Paragraph } from "./prose/Paragraph";
