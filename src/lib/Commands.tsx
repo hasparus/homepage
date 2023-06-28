@@ -197,6 +197,7 @@ export function CommandsPalette({
                 <CommandItem href="https://github.com/hasparus/zaduma">
                   GitHub
                 </CommandItem>
+                <CommandItem href="/resume">Resume</CommandItem>
                 <CommandItem href="https://github.com/hasparus/zaduma/issues">
                   Contact
                 </CommandItem>

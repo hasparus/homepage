@@ -1,0 +1,92 @@
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export { mdxComponents as components } from "../lib/mdxComponents";
+
+<BaseLayout title="hasparus | resume">
+<main class="resume zaduma-prose py-4">
+
+<h1 class="mt-6 !mb-0 font-semibold dark:text-gray-500">
+  Piotr Monwid-Olechnowicz
+</h1>
+<div class="text-gray-600">
+  <Link href="mailto:hasparus@gmail.com">hasparus@gmail.com</Link>
+  {" · "}
+  <Link href="https://haspar.us">https://haspar.us</Link>
+  {" · "}
+  <Link href="https://github.com/hasparus">https://github.com/hasparus</Link>
+</div>
+
+## Open Source
+
+I believe in community-driven collaboration through open source. It's what makes
+the web the most expansive and accessible ecosystem in the industry. I've seen
+it change people's lives, including my own.
+
+I maintain Theme UI, and I tend to help out with problems I encounter. \
+More than 455 of my PRs were merged to public repositories.
+
+My most recent small but cool contribution was adding multiplayer collaboration
+to [novel.sh](https://github.com/steven-tey/novel/pull/18).
+
+## Experience
+
+### Edge & Node — since May 2022
+
+Product Team. Working on Graph Explorer, Subgraph Studio, and the component
+library.
+
+### dethcrypto x L2Beat — October 2021 to May 2022
+
+Maintaining TypeChain, eth-sdk and Earl to help dApp developers get into the Pit
+of Success. Built [DethCode](https://github.com/dethcrypto/ethereum-code-viewer)
+to view multi-file contracts in VSCode in your browser.
+
+### Flick — August 2020 to October 2021
+
+Building a suite of apps for social media managers and influencers. Maintaining
+internal tooling, including codegen plugins, shared libraries and release
+automation. Decreased database costs by the factor of 8 by changing _O(n)_ db
+query into _O(1)_ read from custom queue.
+
+### Chop-Chop — December 2018 to August 2020
+
+I built libraries, web apps (mostly for real estate marketing), ran workshops
+with clients, and organized a company [tech meetup][chop-chop academy]. Main
+tools: TypeScript, React and Markdown.
+
+[chop-chop academy]: https://www.meetup.com/pl-PL/Chop-Chop-Academy-Web-Apps
+
+### Explain Everything — July 2017 to October 2018
+
+Worked on a peer-to-peer interactive whiteboard using three.js. Transformed
+large codebase from JQuery and decaffeinate CoffeeScript through Flow to
+TypeScript and React.
+
+### Brighter 3D — June 2017
+
+Built a proof of concept of SketchUp renderer using C#, Unity3D, and Node.js
+Google Cloud functions.
+
+## Education
+
+### BSc Computer Science, University of Wrocław
+
+I learned to google really hard and read research papers.
+
+I don't write Haskell nor Prolog nor x86-64 assembly nowadays, and I probably
+wouldn't be able to repeat all the logic and discrete math proofs that I used to
+be able to do, but the uni taught me patience, curiosity and "I don't know this
+**yet**, give me a few hours to read" attitude.
+
+</main>
+</BaseLayout>
+
+<style>{`
+  .resume :is(h2, h3):before {
+    content: none
+  }
+  .resume h2 {
+    padding: 8px 0;
+    border-bottom: 2px solid #e5e5e5;
+  }
+`}</style>
