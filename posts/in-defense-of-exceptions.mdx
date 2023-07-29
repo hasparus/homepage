@@ -1,0 +1,67 @@
+---
+img: raw!/content/in-defense-of-exceptions/img.png
+---
+
+<style>{`.dark .zaduma-image-box { filter: invert(1) hue-rotate(180deg); mix-blend-mode: lighten; }`}</style>
+
+I used to be a strong proponent of explicit error handling. Quite recently, I
+realized that exceptions are good actually.
+
+A developer under a tight deadline does not have a strong incentive to handle
+all edge cases. They'll write tests someday, _right?_
+
+Many try-catch blocks I've seen either log the error and rethrow, what's not
+bad; or swallow it and return null 🤮 which makes the program worse, and harder
+to debug.
+
+The company wants to see the happy path ASAP, you're pressured to ship, and
+that's understandable. There's so many things that can go wrong, and _time is
+money!_ You probably wouldn't handle all of them even if you tried.
+
+In this world, the non-ideal world of commercial software development, handling
+errors on another layer, like React
+[Error Boundaries](https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary),
+or
+[Darklang's](https://blog.darklang.com/real-problems-with-functional-languages/)
+/ [Scott Wlaschin's](https://fsharpforfunandprofit.com/rop/) Error Rail, seems
+to be more practical.
+
+Exceptions are errors we did not expect yet, but we can't expect everything,
+right? Any system multiple people work on at the same time will inevitably crash
+at some point. Let's learn from
+[Erlang](https://blog.mi.hdm-stuttgart.de/index.php/2019/10/13/how-to-build-fault-tolerant-software-systems/#:~:text=Erlang's%20approach%20to%20fault%2Dtolerance&text=Compared%20to%20other%20programming%20languages,to%20complete%20a%20predetermined%20task.),
+and improve our fault tolerance. When we're aware we'll eventually crash, we
+ensure that:
+
+- the user can recover, the error doesn't propagate and bring the whole thing
+  down,
+- the call stack and application state are logged to our error tracker, so we
+  can debug later.
+
+<div>
+
+Have you ever had Facebook load without the Messenger chat?
+
+<figure class="flex flex-col items-center dark:invert">
+  <img src="/content/in-defense-of-exceptions/facebook.webp" width="300px" />
+  <figcaption>basically Facebook (modulo 25bn R&D spend)</figcaption>
+</figure>
+
+</div>
+
+The chat is just hanging there. Yeah, it sucks it broke, but you can still read
+the latest conspiracy theories and see your friends' kids pictures. In many
+cases it does not make sense to handle an error with more effort than unmounting
+the component or displaying "Something went wrong".
+
+<aside>
+  One of the friends I asked to review this told me "who uses Facebook", nobody
+  is going to understand this example. I'm old.
+</aside>
+
+If my cat tinder app can't render because of a parse error on backend response,
+that used to be JSON of fluffy cats in your area, and is now HTML with a 502 Bad
+Gateway Error message, it's not frontend's responsibility to fix the bug. A
+generic "Something went wrong." message is perfectly sufficient.
+
+It's probably the DNS anyway.
