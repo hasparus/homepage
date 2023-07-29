@@ -14,7 +14,7 @@ export function createOgImageLink(frontmatter: PostFrontmatter) {
   }\t${
     frontmatter.title
   }\t${
-    frontmatter.img || ""
+    frontmatter.img?.replace(/^raw!/, "") || ""
   }`;
 
   const hmac = createHmac("sha256", OG_IMAGE_SECRET);
