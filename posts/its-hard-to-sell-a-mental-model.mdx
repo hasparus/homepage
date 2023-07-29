@@ -1,0 +1,98 @@
+---
+title: It's Hard to Sell a Mental Model
+date: 2023-07-17
+---
+
+<Callout icon="✍️">
+  **Epistemic Status:** Written on an airplane. Should have been a DM, but I'm
+  too stubborn to pay for Twitter Blue. I want to say why I like EffectTS, and
+  why I'm afraid the industry isn't ready for it.
+</Callout>
+
+Michael Arnaldi, the author of [EffectTS], just
+[replied to me](https://twitter.com/MichaelArnaldi/status/1681264970657415168)
+on Twitter:
+
+[effectts]: https://www.effect.website/
+
+> I've built Effect because I had to build a bank with 5 juniors, it ended up
+> working and I open sourced it.
+
+If we understand "juniors" the same way, then I have no doubt it worked.
+
+The story might have been different if Michael had 5 seniors, because EffectTS
+might make the code safer and more robust, but it makes it less idiomatic, less
+familiar, and **arguably** harder to write, because Copilot Chat won't print it
+for you.
+
+I like EffectTS a lot, and I hope it has a ton of success. However, I fear that
+its road to a wider adoption is going to be long and rocky.
+
+It boils down to two things:
+
+- There's a difference between seniority and "immersion".
+- [Explicit error handling](./in-defense-of-exceptions) might not be the fit for
+  most commercial software.
+
+## Seniority vs Immersion
+
+Terms "junior", "senior", and "staff" describe the number of years of
+experience, and the position in the organization.
+
+If they're correlated to eagerness to learn, idealism, and ambition to write
+good code, I would guess they're correlated inversely. People with kids,
+retirement savings, and a backache, will surely have less curiosity about how
+that new framework hotness changes the world. That's totally fine.
+
+<aside>
+
+A greybeard would say that good code does not mean good product, and show you
+his ugliest hack from the 90s that made the company millions. (e.g.
+[Swizec](https://swizec.com/blog/sometimes-your-worst-code-is-your-best-code/))
+
+</aside>
+
+Compare this to a young person, their hands just imbued with the power of
+creation, their eyes bright with infinite possibility. A developer before their
+first burnout.
+
+I remember my friend Kuba on his first tech meetups after he learnt how to code.
+You couldn't have found a person more excited about monads, AWS and differences
+between frontend frameworks at the same time.
+
+The seniority levels don't describe how immersed in the _craft_ of programming
+the person is. Here's an orthogonal division based on how interested, how
+_immersed_ the developer is in the implementation intricacies of the software.
+
+- Rowdy Ronin, devs without master, rawdogging jQuery and PHP to hit the market
+  as fast as possible.
+- Software Samurai, salarymen, who focus on building great software for their
+  employer. They take pride in their work, but the work is more the code.
+- Opensource Oni, demons of GitHub, exploring the uncharted lands of
+  computation. Chronically online, often involved in some argument on Twitter.
+
+It's tremendously hard to sell a framework that requires a new mental model to
+the first two groups, unless the benefits outweigh the cost by an order of
+magnitude.
+
+Especially if it's not a UI framework.
+
+### Frontier and backwater
+
+For a long time, frontend was the place for experiments, rewriting and trying
+out new things, and you get an occasion to do this when designers do redesigns
+and rebrandings. For the same time, backend was the place of estabilished best
+practices, old knowledge and battle-tested solutions. A lot of newly written
+TypeScript backend code looks similar to the Java code snippets from the books
+published in late 90s.
+
+It's entirely justfied, as backend engineers should most often be more concerned
+with how they orchestrate, operate and observe their system, than the code they
+write.
+
+---
+
+Okay, but what if exceptions were actually a better fit for the modern day
+industry than explicit error modeling?
+
+[In Defense of Exceptions](./in-defense-of-exceptions)
