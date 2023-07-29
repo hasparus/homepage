@@ -58,6 +58,7 @@ module.exports = {
     extend: {
       maxWidth: {
         container: "43rem",
+        contained: "41rem",
       },
       animation: {
         "scale-up": "scale-up 150ms ease-in",

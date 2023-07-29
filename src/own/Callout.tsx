@@ -40,7 +40,7 @@ export function Callout(props: CalloutProps) {
         "--icon": `'${own.icon}'`,
       }}
       classList={{
-        "bg-gray-100 dark:bg-gray-800/60 rounded py-2 px-3 text-sm relative":
+        "bg-gray-100 dark:bg-gray-800/60 rounded py-2 px-3 relative max-w-contained text-sm":
           true,
         [`relative pr-8 after:content-[var(--icon)] after:absolute after:top-2 after:right-3 after:text-base`]:
           !!own.icon,
