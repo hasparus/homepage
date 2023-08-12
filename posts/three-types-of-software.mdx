@@ -19,7 +19,12 @@ existed." It helps with architectural decisions, prioritization etc.
 
 You're probably familiar with the "Good, Cheap and Fast" Venn diagram. My
 question about programming language choice in an imaginary reduced world isn't
-just a polyglot flex. It's, at least for me, more useful.
+just a polyglot flex. It `is, at least for me, more useful.
+
+<VennDiagram
+  style={{ transform: "translate(-8px)" }}
+  labels={["good", "fast", "cheap", "impossible"]}
+/>
 
 Firstly, we often say that you can only choose two from good, cheap, and fast
 (i.e. if it's good and fast, it must be expensive), and here you can only pick
@@ -52,6 +57,8 @@ machine; instead of _fast to make_ (often a synonym for cheap), allows us to
 split the _good_ into performance and correctness, and think about trade-offs
 between those two.
 
-This question of language choice allows us to reduce a 3D space of performant x
-correct x cheap into one single choice, a guess, a simple question of
+This question of language choice allows us to reduce a 3D space performant of ×
+correct × cheap into one single choice, a guess, a simple question of
 preference.
+
+import { VennDiagram } from "../src/own/VennDiagram";
