@@ -55,7 +55,7 @@ export function VennDiagram(props: VennDiagramProps) {
           text-anchor="middle"
           dominant-baseline="central"
         >
-          {ownProps.labels[i]}
+          {props.labels[i]}
         </text>
       ))}
       <text
@@ -65,7 +65,7 @@ export function VennDiagram(props: VennDiagramProps) {
         dominant-baseline="central"
         style="font-size: 0.8em;"
       >
-        {ownProps.labels[props.labels.length - 1]}
+        {props.labels[props.labels.length - 1]}
       </text>
     </svg>
   );
