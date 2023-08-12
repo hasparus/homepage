@@ -21,6 +21,8 @@ You're probably familiar with the "Good, Cheap and Fast" Venn diagram. My
 question about programming language choice in an imaginary reduced world isn't
 just a polyglot flex. It `is, at least for me, more useful.
 
+import { VennDiagram } from "../src/own/VennDiagram";
+
 <VennDiagram
   style={{ transform: "translate(-8px)" }}
   labels={["good", "fast", "cheap", "impossible"]}
@@ -61,4 +63,6 @@ This question of language choice allows us to reduce a 3D space performant of ×
 correct × cheap into one single choice, a guess, a simple question of
 preference.
 
-import { VennDiagram } from "../src/own/VennDiagram";
+import { SphereAndAxes } from "../src/own/SphereAndAxes";
+
+<SphereAndAxes client:visible />
