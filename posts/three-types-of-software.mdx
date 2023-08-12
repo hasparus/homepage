@@ -1,0 +1,57 @@
+Imagine there are only three programming languages: C, Haskell, and Ruby.
+
+<aside>Just imagine, okay? Bear with me.</aside>
+
+There is a very small overlap between them. There's not _a lot_ of types of
+software that more than one of those languages is suitable for.
+
+- an operating system? -> C.
+- a bank? -> Haskell.
+- your SaaS app? personal blog? -> Ruby.
+- AAA games? -> The engine in C, the gameplay scripting in Ruby.
+- [Bun](https://bun.sh/), the JavaScript runtime designed for speed? -> C.
+
+Yes, the boundaries are fuzzy. It's all a spectrum, I get it. But...
+
+I've realized over the years, that it's nice to ask yourself _"What language
+would I choose for \_this thing I'm working on_ if only those three languages
+existed." It helps with architectural decisions, prioritization etc.
+
+You're probably familiar with the "Good, Cheap and Fast" Venn diagram. My
+question about programming language choice in an imaginary reduced world isn't
+just a polyglot flex. It's, at least for me, more useful.
+
+Firstly, we often say that you can only choose two from good, cheap, and fast
+(i.e. if it's good and fast, it must be expensive), and here you can only pick
+one, optionally zoom in, split your thing into parts, and the process of it
+provides insight.
+
+And secondly, it helps to be sincere with yourself. Half the people are gonna
+say they want their thing to be good. Who would admit they want to make
+something bad?
+
+<aside>
+  [@levelsio](https://twitter.com/levelsio) openly says he raw-dogs jQuery and
+  PHP to be the first to market. Indie hackers will always want "cheap",
+  low-scope, small-scale.
+</aside>
+
+Obviously simplifying, let's say that all Haskell programs are _correct_, with
+low number of bugs; all C programs are performant, because why else would you
+torture yourself; all Ruby programs are pleasant to write, help you achieve
+product market fit, and even if you pay your developers a soccer player salary,
+they don't have to spend ages to build your thing, thus — cheap.
+
+<aside>
+  I'm not saying that all Ruby programs are buggy. I know you write tests. I
+  like Ruby!
+</aside>
+
+Thinking of _fast_ as performant, snappy, like low-level code, close to the
+machine; instead of _fast to make_ (often a synonym for cheap), allows us to
+split the _good_ into performance and correctness, and think about trade-offs
+between those two.
+
+This question of language choice allows us to reduce a 3D space of performant x
+correct x cheap into one single choice, a guess, a simple question of
+preference.
