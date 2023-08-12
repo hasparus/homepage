@@ -28,7 +28,7 @@ export function VennDiagram(props: VennDiagramProps) {
   return (
     <svg
       {...rest}
-      class="dark:opacity-90"
+      class="dark:opacity-80"
       style={{
         ...rest.style,
         font: "italic 666 2em var(--serif)",
