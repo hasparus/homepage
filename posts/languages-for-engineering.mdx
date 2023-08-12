@@ -1,0 +1,35 @@
+---
+title: Languages for Engineering, not for Coding
+date: 05-12-2020
+---
+
+There are two kinds of programming languages.
+
+Languages for coding are like C, Python, and JavaScript.
+
+A human writes code.
+
+Then the language tooling comes in. The code is then compiled, ahead of time or
+Just in Time, or maybe it's not compiled but interpreted instead. Then it's
+executed. End of story.
+
+Why did the human write the code? Is it the code that the human wanted to write?
+How is the code documented?
+
+I don't think coding is enough, and modern languages don't stop on this.
+
+Take a look at TypeScript which AST has nodes for JSDoc comments.
+
+![](https://user-images.githubusercontent.com/15332326/101243732-7e199480-3702-11eb-9d7e-d25e44e75817.png)
+
+TypeScript cares about your comments because they need to appear in tooltips. It
+cares about what happens in the IDE, and other humans reading your TypeScript.
+
+Even more modern, Unison goes a few steps forwards and treats docs as
+first-class citizens with
+[documentation literals](https://www.unison-lang.org/learn/language-reference/documentation-literals/).
+Test tooling is also a built-in in Unison, with
+[test watch expressions](https://www.unison-lang.org/learn/usage-topics/testing/#basic-unit-tests);
+but this isn't really new, Rust's
+[`mod tests`](https://doc.rust-lang.org/book/ch11-01-writing-tests.html)
+attribute and `cargo test` brought the in-file unit tests to the mainstream.
