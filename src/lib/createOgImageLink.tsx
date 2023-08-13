@@ -7,7 +7,7 @@ const OG_IMAGE_SECRET = import.meta.env.OG_IMAGE_SECRET;
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {
   let img = frontmatter.img;
-  if (typeof img === "object") img = img.src;
+  if (typeof img === "object") img = img.og;
 
   // prettier-ignore
   const stringifiedPost: StringifiedPost = `${
