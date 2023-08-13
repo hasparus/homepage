@@ -142,8 +142,8 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     `,
     },
     h("img", {
-      width: 92,
-      height: 92,
+      width: 86,
+      height: 86,
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
