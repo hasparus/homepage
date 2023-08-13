@@ -12,9 +12,7 @@ export const CodesandboxIframe = (
           You could enable JavaScript to see a CodeSandbox embed here but you
           don't have to.
           <br />
-          <Link href="https://codesandbox.io/embed/github/hasparus/componentprops-omit-tagged-union-button/tree/master/?fontsize=14&hidenavigation=1&runonclick=1">
-            Here's the link.
-          </Link>
+          <Link href={props.src || ""}>Here's the link.</Link>
         </p>
       </noscript>
       {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}

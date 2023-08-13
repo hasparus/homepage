@@ -19,7 +19,7 @@ dependencies:
     specifier: ^0.13.0
     version: 0.13.0(astro@2.0.2)(sharp@0.31.3)
   '@astrojs/markdown-remark':
-    specifier: ^2.0.0
+    specifier: ^2.0.1
     version: 2.0.1(astro@2.0.2)
   '@astrojs/mdx':
     specifier: ^0.17.2
@@ -33,6 +33,9 @@ dependencies:
   '@astrojs/tailwind':
     specifier: ^3.0.0
     version: 3.0.0(astro@2.0.2)(tailwindcss@3.2.4)
+  '@codesandbox/nodebox':
+    specifier: ^0.1.8
+    version: 0.1.8
   '@fontsource/brygada-1918':
     specifier: ^4.5.11
     version: 4.5.11
@@ -61,7 +64,7 @@ dependencies:
     specifier: ^18.0.26
     version: 18.0.26
   '@types/react-dom':
-    specifier: ^18.0.6
+    specifier: ^18.2.7
     version: 18.2.7
   '@types/three':
     specifier: ^0.155.0
@@ -70,7 +73,7 @@ dependencies:
     specifier: ^0.0.21
     version: 0.0.21
   astro:
-    specifier: ^2.0.1
+    specifier: ^2.0.2
     version: 2.0.2(@types/node@18.11.18)
   astro-eslint-parser:
     specifier: ^0.11.0
@@ -88,10 +91,10 @@ dependencies:
     specifier: 8.4.20
     version: 8.4.20
   react:
-    specifier: ^18.0.0
+    specifier: ^18.2.0
     version: 18.2.0
   react-dom:
-    specifier: ^18.0.0
+    specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   reading-time:
     specifier: ^1.5.0
@@ -106,7 +109,7 @@ dependencies:
     specifier: ^0.31.3
     version: 0.31.3
   solid-js:
-    specifier: ^1.4.3
+    specifier: ^1.5.7
     version: 1.5.7
   tailwindcss:
     specifier: ^3.2.4
@@ -150,7 +153,7 @@ devDependencies:
     specifier: ^5.1.14
     version: 5.1.14(postcss@8.4.20)
   eslint:
-    specifier: ^8.30.0
+    specifier: ^8.31.0
     version: 8.31.0
   prettier:
     specifier: ^2.8.1
@@ -633,6 +636,13 @@ packages:
 
   /@chevrotain/utils@10.5.0:
     resolution: {integrity: sha512-hBzuU5+JjB2cqNZyszkDHZgOSrUUT8V3dhgRl8Q9Gp6dAj/H5+KILGjbhDpc3Iy9qmqlm/akuOI2ut9VUtzJxQ==}
+    dev: false
+
+  /@codesandbox/nodebox@0.1.8:
+    resolution: {integrity: sha512-2VRS6JDSk+M+pg56GA6CryyUSGPjBEe8Pnae0QL3jJF1mJZJVMDKr93gJRtBbLkfZN6LD/DwMtf+2L0bpWrjqg==}
+    dependencies:
+      outvariant: 1.4.0
+      strict-event-emitter: 0.4.6
     dev: false
 
   /@edge-runtime/format@1.1.0:
@@ -2140,7 +2150,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001431
+      caniuse-lite: 1.0.30001520
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2279,7 +2289,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001431
+      caniuse-lite: 1.0.30001520
       electron-to-chromium: 1.4.270
       node-releases: 2.0.6
       update-browserslist-db: 1.0.9(browserslist@4.21.4)
@@ -2359,13 +2369,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001431
+      caniuse-lite: 1.0.30001520
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
-  /caniuse-lite@1.0.30001431:
-    resolution: {integrity: sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==}
+  /caniuse-lite@1.0.30001520:
+    resolution: {integrity: sha512-tahF5O9EiiTzwTUqAeFjIZbn4Dnqxzz7ktrgGlMYNLH43Ul26IgTMH/zvL3DG0lZxBYnlT04axvInszUsZULdA==}
 
   /ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -5941,6 +5951,10 @@ packages:
       wcwidth: 1.0.1
     dev: false
 
+  /outvariant@1.4.0:
+    resolution: {integrity: sha512-AlWY719RF02ujitly7Kk/0QlV+pXGFDHrHf9O2OKqyqgBieaPOIeuSkL8sRK6j2WK+/ZAURq2kZsY0d8JapUiw==}
+    dev: false
+
   /p-cancelable@1.1.0:
     resolution: {integrity: sha512-s73XxOZ4zpt1edZYZzvhqFa6uvQc1vwUa0K0BdtIZgQMAJj9IbebH+JkgKZc9h+B05PKHLOTl4ajG1BmNrVZlw==}
     engines: {node: '>=6'}
@@ -7224,6 +7238,10 @@ packages:
   /streamsearch@1.1.0:
     resolution: {integrity: sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==}
     engines: {node: '>=10.0.0'}
+    dev: false
+
+  /strict-event-emitter@0.4.6:
+    resolution: {integrity: sha512-12KWeb+wixJohmnwNFerbyiBrAlq5qJLwIt38etRtKtmmHyDSoGlIqFE9wx+4IwG0aDjI7GV8tc8ZccjWZZtTg==}
     dev: false
 
   /string-width@4.2.3:
