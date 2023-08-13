@@ -30,6 +30,7 @@ export const mdxComponents = {
   ul: Ul,
   ol: Ol,
   blockquote: Blockquote,
+  Blockquote,
   code: Code,
   pre: Pre,
   // Take note that `mdxComponents` replace only Markdown and uppercased components,
