@@ -5,11 +5,9 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
-
+import react from "@astrojs/react";
 const __filename = fileURLToPath(import.meta.url);
-
 const __dirname = dirname(__filename);
 
 // Production URL
@@ -39,6 +37,7 @@ export default defineConfig({
     image({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
+    react(),
   ],
   vite: {
     ssr: {
@@ -49,7 +48,6 @@ export default defineConfig({
     },
   },
 });
-
 function makePublicURL() {
   const VERCEL_URL = process.env.VERCEL_URL;
   const DEPLOYMENT_ALIAS = process.env.DEPLOYMENT_ALIAS;
@@ -62,7 +60,6 @@ function makePublicURL() {
 
   // If the site is built on vercel, we can just use VERCEL_URL.
   if (VERCEL_URL) return VERCEL_URL;
-
   if (!DEPLOYMENT_ALIAS) {
     // If there's no DEPLOYMENT_ALIAS nor VERCEL_URL, we assume we're building locally.
     return "http://localhost:3000/";

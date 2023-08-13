@@ -59,14 +59,48 @@ machine; instead of _fast to make_ (often a synonym for cheap), allows us to
 split the _good_ into performance and correctness, and think about trade-offs
 between those two.
 
-This question of language choice allows us to reduce a 3D space performant of ×
-correct × cheap into one single choice, a guess, a simple question of
-preference.
+<VennDiagram
+  style={{ transform: "translate(-8px)" }}
+  labels={["not buggy", "performant", "on time"]}
+/>
 
-<div class="flex justify-center">
-  <Image
-    src="/content/three-types-of-software/sphere.png"
-    width="300px"
-    aspectRatio={1}
-  />
-</div>
+But even if we redefine the adjectives in our Venn diagram, it still feels like
+intersections between them can be easily _selected_. Picking a language
+simplifies the problem.
+
+<VennDiagram
+  style={{ transform: "translate(-8px)" }}
+  labels={["Haskell", "Ruby", "C"]}
+  radius={100}
+  height={470}
+/>
+
+It allows us to reduce a 3D space into a single choice, a guess, a simple
+question of preference.
+
+Whereas in reality, with a finite focus to spend, balancing between 3 qualities
+is like picking a point on a sphere octant.
+
+import { SphereOctant } from "../src/own/three-types-of-software/SphereOctant";
+
+<figure>
+  <SphereOctant client:visible />
+  <figcaption class="flex items-center justify-between mt-px">
+    <div>
+      x<sup>2</sup> + y<sup>2</sup> + z<sup>2</sup> = 1 where x, y, z ∈ [0,1]
+    </div>
+    <Link
+      href="https://colab.research.google.com/drive/1Zh-qyZW4P42870cfVvdl1D3Xx_U_WH1G?usp=sharing"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {"see in Colab"}
+    </Link>
+  </figcaption>
+</figure>
+
+In many job ads and company culture docs you'll see a sentence like "we
+prioritize speed and quick iteration with a focus on quality and excellence". I
+don't disagree that we should strive for balance, but I feel that people often
+discount how many different balances are there. All of the |ℝ| balances are
+valid. All the points
