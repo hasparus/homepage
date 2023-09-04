@@ -57,9 +57,6 @@ dependencies:
   '@react-three/postprocessing':
     specifier: ^2.15.1
     version: 2.15.1(@react-three/fiber@8.14.0)(@types/three@0.155.1)(react@18.2.0)(three@0.155.0)
-  '@types/lz-string':
-    specifier: ^1.5.0
-    version: 1.5.0
   '@types/react':
     specifier: ^18.2.21
     version: 18.2.21
@@ -165,7 +162,7 @@ devDependencies:
     specifier: ^0.5.4
     version: 0.5.4(prettier-plugin-astro@0.12.0)(prettier@3.0.3)
   typescript:
-    specifier: ^4.9.5
+    specifier: ^4.9.4
     version: 4.9.5
 
 packages:
@@ -3005,7 +3002,7 @@ packages:
     resolution: {integrity: sha512-8KG5RD0GVP4ydEzRn/I4BNDuxDtqVbOdm8675T49OIG/NGhaK0pjPX7ZcDlvKYbA+ulvVK3ztfcF4uBdOxuJbQ==}
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.3.8
+      semver: 7.5.4
     dev: false
 
   /@npmcli/move-file@1.1.2:
@@ -3441,13 +3438,6 @@ packages:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
       '@types/node': 18.11.18
-    dev: false
-
-  /@types/lz-string@1.5.0:
-    resolution: {integrity: sha512-s84fKOrzqqNCAPljhVyC5TjAo6BH4jKHw9NRNFNiRUY5QSgZCmVm5XILlWbisiKl+0OcS7eWihmKGS5akc2iQw==}
-    deprecated: This is a stub types definition. lz-string provides its own type definitions, so you do not need this installed.
-    dependencies:
-      lz-string: 1.5.0
     dev: false
 
   /@types/mdast@3.0.10:
@@ -4031,7 +4021,7 @@ packages:
       recast: 0.21.5
       remark-frontmatter: 4.0.1
       remark-mdx-frontmatter: 1.1.1
-      semver: 7.3.8
+      semver: 7.5.4
       sort-package-json: 1.57.0
       tar-fs: 2.1.1
       tsconfig-paths: 4.2.0
@@ -7075,7 +7065,7 @@ packages:
       '@types/glob': 7.2.0
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.11
+      fast-glob: 3.3.1
       glob: 7.2.3
       ignore: 5.2.4
       merge2: 1.4.1
