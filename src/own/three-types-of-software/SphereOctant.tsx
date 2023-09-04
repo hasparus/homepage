@@ -50,7 +50,7 @@ export function SphereOctant() {
               if (tooltip && intersection) {
                 const container = tooltip.parentElement!;
                 const v = intersection.eventObject.worldToLocal(
-                  intersection.point
+                  intersection.point,
                 );
                 tooltip.innerText =
                   v

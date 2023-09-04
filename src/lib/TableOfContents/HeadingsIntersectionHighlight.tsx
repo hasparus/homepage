@@ -7,7 +7,7 @@ export interface HeadingsIntersectionHighlightProps {
 }
 
 export function HeadingsIntersectionHighlight(
-  props: HeadingsIntersectionHighlightProps
+  props: HeadingsIntersectionHighlightProps,
 ) {
   const toc = !isServer && document.getElementById("table-of-contents")!;
   let current: HTMLAnchorElement | undefined;
@@ -25,16 +25,16 @@ export function HeadingsIntersectionHighlight(
       if (entries.length === 0) return;
 
       const max = entries.reduce((acc, val) =>
-        val.intersectionRatio > acc.intersectionRatio ? val : acc
+        val.intersectionRatio > acc.intersectionRatio ? val : acc,
       );
 
       if (max) {
         highlightTocItem(
-          toc.querySelector<HTMLAnchorElement>(`a[href="#${max.target.id}"]`)
+          toc.querySelector<HTMLAnchorElement>(`a[href="#${max.target.id}"]`),
         );
       }
     },
-    { threshold: 1, rootMargin: "-15% 0% -55% 0%" }
+    { threshold: 1, rootMargin: "-15% 0% -55% 0%" },
   );
 
   createEffect(() => {

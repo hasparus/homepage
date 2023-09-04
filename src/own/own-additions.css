@@ -48,7 +48,8 @@
     @apply rounded-md p-0 m-0 flex;
 
     transform: none;
-    transition: scale cubic-bezier(0.08, 0.8, 0.165, 1) 0.75s,
+    transition:
+      scale cubic-bezier(0.08, 0.8, 0.165, 1) 0.75s,
       box-shadow cubic-bezier(0.08, 0.8, 0.165, 1) 0.75s;
 
     &:before {

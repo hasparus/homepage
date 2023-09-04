@@ -11,7 +11,7 @@ export type AsidesPluginOptions = {};
  * Read posts/features/asides.mdx for more information.
  */
 export const asidesPlugin: Plugin<[AsidesPluginOptions], Root, Root> = (
-  _options
+  _options,
 ) => {
   return (root) => {
     let children = [...root.children];

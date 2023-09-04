@@ -24,7 +24,7 @@ export function ColorSchemeSelect() {
         aria-label="Change color scheme"
         onChange={(event) => {
           setScheme(
-            (event.currentTarget.value as "dark" | "light" | "") || null
+            (event.currentTarget.value as "dark" | "light" | "") || null,
           );
         }}
         style={{
