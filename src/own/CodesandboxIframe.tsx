@@ -6,7 +6,7 @@ export const CodesandboxIframe = (
   props: JSX.IframeHTMLAttributes<HTMLIFrameElement>
 ) => {
   return (
-    <div class="flex items-center">
+    <div class="zaduma-image-box flex items-center">
       <noscript>
         <p class="text-sm">
           You could enable JavaScript to see a CodeSandbox embed here but you
