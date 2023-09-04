@@ -38,6 +38,6 @@ export const mdxComponents = {
   p: Paragraph,
 
   // own
-  CodesandboxIframe,
+  // CodesandboxIframe, // this can't be here client:visible won't work; ok client:visible doesn't work in MDX anyway
   Callout,
 };
