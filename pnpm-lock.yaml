@@ -112,7 +112,7 @@ dependencies:
     specifier: ^3.3.3
     version: 3.3.3
   three:
-    specifier: ^0.155.0
+    specifier: 0.155.0
     version: 0.155.0
   tsx:
     specifier: ^3.12.8
