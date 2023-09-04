@@ -2,6 +2,11 @@
 title: "node:crypto is underused"
 ---
 
+I find Node.js builtin cryptography module to be pretty cool, but not well
+known. In&nbsp;this post, I'll show you (and the future me who forgets all of
+that) how to use it. For those familiar with, I have links to interesting
+Wikipedia articles and a song recommendation.
+
 I'm not saying everybody needs to be a security expert. I'm def not one! But I
 feel that many engineers I know are needlessly scared of cryptography. With just
 a tiny sprinkle of it, we can do amazing things: like keeping our users' data
@@ -20,13 +25,120 @@ refer to it with a prefix to discern from capitalized `Crypto` Web API.
 export const codesandbox =
   "https://codesandbox.io/p/sandbox/frosty-bassi-lpry6c?file=%2Findex.mts%3A17%2C5&embed=1";
 
+[codesandbox]:
+  https://codesandbox.io/p/sandbox/frosty-bassi-lpry6c?file=%2Findex.mts%3A17%2C5&embed=1
+
 <Callout>
-  You can find all code snippets from this post on{" "}
+  You can find all code snippets from this on{" "}
   <Link href={codesandbox}>CodeSandbox</Link>.
 </Callout>
 
-{/* TODO: Transform the code snippet into a blogpost with Shiki Twoslash */}
+First things first, we need a key pair.
+
+<div>
+
+```twoslash include generating-keys
+import { promisify } from "node:util";
+// ---cut---
+import { generateKeyPair } from "node:crypto";
+
+const { privateKey, publicKey } = await promisify(generateKeyPair)("rsa", {
+  modulusLength: 2048,
+});
+```
+
+```tsx twoslash
+// @include: generating-keys
+```
+
+</div>
+
+<aside>
+  `crypto.generateKeyPair` is a [custom promisified
+  function](https://nodejs.org/api/util.html#custom-promisified-functions).
+  Notice that the callback had 3 arguments. Neat, huh?
+</aside>
+
+Easy, right? Watch out for this private key.
+
+[Rivest–Shamir–Adleman](<https://en.wikipedia.org/wiki/RSA_(cryptosystem)>)
+public-key cryptosystem was discovered in the late 70s, just like hip-hop. You
+need to now pause reading this, play the
+["Rapper's Delight"](https://www.youtube.com/watch?v=mcCK99wHrk0) by The
+Sugarhill Gang, while reading about RSA Security's
+[relationship with NSA](https://en.wikipedia.org/wiki/RSA_Security#Relationship_with_NSA).
+
+Now back to JavaScript.
+
+Let's write and encode a short message, so we have something to work with.
+
+```twoslash include original-string
+const originalString = "my important message";
+const originalUint8Array = new Uint8Array(
+  originalString.split("").map((ch) => ch.charCodeAt(0)),
+);
+```
+
+```tsx twoslash
+// @include: original-string
+```
+
+Now anybody can encrypt it with our public key, but only we can decrypt it.
+
+```tsx twoslash
+// @include: generating-keys
+// @include: original-string
+// ---cut---
+import { publicEncrypt, privateDecrypt } from "node:crypto";
+
+const encryptedBuffer = publicEncrypt(publicKey, originalUint8Array);
+const decryptedBuffer = privateDecrypt(privateKey, encryptedBuffer);
+const decryptedString = decryptedBuffer.toString();
+```
+
+If you're just interested in signing, you should probably use
+[Ed25519](https://en.wikipedia.org/wiki/EdDSA#Ed25519). It's faster than RSA,
+twisted Edwards curves sound like a band name, and GitHub [recommends
+it][github-docs] for your SSH keys.
+
+```tsx twoslash
+import { promisify } from "node:util";
+import { generateKeyPair } from "node:crypto";
+// ---cut---
+const signingKeys = await promisify(generateKeyPair)("ed25519");
+```
+
+[github-docs]:
+  https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+Both RSA and Ed25519 can be used to sign and verify messages.
+
+```tsx twoslash
+// @include: generating-keys
+// @include: original-string
+// ---cut---
+import { sign, verify } from "node:crypto";
+
+const signature = sign(null, originalUint8Array, privateKey);
+const verified = verify(null, originalUint8Array, publicKey, signature);
+```
+
+Ed25519 is just a digital signature scheme, so you can't use it for encryption.
+
+If you change `"rsa"` to `"ed25519"` in the [sandbox][codesandbox], one of the
+tests will fail with a friendly message:
+
+```_ class=code-error-message
+Error: error:03000096:digital envelope routines::operation not supported for
+this keytype
+```
+
+A bit annoying that it doesn't tell us about it on the type level, but without
+redesigning the API with types in mind, the type error would also be a bit
+nasty.
+
+https://en.wikipedia.org/wiki/Digital_signature#Using_separate_key_pairs_for_signing_and_encryption
 
 import { CodesandboxIframe } from "../src/own/CodesandboxIframe";
 
-<CodesandboxIframe client:visible src={codesandbox} />
+<CodesandboxIframe client:only="solid" src={codesandbox} />
