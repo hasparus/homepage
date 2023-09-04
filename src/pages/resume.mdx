@@ -5,10 +5,10 @@ export { mdxComponents as components } from "../lib/mdxComponents";
 <BaseLayout title="hasparus | resume">
 <main class="resume zaduma-prose py-4">
 
-<h1 class="mt-6 !mb-0 font-semibold dark:text-gray-500">
+<h1 class="mt-6 !mb-0 font-semibold text-gray-600 dark:text-gray-300">
   Piotr Monwid-Olechnowicz
 </h1>
-<div class="text-gray-600">
+<div class="text-gray-600 dark:text-gray-300">
   <Link href="mailto:hasparus@gmail.com">hasparus@gmail.com</Link>
   {" · "}
   <Link href="https://haspar.us">https://haspar.us</Link>
@@ -88,5 +88,8 @@ be able to do, but the uni taught me patience, curiosity and "I don't know this
   .resume h2 {
     padding: 8px 0;
     border-bottom: 2px solid #e5e5e5;
+    @media (prefers-color-scheme: dark) {
+      border-color: #404040;
+    }
   }
 `}</style>

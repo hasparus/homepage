@@ -1,5 +1,4 @@
 import { Callout } from "../own/Callout";
-import { CodesandboxIframe } from "../own/CodesandboxIframe";
 
 import { Blockquote } from "./prose/Blockquote";
 import { Code, Pre } from "./prose/code-and-pre";

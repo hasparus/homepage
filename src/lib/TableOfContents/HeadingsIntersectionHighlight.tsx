@@ -28,7 +28,7 @@ export function HeadingsIntersectionHighlight(
         val.intersectionRatio > acc.intersectionRatio ? val : acc,
       );
 
-      if (max) {
+      if (max && toc) {
         highlightTocItem(
           toc.querySelector<HTMLAnchorElement>(`a[href="#${max.target.id}"]`),
         );
