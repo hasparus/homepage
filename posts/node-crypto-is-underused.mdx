@@ -2,4 +2,31 @@
 title: "node:crypto is underused"
 ---
 
-<CodesandboxIframe src="https://codesandbox.io/p/sandbox/frosty-bassi-lpry6c?file=%2Findex.mts%3A17%2C5&embed=1" />
+I'm not saying everybody needs to be a security expert. I'm def not one! But I
+feel that many engineers I know are needlessly scared of cryptography. With just
+a tiny sprinkle of it, we can do amazing things: like keeping our users' data
+private with encryption or signing stuff we give out to the public to guarantee
+it hasn't been tampered with. It's been a while since I've written a
+tutorial-style blog post, so here&nbsp;it goes.
+
+<aside>
+
+`node:` URL scheme was added in Node v12.20.0. The `crypto` package on NPM is
+deprecated, so you won't ever import a malicious package here. Regardless, I'll
+refer to it with a prefix to discern from capitalized `Crypto` Web API.
+
+</aside>
+
+export const codesandbox =
+  "https://codesandbox.io/p/sandbox/frosty-bassi-lpry6c?file=%2Findex.mts%3A17%2C5&embed=1";
+
+<Callout>
+  You can find all code snippets from this post on{" "}
+  <Link href={codesandbox}>CodeSandbox</Link>.
+</Callout>
+
+{/* TODO: Transform the code snippet into a blogpost with Shiki Twoslash */}
+
+import { CodesandboxIframe } from "../src/own/CodesandboxIframe";
+
+<CodesandboxIframe client:visible src={codesandbox} />

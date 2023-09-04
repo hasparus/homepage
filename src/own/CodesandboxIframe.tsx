@@ -3,7 +3,7 @@ import type { JSX } from "solid-js";
 import { Link } from "../lib/Link";
 
 export const CodesandboxIframe = (
-  props: JSX.IframeHTMLAttributes<HTMLIFrameElement>
+  props: JSX.IframeHTMLAttributes<HTMLIFrameElement>,
 ) => {
   return (
     <div class="zaduma-image-box flex items-center">
