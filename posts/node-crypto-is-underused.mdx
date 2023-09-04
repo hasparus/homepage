@@ -39,7 +39,6 @@ First things first, we need a key pair.
 
 ```twoslash include generating-keys
 import { promisify } from "node:util";
-// ---cut---
 import { generateKeyPair } from "node:crypto";
 
 const { privateKey, publicKey } = await promisify(generateKeyPair)("rsa", {
@@ -59,7 +58,7 @@ const { privateKey, publicKey } = await promisify(generateKeyPair)("rsa", {
   Notice that the callback had 3 arguments. Neat, huh?
 </aside>
 
-Easy, right? Watch out for this private key.
+Easy, right? We've got ourselves an RSA key pair.
 
 [Rivest–Shamir–Adleman](<https://en.wikipedia.org/wiki/RSA_(cryptosystem)>)
 public-key cryptosystem was discovered in the late 70s, just like hip-hop. You
@@ -96,22 +95,11 @@ const decryptedBuffer = privateDecrypt(privateKey, encryptedBuffer);
 const decryptedString = decryptedBuffer.toString();
 ```
 
-If you're just interested in signing, you should probably use
-[Ed25519](https://en.wikipedia.org/wiki/EdDSA#Ed25519). It's faster than RSA,
-twisted Edwards curves sound like a band name, and GitHub [recommends
-it][github-docs] for your SSH keys.
-
-```tsx twoslash
-import { promisify } from "node:util";
-import { generateKeyPair } from "node:crypto";
-// ---cut---
-const signingKeys = await promisify(generateKeyPair)("ed25519");
-```
-
-[github-docs]:
-  https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-
-Both RSA and Ed25519 can be used to sign and verify messages.
+The functions for signing and verifying have a bit of a peculiar API, where we
+can pass `null` or `undefined` as the first argument if we already have our key
+in a `KeyObject` instead of a raw string. I'm pretty used to
+`JSON.stringify(object, null, 2)`, so I think I actually prefer it over
+repeating the algorithm name.
 
 ```tsx twoslash
 // @include: generating-keys
@@ -123,10 +111,32 @@ const signature = sign(null, originalUint8Array, privateKey);
 const verified = verify(null, originalUint8Array, publicKey, signature);
 ```
 
-Ed25519 is just a digital signature scheme, so you can't use it for encryption.
+If you're just interested in signing, you should probably use
+[Ed25519](https://en.wikipedia.org/wiki/EdDSA#Ed25519). It's faster than RSA,
+twisted Edwards curves sound like a band name, and GitHub [recommends
+it][github-docs] for your SSH keys.
 
-If you change `"rsa"` to `"ed25519"` in the [sandbox][codesandbox], one of the
-tests will fail with a friendly message:
+<aside>
+  Britney Spears' ["I Wanna Go"](https://www.youtube.com/watch?v=T-sxSd1uwoU)
+  topped the charts when Ed25519 was published. A lot of things went downhill
+  since the 70s.
+</aside>
+
+```tsx twoslash
+import { promisify } from "node:util";
+import { generateKeyPair } from "node:crypto";
+// ---cut---
+const signingKeys = await promisify(generateKeyPair)("ed25519");
+```
+
+[github-docs]:
+  https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+Both RSA and Ed25519 can be used to sign and verify messages, but Ed25519 is
+just a digital signature scheme, so you can't use it for encryption.
+
+If you change `rsa` to `ed25519` in the [sandbox][codesandbox], one of the tests
+will fail with a friendly message:
 
 ```_ class=code-error-message
 Error: error:03000096:digital envelope routines::operation not supported for
@@ -137,8 +147,21 @@ A bit annoying that it doesn't tell us about it on the type level, but without
 redesigning the API with types in mind, the type error would also be a bit
 nasty.
 
-https://en.wikipedia.org/wiki/Digital_signature#Using_separate_key_pairs_for_signing_and_encryption
+I remember thinking "Why shouldn't I just use RSA for everything and limit the
+number of keys flying around?" sometime in the past. Apart from the performance,
+and some possible security reasons, there's
+[apparently](https://en.wikipedia.org/wiki/Digital_signature#Using_separate_key_pairs_for_signing_and_encryption)
+[some](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf)
+[legislation](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=uriserv:OJ.L_.2014.257.01.0073.01.ENG)
+stating that _digital signatures_ are legally binding. I probably wouldn't
+interpret hashing a message and then raising the hash to the power of a number
+that's kept in secret as _a signature_, but I am not a lawyer, and I am
+unfortunately doomed to focus on the implementation.
 
 import { CodesandboxIframe } from "../src/own/CodesandboxIframe";
 
 <CodesandboxIframe client:only="solid" src={codesandbox} />
+
+**Further Reading**
+
+- [Chosen-ciphertext attack](https://en.wikipedia.org/wiki/Chosen-ciphertext_attack)
