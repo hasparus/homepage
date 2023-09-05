@@ -40,8 +40,8 @@ export const CodesandboxIframe = (
             </div>
           </Match>
           <Match when={state() === "loading"}>
-            <div class="absolute inset-0 flex cursor-progress items-center justify-center bg-gray-800/25">
-              <div class="h-4 w-4 animate-spin rounded-full border-b-2 border-gray-700" />
+            <div class="absolute inset-0 flex cursor-progress items-center justify-center gap-3 rounded-sm bg-gray-100/50 dark:bg-gray-800/25">
+              <div class="h-4 w-4 animate-spin rounded-full border-b-2 border-gray-200 dark:border-gray-700" />
             </div>
           </Match>
         </Switch>
@@ -52,6 +52,7 @@ export const CodesandboxIframe = (
             allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
             sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
             style={{
+              "pointer-events": state() === "loaded" ? "auto" : "none",
               opacity: state() === "loaded" ? 1 : 0,
               transition: "opacity 1s 1s linear",
             }}
