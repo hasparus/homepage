@@ -1,4 +1,4 @@
-import { type JSX, createSignal, Match, Show, Switch } from "solid-js";
+import { createSignal, type JSX, Match, Show, Switch } from "solid-js";
 
 import { Link } from "../lib/Link";
 
@@ -19,12 +19,12 @@ export const CodesandboxIframe = (
           <Link href={props.src || ""}>Here's the link.</Link>
         </p>
       </noscript>
-      <div class="relative flex-shrink-0 w-[var(--wide-content-width)] h-[500px] lg:h-[700px] lg:my-4 ">
+      <div class="relative h-[500px] w-[var(--wide-content-width)] flex-shrink-0 lg:my-4 lg:h-[700px] ">
         <Switch>
           <Match when={state() === "idle"}>
-            <div class="bg-gray-800/25 absolute inset-0 flex gap-3 items-center justify-center cursor-pointer hover:[&>button]:bg-gray-700/50">
+            <div class="absolute inset-0 flex items-center justify-center gap-3 rounded-sm bg-gray-100/50 dark:bg-gray-800/25">
               <button
-                class="bg-gray-800 p-2 px-3 rounded-md transition-colors text-gray-700 dark:text-gray-300"
+                class="rounded-md bg-gray-200/50 p-2 px-3 text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700/50"
                 disabled={state() === "loading"}
                 onClick={() => setState("loading")}
               >
@@ -40,15 +40,15 @@ export const CodesandboxIframe = (
             </div>
           </Match>
           <Match when={state() === "loading"}>
-            <div class="bg-gray-800/25 absolute inset-0 flex items-center justify-center cursor-progress">
-              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-700" />
+            <div class="absolute inset-0 flex cursor-progress items-center justify-center bg-gray-800/25">
+              <div class="h-4 w-4 animate-spin rounded-full border-b-2 border-gray-700" />
             </div>
           </Match>
         </Switch>
         <Show when={state() !== "idle"}>
           {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
           <iframe
-            class="border-none overflow-hidden absolute inset-0 w-full h-full"
+            class="absolute inset-0 h-full w-full overflow-hidden border-none"
             allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
             sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
             style={{
