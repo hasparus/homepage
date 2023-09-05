@@ -10,7 +10,7 @@ export const CodesandboxIframe = (
   );
 
   return (
-    <div class="zaduma-image-box flex items-center">
+    <div class="zaduma-image-box mb-8 flex items-center">
       <noscript>
         <p class="text-sm">
           You could enable JavaScript to see a CodeSandbox embed here but you
@@ -19,7 +19,7 @@ export const CodesandboxIframe = (
           <Link href={props.src || ""}>Here's the link.</Link>
         </p>
       </noscript>
-      <div class="relative h-[500px] w-[var(--wide-content-width)] flex-shrink-0 lg:my-4 lg:h-[700px] ">
+      <div class="relative h-[500px] w-[var(--wide-content-width)] flex-shrink-0 lg:h-[700px] ">
         <Switch>
           <Match when={state() === "idle"}>
             <div class="absolute inset-0 flex items-center justify-center gap-3 rounded-sm bg-gray-100/50 dark:bg-gray-800/25">
