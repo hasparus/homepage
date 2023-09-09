@@ -33,7 +33,7 @@ export const codesandbox =
   <Link href={codesandbox}>CodeSandbox</Link>.
 </Callout>
 
-First things first, we need a key pair.
+First things first, we need to generate a key pair.
 
 <div>
 
@@ -52,13 +52,7 @@ const { privateKey, publicKey } = await promisify(generateKeyPair)("rsa", {
 
 </div>
 
-<aside>
-  `crypto.generateKeyPair` is a [custom promisified
-  function](https://nodejs.org/api/util.html#custom-promisified-functions).
-  Notice that the callback had 3 arguments. Neat, huh?
-</aside>
-
-Easy, right? We've got ourselves an RSA key pair.
+Easy, right? We've got ourselves an RSA public and private key.
 
 [Rivest–Shamir–Adleman](<https://en.wikipedia.org/wiki/RSA_(cryptosystem)>)
 public-key cryptosystem was discovered in the late 70s, just like hip-hop. You
