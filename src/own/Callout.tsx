@@ -1,4 +1,4 @@
-import { createMemo, JSX, splitProps } from "solid-js";
+import { createMemo, type JSX, splitProps } from "solid-js";
 
 export interface CalloutProps extends JSX.HTMLAttributes<HTMLDivElement> {
   icon?: string;

@@ -4,7 +4,7 @@ import {
   type GitHub,
   type GitHubPullRequestsQueryResponse,
   GitHubPullRequestsQuery,
-  GitHubPullRequestsQueryVariables,
+  type GitHubPullRequestsQueryVariables,
 } from "./github-graphql";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
@@ -64,7 +64,7 @@ async function fetchPRs(query: string, variables: object = {}) {
 
 function panicOnErrors<T>(
   res: GitHub.Response<T>,
-  ctx: object = {}
+  ctx: object = {},
 ): asserts res is GitHub.Response.Success<T> {
   if ("errors" in res || "message" in res) {
     console.dir({ ...res, ...ctx }, { depth: Infinity });
@@ -90,7 +90,7 @@ async function getMergedPullRequests() {
       res.data.viewer.contributionsCollection;
 
     const edges = pullRequestContributions.edges.filter(
-      (edge): edge is Exclude<typeof edge, null> => !!edge
+      (edge): edge is Exclude<typeof edge, null> => !!edge,
     );
 
     return {
@@ -122,7 +122,7 @@ async function getMergedPullRequests() {
         `[${year}] after cursor "${cursor}".`,
         `${prsByYear[year]!.flat().length} / ${
           response.totalPullRequestContributions
-        }`
+        }`,
       );
       response = await getEdges({ ...yearVars, after: cursor });
       prsByYear[year]!.push(response.pullRequests);
