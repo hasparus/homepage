@@ -72,6 +72,23 @@ let placeholder: null | {
 const isRaw = src.startsWith("raw!") || src.startsWith(PUBLIC_IMAGES_PREFIX);
 if (isRaw) {
   src = src.slice(4);
+
+  if (src.startsWith(PUBLIC_IMAGES_PREFIX)) {
+    const globbed = import.meta.glob<false, string, { default: ImageMetadata }>(
+      "../../../public/content/**/*",
+    );
+    const path = "../../../public" + src;
+    const imported = (await globbed[path]!()).default;
+
+    // I'm preserving the aspect ratio of the imported image, because
+    // the 'raw' images can contain text or important details that should
+    // not be cut off.
+    height =
+      parseFloat(props.width as string) /
+      parseFloat(props.aspectRatio as string);
+    props.aspectRatio = imported.width / imported.height;
+    width = height * (imported.width / imported.height);
+  }
 } else {
   if (src.startsWith(SRC_IMAGES_PREFIX)) {
     src = src.slice(SRC_IMAGES_PREFIX.length - 1);
@@ -118,7 +135,7 @@ height ??=
     : undefined;
 
 props.alt ||= "";
-let attrs = { src, class: "", width: props.width, height: props.height };
+let attrs = { src, class: "", width, height, aspectRatio: props.aspectRatio };
 
 if (!isRaw) {
   let attributes;
@@ -136,15 +153,10 @@ if (!isRaw) {
 
 <span
   zaduma-image
-  style={placeholder
-    ? {}
-    : {
-        width: typeof width === "number" ? `${width}px` : width,
-        minHeight: typeof height === "number" ? `${height}px` : height,
-      }}
   class:list={[
     "zaduma-image-box relative block overflow-hidden",
-    !placeholder && "bg-current/10",
+    !placeholder &&
+      "bg-current/10 !inline-flex w-[var(--wide-content-width)] justify-center [&>img]:h-full [&>img]:object-contain",
   ]}
 >
   <img
