@@ -52,6 +52,9 @@ dependencies:
   '@react-three/postprocessing':
     specifier: ^2.15.1
     version: 2.15.1(@react-three/fiber@8.14.1)(@types/three@0.156.0)(react@18.2.0)(three@0.156.1)
+  '@types/mdast':
+    specifier: ^3
+    version: 3.0.12
   '@types/react':
     specifier: ^18.2.21
     version: 18.2.21
@@ -1780,12 +1783,6 @@ packages:
 
   /@types/json5@0.0.30:
     resolution: {integrity: sha512-sqm9g7mHlPY/43fcSNrCYfOeX9zkTTK+euO5E6+CVijSMm5tTjkVdwdqRkY3ljjIAf8679vps5jKUoJBCLsMDA==}
-    dev: false
-
-  /@types/mdast@3.0.10:
-    resolution: {integrity: sha512-W864tg/Osz1+9f4lrGTZpCSO5/z4608eUp19tbozkq2HJK6i3z1kT0H9tlADXuYIb1YYOBByU4Jsqkk75q48qA==}
-    dependencies:
-      '@types/unist': 3.0.0
     dev: false
 
   /@types/mdast@3.0.12:
@@ -5364,7 +5361,7 @@ packages:
   /mdast-util-from-markdown@0.8.5:
     resolution: {integrity: sha512-2hkTXtYYnr+NubD/g6KGBS/0mFmBcifAsI0yIWRiRo0PjVs6SSOSOdtzbp6kSGnShDN6G5aWZpKQ2lWRy27mWQ==}
     dependencies:
-      '@types/mdast': 3.0.10
+      '@types/mdast': 3.0.12
       mdast-util-to-string: 2.0.0
       micromark: 2.11.4
       parse-entities: 2.0.0

@@ -33,6 +33,7 @@
     "@react-three/drei": "^9.83.9",
     "@react-three/fiber": "^8.14.1",
     "@react-three/postprocessing": "^2.15.1",
+    "@types/mdast": "^3",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/three": "^0.156.0",
