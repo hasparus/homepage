@@ -1,7 +1,7 @@
 {
   "name": "@hasparus/homepage",
   "type": "module",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "private": true,
   "packageManager": "pnpm@8.7.1",
   "scripts": {

@@ -1,16 +1,15 @@
 /** @jsxImportSource react */
 
-import { useRef, useState } from "react";
-
-import { DoubleSide } from "three";
 import { OrbitControls, Plane, SoftShadows } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import {
-  EffectComposer,
   Bloom,
   BrightnessContrast,
+  EffectComposer,
   HueSaturation,
 } from "@react-three/postprocessing";
+import { useRef, useState } from "react";
+import { DoubleSide } from "three";
 
 const vertexShader = `
 varying vec3 vPosition;
@@ -33,7 +32,7 @@ export function SphereOctant() {
 
   return (
     <div
-      className="relative border-2 rounded-lg border-gray-100 dark:border-gray-800"
+      className="relative rounded-lg border-2 border-gray-100 dark:border-gray-800"
       style={{ width: "auto", maxWidth: "100%", height: "300px" }}
     >
       <Canvas camera={{ fov: 25 }} shadows>
@@ -44,7 +43,7 @@ export function SphereOctant() {
             onPointerOver={() => setIsHovered(true)}
             onPointerOut={() => setIsHovered(false)}
             onPointerMove={(event) => {
-              const tooltip = tooltipRef.current!;
+              const tooltip = tooltipRef.current;
 
               const intersection = event.intersections[0];
               if (tooltip && intersection) {
@@ -100,7 +99,7 @@ export function SphereOctant() {
         />
       </Canvas>
       <span
-        className="absolute left-1.5 -top-5 font-mono text-sm dark:text-white dark:font-medium dark:bg-black/10 px-1.5 py-0.5 -mx-1.5 -my-0.5 rounded pointer-events-none select-none"
+        className="pointer-events-none absolute -top-5 left-1.5 -mx-1.5 -my-0.5 select-none rounded px-1.5 py-0.5 font-mono text-sm dark:bg-black/10 dark:font-medium dark:text-white"
         ref={tooltipRef}
         style={{
           display: isHovered ? "block" : "none",
