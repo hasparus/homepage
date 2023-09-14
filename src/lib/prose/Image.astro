@@ -79,10 +79,14 @@ if (src.startsWith(SRC_IMAGES_PREFIX)) {
 const isRaw = src.startsWith("raw!");
 if (isRaw) src = src.slice(4);
 
-const placeholder = await getPlaiceholder(
-  await fs.readFile(new URL(pathToImage, import.meta.url)),
-  { size: 10 },
-);
+const imageForPlaceholder = await (pathToImage.startsWith("http")
+  ? fs.readFile(new URL(pathToImage, import.meta.url))
+  : fetch(pathToImage).then(async (res) =>
+      Buffer.from(await res.arrayBuffer()),
+    ));
+
+console.log({ imageForPlaceholder });
+const placeholder = await getPlaiceholder(imageForPlaceholder, { size: 10 });
 
 if (!width && !height && !props.aspectRatio) {
   const { metadata } = placeholder;
