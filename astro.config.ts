@@ -31,8 +31,8 @@ export default defineConfig({
       remarkPlugins: remarkPlugins(__dirname),
       rehypePlugins: rehypePlugins,
     }),
-    solidJs(),
-    react(),
+    solidJs({ exclude: ["**/*.react.tsx"] }),
+    react({ include: ["**/*.react.tsx"] }),
   ],
   vite: {
     ssr: {
