@@ -13,6 +13,8 @@ export const setScheme = (scheme: ColorScheme): void => {
 
       isDark = scheme === "dark";
     } else {
+      // This seems like a bug in TS ESLint.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       const mql = (window.ⲍ_schemeMql ||= window.matchMedia(
         "(prefers-color-scheme: dark)",
       ));

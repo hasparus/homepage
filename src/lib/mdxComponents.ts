@@ -31,7 +31,9 @@ export const mdxComponents = {
   blockquote: Blockquote,
   Blockquote,
   code: Code,
+  Code,
   pre: Pre,
+  Pre,
   // Take note that `mdxComponents` replace only Markdown and uppercased components,
   // not inline lowercased JSX, so using `<p>` in and .mdx file won't use the `Paragraph`.
   p: Paragraph,

@@ -57,6 +57,7 @@ export const asidesPlugin: Plugin<[AsidesPluginOptions], Root, Root> = (
                           },
                         ],
                   children: [prev],
+                  properties: {},
                 },
                 node,
               ],

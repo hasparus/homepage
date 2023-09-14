@@ -1,7 +1,7 @@
 import {
   createEffect,
   createSignal,
-  JSX,
+  type JSX,
   Match,
   onCleanup,
   onMount,
@@ -10,7 +10,7 @@ import {
   Switch,
 } from "solid-js";
 
-import { ColorScheme, setScheme } from "./color-scheme";
+import { type ColorScheme, setScheme } from "./color-scheme";
 import {
   CommandCenter,
   CommandCenterDialog,
@@ -18,7 +18,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem as CommandCenterItem,
-  CommandItemProps as CommandCenterItemProps,
+  type CommandItemProps as CommandCenterItemProps,
   CommandList,
   useCommandCenterCtx,
 } from "./CommandCenter";

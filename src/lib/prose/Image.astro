@@ -10,44 +10,38 @@
  *
  * @changes
  * - Added placeholder powered by `plaiceholder` CSS strategy.
+ * - Limited the width of the image to wide container width, to get smaller & ligher images.
  */
 
-import { getImage } from "@astrojs/image";
-import type { ImgHTMLAttributes } from "@astrojs/image/components";
-import { warnForMissingAlt } from "@astrojs/image/components";
-import type { TransformOptions } from "@astrojs/image/dist/loaders";
-import type { OutputFormat } from "@astrojs/image/dist/loaders";
-import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
+import type { ImageMetadata, ImageTransform } from "astro";
+import {
+  getImage,
+  type LocalImageProps,
+  type RemoteImageProps,
+} from "astro:assets";
+import fs from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
 import "./Image.css";
 
-interface LocalImageProps
-  extends Omit<TransformOptions, "src">,
-    Omit<ImgHTMLAttributes, "src" | "width" | "height"> {
-  src: ImageMetadata | Promise<{ default: ImageMetadata }>;
-  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
-  alt: string;
-}
+// All images with `src`s starting from / are imported from `src/images/` folder.
+const SRC_IMAGES_PREFIX = "/";
+// No image needs to be wider than this.
+// TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
+const WIDE_CONTAINER_WIDTH = 774;
 
-interface RemoteImageProps
-  extends TransformOptions,
-    astroHTML.JSX.ImgHTMLAttributes {
-  src: string;
-  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
-  alt: string;
-  format?: OutputFormat;
-  width?: number;
-  height?: number;
+interface LocalProps extends LocalImageProps {
+  aspectRatio?: number | string;
 }
-
-export type Props = LocalImageProps | RemoteImageProps;
+interface RemoteProps extends RemoteImageProps {
+  aspectRatio?: number | string;
+}
+export type Props = LocalProps | RemoteProps;
 
 const { loading = "lazy", decoding = "async", ...props } = Astro.props as Props;
 
-if (props.alt === undefined || props.alt === null) {
-  warnForMissingAlt();
-}
+let width = props.width;
+let height = props.height;
 
 let src = await props.src;
 if (typeof src === "object") {
@@ -57,43 +51,79 @@ if (typeof src === "object") {
   }
 }
 
+const pathToImage = decodeURIComponent(
+  src.startsWith(SRC_IMAGES_PREFIX)
+    ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
+    : src,
+);
+let importedImage = null;
+
+if (src.startsWith(SRC_IMAGES_PREFIX)) {
+  src = src.slice(SRC_IMAGES_PREFIX.length - 1);
+  const allImages = import.meta.glob<false, string, { default: ImageMetadata }>(
+    "../../../src/images/**/*",
+  );
+
+  try {
+    importedImage = (await allImages[pathToImage.replace("../src/", "")]!())
+      .default;
+  } catch (err) {
+    console.error({ allImages, pathToImage });
+    throw err;
+  }
+  props.width ??= importedImage.width;
+  props.height ??= importedImage.height;
+  if ((importedImage.format = "jpg")) importedImage.format = "webp";
+}
+
 const isRaw = src.startsWith("raw!");
 if (isRaw) src = src.slice(4);
 
-const placeholder = await getPlaiceholder(decodeURIComponent(src), {
-  size: 10,
-});
+const placeholder = await getPlaiceholder(
+  await fs.readFile(new URL(pathToImage, import.meta.url)),
+  { size: 10 },
+);
 
-if (!props.width && !props.height && !props.aspectRatio) {
-  props.width ??= placeholder.img.width;
-  props.aspectRatio ??= placeholder.img.width / placeholder.img.height;
+if (!width && !height && !props.aspectRatio) {
+  const { metadata } = placeholder;
+  width ??= metadata.width;
+  props.aspectRatio ??= metadata.width / metadata.height;
+  width = Math.min(width, WIDE_CONTAINER_WIDTH);
+  height = Math.round(width / parseFloat(props.aspectRatio as string));
 }
 
-props.alt ||= "";
+height ??=
+  typeof props.aspectRatio === "number"
+    ? parseFloat(width as unknown as string) / props.aspectRatio
+    : undefined;
 
-const attrs = isRaw
-  ? {
-      src,
-      class: "",
-      width: props.width,
-      height:
-        typeof props.aspectRatio === "number"
-          ? props.aspectRatio * parseFloat(props.width as any as string)
-          : null,
-    }
-  : await getImage(props);
+props.alt ||= "";
+let attrs = { src, class: "", width: props.width, height: props.height };
+
+if (!isRaw) {
+  let attributes;
+  props.src = src;
+  ({ src, attributes } = await getImage({
+    ...props,
+    src: importedImage || src,
+    format: "webp",
+    width,
+    height,
+  } as ImageTransform));
+  attrs = { ...attrs, ...attributes, src };
+}
 ---
 
 <span
   zaduma-image
-  class="zaduma-image-box block relative overflow-hidden"
+  class="zaduma-image-box relative block overflow-hidden"
   style={props.width && props.width > 615 /* 43rem */
     ? {} // TODO: This should be handled in Zaduma's CSS in Image.css, but I don't have an idea currently.
     : { "--wide-breakout": 0 }}
 >
   <img
     {...attrs}
-    class:list={["dark:opacity-80 rounded-sm", attrs.class]}
+    class:list={["rounded-sm dark:opacity-80", attrs.class]}
     loading={loading}
     decoding={decoding}
   />
@@ -101,7 +131,7 @@ const attrs = isRaw
     !isRaw && (
       <span
         style={placeholder.css}
-        class="absolute inset-0 w-full h-full transform scale-150 filter blur-2xl -z-10 dark:opacity-80"
+        class="absolute inset-0 -z-10 h-full w-full scale-150 transform blur-2xl filter dark:opacity-80"
       />
     )
   }

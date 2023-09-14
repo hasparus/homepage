@@ -1,9 +1,9 @@
-import type { RemarkPlugin } from "@astrojs/markdown-remark/dist/types";
 import { execSync } from "node:child_process";
+import type { Plugin } from "unified";
 
 import type { PostFrontmatter, PostProps } from "../types";
 
-export const derivedTitleAndDatePlugin: RemarkPlugin<
+export const derivedTitleAndDatePlugin: Plugin<
   [{ title: (fileStem: string) => string }]
 > = ({ title }) => {
   return (_tree, file) => {

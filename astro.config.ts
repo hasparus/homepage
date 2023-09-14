@@ -1,12 +1,12 @@
-import image from "@astrojs/image";
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
-import react from "@astrojs/react";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -23,9 +23,7 @@ export default defineConfig({
   },
   integrations: [
     tailwind({
-      config: {
-        applyBaseStyles: false,
-      },
+      applyBaseStyles: false,
     }),
     mdx({
       extendMarkdownConfig: true,
@@ -34,14 +32,14 @@ export default defineConfig({
       rehypePlugins: rehypePlugins,
     }),
     solidJs(),
-    image({
-      serviceEntryPoint: "@astrojs/image/sharp",
-    }),
     react(),
   ],
   vite: {
     ssr: {
-      noExternal: ["@fontsource/inter", "@fontsource/brygada-1918"],
+      noExternal: [
+        "@fontsource-variable/inter",
+        "@fontsource-variable/brygada-1918",
+      ],
     },
     define: {
       "import.meta.env.PUBLIC_URL": JSON.stringify(makePublicURL()),

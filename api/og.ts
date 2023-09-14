@@ -95,7 +95,7 @@ function Illustration({
   imageHref,
 }: {
   children?: React.ReactNode[];
-  imageHref: string | undefined;
+  imageHref: string | null | undefined;
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
@@ -185,7 +185,7 @@ type Post = {
   date: Date;
   title: string;
   readingTimeMinutes: number;
-  img: string | undefined;
+  img: string | null | undefined;
 };
 
 const SEPARATOR = "\t";
