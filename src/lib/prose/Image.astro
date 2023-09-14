@@ -24,8 +24,12 @@ import { getPlaiceholder } from "plaiceholder";
 
 import "./Image.css";
 
-// All images with `src`s starting from / are imported from `src/images/` folder.
+// All* images with `src`s starting from / are imported from `src/images/` folder.
 const SRC_IMAGES_PREFIX = "/";
+
+// Images with `src` starting with /content/ live in public dir.
+const PUBLIC_IMAGES_PREFIX = "/content/";
+
 // No image needs to be wider than this.
 // TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
 const WIDE_CONTAINER_WIDTH = 774;
@@ -51,9 +55,6 @@ if (typeof src === "object") {
   }
 }
 
-const isRaw = src.startsWith("raw!");
-if (isRaw) src = src.slice(4);
-
 const pathToImage = decodeURIComponent(
   src.startsWith(SRC_IMAGES_PREFIX)
     ? `../../../src/images${src.slice(SRC_IMAGES_PREFIX.length - 1)}`
@@ -61,36 +62,54 @@ const pathToImage = decodeURIComponent(
 );
 let importedImage = null;
 
-if (src.startsWith(SRC_IMAGES_PREFIX)) {
-  src = src.slice(SRC_IMAGES_PREFIX.length - 1);
-  const allImages = import.meta.glob<false, string, { default: ImageMetadata }>(
-    "../../../src/images/**/*",
-  );
+let placeholder: null | {
+  backgroundImage: string;
+  backgroundPosition: string;
+  backgroundSize: string;
+  backgroundRepeat: string;
+} = null;
 
-  try {
-    importedImage = (await allImages[pathToImage.replace("../src/", "")]!())
-      .default;
-  } catch (err) {
-    console.error({ allImages, pathToImage });
-    throw err;
+const isRaw = src.startsWith("raw!") || src.startsWith(PUBLIC_IMAGES_PREFIX);
+if (isRaw) {
+  src = src.slice(4);
+} else {
+  if (src.startsWith(SRC_IMAGES_PREFIX)) {
+    src = src.slice(SRC_IMAGES_PREFIX.length - 1);
+    const allImages = import.meta.glob<
+      false,
+      string,
+      { default: ImageMetadata }
+    >("../../../src/images/**/*");
+
+    try {
+      importedImage = (await allImages[pathToImage.replace("../src/", "")]!())
+        .default;
+    } catch (err) {
+      console.error({ allImages, pathToImage });
+      throw err;
+    }
+    props.width ??= importedImage.width;
+    props.height ??= importedImage.height;
+    if ((importedImage.format = "jpg")) importedImage.format = "webp";
   }
-  props.width ??= importedImage.width;
-  props.height ??= importedImage.height;
-  if ((importedImage.format = "jpg")) importedImage.format = "webp";
-}
 
-const imageForPlaceholder = await (pathToImage.startsWith("http")
-  ? fetch(pathToImage).then(async (res) => Buffer.from(await res.arrayBuffer()))
-  : readFile(new URL(pathToImage, import.meta.url)));
+  const imageForPlaceholder = await (pathToImage.startsWith("http")
+    ? fetch(pathToImage).then(async (res) =>
+        Buffer.from(await res.arrayBuffer()),
+      )
+    : readFile(new URL(pathToImage, import.meta.url)));
 
-const placeholder = await getPlaiceholder(imageForPlaceholder, { size: 10 });
+  const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
+    size: 10,
+  });
+  placeholder = css;
 
-if (!width && !height && !props.aspectRatio) {
-  const { metadata } = placeholder;
-  width ??= metadata.width;
-  props.aspectRatio ??= metadata.width / metadata.height;
-  width = Math.min(width, WIDE_CONTAINER_WIDTH);
-  height = Math.round(width / parseFloat(props.aspectRatio as string));
+  if (!width && !height && !props.aspectRatio) {
+    width ??= metadata.width;
+    props.aspectRatio ??= metadata.width / metadata.height;
+    width = Math.min(width, WIDE_CONTAINER_WIDTH);
+    height = Math.round(width / parseFloat(props.aspectRatio as string));
+  }
 }
 
 height ??=
@@ -117,10 +136,16 @@ if (!isRaw) {
 
 <span
   zaduma-image
-  class="zaduma-image-box relative block overflow-hidden"
-  style={props.width && props.width > 615 /* 43rem */
-    ? {} // TODO: This should be handled in Zaduma's CSS in Image.css, but I don't have an idea currently.
-    : { "--wide-breakout": 0 }}
+  style={placeholder
+    ? {}
+    : {
+        width: typeof width === "number" ? `${width}px` : width,
+        minHeight: typeof height === "number" ? `${height}px` : height,
+      }}
+  class:list={[
+    "zaduma-image-box relative block overflow-hidden",
+    !placeholder && "bg-current/10",
+  ]}
 >
   <img
     {...attrs}
@@ -129,9 +154,9 @@ if (!isRaw) {
     decoding={decoding}
   />
   {
-    !isRaw && (
+    placeholder && (
       <span
-        style={placeholder.css}
+        style={placeholder}
         class="absolute inset-0 -z-10 h-full w-full scale-150 transform blur-2xl filter dark:opacity-80"
       />
     )
