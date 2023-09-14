@@ -19,7 +19,7 @@ import {
   type LocalImageProps,
   type RemoteImageProps,
 } from "astro:assets";
-import fs from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
 import "./Image.css";
@@ -80,12 +80,9 @@ const isRaw = src.startsWith("raw!");
 if (isRaw) src = src.slice(4);
 
 const imageForPlaceholder = await (pathToImage.startsWith("http")
-  ? fs.readFile(new URL(pathToImage, import.meta.url))
-  : fetch(pathToImage).then(async (res) =>
-      Buffer.from(await res.arrayBuffer()),
-    ));
+  ? fetch(pathToImage).then(async (res) => Buffer.from(await res.arrayBuffer()))
+  : readFile(new URL(pathToImage, import.meta.url)));
 
-console.log({ imageForPlaceholder });
 const placeholder = await getPlaiceholder(imageForPlaceholder, { size: 10 });
 
 if (!width && !height && !props.aspectRatio) {

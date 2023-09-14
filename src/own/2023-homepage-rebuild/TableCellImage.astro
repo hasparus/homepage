@@ -1,0 +1,13 @@
+---
+import { Link } from "../../lib/Link";
+import Image from "../../lib/prose/Image.astro";
+
+export type Props = { src: string };
+const { src } = Astro.props;
+---
+
+<td>
+  <Link href={`/content${src}`}>
+    <Image alt="" width={644} height={560} src={src} />
+  </Link>
+</td>

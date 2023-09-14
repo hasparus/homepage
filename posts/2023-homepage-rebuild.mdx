@@ -128,7 +128,7 @@ pay off.
 There are some perf improvements that could have been done on my old site, but
 it was still all green.
 
-import Image from "../src/lib/prose/Image.astro";
+import TableCellImage from "../src/own/2023-homepage-rebuild/TableCellImage.astro";
 
 <Table class="hsp--measurements">
   <thead>
@@ -139,28 +139,17 @@ import Image from "../src/lib/prose/Image.astro";
   </thead>
   <tbody>
     <tr>
-      <td>
-        <Image
-          width={644}
-          height={560}
-          src="/2023-homepage-rebuild/old-mobile.png"
-        />
-      </td>
-      <td>
-        <Image
-          width={644}
-          height={560}
-          src="/2023-homepage-rebuild/old-desktop.png"
-        />
-      </td>
+      <TableCellImage src="/2023-homepage-rebuild/old-mobile.png" />
+      <TableCellImage src="/2023-homepage-rebuild/old-desktop.png" />
     </tr>
   </tbody>
 </Table>
 
-With Astro, Astro Image and [Plaiceholder], we top that. Turns out a black and
-white website with little to no content is pretty fast. May not be much to
-celebrate, but getting a [FCP](https://web.dev/fcp/) under one second, and 4x100
-scores on [web.dev/measure](https://web.dev/measure/) makes me smile a bit.
+With Astro, Astro Image and [Plaiceholder], we top that. Turns out a
+black-and-white website with little to no content is pretty fast. May not be
+much to celebrate, but getting a [FCP](https://web.dev/fcp/) under one second,
+and 4x100 scores on [web.dev/measure](https://web.dev/measure/) makes me smile a
+bit.
 
 <Table class="hsp--measurements">
   <thead>
@@ -171,36 +160,12 @@ scores on [web.dev/measure](https://web.dev/measure/) makes me smile a bit.
   </thead>
   <tbody>
     <tr>
-      <td>
-        <Image
-          width={644}
-          height={539}
-          src="/2023-homepage-rebuild/zaduma-mobile.png"
-        />
-      </td>
-      <td>
-        <Image
-          width={644}
-          height={539}
-          src="/2023-homepage-rebuild/zaduma-desktop.png"
-        />
-      </td>
+      <TableCellImage src="/2023-homepage-rebuild/zaduma-mobile.png" />
+      <TableCellImage src="/2023-homepage-rebuild/zaduma-desktop.png" />
     </tr>
     <tr>
-      <td>
-        <Image
-          width={644}
-          height={539}
-          src="/2023-homepage-rebuild/zaduma-with-image-mobile.png"
-        />
-      </td>
-      <td>
-        <Image
-          width={644}
-          height={539}
-          src="/2023-homepage-rebuild/zaduma-with-image-desktop.png"
-        />
-      </td>
+      <TableCellImage src="/2023-homepage-rebuild/zaduma-with-image-mobile.png" />
+      <TableCellImage src="/2023-homepage-rebuild/zaduma-with-image-desktop.png" />
     </tr>
   </tbody>
 </Table>
