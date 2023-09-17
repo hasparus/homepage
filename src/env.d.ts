@@ -18,3 +18,9 @@ declare module "*.svg" {
   const content: string;
   export default content;
 }
+
+interface Window {
+  // Vercel Analytics
+  va?: unknown;
+  vaq?: unknown[];
+}

@@ -64,6 +64,9 @@ dependencies:
   '@types/three':
     specifier: ^0.156.0
     version: 0.156.0
+  '@vercel/analytics':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@vercel/og':
     specifier: ^0.5.13
     version: 0.5.13
@@ -2083,6 +2086,10 @@ packages:
     dependencies:
       '@use-gesture/core': 10.2.27
       react: 18.2.0
+    dev: false
+
+  /@vercel/analytics@1.0.2:
+    resolution: {integrity: sha512-BZFxVrv24VbNNl5xMxqUojQIegEeXMI6rX3rg1uVLYUEXsuKNBSAEQf4BWEcjQDp/8aYJOj6m8V4PUA3x/cxgg==}
     dev: false
 
   /@vercel/build-utils@7.2.0:

@@ -2,6 +2,7 @@
 import brygadaPath from "@fontsource-variable/brygada-1918/files/brygada-1918-latin-wght-italic.woff2";
 import interPath from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2";
 
+import Analytics from "../lib/Analytics.astro";
 import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
@@ -62,11 +63,12 @@ posts.sort((a, b) => {
 
     <title>{title}</title>
     <InitColorScheme />
+    <Analytics />
   </head>
   <body>
-    <div class="max-w-container mx-auto px-4">
+    <div class="mx-auto max-w-container px-4">
       <header
-        class="flex justify-between items-center -mt-2"
+        class="-mt-2 flex items-center justify-between"
         style={{ height: "37.5px" }}
       >
         <slot name="header-content">
