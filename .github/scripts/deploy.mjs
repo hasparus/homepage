@@ -35,7 +35,7 @@ execSync(
 `
     .split("\n")
     .filter((s) => s.trim())
-    .join("\n")
+    .join("\n"),
 );
 
 function createDeploymentAlias() {
@@ -43,7 +43,7 @@ function createDeploymentAlias() {
 
   const refSlug = process.env.REF_NAME.replace(
     "dependabot/npm_and_yarn/",
-    "deps-"
+    "deps-",
   )
     .replace(/[^a-z0-9]/gi, "-")
     .replace(/-+/g, "-")
