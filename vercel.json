@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    {
+      "source": "/s/:path*",
+      "destination": "https://hasparus-url-shortener.builtwithdark.com/:path*"
+    }
+  ]
+}
