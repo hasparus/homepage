@@ -28,7 +28,7 @@ interface Props {
 const { title, description, ogImage } = Astro.props;
 
 const posts = (await Astro.glob<PostFrontmatter>("../../posts/**/*.mdx"))
-  .filter((p) => (import.meta.env.PROD ? !p.frontmatter.draft : true))
+  .filter((p) => !p.frontmatter.hidden)
   .map((p) => ({
     href: p.frontmatter.path,
     title: p.frontmatter.title,
