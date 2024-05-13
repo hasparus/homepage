@@ -20,6 +20,7 @@ export default defineConfig({
   markdown: {
     // We'll highlight using Shiki Twoslash remark plugin
     syntaxHighlight: false,
+    gfm: true,
   },
   integrations: [
     tailwind({
