@@ -5,7 +5,12 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ]
   },
   "include": ["src", "api", "test", "*.ts", "scripts"]
 }

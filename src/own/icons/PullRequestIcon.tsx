@@ -5,5 +5,5 @@ import pullRequestSvg from "./git-pull-request.svg";
 export function PullRequestIcon(
   props: JSX.ImgHTMLAttributes<HTMLImageElement>,
 ) {
-  return <img src={pullRequestSvg} alt="" {...props} />;
+  return <img src={pullRequestSvg.src} alt="" {...props} />;
 }
