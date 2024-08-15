@@ -43,7 +43,6 @@ export const remarkMdxReadingTimePlugin: RemarkPlugin<[]> = () => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (readingTime === undefined) return;
 
-    /* tree should be typed as MDX root, not MD root */
     (tree as unist.Parent).children.unshift({
       type: "mdxjsEsm",
       data: {

@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^5.1.0",
-    "@astrojs/mdx": "^2.3.1",
-    "@astrojs/react": "^3.0.2",
-    "@astrojs/solid-js": "^4.1.0",
+    "@astrojs/mdx": "^3.0.1",
+    "@astrojs/react": "^3.6.2",
+    "@astrojs/solid-js": "^4.2.0",
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/ts-plugin": "^1.9.0",
     "@codesandbox/nodebox": "^0.1.9",
@@ -55,7 +55,7 @@
     "reading-time": "^1.5.0",
     "remark-shiki-twoslash": "^3.1.3",
     "remark-supersub": "^1.0.0",
-    "sharp": "^0.33.4",
+    "sharp": "0.32.6",
     "solid-js": "^1.8.17",
     "tailwindcss": "^3.4.3",
     "three": "0.156.1",
@@ -80,10 +80,13 @@
     "prettier-plugin-astro": "^0.14.0",
     "prettier-plugin-tailwindcss": "^0.6.1",
     "puppeteer": "^22.10.0",
-    "tsx": "^4.9.3",
+    "tsx": "^4.11.0",
     "typescript": "^5.4.5",
     "vite": "^5.2.12",
     "vitest": "^1.6.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "pnpm": {
     "peerDependencyRules": {
@@ -91,10 +94,6 @@
         "@babel/core",
         "rollup"
       ]
-    },
-    "overrides": {},
-    "patchedDependencies": {
-      "@astrojs/mdx@2.3.1": "patches/@astrojs__mdx@2.3.1.patch"
     }
   }
 }
