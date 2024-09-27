@@ -84,7 +84,7 @@ export function SphereOctant() {
           rotation={[-Math.PI / 2, 0, 0]}
           position={[0, -0.4, 0]}
         >
-          <shadowMaterial transparent opacity={0.1} />
+          <shadowMaterial transparent opacity={0.2} color="#444" />
         </Plane>
         <EffectComposer>
           <Bloom mipmapBlur luminanceThreshold={1} />
