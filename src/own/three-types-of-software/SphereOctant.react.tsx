@@ -11,7 +11,7 @@ import {
 import { useRef, useState } from "react";
 import { DoubleSide } from "three";
 
-const vertexShader = `
+const vertexShader = /* glsl */ `
 varying vec3 vPosition;
 void main() {
   vPosition = position;
@@ -19,7 +19,7 @@ void main() {
 }
 `;
 
-const fragmentShader = `
+const fragmentShader = /* glsl */ `
 varying vec3 vPosition;
 void main() {
   gl_FragColor = vec4(vPosition, 0.8);
