@@ -17,7 +17,17 @@
       "destination": "https://bear-fit.hasparus.partykit.dev/:path*"
     },
     {
-      "source": "/:path*",
+      "source": "",
+      "has": [
+        {
+          "type": "host",
+          "value": "bear-fit.haspar.us"
+        }
+      ],
+      "destination": "https://bear-fit.hasparus.partykit.dev"
+    },
+    {
+      "": "/:path*",
       "has": [
         {
           "type": "host",
@@ -25,6 +35,17 @@
         }
       ],
       "destination": "https://mageworld.vercel.app/:path*"
+    },
+    
+    {
+      "": "",
+      "has": [
+        {
+          "type": "host",
+          "value": "mageworld.haspar.us"
+        }
+      ],
+      "destination": "https://mageworld.vercel.app"
     }
   ]
 }
