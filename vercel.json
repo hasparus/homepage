@@ -7,7 +7,7 @@
   ],
   "rewrites": [
     {
-      "source": "/:path*",
+      "source": "(?/):path*",
       "has": [
         {
           "type": "host",
@@ -27,7 +27,7 @@
       "destination": "https://bear-fit.hasparus.partykit.dev"
     },
     {
-      "source": "/:path*",
+      "source": "(?/):path*",
       "has": [
         {
           "type": "host",
