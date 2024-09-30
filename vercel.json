@@ -27,7 +27,7 @@
       "destination": "https://bear-fit.hasparus.partykit.dev"
     },
     {
-      "": "/:path*",
+      "source": "/:path*",
       "has": [
         {
           "type": "host",
@@ -36,9 +36,8 @@
       ],
       "destination": "https://mageworld.vercel.app/:path*"
     },
-    
     {
-      "": "",
+      "source": "",
       "has": [
         {
           "type": "host",
