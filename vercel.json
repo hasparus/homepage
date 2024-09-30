@@ -4,5 +4,27 @@
       "source": "/s/:path*",
       "destination": "https://hasparus-url-shortener.builtwithdark.com/:path*"
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "bear-fit.haspar.us"
+        }
+      ],
+      "destination": "https://bear-fit.hasparus.partykit.dev/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "mageworld.haspar.us"
+        }
+      ],
+      "destination": "https://mageworld.vercel.app/:path*"
+    }
   ]
 }
