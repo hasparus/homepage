@@ -14,7 +14,8 @@
           "value": "bear-fit.haspar.us"
         }
       ],
-      "destination": "https://bear-fit.hasparus.partykit.dev/:path*"
+      "destination": "https://bear-fit.hasparus.partykit.dev/:path*",
+      "trailingSlash": true
     },
     {
       "source": "",
@@ -24,7 +25,8 @@
           "value": "bear-fit.haspar.us"
         }
       ],
-      "destination": "https://bear-fit.hasparus.partykit.dev"
+      "destination": "https://bear-fit.hasparus.partykit.dev",
+      "trailingSlash": true
     },
     {
       "source": "/?:path*",
@@ -34,7 +36,8 @@
           "value": "mageworld.haspar.us"
         }
       ],
-      "destination": "https://mageworld.vercel.app/:path*"
+      "destination": "https://mageworld.vercel.app/:path*",
+      "trailingSlash": true
     },
     {
       "source": "",
@@ -44,7 +47,8 @@
           "value": "mageworld.haspar.us"
         }
       ],
-      "destination": "https://mageworld.vercel.app"
+      "destination": "https://mageworld.vercel.app",
+      "trailingSlash": true
     }
   ]
 }
