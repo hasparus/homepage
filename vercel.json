@@ -4,5 +4,23 @@
       "source": "/s/:path*",
       "destination": "https://hasparus-url-shortener.builtwithdark.com/:path*"
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/bear-fit",
+      "destination": "https://bear-fit.hasparus.partykit.dev"
+    },
+    {
+      "source": "/bear-fit/:path*",
+      "destination": "https://bear-fit.hasparus.partykit.dev/:path*"
+    },
+    {
+      "source": "/mageworld",
+      "destination": "https://mageworld.vercel.app"
+    },
+    {
+      "source": "/mageworld/:path*",
+      "destination": "https://mageworld.vercel.app/:path*"
+    }
   ]
 }
