@@ -13,15 +13,15 @@ const { token, prod } = parseArgs(process.argv.slice(2));
 // 4. Alias deployment to ${branch}--hasparus.vercel.app and write to GITHUB_ENV
 execSync(
   `\
-  vercel pull \
+  pnpm vercel pull \
     --yes \
     --token=${token} \
     --environment=${prod ? "production" : "preview"} && \
   
-  vercel build --token=${token} ${prod ? "--prod" : ""} && \
+  pnpm vercel build --token=${token} ${prod ? "--prod" : ""} && \
 
   DEPLOYMENT_URL=$(\
-    vercel deploy \
+    pnpm vercel deploy \
       --prebuilt \
       --token=${token} \
       ${prod ? "--prod" : ""} \
@@ -31,7 +31,7 @@ execSync(
   
   echo "DEPLOYMENT_ALIAS=$DEPLOYMENT_ALIAS" >> $GITHUB_ENV && \
 
-  vercel alias $DEPLOYMENT_URL $DEPLOYMENT_ALIAS --token=${token}
+  pnpm vercel alias $DEPLOYMENT_URL $DEPLOYMENT_ALIAS --token=${token}
 `
     .split("\n")
     .filter((s) => s.trim())
