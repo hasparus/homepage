@@ -8,6 +8,16 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "bear-fit.haspar.us"
+        }
+      ],
+      "destination": "https://bear-fit.hasparus.partykit.dev"
+    },
+    {
       "source": "/:path(.*)",
       "has": [
         {
