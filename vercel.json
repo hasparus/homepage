@@ -1,5 +1,5 @@
 {
-  "trailingSlash": false,
+  "trailingSlash": true,
   "redirects": [
     {
       "source": "/s/:path*",
@@ -15,17 +15,17 @@
           "value": "bear-fit.haspar.us"
         }
       ],
-      "destination": "https://bear-fit.hasparus.partykit.dev/:path*"
+      "destination": "https://bear-fit.hasparus.partykit.dev/:path*/"
     },
     {
-      "source": "/:path*",
+      "source": "/:path*/",
       "has": [
         {
           "type": "host",
           "value": "mageworld.haspar.us"
         }
       ],
-      "destination": "https://mageworld.vercel.app/:path*"
+      "destination": "https://mageworld.vercel.app/:path*/"
     }
   ]
 }
