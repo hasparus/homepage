@@ -45,7 +45,7 @@
   }
 
   & .zaduma-image-box {
-    @apply rounded-md p-0 m-0 flex;
+    @apply m-0 flex rounded-md p-0;
 
     transform: none;
     transition:
