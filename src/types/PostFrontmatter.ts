@@ -16,6 +16,7 @@ export interface PostFrontmatter {
         og?: string;
         /** Image for the post header.` */
         src?: string;
+        class?: string;
       };
   /**
    * @computed by derivedTitleAndDatePlugin from file name
