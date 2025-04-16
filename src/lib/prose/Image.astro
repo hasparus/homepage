@@ -31,9 +31,9 @@ const SRC_IMAGES_PREFIX = "/";
 const PUBLIC_IMAGES_PREFIX = "/content/";
 
 // No image needs to be wider than this.
-// TODO: Support High DPI screens by ensuring Astro emits images 2x of that.
-const WIDE_CONTAINER_WIDTH = 774;
-const PARAGRAPH_WIDTH = 609;
+// *2 is here to support High DPI screens by ensuring Astro emits images 2x of that.
+export const WIDE_CONTAINER_WIDTH = 774 * 2;
+export const PARAGRAPH_WIDTH = 609 * 2;
 
 type LocalProps = LocalImageProps & {
   aspectRatio?: number | string;
@@ -180,8 +180,8 @@ if (!isRaw) {
   ]}
 >
   <img
+    class:list={["rounded-sm object-cover dark:opacity-80", attrs.class]}
     {...attrs}
-    class:list={["rounded-sm dark:opacity-80", attrs.class]}
     loading={loading}
     decoding={decoding}
   />
