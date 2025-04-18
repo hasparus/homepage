@@ -85,8 +85,8 @@ and some other poor soul would get surprised by a runtime error.
 Optional is a bad default for application code.
 
 I do agree that nullable by default is a good design choice in some cases.
-GraphQL is a [perfect example]. Responses stitched from many data stores may
-return partial data. This is the complexity we have to handle.
+GraphQL is a [perfect example]. Responses stitched from many data stores may return
+partial data. This is the complexity we have to handle.
 
 And I'd say we have about enough of it. We should avoid introducing more
 complexity ourselves. Every optional field without a default of the same type
@@ -166,10 +166,12 @@ And look at what else we get!
 
 I could talk about subtyping and Liskov Substitution Principle, but I'll
 simplify it a little bit. **If it's a button, it should be buttony.**\
-Props you expect on a button should be accepted by all of your design system buttons.
-What do I expect? At least `onClick`, `onFocus`, `disabled`, `className`, and `style`.
-We can handle all attributes of HTML [`<button>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
-element, including all [global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)
+Props you expect on a button should be accepted by all of your design system
+buttons. What do I expect? At least `onClick`, `onFocus`, `disabled`,
+`className`, and `style`. We can handle all attributes of HTML
+[`<button>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
+element, including all
+[global attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes)
 with a simple [spread](https://reactpatterns.com/#jsx-spread-attributes)
 
 <figure>
@@ -212,8 +214,8 @@ The anchors and the buttons often look the same in the mockups, but they are
 different kinds of animals. We want to reuse the styling and behavior between
 them and make choosing the right one for the job effortless.
 
-We can use [union types] to build a Button component which renders an anchor,
-given a `href` prop and renders a `<button>` otherwise.
+We can use [union types] to build a Button component which renders an anchor, given
+a `href` prop and renders a `<button>` otherwise.
 
 [union types]:
   https://www.typescriptlang.org/docs/handbook/advanced-types.html#union-types

@@ -3,7 +3,10 @@
     margin-top: 2rem;
     margin-bottom: 1.5rem;
 
-    font: 555 1em var(--sans);
+    font-weight: 555;
+    font-size: 1em;
+
+    @apply font-sans;
 
     &::before {
       @apply text-gray-400 dark:text-gray-600;

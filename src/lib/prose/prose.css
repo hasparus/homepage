@@ -15,7 +15,6 @@
 
 .zaduma-prose {
   /* TODO: Get rid of thesse two and apply Tailwind styles */
-  --sans: "Inter";
   --serif: "Brygada 1918";
   --italic-serif: italic 444 1.145em var(--serif);
 
