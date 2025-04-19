@@ -16,9 +16,6 @@ type Author = typeof author;
 
 export const config = { runtime: "edge" };
 
-console.log(">>", import.meta.url);
-console.log(">>", new URL("../assets/og/Inter-Regular.ttf", import.meta.url));
-
 const interRegular = fetchFont(
   new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
 );
@@ -38,6 +35,11 @@ export default async function og(req: Request) {
 
     await assertTokenIsValid(stringifiedPost, token);
 
+    console.log(">>", import.meta.url);
+    console.log(
+      ">>",
+      new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
+    );
     console.log("returning ImageResponse for", stringifiedPost);
 
     let postImage = post.img;
