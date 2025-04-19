@@ -290,8 +290,9 @@ async function assertTokenIsValid(
 
 async function getDataURI(path: string) {
   try {
-    const href = new URL(`../src/images${path}`, import.meta.url);
-    const response = await fetch(path);
+    const response = await fetch(
+      new URL(`../src/images${path}`, import.meta.url),
+    );
     if (!response.ok) {
       throw new HttpError("Failed to fetch image.", 500);
     }
