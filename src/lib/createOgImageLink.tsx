@@ -17,7 +17,8 @@ const OG_IMAGE_SECRET =
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {
   let img = frontmatter.img;
-  if (typeof img === "object") img = img.og || img.src;
+  // there's a high chance the image will be relative, so img.src won't work for OG images
+  if (typeof img === "object") img = img.og; // || img.src;
 
   // prettier-ignore
   const stringifiedPost: StringifiedPost = `${
