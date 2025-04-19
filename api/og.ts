@@ -43,7 +43,7 @@ export default async function og(req: Request) {
       postImage.startsWith("/") &&
       !postImage.startsWith("/content/")
     ) {
-      postImage = await getDataURI(`../src/images/${postImage}`);
+      postImage = await getDataURI();
     }
 
     return new ImageResponse(
@@ -288,9 +288,10 @@ async function assertTokenIsValid(
   }
 }
 
-async function getDataURI(href: string) {
+async function getDataURI(path: string) {
   try {
-    const response = await fetch(href);
+    const href = new URL(`../src/images${path}`, import.meta.url);
+    const response = await fetch(path);
     if (!response.ok) {
       throw new HttpError("Failed to fetch image.", 500);
     }
@@ -305,7 +306,7 @@ async function getDataURI(href: string) {
     console.error(err);
 
     throw new HttpError(
-      `Failed to fetch ${href} from 'src': ${err instanceof Error ? err.message : String(err)}`,
+      `Failed to fetch ${path}: ${err instanceof Error ? err.message : String(err)}`,
       400,
     );
   }
