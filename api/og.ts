@@ -291,7 +291,7 @@ async function assertTokenIsValid(
 async function getDataURI(path: string) {
   let href: string;
   try {
-    console.log(">>", `../src/images${path}`, import.meta.url);
+    console.error(">>", `../src/images${path}`, import.meta.url);
     href = new URL(`../src/images${path}`, import.meta.url).toString();
   } catch (err) {
     console.error(err);
