@@ -35,11 +35,6 @@ export default async function og(req: Request) {
 
     await assertTokenIsValid(stringifiedPost, token);
 
-    console.log(">>", import.meta.url);
-    console.log(
-      ">>",
-      new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
-    );
     console.log("returning ImageResponse for", stringifiedPost);
 
     let postImage = post.img;
@@ -48,6 +43,7 @@ export default async function og(req: Request) {
       postImage.startsWith("/") &&
       !postImage.startsWith("/content/")
     ) {
+      console.log(">>", new URL(`../src/images${post.img}`, import.meta.url));
       postImage = await getDataURI(postImage);
     }
 
@@ -294,10 +290,9 @@ async function assertTokenIsValid(
 }
 
 async function getDataURI(path: string) {
-  let href: string;
+  let href: URL;
   try {
-    console.error(">>", `../src/images${path}`, import.meta.url);
-    href = new URL(`../src/images${path}`, import.meta.url).toString();
+    href = new URL(`../src/images${path}`, import.meta.url);
   } catch (err) {
     console.error(err);
 
