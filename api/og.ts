@@ -148,7 +148,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     {
       tw: `
       h-28 w-full px-4 py-2.5
-      bg-white
+      bg-[rgb(36,36,36)]
       text-4xl
       flex flex-row justify-center items-center
     `,
@@ -159,11 +159,11 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       src: author.avatarSrc,
       tw: `rounded-full`,
     }),
-    h("span", { tw: `ml-4` }, author.name),
+    h("span", { tw: `ml-4 text-white` }, author.name),
     h("div", { tw: `flex-1` }),
     h(
       "span",
-      {},
+      { tw: `text-white` },
       [
         post.date.toLocaleDateString("sv-SE"),
         post.readingTimeMinutes > 1 && `${post.readingTimeMinutes} min`,
