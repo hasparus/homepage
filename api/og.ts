@@ -43,7 +43,7 @@ export default async function og(req: Request) {
       postImage.startsWith("/") &&
       !postImage.startsWith("/content/")
     ) {
-      postImage = await getDataURI(postImage);
+      postImage = await getDataURI(`../src/images/${postImage}`);
     }
 
     return new ImageResponse(
@@ -289,15 +289,24 @@ async function assertTokenIsValid(
 }
 
 async function getDataURI(href: string) {
-  const response = await fetch(href);
-  if (!response.ok) {
-    throw new HttpError("Failed to fetch image.", 500);
+  try {
+    const response = await fetch(href);
+    if (!response.ok) {
+      throw new HttpError("Failed to fetch image.", 500);
+    }
+    const arrayBuffer = await response.arrayBuffer();
+    const contentType = response.headers.get("content-type");
+    if (!contentType) {
+      throw new HttpError("No content type.", 500);
+    }
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    return `data:${contentType};base64,${base64}`;
+  } catch (err) {
+    console.error(err);
+
+    throw new HttpError(
+      `Failed to fetch ${href} from 'src': ${err instanceof Error ? err.message : String(err)}`,
+      400,
+    );
   }
-  const arrayBuffer = await response.arrayBuffer();
-  const contentType = response.headers.get("content-type");
-  if (!contentType) {
-    throw new HttpError("No content type.", 500);
-  }
-  const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-  return `data:${contentType};base64,${base64}`;
 }
