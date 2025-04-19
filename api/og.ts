@@ -289,10 +289,21 @@ async function assertTokenIsValid(
 }
 
 async function getDataURI(path: string) {
+  let href: string;
   try {
-    const response = await fetch(
-      new URL(`../src/images${path}`, import.meta.url),
+    href = new URL(`../src/images${path}`, import.meta.url).toString();
+    console.log("href", href);
+  } catch (err) {
+    console.error(err);
+
+    throw new HttpError(
+      `Failed to create URL for ${path}: ${err instanceof Error ? err.message : String(err)}`,
+      400,
     );
+  }
+
+  try {
+    const response = await fetch(href);
     if (!response.ok) {
       throw new HttpError("Failed to fetch image.", 500);
     }
