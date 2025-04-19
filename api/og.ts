@@ -43,7 +43,7 @@ export default async function og(req: Request) {
       postImage.startsWith("/") &&
       !postImage.startsWith("/content/")
     ) {
-      postImage = await getDataURI();
+      postImage = await getDataURI(postImage);
     }
 
     return new ImageResponse(
