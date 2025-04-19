@@ -17,10 +17,10 @@ type Author = typeof author;
 export const config = { runtime: "edge" };
 
 const interRegular = fetchFont(
-  new URL("../assets/og/Inter-Regular.ttf", import.meta.url)
+  new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
 );
 const interBlack = fetchFont(
-  new URL("../assets/og/Inter-Black.ttf", import.meta.url)
+  new URL("../assets/og/Inter-Black.ttf", import.meta.url),
 );
 
 const width = 1200;
@@ -30,12 +30,21 @@ export default async function og(req: Request) {
   try {
     const url = new URL(req.url);
     const { post, stringifiedPost, token } = parseSearchParams(
-      url.searchParams
+      url.searchParams,
     );
 
     await assertTokenIsValid(stringifiedPost, token);
 
     console.log("returning ImageResponse for", stringifiedPost);
+
+    let postImage = post.img;
+    if (
+      postImage &&
+      postImage.startsWith("/") &&
+      !postImage.startsWith("/content/")
+    ) {
+      postImage = await getDataURI(postImage);
+    }
 
     return new ImageResponse(
       h(
@@ -49,10 +58,10 @@ export default async function og(req: Request) {
         },
         h(
           Illustration,
-          { imageHref: post.img },
-          post.img ? null : h(Title, { title: post.title })
+          { imageHref: postImage },
+          postImage ? null : h(Title, { title: post.title }),
         ),
-        h(Footer, { author, post })
+        h(Footer, { author, post }),
       ),
       {
         width,
@@ -71,7 +80,7 @@ export default async function og(req: Request) {
             style: "normal",
           },
         ],
-      }
+      },
     );
   } catch (err: unknown) {
     console.error(err);
@@ -114,7 +123,7 @@ function Illustration({
         width,
         height: height - 112,
       }),
-    ...(children || [])
+    ...(children || []),
   );
 }
 
@@ -126,7 +135,7 @@ function Title({ title }: { title: string }) {
         text-white text-9xl font-black z-10
       `,
     },
-    title
+    title,
   );
 }
 
@@ -157,12 +166,12 @@ function Footer({ author, post }: { author: Author; post: Post }) {
         post.readingTimeMinutes > 1 && `${post.readingTimeMinutes} min`,
       ]
         .filter(Boolean)
-        .join(" · ")
-    )
+        .join(" · "),
+    ),
   );
 }
 
-function h<T extends React.ElementType<any>>(
+function h<T extends React.ElementType>(
   type: T,
   props: React.ComponentPropsWithRef<T>,
   ...children: React.ReactNode[]
@@ -209,7 +218,7 @@ export type OgFunctionSearchParams = {
 
 function parseSearchParams(searchParams: URLSearchParams) {
   const stringifiedPost = decodeURIComponent(
-    searchParams.get("post") || ""
+    searchParams.get("post") || "",
   ) as StringifiedPost;
 
   const postArray = stringifiedPost.split(SEPARATOR);
@@ -233,7 +242,10 @@ function parseSearchParams(searchParams: URLSearchParams) {
 }
 
 class HttpError extends Error {
-  constructor(message: string, public readonly status: number) {
+  constructor(
+    message: string,
+    public readonly status: number,
+  ) {
     super(message);
   }
 }
@@ -243,7 +255,7 @@ class HttpError extends Error {
  */
 async function assertTokenIsValid(
   post: StringifiedPost,
-  receivedToken: string
+  receivedToken: string,
 ): Promise<void> {
   const secret = process.env.OG_IMAGE_SECRET;
 
@@ -256,22 +268,36 @@ async function assertTokenIsValid(
     new TextEncoder().encode(secret),
     { name: "HMAC", hash: { name: "SHA-256" } },
     false,
-    ["sign"]
+    ["sign"],
   );
 
   const arrayBuffer = await crypto.subtle.sign(
     "HMAC",
     key,
-    new TextEncoder().encode(post)
+    new TextEncoder().encode(post),
   );
 
   const token = Array.prototype.map
     .call(new Uint8Array(arrayBuffer), (n: number) =>
-      n.toString(16).padStart(2, "0")
+      n.toString(16).padStart(2, "0"),
     )
     .join("");
 
   if (receivedToken !== token) {
     throw new HttpError("Invalid token.", 401);
   }
+}
+
+async function getDataURI(href: string) {
+  const response = await fetch(href);
+  if (!response.ok) {
+    throw new HttpError("Failed to fetch image.", 500);
+  }
+  const arrayBuffer = await response.arrayBuffer();
+  const contentType = response.headers.get("content-type");
+  if (!contentType) {
+    throw new HttpError("No content type.", 500);
+  }
+  const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+  return `data:${contentType};base64,${base64}`;
 }
