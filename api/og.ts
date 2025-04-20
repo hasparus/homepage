@@ -43,8 +43,10 @@ export default async function og(req: Request) {
       postImage.startsWith("/") &&
       !postImage.startsWith("/content/")
     ) {
-      console.log(">>", new URL(`../src/images${post.img}`, import.meta.url));
-      postImage = await getDataURI(postImage);
+      // we copy in deploy.mjs
+      // the files from `src` are imported in Astro for processing,
+      // but for OG images we just use them as they are
+      postImage = "/for-og" + postImage;
     }
 
     return new ImageResponse(
@@ -286,40 +288,5 @@ async function assertTokenIsValid(
 
   if (receivedToken !== token) {
     throw new HttpError("Invalid token.", 401);
-  }
-}
-
-async function getDataURI(path: string) {
-  let href: URL;
-  try {
-    href = new URL(`../src/images${path}`, import.meta.url);
-  } catch (err) {
-    console.error(err);
-
-    throw new HttpError(
-      `Failed to create URL for ${path}: ${err instanceof Error ? err.message : String(err)}`,
-      400,
-    );
-  }
-
-  try {
-    const response = await fetch(href);
-    if (!response.ok) {
-      throw new HttpError("Failed to fetch image.", 500);
-    }
-    const arrayBuffer = await response.arrayBuffer();
-    const contentType = response.headers.get("content-type");
-    if (!contentType) {
-      throw new HttpError("No content type.", 500);
-    }
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-    return `data:${contentType};base64,${base64}`;
-  } catch (err) {
-    console.error(err);
-
-    throw new HttpError(
-      `Failed to fetch ${path}: ${err instanceof Error ? err.message : String(err)}`,
-      400,
-    );
   }
 }
