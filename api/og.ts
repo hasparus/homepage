@@ -121,10 +121,14 @@ function Illustration({
     },
     !!imageHref &&
       h("img", {
-        tw: `absolute inset-0 object-cover`,
         src: imageHref,
         width,
         height: height - 112,
+        style: {
+          position: "absolute",
+          inset: 0,
+          objectFit: "cover",
+        },
       }),
     ...(children || []),
   );
@@ -148,7 +152,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     {
       tw: `
       h-28 w-full px-4 py-2.5
-      bg-[rgb(36,36,36)]
+      bg-[rgb(0,0,0)]
       text-4xl
       flex flex-row justify-center items-center
     `,
