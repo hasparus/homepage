@@ -20,6 +20,8 @@ execSync(
   
   pnpm vercel build --token=${token} ${prod ? "--prod" : ""} && \
 
+  cp -R src/images .vercel/output/static/for-og && \
+
   DEPLOYMENT_URL=$(\
     pnpm vercel deploy \
       --prebuilt \
