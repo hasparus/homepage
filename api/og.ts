@@ -116,7 +116,7 @@ function Illustration({
     {
       tw: `
           flex flex-1 justify-start items-end w-full pt-4 px-4 relative
-          bg-[rgb(23,23,23)]
+          bg-[#171717]
         `,
     },
     !!imageHref &&
@@ -152,7 +152,8 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     {
       tw: `
       h-28 w-full px-4 py-2.5
-      bg-[rgb(0,0,0)]
+      bg-[rgb(10,10,10)]
+      border-t-2 border-t-[#262626]
       text-4xl
       flex flex-row justify-center items-center
     `,
