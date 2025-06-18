@@ -1,0 +1,20 @@
+---
+title: Don't leak. Export.
+
+---
+
+If you export a function, the types of its arguments leak.
+
+Even if your language of choice doesn't allow you to write
+`ReturnType<typeof f>` and you can't refer to them, their _concept_ leaks and
+you need to be somewhat aware of it when using this function.
+
+```diff
+- type Props = {
++ export interface ChatProps {
+```
+
+```diff
+- export function Chat(props: Props) {
++ export function Chat(props: ChatProps) {
+```
