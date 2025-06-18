@@ -1,6 +1,5 @@
 ---
 title: Don't leak. Export.
-
 ---
 
 If you export a function, the types of its arguments leak.
@@ -12,9 +11,14 @@ you need to be somewhat aware of it when using this function.
 ```diff
 - type Props = {
 + export interface ChatProps {
-```
 
-```diff
 - export function Chat(props: Props) {
 + export function Chat(props: ChatProps) {
 ```
+
+This is super important when you're building a library: the consumer can't
+trivially export your types, and on top of that there's a risk of divergence
+whenever you change them and they bump a version.
+
+But even if you're building an app, you can save your coworkers some time and
+frustration if you explicitly export everything that's getting leaked anyway.
