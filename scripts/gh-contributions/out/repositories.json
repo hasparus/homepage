@@ -1,223 +1,268 @@
 {
-  "numberOfPRsMergedToPublicRepos": 455,
+  "numberOfPRsMergedToPublicRepos": 779,
   "filteredRepositories": [
     {
-      "stargazerCount": 4943,
-      "nameWithOwner": "system-ui/theme-ui",
-      "pullRequestsMerged": 89
+      "stargazerCount": 452,
+      "nameWithOwner": "graphql-hive/console",
+      "pullRequestsMerged": 107
     },
     {
-      "stargazerCount": 2488,
+      "stargazerCount": 5351,
+      "nameWithOwner": "system-ui/theme-ui",
+      "pullRequestsMerged": 93
+    },
+    {
+      "stargazerCount": 45,
+      "nameWithOwner": "the-guild-org/docs",
+      "pullRequestsMerged": 77
+    },
+    {
+      "stargazerCount": 2785,
       "nameWithOwner": "dethcrypto/TypeChain",
       "pullRequestsMerged": 42
     },
     {
-      "stargazerCount": 30,
+      "stargazerCount": 42,
       "nameWithOwner": "l2beat/starkex-explorer",
       "pullRequestsMerged": 22
     },
     {
-      "stargazerCount": 390,
+      "stargazerCount": 435,
       "nameWithOwner": "dethcrypto/eth-sdk",
       "pullRequestsMerged": 20
     },
     {
-      "stargazerCount": 13,
+      "stargazerCount": 68,
       "nameWithOwner": "hasparus/zaduma",
       "pullRequestsMerged": 20
     },
     {
-      "stargazerCount": 1212,
+      "stargazerCount": 1371,
       "nameWithOwner": "dethcrypto/dethcode",
       "pullRequestsMerged": 19
     },
     {
-      "stargazerCount": 22,
+      "stargazerCount": 861,
+      "nameWithOwner": "graphql/graphql.github.io",
+      "pullRequestsMerged": 18
+    },
+    {
+      "stargazerCount": 23,
       "nameWithOwner": "hasparus/share-azgaar-map",
       "pullRequestsMerged": 15
     },
     {
-      "stargazerCount": 232,
+      "stargazerCount": 263,
       "nameWithOwner": "l2beat/earl",
       "pullRequestsMerged": 11
     },
     {
-      "stargazerCount": 22152,
+      "stargazerCount": 3401,
+      "nameWithOwner": "ardatan/graphql-mesh",
+      "pullRequestsMerged": 10
+    },
+    {
+      "stargazerCount": 29119,
       "nameWithOwner": "pmndrs/react-three-fiber",
       "pullRequestsMerged": 9
     },
     {
-      "stargazerCount": 26,
+      "stargazerCount": 75,
       "nameWithOwner": "dethcrypto/dethtools",
       "pullRequestsMerged": 8
     },
     {
-      "stargazerCount": 43600,
+      "stargazerCount": 12896,
+      "nameWithOwner": "shuding/nextra",
+      "pullRequestsMerged": 8
+    },
+    {
+      "stargazerCount": 49956,
       "nameWithOwner": "DefinitelyTyped/DefinitelyTyped",
       "pullRequestsMerged": 7
     },
     {
-      "stargazerCount": 678,
+      "stargazerCount": 34,
+      "nameWithOwner": "the-guild-org/shared-config",
+      "pullRequestsMerged": 7
+    },
+    {
+      "stargazerCount": 675,
       "nameWithOwner": "kreteshq/kretes",
       "pullRequestsMerged": 5
     },
     {
-      "stargazerCount": 12718,
+      "stargazerCount": 11088,
+      "nameWithOwner": "dotansimha/graphql-code-generator",
+      "pullRequestsMerged": 5
+    },
+    {
+      "stargazerCount": 8394,
+      "nameWithOwner": "graphql-hive/graphql-yoga",
+      "pullRequestsMerged": 4
+    },
+    {
+      "stargazerCount": 13928,
       "nameWithOwner": "blitz-js/blitz",
       "pullRequestsMerged": 3
     },
     {
-      "stargazerCount": 1987,
+      "stargazerCount": 2348,
       "nameWithOwner": "intuit/auto",
       "pullRequestsMerged": 3
     },
     {
-      "stargazerCount": 3680,
+      "stargazerCount": 5432,
       "nameWithOwner": "pmndrs/leva",
       "pullRequestsMerged": 3
     },
     {
-      "stargazerCount": 518,
+      "stargazerCount": 525,
       "nameWithOwner": "Raathigesh/hooks.guide",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 54357,
+      "stargazerCount": 55892,
       "nameWithOwner": "gatsbyjs/gatsby",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 1010,
+      "stargazerCount": 1155,
       "nameWithOwner": "google/intermock",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 78008,
+      "stargazerCount": 87056,
       "nameWithOwner": "storybookjs/storybook",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 1392,
+      "stargazerCount": 1384,
       "nameWithOwner": "Raathigesh/retoggle",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 3776,
+      "stargazerCount": 4488,
       "nameWithOwner": "FormidableLabs/react-live",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 449,
+      "stargazerCount": 455,
       "nameWithOwner": "piglovesyou/graphql-let",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 168,
+      "stargazerCount": 171,
       "nameWithOwner": "beerose/use-comments",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 2972,
+      "stargazerCount": 6350,
       "nameWithOwner": "joe-bell/cva",
       "pullRequestsMerged": 2
     },
     {
-      "stargazerCount": 10586,
+      "stargazerCount": 827,
+      "nameWithOwner": "graphql-hive/graphql-eslint",
+      "pullRequestsMerged": 2
+    },
+    {
+      "stargazerCount": 13733,
       "nameWithOwner": "callstack/react-native-paper",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 818,
+      "stargazerCount": 879,
       "nameWithOwner": "michalochman/react-pixi-fiber",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 1068,
+      "stargazerCount": 1072,
       "nameWithOwner": "amio/awesome-micro",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 18939,
+      "stargazerCount": 19138,
       "nameWithOwner": "jorgebucaran/hyperapp",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 42227,
+      "stargazerCount": 43886,
       "nameWithOwner": "parcel-bundler/parcel",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 210,
+      "stargazerCount": 209,
       "nameWithOwner": "pyoner/svelte-typescript",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 12312,
+      "stargazerCount": 13382,
       "nameWithOwner": "codesandbox/codesandbox-client",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 306,
+      "stargazerCount": 367,
       "nameWithOwner": "rburns/ansi-to-html",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 32,
+      "stargazerCount": 35,
       "nameWithOwner": "callmehiphop/pb-util",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 22487,
+      "stargazerCount": 23702,
       "nameWithOwner": "MostlyAdequate/mostly-adequate-guide",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 85394,
+      "stargazerCount": 95192,
       "nameWithOwner": "ant-design/ant-design",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 10542,
+      "stargazerCount": 11899,
       "nameWithOwner": "adambard/learnxinyminutes-docs",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 29636,
+      "stargazerCount": 53117,
       "nameWithOwner": "pmndrs/zustand",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 255,
+      "stargazerCount": 252,
       "nameWithOwner": "albinekb/favicon-emoji",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 30,
+      "stargazerCount": 33,
       "nameWithOwner": "cartant/ts-snippet",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 16257,
+      "stargazerCount": 17795,
       "nameWithOwner": "emotion-js/emotion",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 206,
+      "stargazerCount": 204,
       "nameWithOwner": "cometkim/gatsby-plugin-typegen",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 9944,
+      "stargazerCount": 13020,
       "nameWithOwner": "nextapps-de/flexsearch",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 615,
+      "stargazerCount": 680,
       "nameWithOwner": "mathieudutour/gatsby-digital-garden",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 8395,
+      "stargazerCount": 9176,
       "nameWithOwner": "jsx-eslint/eslint-plugin-react",
       "pullRequestsMerged": 1
     },
@@ -227,42 +272,42 @@
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 370,
+      "stargazerCount": 484,
       "nameWithOwner": "rametta/pratica",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 71,
+      "stargazerCount": 74,
       "nameWithOwner": "doczjs/docz-website",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 2045,
+      "stargazerCount": 2341,
       "nameWithOwner": "maticzav/nookies",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 9254,
+      "stargazerCount": 14998,
       "nameWithOwner": "sindresorhus/ky",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 11088,
+      "stargazerCount": 11445,
       "nameWithOwner": "jxnblk/mdx-deck",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 8616,
-      "nameWithOwner": "sw-yx/spark-joy",
+      "stargazerCount": 9533,
+      "nameWithOwner": "swyxio/spark-joy",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 21855,
+      "stargazerCount": 23108,
       "nameWithOwner": "conwnet/github1s",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 1473,
+      "stargazerCount": 1607,
       "nameWithOwner": "TrueFiEng/useDApp",
       "pullRequestsMerged": 1
     },
@@ -272,43 +317,88 @@
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 5051,
+      "stargazerCount": 9017,
       "nameWithOwner": "pmndrs/drei",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 489,
+      "stargazerCount": 798,
       "nameWithOwner": "pmndrs/three-stdlib",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 13,
+      "stargazerCount": 15,
       "nameWithOwner": "simbathesailor/babel-plugin-use-what-changed",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 456,
+      "stargazerCount": 910,
       "nameWithOwner": "grafana/faro-web-sdk",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 14831,
+      "stargazerCount": 16521,
       "nameWithOwner": "graphql/graphiql",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 244,
+      "stargazerCount": 84,
+      "nameWithOwner": "graphprotocol/docs",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 262,
       "nameWithOwner": "gulpjs/interpret",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 22,
+      "stargazerCount": 30,
       "nameWithOwner": "yjs/docs",
       "pullRequestsMerged": 1
     },
     {
-      "stargazerCount": 13211,
+      "stargazerCount": 4129,
+      "nameWithOwner": "shuding/react-wrap-balancer",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 15793,
       "nameWithOwner": "typescript-eslint/typescript-eslint",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 134,
+      "nameWithOwner": "0xa3k5/web3icons",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 1191,
+      "nameWithOwner": "graphql-hive/graphql-config",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 56,
+      "nameWithOwner": "ardatan/schema-stitching",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 152,
+      "nameWithOwner": "the-guild-org/website",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 5403,
+      "nameWithOwner": "ardatan/graphql-tools",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 722,
+      "nameWithOwner": "cloudflare/partykit",
+      "pullRequestsMerged": 1
+    },
+    {
+      "stargazerCount": 817,
+      "nameWithOwner": "graphql-hive/envelop",
       "pullRequestsMerged": 1
     }
   ]
