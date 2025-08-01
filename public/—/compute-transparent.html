@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transparent Color Calculator</title>
+    <style>
+      @font-face {
+        font-family: "CommitMono";
+        src: url("https://commitmono.com/src/fonts/fontlab/CommitMonoV143-VF.woff2")
+          format("woff2-variations");
+        font-weight: 100 900;
+        font-style: normal;
+      }
+
+      body {
+        font-family: "CommitMono", monospace;
+        margin: 20px;
+        padding: 0;
+        background: #f5f5f5;
+        overflow-x: auto;
+      }
+      .container {
+        background: white;
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 0 auto;
+        width: fit-content;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+        font-size: 24px;
+      }
+      h3 {
+        font-size: 14px;
+        margin: 10px 0;
+      }
+      h4 {
+        font-size: 12px;
+        margin: 8px 0;
+        font-weight: 500;
+      }
+      .main-layout {
+        display: grid;
+        grid-template-columns: 340px 1fr 350px;
+        gap: 30px;
+        align-items: start;
+      }
+      .color-display {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+      .color-box {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        color: #666;
+        position: relative;
+      }
+      .target-color {
+        background: #e7e9e2;
+      }
+      .composite-display {
+        position: relative;
+        background: white;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      .controls {
+        margin: 0;
+      }
+      .control-group {
+        margin: 15px 0;
+      }
+      label {
+        display: block;
+        color: #555;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      input[type="range"] {
+        width: 100%;
+        margin: 10px 0;
+      }
+      select {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #ddd;
+        font-size: 13px;
+        margin-top: 5px;
+        font-family: "CommitMono", monospace;
+      }
+      .result {
+        background: #f8f8f8;
+        padding: 15px;
+        margin: 0;
+        font-family: "CommitMono", monospace;
+        border: 1px solid #e0e0e0;
+        font-size: 12px;
+      }
+      .result-line {
+        margin: 4px 0;
+      }
+      .color-comparison {
+        display: flex;
+        gap: 20px;
+        margin: 15px 0;
+      }
+      .comparison-item {
+        text-align: center;
+      }
+      .comparison-item .color-box {
+        margin: 10px auto;
+      }
+      .comparison-item h4 {
+        font-size: 13px;
+        margin: 10px 0;
+      }
+      .error {
+        color: #e74c3c;
+        font-weight: bold;
+      }
+      .success {
+        color: #27ae60;
+        font-weight: bold;
+      }
+      .color-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-top: 10px;
+        max-height: 150px;
+        overflow-y: auto;
+      }
+      .color-row {
+        display: flex;
+        gap: 3px;
+      }
+      .color-swatch {
+        width: 24px;
+        height: 24px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        transition: transform 0.2s;
+        position: relative;
+      }
+      .color-swatch:hover {
+        transform: scale(1.05);
+        border-color: #999;
+      }
+      .color-swatch.selected {
+        border: 2px solid #319;
+      }
+      .background-selector {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .bg-option {
+        flex: 1;
+        padding: 10px;
+        border: 2px solid #ddd;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .bg-option:hover {
+        border-color: #999;
+      }
+      .bg-option.selected {
+        box-shadow: 0 0 0 2px #000;
+      }
+      .bg-white {
+        background: white;
+        color: #333;
+      }
+      .bg-black {
+        background: black;
+        color: white;
+      }
+
+      input[type="color"] {
+        border: 1px solid #ddd;
+        padding: 2px;
+        cursor: pointer;
+      }
+
+      pre {
+        font-family: "CommitMono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Semi-Transparent Color Calculator</h1>
+
+      <div class="main-layout">
+        <!-- Left Column: Controls -->
+        <div class="controls">
+          <div class="control-group">
+            <header style="display: flex; gap: 1rem; align-items: center">
+              <label>Pick Target Color</label>
+              <input type="color" id="customColorPicker" value="#E7E9E2" />
+            </header>
+            <div class="color-grid" id="colorGrid"></div>
+          </div>
+
+          <div class="control-group">
+            <label>Background Color</label>
+            <div class="background-selector">
+              <div class="bg-option selected bg-white" data-bg="#FFFFFF">
+                #FFF
+              </div>
+              <div class="bg-option bg-black" data-bg="#000000">#000</div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="alpha">Alpha: <span id="alphaValue">0.5</span></label>
+            <input
+              type="range"
+              id="alpha"
+              min="0.01"
+              max="1"
+              step="0.01"
+              value="0.5"
+            />
+          </div>
+        </div>
+
+        <!-- Middle Column: Visual Display -->
+        <div>
+          <div class="color-display">
+            <div>
+              <h4>Target Color</h4>
+              <div class="color-box target-color" id="targetColorDisplay">
+                #E7E9E2
+              </div>
+            </div>
+            <div>→</div>
+            <div>
+              <h4>Result Preview</h4>
+              <div class="color-box composite-display" id="compositeDisplay">
+                <div class="overlay" id="preview"></div>
+                <span
+                  style="z-index: 10; position: relative; font-size: 10px"
+                  id="bgLabel"
+                  >On white</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Results -->
+        <div>
+          <div class="result" id="result"></div>
+
+          <div style="margin-top: 15px; font-size: 11px; color: #666">
+            <strong>Formula:</strong><br />
+            result = fg × α + bg × (1 - α)<br />
+            fg = (result - bg × (1 - α)) / α
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Color definitions from colors.css
+      const colorPalette = {
+        primary: {
+          lighter: { h: 319, s: 100, l: 90, name: "Primary Lighter" },
+          light: { h: 318, s: 100, l: 80, name: "Primary Light" },
+          base: { h: 319, s: 100, l: 44.1, name: "Primary Base" },
+          dark: { h: 319, s: 100, l: 30, name: "Primary Dark" },
+          darker: { h: 319, s: 100, l: 20, name: "Primary Darker" },
+        },
+        secondary: {
+          lighter: { h: 79, s: 80, l: 90, name: "Secondary Lighter" },
+          light: { h: 79, s: 82, l: 80, name: "Secondary Light" },
+          base: { h: 79, s: 90, l: 65, name: "Secondary Base" },
+          dark: { h: 79, s: 98, l: 37, name: "Secondary Dark" },
+          darker: { h: 79, s: 98, l: 23, name: "Secondary Darker" },
+        },
+        neutral: {
+          0: { h: 0, s: 0, l: 100, name: "Neutral 0 (White)" },
+          50: { h: 75, s: 57, l: 97, name: "Neutral 50" },
+          100: { h: 75, s: 15, l: 95, name: "Neutral 100" },
+          200: { h: 77, s: 14, l: 90, name: "Neutral 200" },
+          300: { h: 76, s: 14, l: 85, name: "Neutral 300" },
+          400: { h: 77, s: 14, l: 80, name: "Neutral 400" },
+          500: { h: 74, s: 14, l: 70, name: "Neutral 500" },
+          600: { h: 76, s: 15, l: 60, name: "Neutral 600" },
+          700: { h: 76, s: 15, l: 40, name: "Neutral 700" },
+          800: { h: 77, s: 14, l: 20, name: "Neutral 800" },
+          900: { h: 75, s: 15, l: 5, name: "Neutral 900" },
+        },
+      }
+
+      let currentTargetColor = "#E7E9E2"
+      let currentBackgroundColor = "#FFFFFF"
+
+      function hslToRgb(h, s, l) {
+        h = h / 360
+        s = s / 100
+        l = l / 100
+
+        let r, g, b
+
+        if (s === 0) {
+          r = g = b = l
+        } else {
+          const hue2rgb = (p, q, t) => {
+            if (t < 0) t += 1
+            if (t > 1) t -= 1
+            if (t < 1 / 6) return p + (q - p) * 6 * t
+            if (t < 1 / 2) return q
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
+            return p
+          }
+
+          const q = l < 0.5 ? l * (1 + s) : l + s - l * s
+          const p = 2 * l - q
+          r = hue2rgb(p, q, h + 1 / 3)
+          g = hue2rgb(p, q, h)
+          b = hue2rgb(p, q, h - 1 / 3)
+        }
+
+        return {
+          r: Math.round(r * 255),
+          g: Math.round(g * 255),
+          b: Math.round(b * 255),
+        }
+      }
+
+      function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+        return result
+          ? {
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16),
+            }
+          : null
+      }
+
+      function rgbToHex(r, g, b) {
+        return (
+          "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+        )
+      }
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max)
+      }
+
+      function calculateTransparentColor(targetHex, backgroundHex, alpha) {
+        const target = hexToRgb(targetHex)
+        const background = hexToRgb(backgroundHex)
+
+        // Calculate required foreground color for each channel
+        // formula: target = foreground * alpha + background * (1 - alpha)
+        // solving for foreground: foreground = (target - background * (1 - alpha)) / alpha
+
+        const foreground = {
+          r: Math.round((target.r - background.r * (1 - alpha)) / alpha),
+          g: Math.round((target.g - background.g * (1 - alpha)) / alpha),
+          b: Math.round((target.b - background.b * (1 - alpha)) / alpha),
+        }
+
+        // Check if values are valid (0-255)
+        const isValid =
+          foreground.r >= 0 &&
+          foreground.r <= 255 &&
+          foreground.g >= 0 &&
+          foreground.g <= 255 &&
+          foreground.b >= 0 &&
+          foreground.b <= 255
+
+        // Clamp values for display purposes
+        const clamped = {
+          r: clamp(foreground.r, 0, 255),
+          g: clamp(foreground.g, 0, 255),
+          b: clamp(foreground.b, 0, 255),
+        }
+
+        // Calculate what the result would actually be with clamped values
+        const actualResult = {
+          r: Math.round(clamped.r * alpha + background.r * (1 - alpha)),
+          g: Math.round(clamped.g * alpha + background.g * (1 - alpha)),
+          b: Math.round(clamped.b * alpha + background.b * (1 - alpha)),
+        }
+
+        return {
+          foreground: foreground,
+          clamped: clamped,
+          isValid: isValid,
+          hex: rgbToHex(clamped.r, clamped.g, clamped.b),
+          actualResult: actualResult,
+          actualResultHex: rgbToHex(
+            actualResult.r,
+            actualResult.g,
+            actualResult.b,
+          ),
+        }
+      }
+
+      function updateCalculation() {
+        const alpha = parseFloat(document.getElementById("alpha").value)
+        document.getElementById("alphaValue").textContent = alpha.toFixed(2)
+
+        const result = calculateTransparentColor(
+          currentTargetColor,
+          currentBackgroundColor,
+          alpha,
+        )
+
+        // Update preview
+        const preview = document.getElementById("preview")
+        preview.style.backgroundColor = result.hex
+        preview.style.opacity = alpha
+
+        // Update composite display background
+        const compositeDisplay = document.getElementById("compositeDisplay")
+        compositeDisplay.style.backgroundColor = currentBackgroundColor
+
+        // Update background label
+        const bgLabel = document.getElementById("bgLabel")
+        bgLabel.textContent =
+          currentBackgroundColor === "#FFFFFF" ? "On white" : "On black"
+        bgLabel.style.color = isDark(currentBackgroundColor) ? "#fff" : "#000"
+
+        // Update result display
+        const resultDiv = document.getElementById("result")
+        let html = "<h3>Calculation Results</h3>"
+
+        html += `<div class="result-line"><strong>Target Color:</strong> ${currentTargetColor}</div>`
+        html += `<div class="result-line"><strong>Background Color:</strong> ${currentBackgroundColor}</div>`
+
+        if (result.isValid) {
+          html += `<div class="success">✓ Valid color values</div>`
+        } else {
+          html += `<div class="error">⚠ Color values out of range (clamped)</div>`
+        }
+
+        html += `<div class="result-line"><strong>Alpha:</strong> ${alpha.toFixed(2)} (${(alpha * 100).toFixed(0)}%)</div>`
+        html += `<div class="result-line"><strong>Calculated RGB:</strong> rgb(${result.foreground.r}, ${result.foreground.g}, ${result.foreground.b})</div>`
+
+        if (!result.isValid) {
+          html += `<div class="result-line"><strong>Clamped RGB:</strong> rgb(${result.clamped.r}, ${result.clamped.g}, ${result.clamped.b})</div>`
+        }
+
+        html += `<div class="result-line"><strong>Hex Color:</strong> ${result.hex}</div>`
+        html += `<div class="result-line"><strong>CSS rgba():</strong> rgba(${result.clamped.r}, ${result.clamped.g}, ${result.clamped.b}, ${alpha.toFixed(2)})</div>`
+        html += `<div class="result-line"><strong>Hex with Alpha:</strong> ${result.hex}${Math.round(
+          alpha * 255,
+        )
+          .toString(16)
+          .padStart(2, "0")}</div>`
+
+        if (
+          result.actualResultHex.toLowerCase() !==
+          currentTargetColor.toLowerCase()
+        ) {
+          html += `<div class="result-line error">Actual result: ${result.actualResultHex} (differs from target)</div>`
+        }
+
+        resultDiv.innerHTML = html
+
+        // Update calculated info
+      }
+
+      function createColorGrid() {
+        const colorGrid = document.getElementById("colorGrid")
+        colorGrid.innerHTML = ""
+
+        // Add rows per category
+        Object.entries(colorPalette).forEach(([category, colors]) => {
+          const row = document.createElement("div")
+          row.className = "color-row"
+
+          Object.entries(colors).forEach(([variant, color]) => {
+            const rgb = hslToRgb(color.h, color.s, color.l)
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b)
+
+            const swatch = document.createElement("div")
+            swatch.className = "color-swatch"
+            swatch.style.backgroundColor = hex
+            swatch.title = `${color.name} (${hex})`
+            swatch.dataset.color = hex
+
+            swatch.addEventListener("click", () => {
+              selectColor(hex)
+            })
+
+            row.appendChild(swatch)
+          })
+
+          colorGrid.appendChild(row)
+        })
+      }
+
+      function isDark(hex) {
+        const rgb = hexToRgb(hex)
+        const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000
+        return brightness < 128
+      }
+
+      function selectColor(hex) {
+        currentTargetColor = hex
+        const targetColorDisplay = document.getElementById("targetColorDisplay")
+        targetColorDisplay.textContent = hex
+        targetColorDisplay.style.backgroundColor = hex
+        targetColorDisplay.style.color = isDark(hex) ? "#fff" : "#000"
+
+        document.querySelector(".target-color").style.backgroundColor = hex
+
+        document.getElementById("customColorPicker").value = hex
+
+        // Update selected swatch
+        document.querySelectorAll(".color-swatch").forEach(swatch => {
+          swatch.classList.toggle("selected", swatch.dataset.color === hex)
+        })
+
+        updateCalculation()
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        // Create color grid
+        createColorGrid()
+
+        // Alpha slider
+        document
+          .getElementById("alpha")
+          .addEventListener("input", updateCalculation)
+
+        // Custom color picker
+        document
+          .getElementById("customColorPicker")
+          .addEventListener("input", e => {
+            selectColor(e.target.value)
+          })
+
+        // Background color selector
+        document.querySelectorAll(".bg-option").forEach(option => {
+          option.addEventListener("click", () => {
+            document
+              .querySelectorAll(".bg-option")
+              .forEach(o => o.classList.remove("selected"))
+            option.classList.add("selected")
+            currentBackgroundColor = option.dataset.bg
+            updateCalculation()
+          })
+        })
+
+        updateCalculation()
+      })
+    </script>
+  </body>
+</html>
