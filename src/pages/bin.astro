@@ -1,0 +1,54 @@
+---
+import fs from "fs/promises";
+import path from "path";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Link } from "../lib/Link";
+import { Heading } from "../lib/prose/Heading";
+import { Paragraph } from "../lib/prose/Paragraph";
+
+const binDirectory = path.join(process.cwd(), "public/bin");
+
+const files: string[] = [];
+
+for await (const file of fs.glob("**/*", { cwd: binDirectory })) {
+  files.push(file);
+}
+---
+
+<BaseLayout title="bin" description="a directory of random tools">
+  <main class="zaduma-prose py-4">
+    <h1 class="!mt-0"> bin </h1>
+    <Paragraph>
+      a few tools I need every now and then. <br />
+      mostly AI slop, use at your own peril.
+    </Paragraph>
+  </main>
+  <ul>
+    {
+      files.map((file) => {
+        return (
+          <li>
+            <Link
+              href={`/bin/${file}`}
+              class="flex flex-row justify-between gap-2"
+              noUnderline
+            >
+              <span class="font-sans text-gray-800 dark:text-gray-300">
+                /{file}
+              </span>
+            </Link>
+          </li>
+        );
+      })
+    }
+  </ul>
+  <style is:global>
+    {
+     /* make the spacing even when there's no callout nor image */
+   }
+   .zaduma-prose > header + :is(p, .zaduma-aside) {
+     margin-top: 2em;
+   }
+ </style>
+</BaseLayout>
