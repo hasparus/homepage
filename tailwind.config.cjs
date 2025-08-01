@@ -77,5 +77,8 @@ module.exports = {
       addVariant("selected", '&[aria-selected="true"]');
       addVariant("current", '&[aria-current="true"]');
     }),
+    plugin(({ addVariant }) => {
+      addVariant("pointer-coarse", "@media (pointer: coarse)");
+    }),
   ],
 };

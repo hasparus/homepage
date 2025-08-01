@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Kbd } from "../lib/Kbd";
+import { Heading } from "../lib/prose/Heading";
+import { Paragraph } from "../lib/prose/Paragraph";
+---
+
+<BaseLayout title="404 Not Found | hasparus" description="Page not found">
+  <Heading level="h1">Not found</Heading>
+
+  <Paragraph>Hello stranger. Should this page exist?</Paragraph>
+
+  <div class="flex flex-col gap-2 py-4">
+    <a
+      id="submit-issue"
+      href="https://github.com/hasparus/homepage/issues/new?title=NOT_FOUND&labels=404&body=🍌"
+      class="flex gap-2 rounded-md bg-gray-200/25 p-2 px-3 text-gray-700 transition-colors hover:bg-gray-200/50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700/50"
+      autofocus
+    >
+      <Kbd>y</Kbd> Yes.
+    </a>
+    <a
+      id="go-home"
+      href="/"
+      class="flex gap-2 rounded-md bg-gray-200/25 p-2 px-3 text-gray-700 transition-colors hover:bg-gray-200/50 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700/50"
+    >
+      <Kbd>n</Kbd>Not really.
+    </a>
+  </div>
+
+  <script is:inline>
+    const submitIssue = document.getElementById("submit-issue");
+    submitIssue.href = submitIssue.href.replace(
+      "NOT_FOUND",
+      encodeURIComponent(`\`${window.location.pathname}\` page does not exist`),
+    );
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "y") submitIssue.click();
+      if (e.key === "n") document.getElementById("go-home").click();
+    });
+  </script>
+</BaseLayout>
