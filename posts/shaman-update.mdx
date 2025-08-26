@@ -37,9 +37,22 @@ It's not gonna go to waste even if AI writes majority of my code.
 
 I hope this framing can help you find some joy in it too.
 
-I'm gonna keep a list of workflows I've found useful for my work. Like, y'know,
-Markdown scripts.
+I'm gonna keep a list of workflows and behavior patterns I've found useful for
+my work.
 
 ## Invocations
 
-TBD
+- **Make sure we didn't mess it up.**
+  - With Lighthouse and Vercel MCPs I iterated on perf improvements for the new
+    GraphQL.org website by running an audit on each new deployment. This was
+    faster than doing it manually because the LLM took care of diffing and I
+    could focus on the code without leaving the editor, without changing the
+    browser tab on my 14inch macbook. Sounds silly, but I'm internet-rich
+    screen-space-constrained.
+- **Build the thing to build the thing.**
+  - Game developers do it all the time. You build a level editor.
+    - example: https://x.com/geoffreylitt/status/1960344454348292374
+    - I did something similar to Geoffrey's AI HUD but with Ink for a tricky
+      migration (lots of global scope, file moves changed paths). Telling the
+      genie to JUST DO IT (tm) ended terribly so I needed a workbench with
+      before/after preview.
