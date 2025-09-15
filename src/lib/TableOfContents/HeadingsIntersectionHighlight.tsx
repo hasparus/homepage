@@ -23,8 +23,12 @@ export function HeadingsIntersectionHighlight(
     typeof globalThis.IntersectionObserver !== "undefined"
       ? new IntersectionObserver(
           (entries) => {
-            entries = entries.filter((e) => e.isIntersecting);
-            if (entries.length === 0) return;
+            console.log(
+              entries.map((entry) => ({
+                target: entry.target.id,
+                intersectionRatio: entry.intersectionRatio,
+              })),
+            );
 
             const max = entries.reduce((acc, val) =>
               val.intersectionRatio > acc.intersectionRatio ? val : acc,
@@ -38,7 +42,7 @@ export function HeadingsIntersectionHighlight(
               );
             }
           },
-          { threshold: 1, rootMargin: "-15% 0% -55% 0%" },
+          { threshold: 1, rootMargin: "0% 0% -55% 0%" },
         )
       : null;
 

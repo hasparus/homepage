@@ -5,6 +5,7 @@ import { createOgImageLink } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
 import Image, { WIDE_CONTAINER_WIDTH } from "../lib/prose/Image.astro";
 import TableOfContents from "../lib/TableOfContents/TableOfContents.astro";
+import { TOP_HEADING_ID } from "../lib/TOP_HEADING_ID";
 import type { PostFrontmatter } from "../types";
 
 import BaseLayout from "./BaseLayout.astro";
@@ -36,7 +37,7 @@ const description = frontmatter.description || ""
     <header
       class="flex justify-between items-start sm:items-center flex-col sm:flex-row"
     >
-      <h1 class="!my-0">{frontmatter.title}</h1>
+      <h1 id={TOP_HEADING_ID} class="!my-0">{frontmatter.title}</h1>
       <div class="text-gray-600 dark:text-gray-400 text-right">
         {
           readingTime.minutes > 1 && (
@@ -61,7 +62,7 @@ const description = frontmatter.description || ""
     }
     <slot />
   </main>
-  <TableOfContents headings={headings} />
+  <TableOfContents headings={headings} title={frontmatter.title} />
   <style is:global>
      {
       /* make the spacing even when there's no callout nor image */
