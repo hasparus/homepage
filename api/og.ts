@@ -111,7 +111,12 @@ function Illustration({
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
-  const searchParams = imageHref ? new URLSearchParams(imageHref) : null;
+  const searchParams = imageHref ? new URL(imageHref).searchParams : null;
+
+  console.log(searchParams?.toString());
+  if (searchParams?.get("objectPosition") === "top") {
+    throw new Error("test");
+  }
 
   return h(
     "div",
