@@ -111,6 +111,8 @@ function Illustration({
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
+  const searchParams = imageHref ? new URLSearchParams(imageHref) : null;
+
   return h(
     "div",
     {
@@ -128,6 +130,7 @@ function Illustration({
           position: "absolute",
           inset: 0,
           objectFit: "cover",
+          objectPosition: searchParams?.get("objectPosition") as "center",
         },
       }),
     ...(children || []),
