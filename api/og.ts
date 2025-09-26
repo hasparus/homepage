@@ -113,6 +113,8 @@ function Illustration({
 
   const searchParams = imageHref ? new URL(imageHref).searchParams : null;
 
+  console.log(">> searchParams", Object.fromEntries(searchParams || []));
+
   return h(
     "div",
     {
@@ -130,7 +132,7 @@ function Illustration({
           position: "absolute",
           inset: 0,
           objectFit: "cover",
-          objectPosition: searchParams?.get("objectPosition") as "center",
+          ...Object.fromEntries(searchParams || []),
         },
       }),
     ...(children || []),
