@@ -16,12 +16,20 @@ type Author = typeof author;
 
 export const config = { runtime: "edge" };
 
-const interRegular = fetchFont(
-  new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
-);
-const interBlack = fetchFont(
-  new URL("../assets/og/Inter-Black.ttf", import.meta.url),
-);
+async function loadGoogleFont(font: string) {
+  const url = `https://fonts.googleapis.com/css2?family=${font}`;
+  const css = await (await fetch(url)).text();
+  const resource = /src: url\((.+)\) format\('(opentype|truetype)'\)/.exec(css);
+
+  if (resource) {
+    const response = await fetch(resource[1]);
+    if (response.status == 200) {
+      return await response.arrayBuffer();
+    }
+  }
+
+  throw new Error("failed to load font data");
+}
 
 const width = 1200;
 const height = 630;
@@ -46,7 +54,7 @@ export default async function og(req: Request) {
       // we copy in deploy.mjs
       // the files from `src` are imported in Astro for processing,
       // but for OG images we just use them as they are
-      postImage = "/for-og" + postImage;
+      postImage = "/src/images" + postImage;
     }
 
     return new ImageResponse(
@@ -55,7 +63,6 @@ export default async function og(req: Request) {
         {
           tw: `
             w-full h-full
-            font-Inter
             flex flex-col
           `,
         },
@@ -72,14 +79,8 @@ export default async function og(req: Request) {
         fonts: [
           {
             name: "Inter",
-            data: await interRegular,
+            data: await loadGoogleFont("Inter"),
             weight: 400,
-            style: "normal",
-          },
-          {
-            name: "Inter",
-            data: await interBlack,
-            weight: 900,
             style: "normal",
           },
         ],
@@ -109,7 +110,7 @@ function Illustration({
   children?: React.ReactNode[];
   imageHref: string | null | undefined;
 }) {
-  imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
+  imageHref = "http://localhost:3001" + imageHref;
 
   const searchParams = imageHref ? new URL(imageHref).searchParams : null;
 
@@ -125,7 +126,7 @@ function Illustration({
     },
     !!imageHref &&
       h("img", {
-        src: imageHref,
+        src: imageHref.slice(0, imageHref.indexOf("?")),
         width,
         height: height - 112,
         style: {

@@ -16,6 +16,7 @@ pnpm-debug.log*
 # hidden directories
 .vercel
 .astro
+.next
 
 # environment files
 .env.local

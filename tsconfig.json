@@ -1,16 +1,21 @@
 {
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
-    "lib": ["DOM", "ESNext", ],
+    "lib": ["DOM", "ESNext"],
     "jsx": "preserve",
-    "jsxImportSource": "solid-js",
+    // "jsxImportSource": "solid-js",
     "skipLibCheck": true,
     "allowJs": true,
     "plugins": [
+      // {
+      //   "name": "@astrojs/ts-plugin"
+      // },
       {
-        "name": "@astrojs/ts-plugin"
+        "name": "next"
       }
-    ]
+    ],
+    "incremental": true
   },
-  "include": ["src", "api", "test", "*.ts", "scripts"]
+  "include": ["*.ts", "api", "scripts", "src", "test", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
