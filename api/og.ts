@@ -111,6 +111,19 @@ function Illustration({
 }) {
   imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
 
+  // HACK: It would be more elegant to pipe it through different props, but it's not worth the effort
+  const imageStyle: Record<string, string> = {};
+  if (imageHref.includes("(")) {
+    const regex = /\(\s+\\)/;
+    imageHref = imageHref.replace(regex, "");
+    for (const style of imageHref.match(regex)?.[0].split(";") || []) {
+      const [key, value] = style.split(":");
+      if (key && value) {
+        imageStyle[key] = value.replace(/_/g, " ");
+      }
+    }
+  }
+
   return h(
     "div",
     {
@@ -128,6 +141,7 @@ function Illustration({
           position: "absolute",
           inset: 0,
           objectFit: "cover",
+          ...imageStyle,
         },
       }),
     ...(children || []),
@@ -189,7 +203,7 @@ function h<T extends React.ElementType>(
     key: "key" in props ? props.key : null,
     props: {
       ...props,
-      children: children && children.length ? children : props.children,
+      children: children.length ? children : props.children,
     },
   };
 }
