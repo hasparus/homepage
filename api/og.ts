@@ -55,7 +55,7 @@ export default async function og(req: Request) {
         {
           tw: `
             w-full h-full
-            font-Inter
+            font-[Inter]
             flex flex-col
           `,
         },
