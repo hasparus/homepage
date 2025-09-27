@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "next:dev": "next dev",
+    "og-image:dev": "pnpx concurrently 'next dev -p 3000' 'pnpx serve . -p 3001'",
     "vercel:dev": "vercel dev",
     "start": "astro dev",
     "build": "astro build",

@@ -112,14 +112,14 @@ function Illustration({
 }) {
   imageHref = "http://localhost:3001" + imageHref;
 
+  console.log({ imageHref });
   const searchParams = imageHref ? new URL(imageHref).searchParams : null;
-
-  console.log(">> searchParams", Object.fromEntries(searchParams || []));
 
   return h(
     "div",
     {
       tw: `
+          absolute inset-0
           flex flex-1 justify-start items-end w-full pt-4 px-4 relative
           bg-[#171717]
         `,
@@ -128,7 +128,7 @@ function Illustration({
       h("img", {
         src: imageHref.slice(0, imageHref.indexOf("?")),
         width,
-        height: height - 112,
+        height,
         style: {
           position: "absolute",
           inset: 0,
@@ -157,6 +157,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
     "footer",
     {
       tw: `
+      absolute bottom-0 left-0 right-0
       h-28 w-full px-4 py-2.5
       bg-[rgb(10,10,10)]
       border-t-2 border-t-[#262626]
@@ -177,7 +178,7 @@ function Footer({ author, post }: { author: Author; post: Post }) {
       { tw: `text-white` },
       [
         post.date.toLocaleDateString("sv-SE"),
-        post.readingTimeMinutes > 1 && `${post.readingTimeMinutes} min`,
+        post.readingTimeMinutes > 2 && `${post.readingTimeMinutes} min read`,
       ]
         .filter(Boolean)
         .join(" · "),

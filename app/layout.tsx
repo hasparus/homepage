@@ -2,6 +2,8 @@
  * @jsxImportSource react
  */
 
+import "../src/global-styles/base.css";
+
 export default function RootLayout({
   children,
 }: {
