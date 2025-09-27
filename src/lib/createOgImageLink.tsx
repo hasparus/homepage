@@ -10,6 +10,7 @@ declare global {
 }
 
 const OG_IMAGE_SECRET =
+  process.env.OG_IMAGE_SECRET ||
   import.meta.env.OG_IMAGE_SECRET ||
   (() => {
     throw new Error("OG_IMAGE_SECRET is not set");

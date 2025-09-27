@@ -22,8 +22,8 @@ async function loadGoogleFont(font: string) {
   const resource = /src: url\((.+)\) format\('(opentype|truetype)'\)/.exec(css);
 
   if (resource) {
-    const response = await fetch(resource[1]);
-    if (response.status == 200) {
+    const response = await fetch(resource[1]!);
+    if (response.status === 200) {
       return await response.arrayBuffer();
     }
   }
@@ -69,9 +69,9 @@ export default async function og(req: Request) {
         h(
           Illustration,
           { imageHref: postImage },
-          postImage ? null : h(Title, { title: post.title }),
+          postImage ? null : h(Title, { title: post.title, tw: `pb-28` }),
         ),
-        h(Footer, { author, post }),
+        h(Footer, { author, post, postImage }),
       ),
       {
         width,
@@ -106,13 +106,14 @@ export default async function og(req: Request) {
 function Illustration({
   children,
   imageHref,
+  style,
 }: {
   children?: React.ReactNode[];
   imageHref: string | null | undefined;
+  style?: React.CSSProperties;
 }) {
   imageHref = "http://localhost:3001" + imageHref;
 
-  console.log({ imageHref });
   const searchParams = imageHref ? new URL(imageHref).searchParams : null;
 
   return h(
@@ -126,7 +127,7 @@ function Illustration({
     },
     !!imageHref &&
       h("img", {
-        src: imageHref.slice(0, imageHref.indexOf("?")),
+        src: imageHref.split("?")[0],
         width,
         height,
         style: {
@@ -134,54 +135,77 @@ function Illustration({
           inset: 0,
           objectFit: "cover",
           ...Object.fromEntries(searchParams || []),
+          ...style,
         },
       }),
     ...(children || []),
   );
 }
 
-function Title({ title }: { title: string }) {
+function Title({ title, tw }: { title: string; tw: string }) {
   return h(
     "h1",
     {
       tw: `
-        text-white text-9xl font-black z-10
+        text-white text-8xl font-black z-10
+        ${tw}
       `,
     },
     title,
   );
 }
 
-function Footer({ author, post }: { author: Author; post: Post }) {
+function Footer({
+  author,
+  post,
+  postImage,
+}: {
+  author: Author;
+  post: Post;
+  postImage?: string | null | undefined;
+}) {
   return h(
-    "footer",
+    "div",
     {
-      tw: `
-      absolute bottom-0 left-0 right-0
-      h-28 w-full px-4 py-2.5
-      bg-[rgb(10,10,10)]
-      border-t-2 border-t-[#262626]
-      text-4xl
-      flex flex-row justify-center items-center
-    `,
+      tw: `flex opacity-90 absolute bottom-0 left-0 right-0 h-28 overflow-hidden`,
     },
-    h("img", {
-      width: 80,
-      height: 80,
-      src: author.avatarSrc,
-      tw: `rounded-full`,
-    }),
-    h("span", { tw: `ml-4 text-white` }, author.name),
-    h("div", { tw: `flex-1` }),
+    postImage &&
+      h(Illustration, {
+        imageHref: postImage,
+        style: {
+          filter: "blur(6.4px)",
+        },
+      }),
     h(
-      "span",
-      { tw: `text-white` },
-      [
-        post.date.toLocaleDateString("sv-SE"),
-        post.readingTimeMinutes > 2 && `${post.readingTimeMinutes} min read`,
-      ]
-        .filter(Boolean)
-        .join(" · "),
+      "footer",
+      {
+        tw: `
+        absolute bottom-0 left-0 right-0
+        h-28 w-full px-4 py-2.5
+        bg-[rgba(10,10,10,0.5)]
+        border-t-2 border-t-[rgba(255,255,255,0.1)]
+        text-4xl
+        flex flex-row justify-center items-center
+      `,
+      },
+      h("img", {
+        width: 80,
+        height: 80,
+        src: author.avatarSrc,
+        tw: `rounded-full`,
+      }),
+      h("span", { tw: `ml-4 text-white` }, author.name),
+      h("div", { tw: `flex-1` }),
+      h(
+        "span",
+        { tw: `text-white` },
+        [
+          post.date.toLocaleDateString("sv-SE"),
+          post.readingTimeMinutes > 2 && `${post.readingTimeMinutes} min read`,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      ),
     ),
   );
 }

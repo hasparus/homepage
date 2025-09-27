@@ -21,8 +21,9 @@ function getAllBlogPosts() {
 
     const ogLink = createOgImageLink({
       ...frontmatter,
+      date: frontmatter.date || new Date().toISOString(),
       readingTime: {
-        minutes: 2,
+        minutes: 5,
       } as import("reading-time").ReadTimeResults,
     });
 
