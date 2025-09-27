@@ -5,66 +5,11 @@
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 
-import { createHmac } from "node:crypto";
+// @ts-expect-error too lazy to install @types/gray-matter
+import matter from "gray-matter";
 
-interface PostFrontmatter {
-  title?: string;
-  date?: string;
-  img?: string | { og?: string; src?: string };
-  readingTime?: { minutes: number };
-}
-
-function parseFrontmatter(content: string): PostFrontmatter {
-  const frontmatterMatch = /^---\n([\s\S]*?)\n---/.exec(content);
-  if (!frontmatterMatch) return {};
-
-  const frontmatterText = frontmatterMatch[1];
-  const frontmatter: PostFrontmatter = {};
-
-  // Parse basic fields
-  const titleMatch = frontmatterText.match(/title:\s*["']?([^"'\n]+)["']?/);
-  if (titleMatch) frontmatter.title = titleMatch[1].trim();
-
-  const dateMatch = frontmatterText.match(/date:\s*(.+)/);
-  if (dateMatch) frontmatter.date = dateMatch[1].trim();
-
-  const imgMatch = frontmatterText.match(/img:\s*(.+)/);
-  if (imgMatch) frontmatter.img = imgMatch[1].trim();
-
-  return frontmatter;
-}
-
-function createOgImageLink(filename: string, frontmatter: PostFrontmatter) {
-  const OG_IMAGE_SECRET = process.env.OG_IMAGE_SECRET || "fallback-secret";
-
-  // Extract title from filename if not in frontmatter
-  const title =
-    frontmatter.title || filename.replace(".mdx", "").replace(/-/g, " ");
-
-  // Parse date
-  let date = new Date();
-  if (frontmatter.date) {
-    date = new Date(frontmatter.date);
-  }
-
-  // Mock reading time (since we don't have the actual calculation)
-  const readingTimeMinutes = 5; // fallback
-
-  // Handle image
-  let img = frontmatter.img;
-  if (typeof img === "object") img = img.og || img.src;
-  if (typeof img === "string" && img.startsWith("raw!")) {
-    img = img.replace(/^raw!/, "");
-  }
-
-  const stringifiedPost = `${date.getTime()}\t${readingTimeMinutes}\t${title}\t${img || ""}`;
-
-  const hmac = createHmac("sha256", OG_IMAGE_SECRET);
-  hmac.update(stringifiedPost);
-  const token = hmac.digest("hex");
-
-  return `/api/og?post=${encodeURIComponent(stringifiedPost)}&token=${token}`;
-}
+import { createOgImageLink } from "../src/lib/createOgImageLink";
+import type { PostFrontmatter } from "../src/types";
 
 function getAllBlogPosts() {
   const postsDir = join(process.cwd(), "posts");
@@ -72,8 +17,14 @@ function getAllBlogPosts() {
 
   return files.map((file) => {
     const content = readFileSync(join(postsDir, file), "utf8");
-    const frontmatter = parseFrontmatter(content);
-    const ogLink = createOgImageLink(file, frontmatter);
+    const frontmatter = matter(content).data as PostFrontmatter;
+
+    const ogLink = createOgImageLink({
+      ...frontmatter,
+      readingTime: {
+        minutes: 2,
+      } as import("reading-time").ReadTimeResults,
+    });
 
     return {
       filename: file,
