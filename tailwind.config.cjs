@@ -9,7 +9,10 @@ module.exports = {
   experimental: {
     optimizeUniversalDefaults: true,
   },
-  content: ["./{src,posts}/**/*.{astro,ts,tsx,css,mdx}"],
+  content: [
+    "./{src,posts}/**/*.{astro,ts,tsx,css,mdx}",
+    "!./posts/frivolous-concatenation.mdx",
+  ],
   theme: {
     fontFamily: {
       sans: [

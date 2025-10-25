@@ -13,14 +13,16 @@ export function Code(props: JSX.HTMLAttributes<HTMLElement>) {
 
 interface PreProps extends JSX.HTMLAttributes<HTMLPreElement> {
   github?: string;
+  wrap?: boolean;
 }
 
 export function Pre(props: PreProps) {
-  const [local, rest] = splitProps(props, ["github"]);
+  const [local, rest] = splitProps(props, ["github", "wrap"]);
 
   const content = (
     <pre
       {...rest}
+      data-wrap={local.wrap ? "true" : undefined}
       classList={{
         ...rest.classList,
         [styles.Pre!]: true,
@@ -41,10 +43,17 @@ export function Pre(props: PreProps) {
     return (
       <figure>
         <figcaption class="space flex items-center justify-between !px-0 !font-sans !text-sm !not-italic [&:has(~_.github-dark)]:hidden dark:[&:has(~_.github-dark)]:flex dark:[&:has(~_.github-light)]:hidden">
-          <span class="flex items-center gap-1">
+          <Link
+            target="_blank"
+            rel="noreferrer"
+            noUnderline
+            noHoverBackground
+            href={`https://github.com/${repoName}`}
+            class="flex items-center gap-1 p-0 py-1 decoration-gray-200 underline-offset-4 hover:underline dark:decoration-gray-700"
+          >
             <GitHubIcon class="size-3.5" />
             {repoName}
-          </span>
+          </Link>
 
           <Link
             href={local.github}
@@ -52,7 +61,7 @@ export function Pre(props: PreProps) {
             rel="noreferrer"
             noUnderline
             noHoverBackground
-            class="z-10 p-0 py-1 decoration-gray-200 underline-offset-4 hover:underline dark:decoration-gray-700"
+            class="p-0 py-1 decoration-gray-200 underline-offset-4 hover:underline dark:decoration-gray-700"
           >
             {filepath}
           </Link>

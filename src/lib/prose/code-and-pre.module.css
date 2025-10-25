@@ -36,8 +36,16 @@
     background-color: #f43f5e1d !important;
     border: 1px solid #f43f5e1d;
   }
+
+  &[data-wrap="true"] :global(.line) {
+    text-wrap: wrap;
+  }
 }
 
 .Pre.inFigure {
-  @apply border-t border-gray-300 !bg-gray-100/50 py-1 dark:!bg-gray-800;
+  @apply border-t border-gray-300 !bg-[--bg] py-1 [--bg:theme(colors.gray.100/.5)];
+
+  &:global(.github-dark) {
+    @apply border-gray-700 [--bg:theme(colors.gray.800/0.25)];
+  }
 }

@@ -27,7 +27,7 @@ I get it. Human minds yearn for order. The Soulless imitate our weakness.
 I understand the motivation, especially in more complex production scenarios,
 like in `shadcn`:
 
-```tsx twoslash github="https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L293-L300"
+```tsx twoslash wrap github="https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L293-L300"
 import { cn } from "./src/code-blocks/frivolous-concatenation.js";
 declare const className: string;
 // prettier-ignore
@@ -76,10 +76,37 @@ I always rebind project search, so it's just:
 But what if the concatenation isn't needless? If we actually have some state or
 props, like `variant` or `size`, which we're mapping to styles.
 
-https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L231-L241
+```tsx twoslash wrap github="https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L231-L241"
+import { cn } from "./src/code-blocks/frivolous-concatenation.js";
+declare const className: string;
+declare const variant: "sidebar" | "floating" | "inset";
+declare const side: "left" | "right";
+// prettier-ignore
+<div
+// ---cut---
+className={cn(
+  "w-(--sidebar-width) fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width] duration-200 ease-linear md:flex",
+  side === "left"
+    ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
+    : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+  // Adjust the padding for floating and inset variants.
+  variant === "floating" || variant === "inset"
+    ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+    : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
+  className,
+)}
+// ---cut-after---
+/>;
+```
 
-typography-body-sm flex items-center gap-1.5 whitespace-pre px-4 py-2.5
-text-neu-700 dark:text-neu-600
+I'm not a radical here. I like using `aria-` attributes for state and I've used
+`data-` attributes for props like `variant`.
+
+https://github.com/graphql/graphql.github.io/blob/82ac0f2c1c53f0d50a6755a63eb19afbdc22a77c/src/app/conf/_design-system/button.tsx#L61
+
+```tsx wrap
+"relative flex items-center justify-center gap-2.5 font-normal text-base/none text-neu-0 bg-neu-900 hover:bg-neu-800 active:bg-neu-700 font-sans h-14 px-8 data-[size=md]:h-12 data-[variant=secondary]:bg-neu-100 dark:data-[variant=secondary]:bg-neu-100/80 dark:data-[variant=secondary]:hover:bg-neu-200/50 data-[variant=secondary]:text-neu-900 data-[variant=secondary]:hover:bg-neu-200/75 data-[variant=secondary]:active:bg-neu-200/90 data-[variant=tertiary]:bg-neu-100 data-[variant=tertiary]:text-neu-900 data-[variant=tertiary]:hover:bg-neu-200 data-[variant=tertiary]:active:bg-neu-300 gql-focus-visible [aria-disabled]:bg-neu-800 aria-disabled:pointer-events-none dark:data-[variant=tertiary]:bg-neu-900/10 dark:data-[variant=tertiary]:text-neu-900 dark:data-[variant=tertiary]:hover:bg-neu-900/[.125] dark:data-[variant=tertiary]:active:bg-neu-800/20 dark:data-[variant=tertiary]:ring-1 dark:data-[variant=tertiary]:ring-inset dark:data-[variant=tertiary]:ring-neu-900/20",
+```
 
 ---
 
