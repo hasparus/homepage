@@ -1,0 +1,87 @@
+---
+title: Frivolous concatenation
+---
+
+import { Shortcut } from "../src/lib/Shortcut";
+
+I see this pattern in a lot of Tailwind code.
+
+```tsx twoslash
+import { cn } from "./src/code-blocks/frivolous-concatenation.js";
+// prettier-ignore
+<div
+// ---cut---
+className={cn(
+  "flex items-center gap-1.5",
+  "px-4 py-2.5",
+  "typography-body-sm text-neu-700 dark:text-neu-600 whitespace-pre",
+)}
+// ---cut-after---
+/>;
+```
+
+Please don't do this.
+
+I get it. Human minds yearn for order. The Soulless imitate our weakness.
+
+I understand the motivation, especially in more complex production scenarios,
+like in `shadcn`:
+
+```tsx twoslash github="https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L293-L300"
+import { cn } from "./src/code-blocks/frivolous-concatenation.js";
+declare const className: string;
+// prettier-ignore
+<div
+// ---cut---
+className={cn(
+  "hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex",
+  "in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",
+  "[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize",
+  "hover:group-data-[collapsible=offcanvas]:bg-sidebar group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full",
+  "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2",
+  "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2",
+  className,
+)}
+// ---cut-after---
+/>;
+```
+
+There is some readability gain, but it's not worth the things we lose. I'm not
+even talking about the performance cost. Even if we use the most basic `cn`
+function like `xs.filter(Boolean).join(' ')`, no `tailwind-merge`. We lose
+predictability and greppability.
+
+**Predictability:** Prettier Tailwind plugin can order classes in long strings,
+so we always get the same order. Just trust the formatter. Predictable is nice.
+
+**Greppability:** If there's no **concatenation**, even for mapping from props
+to style, we can copy a class from the browser and immediately jump to the code.
+
+<aside>
+  [Greppability is still
+  underrated](https://morizbuesing.com/blog/greppability-code-metric/).
+</aside>
+
+I always rebind project search, so it's just:
+
+<div className="-mt-7 flex items-center gap-1">
+  {["cmd+c", "alt+tab", "cmd+e", "cmd+v"].map((shortcut, i) => (
+    <>
+      {i !== 0 && <span className="translate-y-px opacity-60">→</span>}
+      <Shortcut shortcut={shortcut} />
+    </>
+  ))}
+</div>
+
+But what if the concatenation isn't needless? If we actually have some state or
+props, like `variant` or `size`, which we're mapping to styles.
+
+https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L231-L241
+
+typography-body-sm flex items-center gap-1.5 whitespace-pre px-4 py-2.5
+text-neu-700 dark:text-neu-600
+
+---
+
+Phil Pearl wrote a parallel post about needless calls of Golang `fmt.Sprintf`
+in 2019. There's a pattern.
