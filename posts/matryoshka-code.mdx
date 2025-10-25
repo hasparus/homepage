@@ -9,8 +9,21 @@ conversations, even six years later in 2025.
 
 import { LinkCard } from '../src/own/LinkCard';
 
-Slides: <LinkCard />
+export const TalkCard = () => {
+  return (
+    <LinkCard href="https://matryoshka-code.vercel.app/">
+      <img
+        width={280}
+        class="dark:opacity-90"
+        alt="matryoshkas"
+        src="https://images-na.ssl-images-amazon.com/images/I/5186qD8N%2BpL._SX466_.jpg"
+      />
+      <span>https://matryoshka-code.now.sh</span>
+    </LinkCard>
+  )
+}
 
+Slides: <TalkCard />
 
 ## pitch
 
