@@ -25,6 +25,9 @@
     /* Reset letter-spacing that was increased above in `.Code`. */
     letter-spacing: unset;
     font-size: 1em;
+    display: block;
+    width: min-content;
+    min-width: 100%;
 
     &::before,
     &::after {
@@ -39,6 +42,38 @@
 
   &[data-wrap="true"] :global(.line) {
     text-wrap: wrap;
+    padding-left: 2rem;
+    text-indent: -2rem;
+  }
+
+  &[data-line-numbers="true"] {
+    counter-reset: line-number var(--start, 0);
+    & :global(.line) {
+      position: relative;
+      min-width: fit-content;
+      width: 100%;
+    }
+    & :global(.line)::before {
+      @apply font-mono text-[12px];
+      counter-increment: line-number;
+      content: counter(line-number);
+      color: theme(colors.gray.600);
+      position: sticky;
+      left: 0;
+      width: 2.5rem;
+      padding-right: 0.5rem;
+      transform: translateX(-1px);
+      text-align: right;
+      right: 100%;
+      --bg: #fafafa;
+      display: inline-block;
+      background: linear-gradient(to right, var(--bg) 82%, transparent);
+
+      :global(.dark) & {
+        color: theme(colors.gray.400);
+        --bg: #1b1b1b;
+      }
+    }
   }
 }
 

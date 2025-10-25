@@ -14,15 +14,25 @@ export function Code(props: JSX.HTMLAttributes<HTMLElement>) {
 interface PreProps extends JSX.HTMLAttributes<HTMLPreElement> {
   github?: string;
   wrap?: boolean;
+  "line-numbers"?: number | boolean;
 }
 
 export function Pre(props: PreProps) {
-  const [local, rest] = splitProps(props, ["github", "wrap"]);
+  const [local, rest] = splitProps(props, ["github", "wrap", "line-numbers"]);
 
   const content = (
     <pre
       {...rest}
       data-wrap={local.wrap ? "true" : undefined}
+      data-line-numbers={local["line-numbers"] ? "true" : undefined}
+      style={{
+        ...(rest.style as object),
+        "--start": local["line-numbers"]
+          ? local["line-numbers"] === true
+            ? 0
+            : local["line-numbers"].toString()
+          : undefined,
+      }}
       classList={{
         ...rest.classList,
         [styles.Pre!]: true,
