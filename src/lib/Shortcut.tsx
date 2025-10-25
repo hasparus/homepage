@@ -1,27 +1,34 @@
 import type { JSX } from "solid-js";
-import { For } from "solid-js";
+import { For, splitProps } from "solid-js";
 
 import { isMac } from "./isMac";
 import { Kbd } from "./Kbd";
 
 export interface ShortcutProps extends JSX.HTMLAttributes<HTMLElement> {
   shortcut: string;
+  isMac?: boolean;
 }
 
 export function Shortcut(props: ShortcutProps) {
+  const [local, rest] = splitProps(props, [
+    "shortcut",
+    "class",
+    "classList",
+    "isMac",
+  ]);
   // This component cannot be used on serverside;
-  const IS_MAC = typeof window !== "undefined" && isMac();
+  const IS_MAC = local.isMac || (typeof window !== "undefined" && isMac());
 
   return (
     <span
-      {...props}
-      class={props.class}
+      {...rest}
+      class={local.class}
       classList={{
-        ...props.classList,
-        "inline-flex gap-1": true,
+        ...local.classList,
+        "inline-flex gap-px": true,
       }}
     >
-      <For each={props.shortcut.split("+")}>
+      <For each={local.shortcut.split("+")}>
         {(key) => {
           let style = "";
 
