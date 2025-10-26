@@ -64,7 +64,12 @@ to style, we can copy a class from the browser and immediately jump to the code.
 
 I always rebind project search, so it's just:
 
-<div className="-mt-7 flex items-center gap-1">
+<div
+  className="flex items-center gap-1"
+  style={{
+    marginTop: "-1.75rem",
+  }}
+>
   {["cmd+c", "alt+tab", "cmd+e", "cmd+v"].map((shortcut, i) => (
     <>
       {i !== 0 && <span className="translate-y-px opacity-60">→</span>}
@@ -106,13 +111,21 @@ I'm not a radical here. I like using `aria-` attributes for state and I've used
 "relative flex items-center justify-center gap-2.5 font-normal text-base/none text-neu-0 bg-neu-900 hover:bg-neu-800 active:bg-neu-700 font-sans h-14 px-8 data-[size=md]:h-12 data-[variant=secondary]:bg-neu-100 dark:data-[variant=secondary]:bg-neu-100/80 dark:data-[variant=secondary]:hover:bg-neu-200/50 data-[variant=secondary]:text-neu-900 data-[variant=secondary]:hover:bg-neu-200/75 data-[variant=secondary]:active:bg-neu-200/90 data-[variant=tertiary]:bg-neu-100 data-[variant=tertiary]:text-neu-900 data-[variant=tertiary]:hover:bg-neu-200 data-[variant=tertiary]:active:bg-neu-300 gql-focus-visible [aria-disabled]:bg-neu-800 aria-disabled:pointer-events-none dark:data-[variant=tertiary]:bg-neu-900/10 dark:data-[variant=tertiary]:text-neu-900 dark:data-[variant=tertiary]:hover:bg-neu-900/[.125] dark:data-[variant=tertiary]:active:bg-neu-800/20 dark:data-[variant=tertiary]:ring-1 dark:data-[variant=tertiary]:ring-inset dark:data-[variant=tertiary]:ring-neu-900/20",
 ```
 
-Obviously, in the code above I started with two variants, and only then needed a
-tertiary. I can acknowledge that this is getting to the point where I should use
-[`class-variance-authority`](https://github.com/joe-bell/cva).
+In the code above I obvi started with two variants, and only later needed a
+tertiary. I&nbsp;can acknowledge that this is getting to the point where I
+should use [`cva`](https://github.com/joe-bell/cva). We don't really need the
+grappability on the class either, because looking at the component you can guess
+it's called Button.
 
-Still, 
+Still, it's _fine_. Not even close to my ugliest Tailwind code. I'm not gonna
+refactor it until it grows to the point of being unbearable.
+
+We still put too much focus on readability, and not enough on perf, ease of
+finding, and ease of working with the code. Embrace ugly. Ask the clanker to
+parse it if you really can't look at it.
 
 ---
 
-Phil Pearl wrote a parallel post about needless calls of Golang `fmt.Sprintf`
-in 2019. There's a pattern.
+Phil Pearl wrote
+[a parallel post](https://medium.com/swlh/bad-go-frivolous-sprintf-2ad28fedf1a0)
+about needless calls of Golang `fmt.Sprintf` in 2019. There's a pattern.

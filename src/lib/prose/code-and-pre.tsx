@@ -61,7 +61,7 @@ function GitHubCodeSnippetFigcaption(props: { link: string }) {
   const filepath = `/${parts.slice(4).join("/")}`;
 
   return (
-    <figcaption class="space flex items-center justify-between border-b border-gray-300 bg-white !px-0 !font-sans !text-sm !not-italic dark:border-gray-700 dark:bg-gray-900 [&:has(~_.github-dark)]:hidden dark:[&:has(~_.github-dark)]:flex dark:[&:has(~_.github-light)]:hidden">
+    <figcaption class="flex items-center justify-between border-b border-gray-300 bg-white !px-0 !font-sans !text-sm !not-italic dark:border-gray-700 dark:bg-gray-900 [&:has(~_.github-dark)]:hidden dark:[&:has(~_.github-dark)]:flex dark:[&:has(~_.github-light)]:hidden">
       <Link
         target="_blank"
         rel="noreferrer"
