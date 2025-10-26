@@ -35,7 +35,7 @@
     "@codesandbox/nodebox": "^0.1.9",
     "@fontsource-variable/brygada-1918": "^5.0.19",
     "@fontsource-variable/inter": "^5.0.18",
-    "@hasparus/tailwind": "^1.1.5",
+    "@hasparus/tailwind": "^1.1.7",
     "@mdx-js/mdx": "3.0.1",
     "@next/env": "^14.2.3",
     "@react-three/drei": "^9.106.0",

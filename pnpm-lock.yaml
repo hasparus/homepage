@@ -36,8 +36,8 @@ importers:
         specifier: ^5.0.18
         version: 5.0.18
       '@hasparus/tailwind':
-        specifier: ^1.1.5
-        version: 1.1.5(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@24.1.0)(typescript@5.4.5)))
+        specifier: ^1.1.7
+        version: 1.1.7(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@24.1.0)(typescript@5.4.5)))
       '@mdx-js/mdx':
         specifier: 3.0.1
         version: 3.0.1
@@ -765,8 +765,8 @@ packages:
   '@hasparus/eslint-plugin@1.0.0':
     resolution: {integrity: sha512-Pef5tKZVNdMxkbO5RJE9KFzdN/vgMOAcZLd9gfmXZa1Th+zKMh8N+JP0p9+oVTeSH1n7MaFmuW23tBJTjzqL0w==}
 
-  '@hasparus/tailwind@1.1.5':
-    resolution: {integrity: sha512-FmcuELjjiadTL2jCcXSOzHYNPrWZA+xfoI71vM7x8yaOxAQgaMWdhffnlzwWp64WHI4sIei52tgXCe1gKABZRA==}
+  '@hasparus/tailwind@1.1.7':
+    resolution: {integrity: sha512-Xcu9wolWMUf/SRMx8xITGFU9HJxoPPPheLVhJDwSnI9ApUG+01w91NRymfFCEZV56RaYcpqSkP7qc1mbEK8uJQ==}
     peerDependencies:
       tailwindcss: '>=3.0.0'
 
@@ -6324,7 +6324,7 @@ snapshots:
     dependencies:
       typescript: 5.4.5
 
-  '@hasparus/tailwind@1.1.5(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@24.1.0)(typescript@5.4.5)))':
+  '@hasparus/tailwind@1.1.7(tailwindcss@3.4.3(ts-node@10.9.1(@types/node@24.1.0)(typescript@5.4.5)))':
     dependencies:
       tailwindcss: 3.4.3(ts-node@10.9.1(@types/node@24.1.0)(typescript@5.4.5))
 
