@@ -26,7 +26,7 @@ I get it. Human minds yearn for order. The Soulless imitate our weakness.
 
 Just write it together. One string.
 
-```tsx twoslash
+```tsx twoslash wrap
 import { cn } from "./src/code-blocks/frivolous-concatenation.js";
 // prettier-ignore
 <div
@@ -144,12 +144,15 @@ Still, it's _fine_. It's not even close to my ugliest Tailwind code. I'm not
 gonna refactor it until it grows to the point of being unbearable.
 
 We still put too much focus on readability and not enough on perf, ease of
-finding, and ease of working with the code. Embrace ugly. Ask the clanker to
-parse it if you really can't look at it.
+finding, and ease of working with the code.
+
+Instead, we can embrace ugly and leverage the tools we have to make it more
+bearable.
 
 Augment yourself. We live in Cyberpunk, right?
 
-Set `"editor.wordWrap": "on"` or equivalent in your text editor, grab some
+Ask the clanker to parse it if you really can't look at it. Set
+`"editor.wordWrap": "on"` or equivalent in your text editor, grab some
 extensions like
 [Tailwind Fold](https://marketplace.visualstudio.com/items?itemName=stivo.tailwind-fold)
 or
@@ -158,8 +161,17 @@ or
 Don't change the runtime just for something as subjective as readability or
 aesthetics.
 
----
+Don't go overboard and write everything in one huge string always: `cn` is a
+great function. `class-variance-authority` is amazing. We should respect them
+and not reach for them instantly and everywhere.
 
-Phil Pearl wrote
+The AI reviewing this wants me to add a rule of thumb, something constructive to
+finish the post with.
+
+Nah. Trust your gut. And git gud, man up or woman up, or both.
+
+Also don't panic, we've been frivolous and sloppy for a long time. Phil Pearl
+wrote
 [a parallel post](https://medium.com/swlh/bad-go-frivolous-sprintf-2ad28fedf1a0)
-about needless calls of Golang `fmt.Sprintf` in 2019. There's a pattern.
+about needless calls of Golang `fmt.Sprintf` in 2019. \
+There's a pattern.
