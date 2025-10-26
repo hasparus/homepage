@@ -1,3 +1,4 @@
+import { scrollviewFade } from "@hasparus/tailwind";
 import type { Config } from "tailwindcss";
 import tailwindColors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
@@ -81,6 +82,7 @@ const config: Config = {
     plugin(({ addVariant }) => {
       addVariant("pointer-coarse", "@media (pointer: coarse)");
     }),
+    scrollviewFade,
   ],
 };
 

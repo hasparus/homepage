@@ -76,11 +76,3 @@
     }
   }
 }
-
-.Pre.inFigure {
-  @apply border-t border-gray-300 !bg-[--bg] py-1 [--bg:theme(colors.gray.100/.5)];
-
-  &:global(.github-dark) {
-    @apply border-gray-700 [--bg:theme(colors.gray.800/0.25)];
-  }
-}
