@@ -1,10 +1,8 @@
-// @ts-check
+import type { Config } from "tailwindcss";
+import tailwindColors from "tailwindcss/colors";
+import plugin from "tailwindcss/plugin";
 
-const tailwindColors = require("tailwindcss/colors");
-const plugin = require("tailwindcss/plugin");
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+const config: Config = {
   darkMode: "class",
   experimental: {
     optimizeUniversalDefaults: true,
@@ -68,9 +66,9 @@ module.exports = {
       },
       keyframes: {
         "scale-up": {
-          "0%": { transform: "scale(0.9)", opacity: 0 },
-          "70%": { transform: "scale(1.02)", opacity: 0.7 },
-          "100%": { transform: "scale(1)", opacity: 1 },
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "70%": { transform: "scale(1.02)", opacity: "0.7" },
+          "100%": { transform: "scale(1)", opacity: "1" },
         },
       },
     },
@@ -85,3 +83,5 @@ module.exports = {
     }),
   ],
 };
+
+export default config;
