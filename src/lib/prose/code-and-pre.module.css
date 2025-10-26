@@ -17,7 +17,7 @@
 }
 
 .Pre {
-  @apply overflow-x-auto text-sm;
+  @apply text-sm;
 
   tab-size: 2;
 
