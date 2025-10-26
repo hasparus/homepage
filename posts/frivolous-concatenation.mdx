@@ -24,8 +24,20 @@ Please don't do this.
 
 I get it. Human minds yearn for order. The Soulless imitate our weakness.
 
-I understand the motivation, especially in more complex production scenarios,
-like in `shadcn`:
+Just write it together. One string.
+
+```tsx twoslash
+import { cn } from "./src/code-blocks/frivolous-concatenation.js";
+// prettier-ignore
+<div
+// ---cut---
+className="typography-body-sm flex items-center gap-1.5 whitespace-pre px-4 py-2.5 text-neu-700 dark:text-neu-600"
+// ---cut-after---
+/>;
+```
+
+I understand the motivation to split it, especially in more complex production
+scenarios, like in `shadcn`:
 
 ```tsx line-numbers=293 twoslash github="https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L293-L300"
 import { cn } from "./src/code-blocks/frivolous-concatenation.js";
@@ -46,13 +58,20 @@ className={cn(
 />;
 ```
 
+<aside>
+  if you've never seen a `cn` function, you can read it as _classNames_ or
+  _conditional concat_.
+</aside>
+
 There is some readability gain, but it's not worth the things we lose. I'm not
 even talking about the performance cost. Even if we use the most basic `cn`
 function like `xs.filter(Boolean).join(' ')`, no `tailwind-merge`. We lose
 predictability and greppability.
 
-**Predictability:** Prettier Tailwind plugin can order classes in long strings,
-so we always get the same order. Just trust the formatter. Predictable is nice.
+**Predictability:** The
+[Prettier plugin for Tailwind CSS](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)
+can order classes in long strings, so we always get the same order. Just trust
+the formatter. Predictable is nice.
 
 **Greppability:** If there's no **concatenation**, even for mapping from props
 to style, we can copy a class from the browser and immediately jump to the code.
@@ -78,8 +97,12 @@ I always rebind project search, so it's just:
   ))}
 </div>
 
+And I'm right where I wanna be.
+
+## But what if...
+
 But what if the concatenation isn't needless? If we actually have some state or
-props, like `variant` or `size`, which we're mapping to styles.
+props, such as `variant` or `size`, that we're mapping to styles.
 
 ```tsx line-numbers=231 twoslash github="https://github.com/shadcn-ui/ui/blob/ac306c60f569c342b6e0b3586867efd7a7658766/apps/v4/registry/new-york-v4/ui/sidebar.tsx#L231-L241"
 import { cn } from "./src/code-blocks/frivolous-concatenation.js";
@@ -111,18 +134,29 @@ I'm not a radical here. I like using `aria-` attributes for state and I've used
 "relative flex items-center justify-center gap-2.5 font-normal text-base/none text-neu-0 bg-neu-900 hover:bg-neu-800 active:bg-neu-700 font-sans h-14 px-8 data-[size=md]:h-12 data-[variant=secondary]:bg-neu-100 dark:data-[variant=secondary]:bg-neu-100/80 dark:data-[variant=secondary]:hover:bg-neu-200/50 data-[variant=secondary]:text-neu-900 data-[variant=secondary]:hover:bg-neu-200/75 data-[variant=secondary]:active:bg-neu-200/90 data-[variant=tertiary]:bg-neu-100 data-[variant=tertiary]:text-neu-900 data-[variant=tertiary]:hover:bg-neu-200 data-[variant=tertiary]:active:bg-neu-300 gql-focus-visible [aria-disabled]:bg-neu-800 aria-disabled:pointer-events-none dark:data-[variant=tertiary]:bg-neu-900/10 dark:data-[variant=tertiary]:text-neu-900 dark:data-[variant=tertiary]:hover:bg-neu-900/[.125] dark:data-[variant=tertiary]:active:bg-neu-800/20 dark:data-[variant=tertiary]:ring-1 dark:data-[variant=tertiary]:ring-inset dark:data-[variant=tertiary]:ring-neu-900/20",
 ```
 
-In the code above I obvi started with two variants, and only later needed a
+In the code above, I obvi started with two variants, and only later needed a
 tertiary. I&nbsp;can acknowledge that this is getting to the point where I
 should use [`cva`](https://github.com/joe-bell/cva). We don't really need the
-grappability on the class either, because looking at the component you can guess
-it's called Button.
+greppability on the class either, because looking at the component, you can
+guess it's called Button.
 
-Still, it's _fine_. Not even close to my ugliest Tailwind code. I'm not gonna
-refactor it until it grows to the point of being unbearable.
+Still, it's _fine_. It's not even close to my ugliest Tailwind code. I'm not
+gonna refactor it until it grows to the point of being unbearable.
 
-We still put too much focus on readability, and not enough on perf, ease of
+We still put too much focus on readability and not enough on perf, ease of
 finding, and ease of working with the code. Embrace ugly. Ask the clanker to
 parse it if you really can't look at it.
+
+Augment yourself. We live in Cyberpunk, right?
+
+Set `"editor.wordWrap": "on"` or equivalent in your text editor, grab some
+extensions like
+[Tailwind Fold](https://marketplace.visualstudio.com/items?itemName=stivo.tailwind-fold)
+or
+[Tailwind CSS Highlight](https://marketplace.visualstudio.com/items?itemName=ellreka.tailwindcss-highlight).
+
+Don't change the runtime just for something as subjective as readability or
+aesthetics.
 
 ---
 
