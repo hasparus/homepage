@@ -44,18 +44,24 @@ I hope this framing can help you find some joy in it too.
 
 ## Invocations
 
-I'm keeping a list of workflows and behavior patterns I've found useful for my work.
-A spellbook of sorts. Not everything I'm using, because 1. I'm lazy, and 2. I'm not sure enough about everything to make it public.
+I'm keeping a list of workflows and behavior patterns I've found useful for my
+work. A spellbook of sorts. Not everything I'm using, because 1. I'm lazy,
+and 2. I'm not sure enough about everything to make it public.
 
 - **Make sure we didn't mess it up.**
   - With Lighthouse and Vercel MCPs I iterated on perf improvements for the new
     GraphQL.org website by running an audit on each new deployment. This was
     faster than doing it manually because the LLM took care of diffing and I
     could focus on the code without leaving the editor, without changing the
-    browser tab on my 14inch macbook. Sounds silly, but I'm internet-rich
+    browser tab on my 14-inch macbook. Sounds silly, but I'm internet-rich
     screen-space-constrained.
+- **Diff before and after screenshots.**
+  - This is as blackbox as you can get. Being able to leave the AI spinning for
+    an hour or two trying match a screenshot makes big migrations so much
+    easier.
 - **Build the thing to build the thing.**
-  - Game developers do it all the time. You build a level editor to build the game.
+  - Game developers do it all the time. You build a level editor to build the
+    game.
     - example: https://x.com/geoffreylitt/status/1960344454348292374
     - I did something similar to Geoffrey's AI HUD but with Ink for a tricky
       migration (lots of global scope, file moves changed paths). Telling the
@@ -64,16 +70,22 @@ A spellbook of sorts. Not everything I'm using, because 1. I'm lazy, and 2. I'm 
 
 ### Favorite rules
 
-It's kinda funny how we all carry bits of markdown with sacred knowledge for the spirits in the machine.
-I don't want to be finicky, but some additional guidance does help them a lot.
+It's kinda funny how we all carry bits of markdown with sacred knowledge for the
+spirits in the machine. I don't want to be finicky, but some additional guidance
+does help them a lot.
 
-Below, you can find excerpts from my spellbook, some of the rules I'm using in all agent CLIs and editors.
+Below, you can find excerpts from my spellbook, some of the rules I'm using in
+all agent CLIs and editors.
 
 #### ast-grep
 
 > Use `ast-grep` to search for patterns in the codebase and simple refactorings.
 >
-> Think of it as your old-friend grep, but matching AST nodes instead of text. You can write patterns as if you are writing ordinary code. It will match all code that has the same syntactical structure. You can use $ sign + upper case letters as a wildcard, e.g. $MATCH, to match any single AST node. Think of > it as regular expression dot ., except it is not textual.
+> Think of it as your old-friend grep, but matching AST nodes instead of text.
+> You can write patterns as if you are writing ordinary code. It will match all
+> code that has the same syntactical structure. You can use $ sign + upper case
+> letters as a wildcard, e.g. $MATCH, to match any single AST node. Think of >
+> it as regular expression dot ., except it is not textual.
 >
 > CLI usage:
 >
@@ -92,6 +104,7 @@ Below, you can find excerpts from my spellbook, some of the rules I'm using in a
 > ```
 >
 > Rewrite Zodios
+>
 > ```
 > ast-grep -p 'new Zodios($URL,  $CONF as const,)' -l ts -r 'new Zodios($URL, $CONF)' -i
 > ```
@@ -102,23 +115,24 @@ Don't list benefits of the work you did. You don't need to advertise yourself.
 
 #### typescript
 
-Never annotate return types of functions, let TypeScript infer them.
-Never annotate callback function parameters if TypeScript can infer them.
+Never annotate return types of functions, let TypeScript infer them. Never
+annotate callback function parameters if TypeScript can infer them.
 
 #### .tsx
 
-> Never use `React.FC`.
-> Never use `useCallback`.
-> Never tightly couple `useState` with `useEffect` as this may lead to a infinite loop. Derive values > instead.
+> Never use `React.FC`. Never use `useCallback`. Never tightly couple `useState`
+> with `useEffect` as this may lead to a infinite loop. Derive values > instead.
 >
 > ALWAYS accept root element props and spread them like
+>
 > ```tsx
 > interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
->   variant?: 'primary' | 'secondary';
+>   variant?: "primary" | "secondary";
 > }
 > const Button = ({ variant, ...rest }: ButtonProps) => {
 >   return (
->     <button className={cn(variant === "primary" && "bg-primary", rest.className)}
+>     <button
+>       className={cn(variant === "primary" && "bg-primary", rest.className)}
 >       {...rest}
 >     />
 >   );
