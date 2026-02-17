@@ -22,3 +22,4 @@ pnpm-debug.log*
 .env.*.local
 playwright-report/
 test-results/
+e2e/screenshots/
