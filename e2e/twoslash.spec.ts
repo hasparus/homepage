@@ -14,23 +14,21 @@ for (const pagePath of twoslashPages) {
     });
 
     test("twoslash code blocks render", async ({ page }) => {
-      const codeBlocks = page.locator("pre.shiki.twoslash");
+      const codeBlocks = page.locator("pre.twoslash");
       await expect(codeBlocks.first()).toBeAttached();
       const count = await codeBlocks.count();
       expect(count).toBeGreaterThanOrEqual(1);
     });
 
-    test("type hover info (data-lsp) is present in DOM", async ({ page }) => {
-      // data-lsp elements may be inside hidden theme variants,
-      // so we check attachment rather than visibility
-      const lspElements = page.locator("data-lsp");
-      const count = await lspElements.count();
+    test("type hover info is present in DOM", async ({ page }) => {
+      const hoverElements = page.locator(".twoslash-hover");
+      const count = await hoverElements.count();
       expect(count).toBeGreaterThanOrEqual(1);
 
-      // Verify the first data-lsp element has a non-empty lsp attribute
-      const firstLsp = lspElements.first();
-      const lspValue = await firstLsp.getAttribute("lsp");
-      expect(lspValue).toBeTruthy();
+      // Verify popup containers exist
+      const popups = page.locator(".twoslash-popup-container");
+      const popupCount = await popups.count();
+      expect(popupCount).toBeGreaterThanOrEqual(1);
     });
   });
 }
@@ -39,7 +37,7 @@ for (const pagePath of twoslashPages) {
 test.describe("Twoslash error annotations on /refinement-types", () => {
   test("error annotations render", async ({ page }) => {
     await page.goto("/refinement-types");
-    const errors = page.locator(".error, .error-behind");
+    const errors = page.locator(".twoslash-error");
     const count = await errors.count();
     expect(count).toBeGreaterThanOrEqual(1);
   });
@@ -54,11 +52,9 @@ test.describe("Twoslash visual snapshots", () => {
         "Screenshots only on desktop"
       );
       await page.goto(pagePath);
-      // Wait for code blocks to render
-      await page.locator("pre.shiki.twoslash").first().waitFor({ state: "attached" });
+      await page.locator("pre.twoslash").first().waitFor({ state: "attached" });
 
-      // Screenshot visible twoslash blocks
-      const visibleBlocks = page.locator("pre.shiki.twoslash:visible");
+      const visibleBlocks = page.locator("pre.twoslash:visible");
       const count = await visibleBlocks.count();
 
       for (let i = 0; i < Math.min(count, 3); i++) {
