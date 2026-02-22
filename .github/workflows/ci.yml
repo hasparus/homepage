@@ -10,15 +10,13 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 10
+      - uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "24"
           cache: "pnpm"
@@ -40,6 +38,22 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Build
+        run: pnpm build
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
       - name: Deploy Production to Vercel
         if: github.ref_name == 'main'
         run:
@@ -55,7 +69,7 @@ jobs:
         uses: chrnorm/deployment-action@v2
         with:
           token: "${{ github.token }}"
-          environment-url: https://${{ env.DEPLOYMENT_ALIAS }} # <- set by deploy.mjs
+          environment-url: https://${{ env.DEPLOYMENT_ALIAS }}
           environment: Preview
           production-environment: false
           initial-status: success

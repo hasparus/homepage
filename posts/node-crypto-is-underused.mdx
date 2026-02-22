@@ -37,7 +37,7 @@ First things first, we need to generate a key pair.
 
 <div>
 
-```twoslash include generating-keys
+```tsx twoslash include generating-keys
 import { promisify } from "node:util";
 import { generateKeyPair } from "node:crypto";
 
@@ -65,7 +65,7 @@ Now back to JavaScript.
 
 Let's write and encode a short message, so we have something to work with.
 
-```twoslash include original-string
+```tsx twoslash include original-string
 const originalString = "my important message";
 const originalUint8Array = new Uint8Array(
   originalString.split("").map((ch) => ch.charCodeAt(0)),
