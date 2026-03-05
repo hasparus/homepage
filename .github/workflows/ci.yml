@@ -24,7 +24,7 @@ jobs:
       - name: Install
         id: install
         run: |
-          pnpm install --no-optional --frozen-lockfile ${{ env.IS_DEPENDABOT == 0 }}
+          pnpm install --frozen-lockfile ${{ env.IS_DEPENDABOT == 0 }}
 
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT == 1 }}
