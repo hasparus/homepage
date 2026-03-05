@@ -43,6 +43,44 @@ test.describe("Twoslash error annotations on /refinement-types", () => {
   });
 });
 
+test.describe("Twoslash dark mode", () => {
+  test("code block colors switch in dark mode", async ({ page }) => {
+    await page.goto("/refinement-types");
+
+    const html = page.locator("html");
+    const block = page.locator("pre.twoslash.astro-code-themes").first();
+    await expect(block).toBeVisible();
+
+    const getStyles = async () =>
+      block.evaluate((el) => {
+        const preStyle = getComputedStyle(el);
+        const firstToken = el.querySelector("span");
+        return {
+          preColor: preStyle.color,
+          preBackgroundColor: preStyle.backgroundColor,
+          firstTokenColor: firstToken ? getComputedStyle(firstToken).color : "",
+          shikiDark: preStyle.getPropertyValue("--shiki-dark").trim(),
+          shikiDarkBg: preStyle.getPropertyValue("--shiki-dark-bg").trim(),
+        };
+      });
+
+    const light = await getStyles();
+    expect(light.shikiDark.length).toBeGreaterThan(0);
+    expect(light.shikiDarkBg.length).toBeGreaterThan(0);
+
+    await page.evaluate(() => {
+      document.documentElement.classList.add("dark");
+      window.localStorage.setItem("color-scheme", "dark");
+    });
+    await expect(html).toHaveClass(/dark/);
+
+    const dark = await getStyles();
+    expect(dark.preColor).not.toBe(light.preColor);
+    expect(dark.preBackgroundColor).not.toBe(light.preBackgroundColor);
+    expect(dark.firstTokenColor).not.toBe(light.firstTokenColor);
+  });
+});
+
 // Visual regression for twoslash blocks (desktop only)
 test.describe("Twoslash visual snapshots", () => {
   for (const pagePath of twoslashPages) {
