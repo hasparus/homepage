@@ -82,8 +82,7 @@ test.describe("Twoslash dark mode", () => {
 });
 
 // Visual regression for twoslash blocks (desktop only)
-// Skipped until baseline screenshots are generated with: npx playwright test --update-snapshots
-test.describe.skip("Twoslash visual snapshots", () => {
+test.describe("Twoslash visual snapshots", () => {
   for (const pagePath of twoslashPages) {
     test(`screenshot ${pagePath} first twoslash block`, async ({ page }) => {
       test.skip(
@@ -94,7 +93,8 @@ test.describe.skip("Twoslash visual snapshots", () => {
       const firstBlock = page.locator("pre.twoslash").first();
       await expect(firstBlock).toBeVisible();
       await expect(firstBlock).toHaveScreenshot(
-        `${pagePath.slice(1)}-twoslash.png`
+        `${pagePath.slice(1)}-twoslash.png`,
+        { maxDiffPixelRatio: 0.05 }
       );
     });
   }
