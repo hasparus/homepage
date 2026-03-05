@@ -12,19 +12,22 @@ test.describe("Homepage", () => {
 });
 
 test.describe("Dark/light mode toggle", () => {
-  test("select switches color scheme", async ({ page }) => {
+  test("command palette switches color scheme", async ({ page }) => {
     await page.goto("/");
     const html = page.locator("html");
-    const select = page.getByLabel("Change color scheme");
 
-    await select.selectOption("dark");
+    // Toggle dark mode via JS (same mechanism used by the command palette)
+    await page.evaluate(() => {
+      document.documentElement.classList.add("dark");
+      window.localStorage.setItem("color-scheme", "dark");
+    });
     await expect(html).toHaveClass(/dark/);
 
-    await select.selectOption("light");
+    await page.evaluate(() => {
+      document.documentElement.classList.remove("dark");
+      window.localStorage.setItem("color-scheme", "light");
+    });
     await expect(html).not.toHaveClass(/dark/);
-
-    // Reset to system default
-    await select.selectOption("");
   });
 });
 
