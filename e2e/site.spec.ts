@@ -12,19 +12,19 @@ test.describe("Homepage", () => {
 });
 
 test.describe("Dark/light mode toggle", () => {
-  test("toggle switches color scheme", async ({ page }) => {
+  test("select switches color scheme", async ({ page }) => {
     await page.goto("/");
     const html = page.locator("html");
+    const select = page.getByLabel("Change color scheme");
 
-    await page.evaluate(() => {
-      document.documentElement.classList.add("dark");
-    });
+    await select.selectOption("dark");
     await expect(html).toHaveClass(/dark/);
 
-    await page.evaluate(() => {
-      document.documentElement.classList.remove("dark");
-    });
+    await select.selectOption("light");
     await expect(html).not.toHaveClass(/dark/);
+
+    // Reset to system default
+    await select.selectOption("");
   });
 });
 

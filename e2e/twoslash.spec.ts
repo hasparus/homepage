@@ -43,26 +43,20 @@ test.describe("Twoslash error annotations on /refinement-types", () => {
   });
 });
 
-// Screenshot tests for visual regression (desktop only)
+// Visual regression for twoslash blocks (desktop only)
 test.describe("Twoslash visual snapshots", () => {
   for (const pagePath of twoslashPages) {
-    test(`screenshot ${pagePath} twoslash area`, async ({ page }) => {
+    test(`screenshot ${pagePath} first twoslash block`, async ({ page }) => {
       test.skip(
         test.info().project.name === "mobile",
         "Screenshots only on desktop"
       );
       await page.goto(pagePath);
-      await page.locator("pre.twoslash").first().waitFor({ state: "attached" });
-
-      const visibleBlocks = page.locator("pre.twoslash:visible");
-      const count = await visibleBlocks.count();
-
-      for (let i = 0; i < Math.min(count, 3); i++) {
-        await visibleBlocks.nth(i).screenshot({
-          path: `e2e/screenshots/${pagePath.slice(1)}-block-${i}.png`,
-        });
-      }
-      expect(count).toBeGreaterThanOrEqual(1);
+      const firstBlock = page.locator("pre.twoslash").first();
+      await expect(firstBlock).toBeVisible();
+      await expect(firstBlock).toHaveScreenshot(
+        `${pagePath.slice(1)}-twoslash.png`
+      );
     });
   }
 });
