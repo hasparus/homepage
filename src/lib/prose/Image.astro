@@ -37,9 +37,11 @@ export const PARAGRAPH_WIDTH = 609 * 2;
 
 type LocalProps = LocalImageProps & {
   aspectRatio?: number | string;
+  height?: number | string;
 };
 type RemoteProps = RemoteImageProps & {
   aspectRatio?: number | string;
+  height?: number | string;
 };
 export type Props = LocalProps | RemoteProps;
 

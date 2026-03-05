@@ -5,7 +5,10 @@ import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
 import type { PostFrontmatter } from "../types";
 
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>("../../posts/**/*.mdx", { eager: true });
+const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
+  "../../posts/**/*.mdx",
+  { eager: true },
+);
 let posts = Object.values(postModules);
 
 posts = posts.filter((post) => !post.frontmatter.hidden);

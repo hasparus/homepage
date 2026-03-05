@@ -27,7 +27,10 @@ interface Props {
 
 const { title, description, ogImage } = Astro.props;
 
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>("../../posts/**/*.mdx", { eager: true });
+const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
+  "../../posts/**/*.mdx",
+  { eager: true },
+);
 const posts = Object.values(postModules)
   .filter((p) => !p.frontmatter.hidden)
   .map((p) => ({
