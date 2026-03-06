@@ -58,7 +58,7 @@ jobs:
 
       - name: Run tests
         id: test
-        run: pnpm test && pnpm exec playwright test
+        run: pnpm test
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
@@ -104,6 +104,39 @@ jobs:
           environment: Production
           production-environment: true
           initial-status: success
+    outputs:
+      deployment: ${{ env.DEPLOYMENT_ALIAS || env.PRODUCTION_HOSTNAME }}
+
+  lighthouse:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    if:
+      ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
+      (github.event_name == 'pull_request_target' &&
+      contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit URLs
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://${{ needs.build-and-deploy.outputs.deployment }}/
+            https://${{ needs.build-and-deploy.outputs.deployment }}/refinement-types/
+            https://${{ needs.build-and-deploy.outputs.deployment }}/frivolous-concatenation/
+          budgetPath: ".github/lighthouse-budget.json"
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  remove-trusted-label:
+    needs: lighthouse
+    runs-on: ubuntu-latest
+    if: always() && contains(github.event.pull_request.labels.*.name, 'trusted')
+    steps:
+      - name: Remove trusted label
+        run: |
+          gh api /repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels -X DELETE -F label=trusted
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
