@@ -1,9 +1,5 @@
 {
   "ci": {
-    "collect": {
-      "staticDistDir": "./dist",
-      "url": ["/"]
-    },
     "assert": {
       "assertions": {
         "categories:performance": ["warn", { "minScore": 0.9 }],
