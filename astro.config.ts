@@ -26,6 +26,32 @@ export default defineConfig({
         dark: "github-dark",
       },
       transformers: [
+        // Hide twoslash `include` definition blocks from rendered output.
+        // The old shiki-twoslash did this automatically; @shikijs/twoslash doesn't.
+        // Must run before transformerTwoslash so it can read the raw meta.
+        // Uses `root` hook because Astro calls codeToHast (not codeToHtml),
+        // so `postprocess` never fires.
+        {
+          name: "hide-twoslash-include",
+          preprocess(_code, options) {
+            if (options.meta?.__raw?.match(/\binclude\s+\w+/)) {
+              (this as any).__hideBlock = true;
+            }
+          },
+          root(hast) {
+            if ((this as any).__hideBlock) {
+              // Replace with a hidden span so the HAST stays valid for MDX
+              hast.children = [
+                {
+                  type: "element",
+                  tagName: "span",
+                  properties: { style: "display:none", "aria-hidden": "true" },
+                  children: [],
+                },
+              ];
+            }
+          },
+        },
         transformerTwoslash({
           explicitTrigger: true,
           twoslashOptions: {
