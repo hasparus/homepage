@@ -9,6 +9,9 @@ on:
 
 jobs:
   build-and-deploy:
+    if: >-
+      github.event_name != 'pull_request_target'
+      || contains(github.event.pull_request.labels.*.name, 'trusted')
     runs-on: ubuntu-latest
     permissions:
       deployments: write
