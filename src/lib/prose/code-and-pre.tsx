@@ -37,7 +37,8 @@ export function Pre(props: PreProps) {
         ...rest.classList,
         [styles.Pre!]: true,
         "py-1": !!local.github,
-        "scrollview-fade-right-16 scrollview-fade": !local.wrap,
+        "scrollview-fade-right-16 scrollview-fade":
+          !local.wrap && !rest.class?.toString().includes("twoslash"),
       }}
     />
   );
