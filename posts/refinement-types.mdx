@@ -15,11 +15,11 @@ _**T**_ called _**P**_.
 Even numbers are a nice example. Our _**T**_ is `number`, our _**P**_ is
 `isEven`.
 
-```twoslash include brand
+```tsx twoslash include brand
 type Even = number & { _brand: "Even" };
 ```
 
-```twoslash include def
+```tsx twoslash include def
 type T = number;
 
 let isEven = (x: T): boolean => {
@@ -129,7 +129,8 @@ need in this case.
 
 Let’s empower our `isEven` predicate by changing its return type.
 
-```twoslash include new-def
+```tsx twoslash include new-def
+// @errors: 2552
 function isEven(x: number): x is Even {
   return x % 2 === 0;
 }
