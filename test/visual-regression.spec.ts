@@ -1,5 +1,6 @@
 import { toMatchImageSnapshot } from "jest-image-snapshot";
-import { readdir } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { getDocument, queries } from "pptr-testing-library";
 import puppeteer, { type Browser, Page } from "puppeteer";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -8,11 +9,21 @@ const HEADLESS = true;
 
 expect.extend({ toMatchImageSnapshot });
 
-let postsInFS = await readdir(new URL("../posts", import.meta.url).pathname, {
-  recursive: true,
-});
-postsInFS = postsInFS
-  .filter((file) => /\.mdx?$/.test(file))
+const postsDir = new URL("../posts", import.meta.url).pathname;
+let allPostFiles = await readdir(postsDir, { recursive: true });
+allPostFiles = allPostFiles.filter((file) => /\.mdx?$/.test(file));
+
+// Filter out hidden/draft posts that won't appear on the index page
+const visiblePostFiles: string[] = [];
+for (const file of allPostFiles) {
+  const content = await readFile(join(postsDir, file), "utf-8");
+  const isHidden = /^hidden:\s*true/m.test(content);
+  if (!isHidden) {
+    visiblePostFiles.push(file);
+  }
+}
+
+let postsInFS = visiblePostFiles
   .map((file) => file.replace(/\.mdx?$/, ""))
   .sort();
 
@@ -31,11 +42,8 @@ describe("visual regression", async () => {
     page = await browser.newPage();
   });
 
-  let postsInFS = await readdir(new URL("../posts", import.meta.url).pathname, {
-    recursive: true,
-  });
-  postsInFS = postsInFS
-    .filter((file) => /\.mdx?$/.test(file))
+  // Use the filtered visible posts, normalizing spaces to hyphens for URL matching
+  const postsForScreenshots = visiblePostFiles
     .map((file) => file.replace(/\.mdx?$/, "").replaceAll(" ", "-"));
 
   // the tests are ran in order with no file parallelism
@@ -65,7 +73,7 @@ describe("visual regression", async () => {
   });
 
   it("matches screenshots in blog posts", { timeout: 60_000 }, async () => {
-    for (const post of postsInFS) {
+    for (const post of postsForScreenshots) {
       await page.goto(`http://localhost:4321/${post}`);
       const screenshot = await page.screenshot({ fullPage: true });
       expect(screenshot).toMatchImageSnapshot();
