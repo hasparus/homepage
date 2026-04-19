@@ -1,5 +1,6 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
 import { transformerTwoslash } from "@shikijs/twoslash";
@@ -56,6 +57,7 @@ export default defineConfig({
     }),
     solidJs({ exclude: ["**/*.react.tsx"] }),
     react({ include: ["**/*.react.tsx"] }),
+    sitemap(),
   ],
   vite: {
     ssr: {
