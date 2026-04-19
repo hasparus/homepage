@@ -6,8 +6,10 @@ import Analytics from "../lib/Analytics.astro";
 import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
+import { isPostVisible } from "../lib/isPostVisible";
 import { Link } from "../lib/Link";
 import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
+import { AUTHOR, SITE_NAME } from "../lib/siteMeta";
 import { websiteSchema } from "../lib/seo/jsonLd";
 import JsonLd from "../lib/seo/JsonLd.astro";
 import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
@@ -34,7 +36,7 @@ const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
   { eager: true },
 );
 const posts = Object.values(postModules)
-  .filter((p) => !p.frontmatter.hidden)
+  .filter((p) => isPostVisible(p.frontmatter))
   .map((p) => ({
     href: p.frontmatter.path,
     title: p.frontmatter.title,
@@ -56,10 +58,10 @@ const markdownAlt = Astro.site
   ? new URL(rawPathname + ".md", Astro.site).href
   : rawPathname + ".md";
 
-// TODO(downstream): override with real site name + author.
 const websiteData = websiteSchema({
-  name: "Zaduma",
+  name: SITE_NAME,
   url: Astro.site ? Astro.site.href : Astro.url.origin + "/",
+  author: AUTHOR,
 });
 ---
 

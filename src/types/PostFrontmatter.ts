@@ -47,5 +47,8 @@ export interface PostFrontmatter {
    * }
    */
   readingTime: ReadTimeResults;
+  /** Never rendered, including in dev. */
   hidden?: boolean;
+  /** Hidden in PROD, visible in dev. */
+  draft?: boolean;
 }
