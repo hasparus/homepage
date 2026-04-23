@@ -4,6 +4,9 @@ import type { MarkdownLayoutProps } from "astro";
 import { createOgImageLink } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
 import Image, { WIDE_CONTAINER_WIDTH } from "../lib/prose/Image.astro";
+import { blogPostingSchema } from "../lib/seo/jsonLd";
+import JsonLd from "../lib/seo/JsonLd.astro";
+import { AUTHOR } from "../lib/siteMeta";
 import TableOfContents from "../lib/TableOfContents/TableOfContents.astro";
 import { TOP_HEADING_ID } from "../lib/TOP_HEADING_ID";
 import type { PostFrontmatter } from "../types";
@@ -30,9 +33,22 @@ const date = new Date(frontmatter.date);
 const imgSrc =
   typeof frontmatter.img === "object" ? frontmatter.img.src : frontmatter.img;
 const description = frontmatter.description || ""
+
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.pathname;
+
+const postSchema = blogPostingSchema({
+  headline: frontmatter.title,
+  datePublished: date.toISOString(),
+  description: frontmatter.description,
+  canonical,
+  author: AUTHOR,
+});
 ---
 
 <BaseLayout title={frontmatter.title} ogImage={ogImage} description={description}>
+  <JsonLd data={postSchema} slot="head" />
   <main class="zaduma-prose py-4">
     <header
       class="flex justify-between items-start sm:items-center flex-col sm:flex-row"

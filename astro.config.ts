@@ -1,19 +1,23 @@
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import tailwind from "@astrojs/tailwind";
 import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig } from "astro/config";
-import { dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
+import { getHiddenPostUrls } from "./src/build-time/hiddenPostUrls";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Production URL
-const hostname = "hasparus.vercel.app";
+const hostname = "haspar.us";
 const site = `https://${hostname}/`;
+
+const hiddenPaths = getHiddenPostUrls(resolve(__dirname, "./posts"));
 
 // https://astro.build/config
 export default defineConfig({
@@ -82,6 +86,9 @@ export default defineConfig({
     }),
     solidJs({ exclude: ["**/*.react.tsx"] }),
     react({ include: ["**/*.react.tsx"] }),
+    sitemap({
+      filter: (page) => !hiddenPaths.has(new URL(page).pathname),
+    }),
   ],
   vite: {
     ssr: {
