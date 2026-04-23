@@ -48,7 +48,7 @@ test.describe("agent-ready endpoints", () => {
     expect(body).toContain("## Posts");
     // At least one known post rendered as `- [Title](absolute-url)`
     expect(body).toMatch(
-      /- \[Asides\]\(https?:\/\/[^)]+\/features\/asides\)/,
+      /- \[Refinement Types\]\(https?:\/\/[^)]+\/refinement-types\)/,
     );
   });
 
@@ -59,7 +59,7 @@ test.describe("agent-ready endpoints", () => {
     expect(res.status()).toBe(200);
     const body = await res.text();
 
-    expect(body).toContain("# Asides");
+    expect(body).toContain("# Refinement Types");
     expect(body).toContain("---"); // separator between posts
     // Frontmatter fences should be stripped — the file starts with `---\ntags:`,
     // so a leading `tags:` line would prove we leaked frontmatter.
@@ -69,10 +69,10 @@ test.describe("agent-ready endpoints", () => {
   test("/<post>.md returns raw markdown body with the title heading", async ({
     request,
   }) => {
-    const res = await request.get("/features/asides.md");
+    const res = await request.get("/refinement-types.md");
     expect(res.status()).toBe(200);
     const body = await res.text();
-    expect(body.startsWith("# Asides")).toBe(true);
+    expect(body.startsWith("# Refinement Types")).toBe(true);
     expect(body).not.toMatch(/^---\n/);
   });
 });
@@ -81,12 +81,12 @@ test.describe("head metadata for agents", () => {
   test("post page has canonical, markdown alt, and JSON-LD", async ({
     page,
   }) => {
-    await page.goto("/features/asides/");
+    await page.goto("/refinement-types/");
 
     const canonical = page.locator('link[rel="canonical"]');
     await expect(canonical).toHaveAttribute(
       "href",
-      /https?:\/\/.+\/features\/asides\/?$/,
+      /https?:\/\/.+\/refinement-types\/?$/,
     );
 
     const mdAlt = page.locator(
@@ -94,7 +94,7 @@ test.describe("head metadata for agents", () => {
     );
     await expect(mdAlt).toHaveAttribute(
       "href",
-      /https?:\/\/.+\/features\/asides\.md$/,
+      /https?:\/\/.+\/refinement-types\.md$/,
     );
 
     const jsonLdBlocks = await page
@@ -106,9 +106,9 @@ test.describe("head metadata for agents", () => {
     expect(types).toContain("BlogPosting");
 
     const post = parsed.find((p) => p["@type"] === "BlogPosting");
-    expect(post.headline).toBe("Asides");
+    expect(post.headline).toBe("Refinement Types");
     expect(typeof post.datePublished).toBe("string");
-    expect(post.mainEntityOfPage["@id"]).toMatch(/\/features\/asides\/?$/);
+    expect(post.mainEntityOfPage["@id"]).toMatch(/\/refinement-types\/?$/);
   });
 
   test("homepage has canonical but no markdown alternate", async ({ page }) => {
