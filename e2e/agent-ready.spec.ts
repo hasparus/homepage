@@ -24,12 +24,14 @@ test.describe("agent-ready endpoints", () => {
       "Amazonbot",
     ];
     for (const bot of bots) {
-      expect(body).toContain(`User-agent: ${bot}`);
+      expect(body).toMatch(
+        new RegExp(
+          `^User-agent: ${bot}\\nContent-Signal: search=yes, ai-input=yes, ai-train=yes\\nAllow: /$`,
+          "m",
+        ),
+      );
     }
 
-    expect(body).toContain(
-      "Content-Signal: search=yes, ai-input=yes, ai-train=yes",
-    );
     expect(body).toMatch(/^Sitemap: https?:\/\/.+\/sitemap-index\.xml$/m);
   });
 
