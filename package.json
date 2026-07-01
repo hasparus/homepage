@@ -78,18 +78,19 @@
     "cssnano": "^7.1.5",
     "eslint": "^10.6.0",
     "prettier": "^3.8.3",
-    "prettier-plugin-astro": "^0.14.0",
+    "prettier-plugin-astro": "0.14.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tsx": "^4.21.0",
     "typescript": "^5.8.3",
-    "vite": "^8.1.2",
-    "@hasparus/eslint-config": "3.0.0",
-    "eslint-plugin-check-file": "3.3.1"
+    "@hasparus/eslint-config": "3.0.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "pnpm": {
+    "patchedDependencies": {
+      "prettier-plugin-astro@0.14.0": "patches/prettier-plugin-astro@0.14.0.patch"
+    },
     "peerDependencyRules": {
       "ignoreMissing": [
         "@babel/core",

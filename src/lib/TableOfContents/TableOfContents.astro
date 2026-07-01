@@ -16,7 +16,7 @@ const { headings, title } = Astro.props as Props;
 const tocShown = headings.length > 2;
 
 // we add a heading with depth 1 to the top so the reader can navigate to the top of the page
-if (!headings.find((heading) => heading.depth === 1)) {
+if (!headings.some((heading) => heading.depth === 1)) {
   headings.unshift({ depth: 1, slug: TOP_HEADING_ID, text: title });
 }
 

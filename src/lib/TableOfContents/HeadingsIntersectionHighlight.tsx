@@ -20,8 +20,9 @@ export function HeadingsIntersectionHighlight(
   };
 
   const observer =
-    typeof globalThis.IntersectionObserver !== "undefined"
-      ? new IntersectionObserver(
+    globalThis.IntersectionObserver === undefined
+      ? null
+      : new IntersectionObserver(
           (entries) => {
             console.log(
               entries.map((entry) => ({
@@ -30,9 +31,12 @@ export function HeadingsIntersectionHighlight(
               })),
             );
 
-            const max = entries.reduce((acc, val) =>
-              val.intersectionRatio > acc.intersectionRatio ? val : acc,
-            );
+            let max = entries[0]!;
+            for (const entry of entries) {
+              if (entry.intersectionRatio > max.intersectionRatio) {
+                max = entry;
+              }
+            }
 
             if (toc) {
               highlightTocItem(
@@ -43,8 +47,7 @@ export function HeadingsIntersectionHighlight(
             }
           },
           { threshold: 1, rootMargin: "0% 0% -55% 0%" },
-        )
-      : null;
+        );
 
   createEffect(() => {
     for (const heading of props.headings) {
@@ -57,7 +60,7 @@ export function HeadingsIntersectionHighlight(
     onCleanup(() => {
       observer!.disconnect();
     });
-  }, [props.headings]);
+  });
 
   return null;
 }

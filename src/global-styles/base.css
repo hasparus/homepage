@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "@hasparus/tailwind/scrollview-fade";
+
 @source "../**/*.{astro,ts,tsx,css}";
 
 @custom-variant dark (&:where(.dark, .dark *));

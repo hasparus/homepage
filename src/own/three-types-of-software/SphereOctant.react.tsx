@@ -37,8 +37,10 @@ export function SphereOctant() {
     >
       <Canvas camera={{ fov: 25 }} shadows>
         <SoftShadows samples={20} />
+        {/* eslint-disable-next-line react/no-unknown-property -- react-three-fiber element props, not DOM attributes */}
         <group position={[-0.25, -0.4, -0.25]} rotation={[0, -Math.PI / 9, 0]}>
           <mesh
+            // eslint-disable-next-line react/no-unknown-property -- react-three-fiber element prop, not a DOM attribute
             castShadow
             onPointerOver={() => setIsHovered(true)}
             onPointerOut={() => setIsHovered(false)}
@@ -51,7 +53,7 @@ export function SphereOctant() {
                 const v = intersection.eventObject.worldToLocal(
                   intersection.point,
                 );
-                tooltip.innerText =
+                tooltip.textContent =
                   v
                     .toArray()
                     .map((n) => n.toFixed(2) + "²")
@@ -66,17 +68,23 @@ export function SphereOctant() {
             }}
           >
             <sphereGeometry
+              // eslint-disable-next-line react/no-unknown-property -- react-three-fiber element prop, not a DOM attribute
               args={[1, 16, 16, 0, -Math.PI / 2, 0, -Math.PI / 2]}
             />
             <shaderMaterial
+              // eslint-disable-next-line react/no-unknown-property -- react-three-fiber element prop, not a DOM attribute
               transparent
+              // eslint-disable-next-line react/no-unknown-property -- react-three-fiber element prop, not a DOM attribute
               fragmentShader={fragmentShader}
+              // eslint-disable-next-line react/no-unknown-property -- react-three-fiber element prop, not a DOM attribute
               vertexShader={vertexShader}
+              // eslint-disable-next-line react/no-unknown-property -- react-three-fiber element prop, not a DOM attribute
               side={DoubleSide}
             />
           </mesh>
           <axesHelper />
         </group>
+        {/* eslint-disable-next-line react/no-unknown-property -- react-three-fiber element props, not DOM attributes */}
         <directionalLight position={[1.5, 4, 2]} intensity={0.5} castShadow />
         <Plane
           args={[100, 100]}
@@ -84,6 +92,7 @@ export function SphereOctant() {
           rotation={[-Math.PI / 2, 0, 0]}
           position={[0, -0.4, 0]}
         >
+          {/* eslint-disable-next-line react/no-unknown-property -- react-three-fiber element prop, not a DOM attribute */}
           <shadowMaterial transparent opacity={0.2} color="#444" />
         </Plane>
         <EffectComposer>
@@ -99,7 +108,7 @@ export function SphereOctant() {
         />
       </Canvas>
       <span
-        className="pointer-events-none absolute -top-5 left-1.5 -mx-1.5 -my-0.5 select-none rounded px-1.5 py-0.5 font-mono text-sm dark:bg-black/10 dark:font-medium dark:text-white"
+        className="pointer-events-none absolute -top-5 left-1.5 -mx-1.5 -my-0.5 rounded-sm px-1.5 py-0.5 font-mono text-sm select-none dark:bg-black/10 dark:font-medium dark:text-white"
         ref={tooltipRef}
         style={{
           display: isHovered ? "block" : "none",

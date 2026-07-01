@@ -6,11 +6,17 @@ export default [
   { ignores: ["**/*.mdx", "**/*.md", "**/*.gitignored.*"] },
 
   ...astro,
-  ...solid,
-  // homepage is Solid-first but keeps React for the three.js bits.
-  // TODO(review): both presets currently apply to all **/*.tsx — scope ...react
-  // to the React dirs if solid/react rules cross-fire.
-  ...react,
+  // homepage is Solid-first but keeps React for the three.js bits (*.react.tsx).
+  // Solid rules skip the React files; React rules apply only to them, so the two
+  // presets stop cross-firing.
+  ...solid.map((config) => ({
+    ...config,
+    ignores: [...(config.ignores ?? []), "**/*.react.tsx"],
+  })),
+  ...react.map((config) => ({
+    ...config,
+    files: ["**/*.react.tsx"],
+  })),
 
   {
     settings: {

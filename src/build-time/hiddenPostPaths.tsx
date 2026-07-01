@@ -14,10 +14,7 @@ function walk(dir: string, out: string[]): void {
   }
 }
 
-export function getHiddenPostPaths(
-  postsDir: string,
-  { isProd }: { isProd: boolean },
-): Set<string> {
+export function getHiddenPostPaths(postsDir: string): Set<string> {
   const files: string[] = [];
   walk(postsDir, files);
   const hidden = new Set<string>();
@@ -28,7 +25,7 @@ export function getHiddenPostPaths(
       hidden: data.hidden === true,
       draft: data.draft === true,
     };
-    if (!isPostVisible(frontmatter, { isProd })) {
+    if (!isPostVisible(frontmatter)) {
       hidden.add(postPath(postsDir, abs));
     }
   }

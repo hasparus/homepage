@@ -2,7 +2,6 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
-import tailwind from "@astrojs/tailwind";
 import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig } from "astro/config";
 import { dirname, resolve } from "node:path";
@@ -75,9 +74,6 @@ export default defineConfig({
     gfm: true,
   },
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
     mdx({
       extendMarkdownConfig: true,
       // MDX integration inherits all remark plugins from markdown.remarkPlugins

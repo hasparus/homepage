@@ -1,4 +1,3 @@
-import type { RehypePlugins, RemarkPlugins } from "@astrojs/markdown-remark";
 import { resolve } from "node:path";
 import remarkSupersub from "remark-supersub";
 import type { Pluggable } from "unified";
@@ -13,7 +12,7 @@ import {
 } from "./readingTimePlugin";
 import { urlOutsideOfPagesDirPlugin } from "./urlOutsideOfPagesDirPlugin";
 
-export const remarkPlugins = (projectDir: string): RemarkPlugins => {
+export const remarkPlugins = (projectDir: string): Pluggable[] => {
   return checkOptions(
     [
       urlOutsideOfPagesDirPlugin,
@@ -23,13 +22,10 @@ export const remarkPlugins = (projectDir: string): RemarkPlugins => {
     remarkSupersub,
     readingTimePlugin,
     remarkMdxReadingTimePlugin,
-  ) as RemarkPlugins;
+  );
 };
 
-export const rehypePlugins: RehypePlugins = checkOptions([
-  asidesPlugin,
-  {},
-]) as RehypePlugins;
+export const rehypePlugins: Pluggable[] = checkOptions([asidesPlugin, {}]);
 
 /**
  * Adds autocomplete and typechecking to plugin tuples.
