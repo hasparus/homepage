@@ -54,7 +54,8 @@ if (!headings.find((heading) => heading.depth === 1)) {
     client:media="(min-width: 1280px)"
   />
   <style>
-    #table-of-contents:hover {
+    @reference "../../global-styles/base.css";
+    #table-of-contents:has(a:hover) {
       & a:not(:hover) {
         @apply text-gray-600 transition-colors;
         :global(.dark) & {

@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { createEffect, type JSX, splitProps } from "solid-js";
 
 import { useFocusTrap } from "./useFocusTrap";
 
-export interface DialogProps
-  extends JSX.DialogHtmlAttributes<HTMLDialogElement> {
+export interface DialogProps extends JSX.DialogHtmlAttributes<HTMLDialogElement> {
   open?: boolean;
   onClose?: () => void;
   children: JSX.Element;
@@ -41,6 +39,8 @@ export function Dialog(props: DialogProps) {
   };
 
   return (
+    // dialog dismiss-on-backdrop-click; <dialog> handles Escape/keyboard natively
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
     <dialog
       onClick={dismissOnBackdropClick}
       ref={(dialog) => {
@@ -54,8 +54,10 @@ export function Dialog(props: DialogProps) {
   );
 }
 
-export interface DialogCloseButtonProps
-  extends Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, "value"> {}
+export interface DialogCloseButtonProps extends Omit<
+  JSX.ButtonHTMLAttributes<HTMLButtonElement>,
+  "value"
+> {}
 
 export function DialogCloseButton(props: DialogCloseButtonProps) {
   return (
