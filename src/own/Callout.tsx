@@ -37,10 +37,12 @@ export function Callout(props: CalloutProps) {
       }
 
       if (isSsrNode(child) && child.t.startsWith("<astro-slot><p>")) {
-        child.t = child.t
-          .replace("<astro-slot><p>", "<astro-slot>")
-          .replace("</p></astro-slot>", "</astro-slot>");
-        return child;
+        return {
+          ...child,
+          t: child.t
+            .replace("<astro-slot><p>", "<astro-slot>")
+            .replace("</p></astro-slot>", "</astro-slot>"),
+        };
       }
 
       if (isHyperscriptParagraph(child)) {

@@ -24,13 +24,6 @@ export function HeadingsIntersectionHighlight(
       ? null
       : new IntersectionObserver(
           (entries) => {
-            console.log(
-              entries.map((entry) => ({
-                target: entry.target.id,
-                intersectionRatio: entry.intersectionRatio,
-              })),
-            );
-
             let max = entries[0]!;
             for (const entry of entries) {
               if (entry.intersectionRatio > max.intersectionRatio) {
