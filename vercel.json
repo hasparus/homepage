@@ -3,6 +3,10 @@
     {
       "source": "/s/:path*",
       "destination": "https://hasparus-url-shortener.builtwithdark.com/:path*"
+    },
+    {
+      "source": "/rpg",
+      "destination": "https://lol.haspar.us"
     }
   ]
 }
