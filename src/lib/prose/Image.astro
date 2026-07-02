@@ -132,6 +132,11 @@ if (isRaw) {
   let imageForPlaceholder: Buffer;
   if (pathToImage.startsWith("http")) {
     const res = await fetch(pathToImage);
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch image ${pathToImage}: ${res.status} ${res.statusText}`,
+      );
+    }
     imageForPlaceholder = Buffer.from(await res.arrayBuffer());
   } else {
     // `pathToImage` is written relative to this file (src/lib/prose); resolve it
@@ -184,7 +189,7 @@ if (!isRaw) {
     !isThin && "zaduma-image-box w-[var(--wide-content-width)]",
     "relative block overflow-hidden",
     !placeholder &&
-      "!inline-flex justify-center bg-current/10 [&>img]:h-full [&>img]:object-contain",
+      "inline-flex! justify-center bg-current/10 [&>img]:h-full [&>img]:object-contain",
   ]}
 >
   <img
