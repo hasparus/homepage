@@ -46,6 +46,9 @@ jobs:
           github_token: "${{ github.token }}"
           message: "Update lockfile"
 
+      - name: Sync Astro types
+        run: pnpm astro sync
+
       - name: Run linter
         run: pnpm lint --quiet
 

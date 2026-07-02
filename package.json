@@ -15,7 +15,7 @@
     "preview": "astro preview",
     "serve": "astro preview",
     "astro": "astro",
-    "lint": "astro sync && eslint src",
+    "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write src",
     "ci": "pnpm lint && prettier --check src",
