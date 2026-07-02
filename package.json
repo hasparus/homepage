@@ -24,16 +24,15 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "^6.3.10",
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/react": "^4.2.1",
-    "@astrojs/sitemap": "^3.7.2",
-    "@astrojs/solid-js": "^5.1.3",
-    "@astrojs/tailwind": "^6.0.2",
+    "@astrojs/markdown-remark": "^7.2.0",
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/react": "^5.0.0",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/solid-js": "^6.0.1",
     "@astrojs/ts-plugin": "^1.10.6",
     "@codesandbox/nodebox": "^0.1.9",
-    "@fontsource-variable/brygada-1918": "^5.0.19",
-    "@fontsource-variable/inter": "^5.0.18",
+    "@fontsource-variable/brygada-1918": "^5.2.8",
+    "@fontsource-variable/inter": "^5.2.8",
     "@hasparus/tailwind": "^1.1.7",
     "@mdx-js/mdx": "3.1.1",
     "@next/env": "^14.2.3",
@@ -48,46 +47,49 @@
     "@types/unist": "^3.0.3",
     "@vercel/analytics": "^1.3.1",
     "@vercel/og": "^0.6.2",
-    "astro": "^5.17.2",
+    "astro": "^6.4.6",
     "astro-eslint-parser": "^1.4.0",
     "eslint-plugin-markdown": "^5.0.0",
     "estree-util-value-to-estree": "^3.5.0",
     "plaiceholder": "^3.0.0",
-    "postcss": "8.4.38",
+    "postcss": "8.5.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "reading-time": "^1.5.0",
     "remark-supersub": "^1.0.0",
     "sharp": "0.32.6",
     "solid-js": "^1.8.17",
-    "tailwindcss": "^3.4.3",
+    "tailwindcss": "^4.3.1",
     "three": "0.156.1",
-    "twoslash": "^0.3.6",
+    "twoslash": "^0.3.8",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
-    "vercel": "^51.5.0",
-    "yargs-parser": "^21.1.1"
+    "vercel": "^51.7.0",
+    "yargs-parser": "^21.1.1",
+    "@tailwindcss/postcss": "4.3.1",
+    "shiki": "^3.22.0"
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
-    "@edgeandnode/eslint-config": "^2.0.3",
     "@playwright/test": "1.61.0",
     "@types/hast": "3.0.4",
     "@types/node": "24.1.0",
-    "autoprefixer": "^10.4.19",
-    "cssnano": "^7.0.1",
-    "eslint": "^8.57.0",
-    "prettier": "^3.3.0",
-    "prettier-plugin-astro": "^0.14.0",
-    "prettier-plugin-tailwindcss": "^0.6.1",
+    "cssnano": "^7.1.5",
+    "eslint": "^10.6.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "0.14.0",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "tsx": "^4.21.0",
     "typescript": "^5.8.3",
-    "vite": "^5.2.12"
+    "@hasparus/eslint-config": "3.0.0"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "pnpm": {
+    "patchedDependencies": {
+      "prettier-plugin-astro@0.14.0": "patches/prettier-plugin-astro@0.14.0.patch"
+    },
     "peerDependencyRules": {
       "ignoreMissing": [
         "@babel/core",
@@ -95,8 +97,9 @@
       ]
     },
     "onlyBuiltDependencies": [
-      "core-js-pure",
       "esbuild",
+      "core-js-pure",
+      "puppeteer",
       "sharp"
     ]
   }

@@ -28,23 +28,24 @@ type CommandCenterCtx = {
   onSelectedUnmount: () => void;
   getInputValue: () => string;
 };
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
 const CommandCenterCtx = createContext<CommandCenterCtx>({
   inputId: "",
   listId: "",
-  setDialogRef: () => {},
-  open: () => {},
+  setDialogRef: noop,
+  open: noop,
   isSelected: () => false,
   matchesFilter: () => true,
-  onInput: () => {},
-  selectOption: () => {},
-  onSelectedUnmount: () => {},
+  onInput: noop,
+  selectOption: noop,
+  onSelectedUnmount: noop,
   getInputValue: () => "",
 });
 
 export const useCommandCenterCtx = () => useContext(CommandCenterCtx);
 
-export interface CommandCenterTriggerProps
-  extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CommandCenterTriggerProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: (event: MouseEvent) => void;
 }
 export function CommandCenterTrigger(props: CommandCenterTriggerProps) {
@@ -89,8 +90,10 @@ export function CommandCenter(props: CommandCenterProps) {
 
   const matchesFilter = createSelector<string, string>(inputValue, match);
 
-  const getOptions = (): HTMLElement[] =>
-    Array.from(dialogRef.current?.querySelectorAll('[role="option"]') || []);
+  const getOptions = (): HTMLElement[] => [
+    ...(dialogRef.current?.querySelectorAll<HTMLElement>('[role="option"]') ??
+      []),
+  ];
 
   createEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -277,8 +280,10 @@ export function CommandItem(props: CommandItemProps) {
   return res;
 }
 
-export interface CommandInputProps
-  extends Omit<JSX.InputHTMLAttributes<HTMLInputElement>, "onChange" | "id"> {
+export interface CommandInputProps extends Omit<
+  JSX.InputHTMLAttributes<HTMLInputElement>,
+  "onChange" | "id"
+> {
   "aria-label": string;
 }
 
@@ -301,7 +306,7 @@ export function CommandInput(props: CommandInputProps) {
       spellcheck={false}
       aria-autocomplete="list"
       role="combobox"
-      aria-expanded={true}
+      aria-expanded
       aria-controls={ctx.listId}
       id={ctx.inputId}
       type="text"
@@ -327,7 +332,7 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
       }}
       classList={{
         ...props.classList,
-        "top-[4.5rem] sm:top-[calc(50%-180px)]": true,
+        "top-18 sm:top-[calc(50%-180px)]": true,
       }}
       ref={(dialog) => {
         ctx.setDialogRef(dialog);
@@ -338,7 +343,7 @@ export function CommandCenterDialog(props: CommandCenterDialogProps) {
 }
 
 function getCommandText(element: HTMLElement) {
-  return element.textContent || element.innerText;
+  return element.textContent ?? "";
 }
 
 export function CommandList(

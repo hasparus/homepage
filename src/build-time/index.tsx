@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import remarkSupersub from "remark-supersub";
-import type { Pluggable, PluggableList } from "unified";
+import type { Pluggable } from "unified";
 
 import { titleCase } from "../lib/titleCase";
 
@@ -12,7 +12,7 @@ import {
 } from "./readingTimePlugin";
 import { urlOutsideOfPagesDirPlugin } from "./urlOutsideOfPagesDirPlugin";
 
-export const remarkPlugins = (projectDir: string): PluggableList => {
+export const remarkPlugins = (projectDir: string): Pluggable[] => {
   return checkOptions(
     [
       urlOutsideOfPagesDirPlugin,
@@ -25,7 +25,7 @@ export const remarkPlugins = (projectDir: string): PluggableList => {
   );
 };
 
-export const rehypePlugins: PluggableList = checkOptions([asidesPlugin, {}]);
+export const rehypePlugins: Pluggable[] = checkOptions([asidesPlugin, {}]);
 
 /**
  * Adds autocomplete and typechecking to plugin tuples.

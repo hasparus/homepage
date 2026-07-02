@@ -19,14 +19,15 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:
           fetch-depth: 0
+          persist-credentials: false
           ref: "${{ github.event.pull_request.merge_commit_sha }}"
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version: "24"
           cache: "pnpm"
@@ -38,9 +39,15 @@ jobs:
 
       - name: Commit lockfile
         if: ${{ env.IS_DEPENDABOT == 1 }}
-        uses: EndBug/add-and-commit@v10
+        uses: EndBug/add-and-commit@290ea2c423ad77ca9c62ae0f5b224379612c0321
         with:
-          { add: "pnpm-lock.yaml", fetch: false, message: "Update lockfile" }
+          add: "pnpm-lock.yaml"
+          fetch: false
+          github_token: "${{ github.token }}"
+          message: "Update lockfile"
+
+      - name: Sync Astro types
+        run: pnpm astro sync
 
       - name: Run linter
         run: pnpm lint --quiet
@@ -51,10 +58,8 @@ jobs:
       - name: Build
         run: pnpm build
         env:
-          OG_IMAGE_SECRET:
-            ${{ (github.event.pull_request.head.repo.fork || github.actor == 'dependabot[bot]')
-            && 'fork-og-image-secret'
-            || secrets.OG_IMAGE_SECRET }}
+          # Falls back only for fork PRs and dependabot runs, which can't read secrets.
+          OG_IMAGE_SECRET: ${{ (github.event.pull_request.head.repo.fork == true || github.actor == 'dependabot[bot]') && 'placeholder' || secrets.OG_IMAGE_SECRET }}
 
       - name: Install Playwright system deps
         run: pnpm exec playwright install-deps chromium
@@ -73,7 +78,7 @@ jobs:
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: playwright-report
           path: playwright-report/
@@ -97,7 +102,7 @@ jobs:
           ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
           (github.event_name == 'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
-        uses: chrnorm/deployment-action@v2
+        uses: chrnorm/deployment-action@500aa6a23c81ffa1acf71072aee3cfa2cc2e556a
         with:
           token: "${{ github.token }}"
           environment-url: https://${{ env.DEPLOYMENT_ALIAS }}
@@ -108,7 +113,7 @@ jobs:
 
       - name: Create GitHub Production Deployment
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-        uses: chrnorm/deployment-action@v2
+        uses: chrnorm/deployment-action@500aa6a23c81ffa1acf71072aee3cfa2cc2e556a
         with:
           token: "${{ github.token }}"
           environment-url: https://${{ env.PRODUCTION_HOSTNAME }}
@@ -126,9 +131,11 @@ jobs:
       (github.event_name == 'pull_request_target' &&
       contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          persist-credentials: false
       - name: Audit URLs
-        uses: treosh/lighthouse-ci-action@v12
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
           urls: |
             https://${{ needs.build-and-deploy.outputs.deployment }}/

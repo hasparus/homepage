@@ -16,7 +16,7 @@ const { headings, title } = Astro.props as Props;
 const tocShown = headings.length > 2;
 
 // we add a heading with depth 1 to the top so the reader can navigate to the top of the page
-if (!headings.find((heading) => heading.depth === 1)) {
+if (!headings.some((heading) => heading.depth === 1)) {
   headings.unshift({ depth: 1, slug: TOP_HEADING_ID, text: title });
 }
 
@@ -54,7 +54,8 @@ if (!headings.find((heading) => heading.depth === 1)) {
     client:media="(min-width: 1280px)"
   />
   <style>
-    #table-of-contents:hover {
+    @reference "../../global-styles/base.css";
+    #table-of-contents:has(a:hover) {
       & a:not(:hover) {
         @apply text-gray-600 transition-colors;
         :global(.dark) & {

@@ -7,7 +7,7 @@ export type ClassValue =
   | null
   | boolean
   | undefined;
-export type ClassDictionary = Record<string, any>;
+export type ClassDictionary = Record<string, unknown>;
 export type ClassArray = ClassValue[];
 
 export declare function twMerge(...classLists: ClassValue[]): string;

@@ -8,9 +8,7 @@ test.describe("agent-ready endpoints", () => {
     expect(res.status()).toBe(200);
     const body = await res.text();
 
-    expect(body).toMatch(
-      /^User-agent: \*\nContent-Signal: [^\n]+\nAllow: \//m,
-    );
+    expect(body).toMatch(/^User-agent: \*\nContent-Signal: [^\n]+\nAllow: \//m);
 
     const bots = [
       "GPTBot",

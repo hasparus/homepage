@@ -38,6 +38,7 @@ if (import.meta.env.PROD) {
     More than <strong>{numberOfPRsMergedToPublicRepos}</strong> of my PRs were merged to public repositories.
     Below you can find some of the projects I've contributed to. <sup>some of them I was paid to do, so it doesn't count for real :)</sup>
   </p>
+  {/* eslint-disable-next-line better-tailwindcss/no-unknown-classes -- `contribs` is a scoped-CSS styling hook, not a Tailwind class */}
   <ul class="contribs">
     {
       repositories.map((repo) => {
@@ -76,6 +77,8 @@ if (import.meta.env.PROD) {
 </PostLayout>
 
 <style>
+  @reference "../global-styles/base.css";
+
   dd,
   dt {
     display: inline;

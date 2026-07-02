@@ -22,7 +22,7 @@ export function Kbd(props: KbdProps) {
         " dark:border-gray-700 dark:bg-gray-800" +
         " text-xs leading-none tracking-tighter" +
         " group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline" +
-        " pointer-coarse:hidden [&[data-pressed]]:border-b" +
+        " pointer-coarse:hidden data-pressed:border-b" +
         (props.class ? ` ${props.class}` : "")
       }
     />
@@ -31,11 +31,11 @@ export function Kbd(props: KbdProps) {
 
 function setDataPressedOnKeyDown(props: KbdProps, ref: HTMLElement) {
   const onKeyDown = (event: KeyboardEvent) => {
-    if (currentKeyPressed(props, event)) ref.setAttribute("data-pressed", "");
+    if (currentKeyPressed(props, event)) ref.dataset.pressed = "";
   };
 
   const onKeyUp = (event: KeyboardEvent) => {
-    if (currentKeyPressed(props, event)) ref.removeAttribute("data-pressed");
+    if (currentKeyPressed(props, event)) delete ref.dataset.pressed;
   };
 
   window.addEventListener("keydown", onKeyDown);

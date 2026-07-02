@@ -3,6 +3,14 @@
 /// <reference path="astro/client" />
 /// <reference path="../node_modules/vite/types/importMeta.d.ts" />
 
+// `.astro` imports aren't resolved by `tsc`/typescript-eslint (only by the
+// Astro TS plugin in-editor), so type them as component factories to keep
+// type-aware linting sound.
+declare module "*.astro" {
+  const Component: (props: Record<string, unknown>) => unknown;
+  export default Component;
+}
+
 interface ImportMetaEnv {
   /**
    * - `https://localhost:3000/` in development
@@ -31,7 +39,7 @@ interface Window {
 // -----------------------------------------------------
 
 // CSS modules
-type CSSModuleClasses = { readonly [key: string]: string };
+type CSSModuleClasses = Readonly<Record<string, string>>;
 
 declare module "*.module.css" {
   const classes: CSSModuleClasses;
@@ -218,16 +226,12 @@ declare module "*.wasm?init" {
 
 // web worker
 declare module "*?worker" {
-  const workerConstructor: {
-    new (options?: { name?: string }): Worker;
-  };
+  const workerConstructor: new (options?: { name?: string }) => Worker;
   export default workerConstructor;
 }
 
 declare module "*?worker&inline" {
-  const workerConstructor: {
-    new (options?: { name?: string }): Worker;
-  };
+  const workerConstructor: new (options?: { name?: string }) => Worker;
   export default workerConstructor;
 }
 
@@ -237,16 +241,16 @@ declare module "*?worker&url" {
 }
 
 declare module "*?sharedworker" {
-  const sharedWorkerConstructor: {
-    new (options?: { name?: string }): SharedWorker;
-  };
+  const sharedWorkerConstructor: new (options?: {
+    name?: string;
+  }) => SharedWorker;
   export default sharedWorkerConstructor;
 }
 
 declare module "*?sharedworker&inline" {
-  const sharedWorkerConstructor: {
-    new (options?: { name?: string }): SharedWorker;
-  };
+  const sharedWorkerConstructor: new (options?: {
+    name?: string;
+  }) => SharedWorker;
   export default sharedWorkerConstructor;
 }
 

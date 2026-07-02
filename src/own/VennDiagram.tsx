@@ -1,4 +1,4 @@
-import { type JSX,splitProps } from "solid-js";
+import { type JSX, splitProps, For } from "solid-js";
 
 interface VennDiagramProps extends JSX.SvgSVGAttributes<SVGSVGElement> {
   labels: string[];
@@ -43,33 +43,37 @@ export function VennDiagram(props: VennDiagramProps) {
       }`}
     >
       <g class="isolate">
-        {circles.map((circle) => (
-          <circle
-            cx={circle.pos.x}
-            cy={circle.pos.y}
-            r={ownProps.radius || 150}
-            fill={circle.color}
-            class="mix-blend-screen dark:opacity-100"
-          />
-        ))}
+        <For each={circles}>
+          {(circle) => (
+            <circle
+              cx={circle.pos.x}
+              cy={circle.pos.y}
+              r={ownProps.radius || 150}
+              fill={circle.color}
+              class="mix-blend-screen dark:opacity-100"
+            />
+          )}
+        </For>
       </g>
-      {circles.map((circle, i) => (
-        <text
-          x={circle.pos.x}
-          y={circle.pos.y}
-          text-anchor="middle"
-          dominant-baseline="central"
-        >
-          {ownProps.labels[i]}
-        </text>
-      ))}
+      <For each={circles}>
+        {(circle, i) => (
+          <text
+            x={circle.pos.x}
+            y={circle.pos.y}
+            text-anchor="middle"
+            dominant-baseline="central"
+          >
+            {ownProps.labels[i()]}
+          </text>
+        )}
+      </For>
       {ownProps.labels[3] && (
         <text
           x={0}
           y={-6}
           text-anchor="middle"
           dominant-baseline="central"
-          style="font-size: 0.8em;"
+          style={{ "font-size": "0.8em" }}
         >
           {ownProps.labels[3]}
         </text>

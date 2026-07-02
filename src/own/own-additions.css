@@ -1,3 +1,5 @@
+@reference "../global-styles/base.css";
+
 /* Added last minute to format particular posts better.  */
 
 .zaduma-prose .full-w-child > p {
