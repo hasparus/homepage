@@ -134,10 +134,16 @@ html.dark .twoslash-popup-container::-webkit-scrollbar-thumb {
   @apply bg-white dark:bg-black;
 }
 
+/* Separate the sticky signature from the docs below it, but only when docs
+   actually follow (a bare signature stays borderless). */
+.twoslash-popup-code:has(+ .twoslash-popup-docs) {
+  @apply border-b border-gray-200 dark:border-gray-700;
+}
+
 .twoslash-popup-docs {
   padding: 0.5rem 0.75rem;
   white-space: pre-wrap;
-  @apply border-t border-gray-200 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400;
+  @apply text-sm text-gray-600 dark:text-gray-400;
 }
 
 .twoslash-popup-docs-tags {
