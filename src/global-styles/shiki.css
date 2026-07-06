@@ -64,12 +64,39 @@ pre.twoslash:hover .twoslash-hover {
   transform: translate(0, 1rem);
   z-index: 100;
   width: max-content;
-  max-width: 80vw;
+  max-width: min(80vw, 42rem);
 
-  @apply rounded-sm border border-gray-200 bg-white p-2 px-3 text-gray-900 shadow-sm dark:border-gray-700 dark:bg-black dark:text-gray-50 dark:shadow-md;
+  /* Keep tall tooltips (e.g. big JSDoc blocks) inside the viewport and let
+     their content scroll instead of overflowing the page. */
+  max-height: min(60vh, 22rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  @apply rounded-md border border-gray-200 bg-white text-gray-900 shadow-md dark:border-gray-700 dark:bg-black dark:text-gray-50 dark:shadow-lg;
 
   text-align: left;
-  white-space: pre-wrap;
+
+  /* Thin scrollbar tuned to the gray palette. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray-300) transparent;
+}
+
+html.dark .twoslash-popup-container {
+  scrollbar-color: var(--color-gray-600) transparent;
+}
+
+.twoslash-popup-container::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.twoslash-popup-container::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background-color: var(--color-gray-300);
+}
+
+html.dark .twoslash-popup-container::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray-600);
 }
 
 @supports (anchor-name: --x) {
@@ -94,8 +121,38 @@ pre.twoslash:hover .twoslash-hover {
   display: block;
 }
 
+/* The type signature acts as a header: it stays pinned while the docs below
+   scroll (matching the Fumadocs code-snippet feel). When the signature itself
+   is taller than the tooltip it simply scrolls, so overloads stay readable. */
 .twoslash-popup-code {
+  position: sticky;
+  top: 0;
+  display: block;
+  padding: 0.5rem 0.75rem;
   font-family: inherit;
+  white-space: pre-wrap;
+  @apply bg-white dark:bg-black;
+}
+
+.twoslash-popup-docs {
+  padding: 0.5rem 0.75rem;
+  white-space: pre-wrap;
+  @apply border-t border-gray-200 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400;
+}
+
+.twoslash-popup-docs-tags {
+  @apply flex flex-col gap-1 text-xs;
+}
+
+.twoslash-popup-docs-tag-name {
+  @apply mr-1 font-mono text-gray-500 dark:text-gray-500;
+}
+
+/* Padding now lives on the popup's children (the container scrolls), so the
+   error-popup variant needs its own. */
+.twoslash-popup-error {
+  padding: 0.5rem 0.75rem;
+  white-space: pre-wrap;
 }
 
 @media (prefers-reduced-motion: reduce) {
