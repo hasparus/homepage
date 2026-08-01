@@ -67,7 +67,7 @@
     "vercel": "^51.7.0",
     "yargs-parser": "^21.1.1",
     "@tailwindcss/postcss": "4.3.1",
-    "shiki": "^3.22.0"
+    "shiki": "^4.3.1"
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
