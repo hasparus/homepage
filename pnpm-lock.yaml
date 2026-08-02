@@ -59,8 +59,8 @@ importers:
         specifier: ^2.16.2
         version: 2.19.1(@react-three/fiber@8.18.0(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(three@0.156.1))(@types/three@0.156.0)(react@18.3.1)(three@0.156.1)
       '@shikijs/twoslash':
-        specifier: ^3.22.0
-        version: 3.23.0(typescript@5.9.3)
+        specifier: ^4.3.1
+        version: 4.3.1(typescript@5.9.3)
       '@tailwindcss/postcss':
         specifier: 4.3.1
         version: 4.3.1
@@ -1542,9 +1542,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@shikijs/core@3.23.0':
-    resolution: {integrity: sha512-NSWQz0riNb67xthdm5br6lAkvpDJRTgB36fxlo37ZzM2yq0PQFFzbd8psqC2XMPgCzo1fW6cVi18+ArJ44wqgA==}
-
   '@shikijs/core@4.3.1':
     resolution: {integrity: sha512-ANMDxuaPsNMdDC1m4vfvhlDmJweMwkE5XitTwrq2rWHx5jM+dlm4MmHt2PP6t0uejfR77SuhrhJ0zEijIF/uhA==}
     engines: {node: '>=20'}
@@ -1569,13 +1566,11 @@ packages:
     resolution: {integrity: sha512-dgpoJ4WqNi2yTmizQHBJ5zcX6j2lE6icN/0yt4l1kkf16jrY/pwPLoTb1ETsWMz0OBLf9ZNvwmxft+cH+N9qSA==}
     engines: {node: '>=20'}
 
-  '@shikijs/twoslash@3.23.0':
-    resolution: {integrity: sha512-pNaLJWMA3LU7PhT8tm9OQBZ1epy0jmdgeJzntBtr1EVXLbHxGzTj3mnf9vOdcl84l96qnlJXkJ/NGXZYBpXl5g==}
+  '@shikijs/twoslash@4.3.1':
+    resolution: {integrity: sha512-xK8inH/gK++1V4rTxrwCwjvaNwkkJ7oDjOIpdqONVxIpAFnVC3gzqjH5KiXGTelUcxpUJ3PtOKWct1YQ0kAloA==}
+    engines: {node: '>=20'}
     peerDependencies:
       typescript: '>=5.5.0'
-
-  '@shikijs/types@3.23.0':
-    resolution: {integrity: sha512-3JZ5HXOZfYjsYSk0yPwBrkupyYSLpAE26Qc0HLghhZNGTZg/SKxXIIgoxOpmmeQP0RRSDJTk1/vPfw9tbw+jSQ==}
 
   '@shikijs/types@4.3.1':
     resolution: {integrity: sha512-CHFxE0jztBIZRHH6gxXE7DXUCFXjReEGxZ/j0rfSLGKZuwp2xBYycEP14875DSa9KLL/6700oxIq6oO6ef9K2g==}
@@ -7586,13 +7581,6 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.60.1':
     optional: true
 
-  '@shikijs/core@3.23.0':
-    dependencies:
-      '@shikijs/types': 3.23.0
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.4
-      hast-util-to-html: 9.0.5
-
   '@shikijs/core@4.3.1':
     dependencies:
       '@shikijs/primitive': 4.3.1
@@ -7626,19 +7614,14 @@ snapshots:
     dependencies:
       '@shikijs/types': 4.3.1
 
-  '@shikijs/twoslash@3.23.0(typescript@5.9.3)':
+  '@shikijs/twoslash@4.3.1(typescript@5.9.3)':
     dependencies:
-      '@shikijs/core': 3.23.0
-      '@shikijs/types': 3.23.0
+      '@shikijs/core': 4.3.1
+      '@shikijs/types': 4.3.1
       twoslash: 0.3.9(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
-
-  '@shikijs/types@3.23.0':
-    dependencies:
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.4
 
   '@shikijs/types@4.3.1':
     dependencies:
