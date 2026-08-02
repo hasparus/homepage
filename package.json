@@ -75,7 +75,7 @@
     "@types/hast": "3.0.4",
     "@types/node": "24.1.0",
     "cssnano": "^7.1.5",
-    "eslint": "^10.6.0",
+    "eslint": "^10.8.0",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "0.14.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
