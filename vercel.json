@@ -2,10 +2,12 @@
   "redirects": [
     {
       "source": "/s/:path*",
+      "has": [{ "type": "host", "value": "haspar.us" }],
       "destination": "https://hasparus-url-shortener.builtwithdark.com/:path*"
     },
     {
       "source": "/rpg",
+      "has": [{ "type": "host", "value": "haspar.us" }],
       "destination": "https://lol.haspar.us"
     },
     {
