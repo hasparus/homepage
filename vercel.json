@@ -7,6 +7,11 @@
     {
       "source": "/rpg",
       "destination": "https://lol.haspar.us"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "bear-fit.haspar.us" }],
+      "destination": "https://bear-fit.hasparus.partykit.dev/:path*"
     }
   ]
 }
