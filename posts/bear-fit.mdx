@@ -1,0 +1,170 @@
+# bear-fit: the simplest UX for syncing humans
+
+tldr: I've built bear-fit to make meeting my friends dead simple. Try it on
+[bear-fit.haspar.us](https://bear-fit.haspar.us). It works because it asks
+"which days could work?", not "which 30-minute intervals are you free three
+weeks from now?"
+
+## Backstory
+
+I've been fighting calendars for more than ten years.
+
+My first job and uni overtook my calendar, took my freedom and the ability to
+grab a beer with a friend. A day job and a day uni, with one of the most
+challenging majors in town. Great combo. Made me stop playing League of Legends,
+so that's good, but my calendar was **packed**.
+
+Most of my friends' calendars were also **packed**. Eureka moment. What if I did
+**set intersections?!** Just `&` calendars across each other. Simple, right?!
+
+Okay, but what if the users are not corporate slaves and their availability
+can't be derived from the events in their calendars?
+
+Tinder was kinda hot back then\*, so I thought _what if I could swipe time
+slots?_ Right for green and available, left for gray and busy. A stack of your
+friends' avatars so you can see who's free. Long press on the row to send an
+invite.
+
+{/* <!-- oooh! an interactive demo powered by a worker would be so hot here, like in Emil Kowalski's UX blog posts --> */}
+
+<aside>
+  before we all knew what misaligned incentives and marketplaces for dating are
+  gonna do to our social landscape
+</aside>
+
+We didn't ship it in the end. We didn't know how to raise, and we didn't have
+money to bootstrap. Most importantly, we didn't know shit. We've been busy with
+other shit. Remember work and uni? My cofounders broke up, because they were
+dating of course. I remind you we didn't know shit. Anyhow, neither of us three
+had the capacity for a startup.
+
+We shelved it and went our own ways to work on other stuff.
+
+## New World
+
+Six years passed. It's so easy to build something small ~~now~~, I mean, in
+September 2024.
+
+I was still fighting calendars. This time with even more people to coordinate.
+
+I built the first version in about 15 hours across 6 evenings, including playing
+with val.town Townie, then moving to PartyKit, Y.js and a local editor when
+Townie couldn't figure out SSE and I caught myself writing CSS diffs in its
+chat.
+
+<aside>
+  I realize most people don't have a weekend to work on a side project *in this
+  economy*. I've worked long enough that a weekend of work is something I can
+  "spend" to solve a problem that's pissing me off for years. I understand if
+  you can't do it. Gotta put the bread on the table. So y'know, pardon my
+  privilege, or git gud, depending on what you'd like.
+</aside>
+
+Later on I fixed some bugs and added some small features. In total it was about
+80 hours of work. I'd still say it was easy. Way shorter than it takes to build
+anything serious. Way shorter than it takes to build anything high-fidelity.
+
+## Lo-fi as in low-fidelity
+
+I used [system.css](https://sakofchit.github.io/system.css), a global
+stylesheet, to avoid spending 2 hours picking a font and communicate this is
+intentionally not a polished product. Just a useful tool like computers used to
+be in 1991.
+
+I later inlined it in a CSS cascade layer to get rid of a bunch of `!important`
+prefixes from my Tailwind classes and remove unused styles.
+
+Contrary to Elon Musk's philosophy: Start small. Or better yet! **Aim low.** Do
+something that's deliberately ass.
+
+I'm a sucker for personal malleable software. Been like that since I read the
+first blog posts. A few years ago I saw
+[Patchwork](https://www.inkandswitch.com/patchwork/notebook/2024-version-control/)
+and [Playbit](https://playbit.app/) at Local-First Conf in Berlin. It seems like
+with agents and environments like
+[Cloudflare OS](https://blog.cloudflare.com/cloudflare-os) it's slowly happening
+now.
+
+Two years ago when I've built bear-fit, software was already cheap enough you
+could build for a few dozen people. It's even cheaper now.
+
+But let's go back to the thing. Keeping the scope small allowed me to keep
+bear-fit dumb simple to use.
+
+## Dead simple UX
+
+I've built this app to meet up with my friends, some of them **normies**. They
+use a work computer, then don't touch it after work. Not the laptop in a
+coffeeshop petite bourgeoisie.
+
+If you don't know any normie, the main thing you need to understand about them
+is that computers effectively hate them. They've probably never seen Linear or
+any other pleasant software for work.
+
+<aside>
+  They played The Witcher 3. Great software, but a different class of software,
+  a different industry.
+</aside>
+
+If they have websites, they probably bought the domains together with a hosting
+and Wordpress package on a 500% markup. The internet is brutal to normies, but
+they're used to that. Low-tech vendors have been preying on them **for
+decades**. Most of them have no idea you can have useful software built to solve
+your problem.
+
+I needed the UX to be so straightforward and simple people actually bother. Just
+click the day. Like an advent calendar. That's it. You can drag to "paint".
+There's basically just a mobile UI. Desktop UI is a phone-shaped card in the
+middle of the screen.
+
+By simplicity I mean something quantifiable here: the number of clicks to your
+goal. I got down to 2:
+
+1. Click the link in a group chat to visit the app.
+2. Click the day when you're available or paint the whole week.
+
+I could technically get down to 0 in repeated use with about 5 for setup by
+piggybacking on Google Calendar but it wouldn't work for all of my friends.
+
+There's a lot of good alternatives. cal.com is great, but it's a whole product.
+
+crab.fit is great, but dragging does a selection there like in Excel/Sheets and
+I don't wanna select any hours a month ahead. idk, mate. I may work till 6pm, I
+may work a bit longer. One of my friends is a political editor, so whenever shit
+hits the fan she needs to stay longer in the office.
+
+Simple is convenient, fast, not demanding the users learn and _adopt_ your
+thing. You can adopt a cat or a little human. Tools are to be _used_.
+
+<iframe
+  data-testid="embed-iframe"
+  style="border-radius:12px"
+  src="https://open.spotify.com/embed/track/4gRA0i5sxx3jAhHaVjPnUN?utm_source=generator&theme=0&si=77141bdcd9484904"
+  width="67%"
+  height="152"
+  frameBorder="0"
+  allowfullscreen=""
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+  loading="lazy"
+/>
+
+## Autosave is magic apparently
+
+People repeatedly asked: "How do I save? Did it work? Just like that?"
+
+It was surprising to me how uncommon multiplayer and real-time sync still are.
+
+I really liked surprising my friends by popping in with the cursor chat,
+Figma-style. Websockets, hell yeah. I 
+
+{/*  */}
+
+{/* Ending: */}
+
+You can use [bear-fit](bear-fit.haspar.us) with half a brain cell. Just click
+the thing and reserve your thinking for things that actually matter.
+
+---
+
+I've written about the only fancy code I wrote (stole?) for bear-fit in my next
+post: [Time-travelling on a budget with Y.js.](/y-travelling-on-a-budget)

@@ -1,0 +1,211 @@
+# Time-travelling on a budget with Y.js
+
+Adding a simple version history to any Y.js is way easier than you'd expect.
+
+Sure, to build a nice one, we'd have to model for that. Do some event sourcing
+or Redux shenanigans, model the actions.
+
+But if we don't need all that, and just want to see how the doc changed, it's
+enough to do this:
+
+{/* <!-- To-do to-do! I've built something that I think is pretty rad and it was quite straightforward to do --> */}
+
+To-do: format this into nice Twoslash bits, hide the irrelevant stuff with
+Twoslash syntax.
+
+```tsx
+export function getUpdatesFromUint8Array(body: Uint8Array) {
+  const textDecoder = new TextDecoder();
+  const parts: Uint8Array[] = [];
+  let start = 0;
+
+  for (let i = 0; i < body.length - 1; i++) {
+    if (body[i] === 10 && body[i + 1] === 10) {
+      parts.push(body.slice(start, i));
+      start = i + 2;
+      i++;
+    }
+  }
+
+  if (start < body.length) {
+    parts.push(body.slice(start));
+  }
+
+  const updates: { clock: string; value: Uint8Array }[] = [];
+
+  for (let i = 0; i < parts.length; i += 2) {
+    const clockOrSv = textDecoder.decode(parts[i]);
+    const value = parts[i + 1];
+    updates.push({ clock: clockOrSv, value });
+  }
+
+  return updates;
+}
+
+function EventHistoryContent({
+  canRestore,
+  closeButtonRef,
+  eventId,
+  onRestoreVersion,
+  open,
+  ...rest
+}: EventHistoryContentProps) {
+  const [error, setError] = useState<Error | undefined>(undefined);
+  const [updates, setUpdates] = useState<
+    { clock: string; value: Uint8Array }[] | undefined
+  >();
+  // eslint-disable-next-line prefer-const
+  let [index, setIndex] = useState<number | undefined>(undefined);
+
+  const [showData, setShowData] = useState(false);
+  const { nerdMode } = useUserState();
+
+  const latestVersionRef = useRef(0);
+
+  const latestVersion = updates ? updates.length - 1 : 0;
+  if (index === undefined) {
+    index = latestVersion;
+  }
+
+  // We fetch history on render, because it's not exposed in a websocket
+  // and we'd have to rebuild the document model a bit to make it so.
+  // (Maybe even go for event sourcing.)
+  // Fortunately, YPartyKit allows us to access the history of the document,
+  // event if we don't design it that way.
+  useEffect(() => {
+    if (eventId) {
+      void getHistory(eventId)
+        .then((updates) => {
+          const parsedUpdates = getUpdatesFromUint8Array(
+            new Uint8Array(updates),
+          );
+          setUpdates(parsedUpdates);
+        })
+        .catch((error) => {
+          console.error("error fetching history", error);
+          setError(error);
+        });
+    }
+  }, [eventId]);
+
+  // TODO: We don't have to build a new Y.Doc when we scroll to the right.
+  const historicalDoc = useMemo(() => {
+    if (!updates || updates.length === 0) return null;
+
+    try {
+      const doc = new Y.Doc();
+
+      for (let i = 0; i <= index; i++) {
+        if (i < updates.length && updates[i].value) {
+          Y.applyUpdate(doc, updates[i].value);
+        }
+      }
+
+      return doc;
+    } catch (err) {
+      console.error("Error rebuilding document:", err);
+      setError(
+        err instanceof Error ? err : new Error("Failed to rebuild document"),
+      );
+      return null;
+    }
+  }, [index, updates]);
+
+  const handleRestore = () => {
+    if (!historicalDoc || !onRestoreVersion || !canRestore) return;
+
+    onRestoreVersion(historicalDoc);
+    closeButtonRef.current?.click();
+  };
+
+  useEffect(() => {
+    if (open) {
+      const eventHistoryContent = document.getElementById(
+        "event-history-content",
+      );
+      if (eventHistoryContent) {
+        eventHistoryContent.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      }
+    }
+  }, [open]);
+
+  return (
+    <div
+      id="event-history-content"
+      className="flex max-h-[calc(100dvh-32px)] flex-col gap-4 p-1 sm:p-2"
+      {...rest}
+    >
+      {error ? (
+        <div className="text-red-500">Error: {error.message}</div>
+      ) : (
+        <>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <span className="h-5 text-sm text-gray-600">
+                {updates && updates[index].clock}
+              </span>
+              {nerdMode && (
+                <CheckboxField
+                  id="show-data"
+                  checked={showData}
+                  onChange={(e) => {
+                    setShowData(e.target.checked);
+                  }}
+                >
+                  Show JSON
+                </CheckboxField>
+              )}
+            </div>
+
+            {/* todo: style the input */}
+            <input
+              type="range"
+              className="w-full"
+              disabled={!updates}
+              max={updates ? updates.length - 1 : 1}
+              min={5}
+              onChange={(e) => setIndex(parseInt(e.target.value))}
+              value={index}
+            />
+          </div>
+
+          {showData ? (
+            <>
+              {historicalDoc && (
+                <pre className="text-xs">
+                  {JSON.stringify(yDocToJson(historicalDoc), null, 2)}
+                </pre>
+              )}
+            </>
+          ) : updates ? (
+            <YDocContext.Provider value={historicalDoc}>
+              <EventDetails
+                className="-mx-1 shrink overflow-y-scroll rounded-none border-x-0 shadow-none [scrollbar-gutter:stable] max-sm:m-0 max-sm:w-full sm:-mx-2"
+                disabled
+              />
+            </YDocContext.Provider>
+          ) : (
+            <EventDetails
+              className="-mx-1 shrink overflow-y-scroll rounded-none border-x-0 shadow-none [scrollbar-gutter:stable] max-sm:m-0 max-sm:w-full sm:-mx-2"
+              disabled
+            />
+          )}
+
+          {canRestore && (
+            <button
+              className="btn btn-default h-[45px] shrink-0"
+              disabled={!updates || index === latestVersionRef.current}
+              onClick={handleRestore}
+            >
+              Restore This Version
+            </button>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+```
