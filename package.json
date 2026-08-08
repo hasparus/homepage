@@ -39,7 +39,7 @@
     "@react-three/drei": "^9.106.0",
     "@react-three/fiber": "^8.16.7",
     "@react-three/postprocessing": "^2.16.2",
-    "@shikijs/twoslash": "^3.22.0",
+    "@shikijs/twoslash": "^4.3.1",
     "@types/mdast": "^4.0.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -67,7 +67,7 @@
     "vercel": "^51.7.0",
     "yargs-parser": "^21.1.1",
     "@tailwindcss/postcss": "4.3.1",
-    "shiki": "^3.22.0"
+    "shiki": "^4.3.1"
   },
   "devDependencies": {
     "@astrojs/rss": "^4.0.18",
