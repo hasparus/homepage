@@ -1,13 +1,16 @@
-import { createEffect, type JSX } from "solid-js";
+import { createEffect, type JSX, splitProps } from "solid-js";
 
 import { parseKeys } from "./parseKeys";
 
 export interface KbdProps extends JSX.HTMLAttributes<HTMLElement> {
   code?: string;
+  /** A keyboard hint rather than prose. Hidden on touch devices. */
+  hint?: boolean;
 }
 
 export function Kbd(props: KbdProps) {
   let ref!: HTMLElement;
+  const [local, rest] = splitProps(props, ["hint", "class"]);
 
   createEffect(() => {
     return setDataPressedOnKeyDown(props, ref);
@@ -16,14 +19,15 @@ export function Kbd(props: KbdProps) {
   return (
     <kbd
       ref={ref}
-      {...props}
+      {...rest}
       class={
         "rounded-md border border-b-2 bg-gray-50 p-1" +
         " dark:border-gray-700 dark:bg-gray-800" +
         " text-xs leading-none tracking-tighter" +
         " group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline" +
-        " pointer-coarse:hidden data-pressed:border-b" +
-        (props.class ? ` ${props.class}` : "")
+        " data-pressed:border-b" +
+        (local.hint ? " pointer-coarse:hidden" : "") +
+        (local.class ? ` ${local.class}` : "")
       }
     />
   );

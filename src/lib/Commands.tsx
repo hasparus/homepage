@@ -153,7 +153,7 @@ export function CommandsPalette(props: {
     >
       <div class="flex justify-end">
         <DialogCloseButton class="group cursor-pointer p-2 focus:outline-hidden">
-          <Kbd aria-hidden>esc</Kbd>
+          <Kbd aria-hidden hint>esc</Kbd>
           <span class="sr-only">Close</span>
         </DialogCloseButton>
       </div>

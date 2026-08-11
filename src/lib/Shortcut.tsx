@@ -41,7 +41,11 @@ export function Shortcut(props: ShortcutProps) {
             key = "/";
           }
 
-          return <Kbd style={style}>{key}</Kbd>;
+          return (
+            <Kbd hint style={style}>
+              {key}
+            </Kbd>
+          );
         }}
       </For>
     </span>
