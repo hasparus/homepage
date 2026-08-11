@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import { type JSX, Show } from "solid-js";
 
 export interface ChatConversationProps {
   children: JSX.Element;
@@ -12,7 +12,8 @@ const CARD =
   "rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950";
 
 export function ChatConversation(props: ChatConversationProps) {
-  const id = `chat-${(props.original ?? "").replaceAll(/[^a-z0-9]+/gi, "-")}`;
+  const id = () =>
+    `chat-${(props.original ?? "").replaceAll(/[^a-z0-9]+/gi, "-")}`;
 
   const transcript = (
     <div class={`flex flex-col gap-3 p-4 text-[0.9375rem] ${CARD}`}>
@@ -20,39 +21,43 @@ export function ChatConversation(props: ChatConversationProps) {
     </div>
   );
 
-  if (!props.original) return <div class="my-8 max-w-md">{transcript}</div>;
-
   return (
-    <div class="my-8 grid max-w-md pr-16">
-      <input id={id} type="checkbox" class="peer sr-only" />
-      <div
-        class={
-          "col-start-1 row-start-1 z-10 transition-[transform,opacity,filter] duration-200 motion-reduce:transition-none " +
-          EASE_OUT +
-          " peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:-rotate-3 peer-checked:scale-95 peer-checked:opacity-50 peer-checked:blur-[2px]"
-        }
-      >
-        {transcript}
+    <Show
+      when={props.original}
+      fallback={<div class="my-8 max-w-md">{transcript}</div>}
+    >
+      <div class="my-8 grid max-w-md pr-16">
+        <input id={id()} type="checkbox" class="peer sr-only" />
+        <div
+          class={
+            "col-start-1 row-start-1 z-10 transition-[transform,opacity,filter] duration-200 motion-reduce:transition-none " +
+            EASE_OUT +
+            " peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:-rotate-3 peer-checked:scale-95 peer-checked:opacity-50 peer-checked:blur-[2px]"
+          }
+        >
+          {transcript}
+        </div>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label
+          for={id()}
+          class={
+            "col-start-1 row-start-1 z-0 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 motion-reduce:transition-none " +
+            EASE_OUT +
+            " pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8 active:scale-[0.97]" +
+            " peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0" +
+            " peer-focus-visible:outline peer-focus-visible:outline-offset-4"
+          }
+        >
+          <span class="sr-only">show the original screenshot</span>
+          <img
+            src={props.original}
+            alt=""
+            loading="lazy"
+            class={`w-full p-1.5 dark:opacity-80 ${CARD}`}
+          />
+        </label>
       </div>
-      <label
-        for={id}
-        class={
-          "col-start-1 row-start-1 z-0 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 motion-reduce:transition-none " +
-          EASE_OUT +
-          " pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8 active:scale-[0.97]" +
-          " peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0" +
-          " peer-focus-visible:outline peer-focus-visible:outline-offset-4"
-        }
-      >
-        <span class="sr-only">show the original screenshot</span>
-        <img
-          src={props.original}
-          alt=""
-          loading="lazy"
-          class={`w-full p-1.5 dark:opacity-80 ${CARD}`}
-        />
-      </label>
-    </div>
+    </Show>
   );
 }
 
