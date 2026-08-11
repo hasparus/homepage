@@ -103,7 +103,7 @@ export function MessageHeader(props: { children: JSX.Element }) {
 
 export function MessageFooter(props: { children: JSX.Element }) {
   return (
-    <span class="-mt-2 rounded-full bg-white px-1.5 py-0.5 text-xs shadow-sm dark:bg-gray-900">
+    <span class="-mt-3 self-end rounded-full bg-white px-1.5 py-0.5 text-xs shadow-sm dark:bg-gray-900">
       {props.children}
     </span>
   );
