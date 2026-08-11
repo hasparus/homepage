@@ -16,7 +16,12 @@ export function ChatConversation(props: ChatConversationProps) {
     `chat-${(props.original ?? "").replaceAll(/[^a-z0-9]+/gi, "-")}`;
 
   const transcript = (
-    <div class={`flex flex-col gap-3 p-4 text-[0.9375rem] ${CARD}`}>
+    <div
+      class={
+        "flex flex-col gap-3 p-4 text-[0.9375rem] [&>*:has([data-quoted])+*]:-mt-4 " +
+        CARD
+      }
+    >
       {props.children}
     </div>
   );
@@ -153,6 +158,7 @@ export interface BubbleProps {
 export function Bubble(props: BubbleProps) {
   return (
     <div
+      data-quoted={props.quoted ? "" : undefined}
       class={
         "rounded-2xl" +
         (props.quoted
