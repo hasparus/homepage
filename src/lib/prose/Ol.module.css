@@ -12,10 +12,6 @@
     &:before {
       @apply text-gray-600;
 
-      :global(.dark) & {
-        @apply text-gray-400;
-      }
-
       counter-increment: ol;
       content: counter(ol) ".";
       font: var(--italic-serif);
@@ -31,6 +27,10 @@
       margin-right: 0.5em;
       user-select: none;
     }
+  }
+
+  :global(.dark) & > li:before {
+    @apply text-gray-400;
   }
 
   & li {

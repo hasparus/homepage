@@ -11,10 +11,11 @@
   &::after {
     @apply font-black text-gray-400;
     content: "`";
+  }
 
-    :global(.dark) & {
-      @apply text-gray-600;
-    }
+  :global(.dark) &::before,
+  :global(.dark) &::after {
+    @apply text-gray-600;
   }
 }
 
@@ -70,11 +71,11 @@
       --bg: #fafafa;
       display: inline-block;
       background: linear-gradient(to right, var(--bg) 82%, transparent);
+    }
 
-      :global(.dark) & {
-        color: theme(colors.gray.400);
-        --bg: #1b1b1b;
-      }
+    :global(.dark) & :global(.line)::before {
+      color: var(--color-gray-400);
+      --bg: #1b1b1b;
     }
   }
 }
