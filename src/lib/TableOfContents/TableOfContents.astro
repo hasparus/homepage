@@ -35,10 +35,11 @@ if (!headings.some((heading) => heading.depth === 1)) {
           if (depth > 3) return null;
 
           return (
-            <li class:list={{ "ml-4": depth === 3 }}>
+            <li class:list={{ "ml-4": depth === 3, truncate: depth === 1 }}>
               <Link
                 noUnderline
                 href={"#" + slug}
+                title={depth === 1 ? text : undefined}
                 class="dark:current:text-white current:text-black current:font-semibold"
               >
                 {text}
