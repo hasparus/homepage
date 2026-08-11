@@ -2,7 +2,15 @@
 title: "bear-fit: the simplest UX for syncing humans"
 ---
 
-import { ChatConversation, Message } from "../src/own/ChatConversation";
+import {
+  Bubble,
+  BubbleContent,
+  ChatConversation,
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+} from "../src/own/ChatConversation";
 import { Kbd } from "../src/lib/Kbd";
 
 tldr: I've built bear-fit to make meeting my friends dead simple. Try it on
@@ -132,12 +140,30 @@ I could technically get down to 0 in repeated use with about 5 for setup by
 piggybacking on Google Calendar but it wouldn't work for all of my friends.
 
 <ChatConversation original="/content/bear-fit/word-of-mouth.png">
-  <Message quoted>
-    We have lots of dates, I ticked mine. Great app btw 🙂
+  <Message>
+    <MessageContent>
+      <Bubble quoted>
+        <BubbleContent>We have lots of dates, I ticked mine. Great app btw 🙂</BubbleContent>
+      </Bubble>
+    </MessageContent>
   </Message>
-  <Message reaction="❤️">and here</Message>
-  <Message reaction="❤️">
-    and Quentin schedules its chapter meetings through bearfit
+  <Message>
+    <MessageAvatar alt="Weronika">W</MessageAvatar>
+    <MessageContent>
+      <Bubble>
+        <BubbleContent>and here</BubbleContent>
+      </Bubble>
+      <MessageFooter>❤️</MessageFooter>
+    </MessageContent>
+  </Message>
+  <Message>
+    <MessageAvatar alt="Weronika">W</MessageAvatar>
+    <MessageContent>
+      <Bubble>
+        <BubbleContent>and Quentin schedules its chapter meetings through bearfit</BubbleContent>
+      </Bubble>
+      <MessageFooter>❤️</MessageFooter>
+    </MessageContent>
   </Message>
 </ChatConversation>
 
@@ -151,12 +177,28 @@ hits the fan she needs to stay longer in the office.
 I didn't have to ask for any of this.
 
 <ChatConversation original="/content/bear-fit/fuck-doodle.png">
-  <Message>omg what a good tool, fuck doodle</Message>
+  <Message>
+    <MessageAvatar />
+    <MessageContent>
+      <Bubble>
+        <BubbleContent>omg what a good tool, fuck doodle</BubbleContent>
+      </Bubble>
+    </MessageContent>
+  </Message>
 </ChatConversation>
 
 <ChatConversation original="/content/bear-fit/kory.png">
-  <Message>Kory sucks and has date limits</Message>
-  <Message>tell them it's great</Message>
+  <Message>
+    <MessageAvatar />
+    <MessageContent>
+      <Bubble>
+        <BubbleContent>Kory sucks and has date limits</BubbleContent>
+      </Bubble>
+      <Bubble>
+        <BubbleContent>tell them it's great</BubbleContent>
+      </Bubble>
+    </MessageContent>
+  </Message>
 </ChatConversation>
 
 Simple is convenient, fast, not demanding the users learn and _adopt_ your
@@ -179,11 +221,24 @@ thing. You can adopt a cat or a little human. Tools are to be _used_.
 People repeatedly asked: "How do I save? Did it work? Just like that?"
 
 <ChatConversation original="/content/bear-fit/save-ux-request.png">
-  <Message reaction="👀">
-    pleeease make a UX thingy showing it saved
+  <Message>
+    <MessageAvatar />
+    <MessageContent>
+      <Bubble>
+        <BubbleContent>pleeease make a UX thingy showing it saved</BubbleContent>
+      </Bubble>
+      <MessageFooter>👀</MessageFooter>
+    </MessageContent>
   </Message>
   <Message>
-    spinner → tick, or just a tick, or a happy <em>saved</em>, whatever
+    <MessageAvatar />
+    <MessageContent>
+      <Bubble>
+        <BubbleContent>
+          spinner → tick, or just a tick, or a happy <em>saved</em>, whatever
+        </BubbleContent>
+      </Bubble>
+    </MessageContent>
   </Message>
 </ChatConversation>
 
