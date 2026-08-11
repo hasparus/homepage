@@ -2,6 +2,7 @@
 title: "bear-fit: the simplest UX for syncing humans"
 ---
 
+import { ChatConversation, Message } from "../src/own/ChatConversation";
 import { Kbd } from "../src/lib/Kbd";
 
 tldr: I've built bear-fit to make meeting my friends dead simple. Try it on
@@ -130,19 +131,15 @@ goal. I got down to 2:
 I could technically get down to 0 in repeated use with about 5 for setup by
 piggybacking on Google Calendar but it wouldn't work for all of my friends.
 
-<figure>
-
-![A friend forwarding messages from her group chat praising the app](/content/bear-fit/word-of-mouth.png?raw=1&thin=1)
-
-<figcaption>
-
-A friend forwarding what her group said: "we have lots of dates, I ticked mine",
-"great app btw" — and that Quentin schedules its chapter meetings through
-bear-fit.
-
-</figcaption>
-
-</figure>
+<ChatConversation original="/content/bear-fit/word-of-mouth.png">
+  <Message quoted>
+    We have lots of dates, I ticked mine. Great app btw 🙂
+  </Message>
+  <Message reaction="❤️">and here</Message>
+  <Message reaction="❤️">
+    and Quentin schedules its chapter meetings through bearfit
+  </Message>
+</ChatConversation>
 
 There's a lot of good alternatives. cal.com is great, but it's a whole product.
 
@@ -151,20 +148,16 @@ I don't wanna select any hours a month ahead. idk, mate. I may work till 6pm, I
 may work a bit longer. One of my friends is a political editor, so whenever shit
 hits the fan she needs to stay longer in the office.
 
-<figure>
+I didn't have to ask for any of this.
 
-![A message reading "omg what a good tool, fuck doodle"](/content/bear-fit/fuck-doodle.png?raw=1&thin=1)
+<ChatConversation original="/content/bear-fit/fuck-doodle.png">
+  <Message>omg what a good tool, fuck doodle</Message>
+</ChatConversation>
 
-![A message reading "Kory sucks and has date limits. Tell them it's great."](/content/bear-fit/kory.png?raw=1&thin=1)
-
-<figcaption>
-
-"omg what a good tool, fuck doodle" and "Kory sucks and has date limits. Tell
-them it's great." I didn't have to ask.
-
-</figcaption>
-
-</figure>
+<ChatConversation original="/content/bear-fit/kory.png">
+  <Message>Kory sucks and has date limits</Message>
+  <Message>tell them it's great</Message>
+</ChatConversation>
 
 Simple is convenient, fast, not demanding the users learn and _adopt_ your
 thing. You can adopt a cat or a little human. Tools are to be _used_.
@@ -185,19 +178,16 @@ thing. You can adopt a cat or a little human. Tools are to be _used_.
 
 People repeatedly asked: "How do I save? Did it work? Just like that?"
 
-<figure>
+<ChatConversation original="/content/bear-fit/save-ux-request.png">
+  <Message reaction="👀">
+    pleeease make a UX thingy showing it saved
+  </Message>
+  <Message>
+    spinner → tick, or just a tick, or a happy <em>saved</em>, whatever
+  </Message>
+</ChatConversation>
 
-![A friend asking me to build a UX thing that shows the data was saved](/content/bear-fit/save-ux-request.png?raw=1&thin=1)
-
-<figcaption>
-
-"pleeease make a UX thingy showing it saved" → "spinner → tick, or just a tick,
-or a happy _saved_, whatever". This is the message the status indicator came
-from.
-
-</figcaption>
-
-</figure>
+The status indicator came from that message.
 
 It was surprising to me how uncommon autosave and real-time sync still are.
 
