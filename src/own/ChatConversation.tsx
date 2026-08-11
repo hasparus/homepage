@@ -2,62 +2,55 @@ import type { JSX } from "solid-js";
 
 export interface ChatConversationProps {
   children: JSX.Element;
-  /** Flag emoji for the language the original is in, e.g. "🇵🇱". */
-  flag?: string;
-  /** Screenshot of the real thing, tucked under "show original". */
+  /** Screenshot of the real thing, stacked under the transcript. */
   original?: string;
 }
 
 const EASE_OUT = "ease-[cubic-bezier(0.23,1,0.32,1)]";
 
-export function ChatConversation(props: ChatConversationProps) {
-  const id = `chat-${(props.original ?? "").replace(/[^a-z0-9]+/gi, "-")}`;
+const CARD =
+  "rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950";
 
-  const sheet = (
-    <div class="flex flex-col gap-3 rounded-[2rem] border border-gray-200 bg-gray-50 px-4 pt-5 pb-6 text-[0.9375rem] shadow-sm dark:border-gray-800 dark:bg-gray-950">
-      <span class="mx-auto h-1 w-10 shrink-0 rounded-full bg-gray-300 dark:bg-gray-700" />
+export function ChatConversation(props: ChatConversationProps) {
+  const id = `chat-${(props.original ?? "").replaceAll(/[^a-z0-9]+/gi, "-")}`;
+
+  const transcript = (
+    <div class={`flex flex-col gap-3 p-4 text-[0.9375rem] ${CARD}`}>
       {props.children}
     </div>
   );
 
-  if (!props.original) return <div class="mx-auto my-8 max-w-96">{sheet}</div>;
+  if (!props.original) return <div class="my-8 max-w-md">{transcript}</div>;
 
   return (
-    <div class="mx-auto my-8 grid max-w-96 pb-16">
+    <div class="my-8 grid max-w-md pr-16">
       <input id={id} type="checkbox" class="peer sr-only" />
       <div
         class={
           "col-start-1 row-start-1 z-10 transition-[transform,opacity,filter] duration-200 motion-reduce:transition-none " +
           EASE_OUT +
-          " peer-checked:z-0 peer-checked:-rotate-2 peer-checked:scale-95 peer-checked:opacity-50 peer-checked:blur-[2px]"
+          " peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:-rotate-3 peer-checked:scale-95 peer-checked:opacity-50 peer-checked:blur-[2px]"
         }
       >
-        {sheet}
+        {transcript}
       </div>
       <label
         for={id}
         class={
-          "col-start-1 row-start-1 z-0 mt-auto translate-y-10 rotate-2 cursor-pointer transition-[transform,opacity] duration-200 motion-reduce:transition-none " +
+          "col-start-1 row-start-1 z-0 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 motion-reduce:transition-none " +
           EASE_OUT +
-          " pointer-fine:hover:translate-y-14 active:scale-[0.97]" +
-          " peer-checked:z-20 peer-checked:translate-y-0 peer-checked:rotate-0" +
+          " pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8 active:scale-[0.97]" +
+          " peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0" +
           " peer-focus-visible:outline peer-focus-visible:outline-offset-4"
         }
       >
         <span class="sr-only">show the original screenshot</span>
-        <span class="relative block">
-          <img
-            src={props.original}
-            alt=""
-            loading="lazy"
-            class="w-full rounded-xl shadow-lg dark:opacity-80"
-          />
-          {props.flag && (
-            <span class="absolute right-2 bottom-2 rounded-full bg-white/90 px-1.5 py-0.5 text-xs shadow-sm dark:bg-gray-900/90">
-              {props.flag}
-            </span>
-          )}
-        </span>
+        <img
+          src={props.original}
+          alt=""
+          loading="lazy"
+          class={`w-full p-1.5 dark:opacity-80 ${CARD}`}
+        />
       </label>
     </div>
   );
