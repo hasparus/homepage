@@ -2,6 +2,8 @@ import type { JSX } from "solid-js";
 
 export interface ChatConversationProps {
   children: JSX.Element;
+  /** Flag emoji for the language the original is in, e.g. "🇵🇱". */
+  flag?: string;
   /** Screenshot of the real thing, tucked under "show original". */
   original?: string;
 }
@@ -9,10 +11,9 @@ export interface ChatConversationProps {
 export function ChatConversation(props: ChatConversationProps) {
   return (
     <div class="my-6 flex flex-col gap-3 text-[0.9375rem]">
-      {props.children}
       {props.original && (
-        <details class="mt-2 self-start text-sm text-gray-500 dark:text-gray-400">
-          <summary>show original</summary>
+        <details class="self-end text-sm text-gray-500 dark:text-gray-400">
+          <summary>{props.flag} show original</summary>
           <img
             src={props.original}
             alt=""
