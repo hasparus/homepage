@@ -18,7 +18,8 @@ export function ChatConversation(props: ChatConversationProps) {
   const transcript = (
     <div
       class={
-        "flex flex-col gap-3 p-4 text-[0.9375rem] [&>*:has([data-quoted])+*]:-mt-4 " +
+        "flex flex-col gap-3 p-4 text-[0.9375rem]" +
+        " [&>*:has([data-quoted])+*]:-mt-[calc(--spacing(3)+4px)] " +
         CARD
       }
     >
