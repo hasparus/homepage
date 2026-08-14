@@ -103,7 +103,7 @@ export function MessageAvatar(props: MessageAvatarProps) {
 
 export function MessageContent(props: { children: JSX.Element }) {
   return (
-    <div class="flex max-w-[85%] flex-col items-start gap-0.5 group-data-[align=end]:items-end">
+    <div class="relative flex max-w-[85%] flex-col items-start gap-0.5 group-data-[align=end]:items-end">
       {props.children}
     </div>
   );
@@ -119,7 +119,7 @@ export function MessageHeader(props: { children: JSX.Element }) {
 
 export function MessageFooter(props: { children: JSX.Element }) {
   return (
-    <span class="-mt-3 self-end rounded-full bg-white p-0.5 aspect-square text-center text-xs shadow-sm dark:bg-gray-900">
+    <span class="absolute right-0 bottom-0 translate-y-1/2 rounded-full bg-white p-0.5 text-center text-xs shadow-sm dark:bg-gray-900">
       {props.children}
     </span>
   );

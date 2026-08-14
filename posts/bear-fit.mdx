@@ -128,6 +128,8 @@ goal. I got down to 2:
 1. Click the link in a group chat to visit the app.
 2. Click the day when you're available or paint the whole week.
 
+{/* TODO: Demo embed with painting on the calendar. One-off UI. A fake "collaborator" cursor paints a span of 3 days Mon-Wed and clicks through the Friday, Sunday.*/}
+
 That's the entire guest flow. No account, onboarding, installation, calendar
 permissions, or save button. Open the link, mark your days, leave. Everyone sees
 the changes immediately.
@@ -257,10 +259,10 @@ they haven't seen before.
 </ChatConversation>
 
 I really liked surprising my friends by popping in with the multiplayer cursor
-chat, Figma-style. I eventually added a status indicator
-{/* prettier-ignore */}
-and _"bear-fit saves automatically"_ message popping out
-of it when <Kbd>⌘</Kbd><Kbd>S</Kbd> is pressed.
+chat, Figma-style. But the core feature of "this is saved" needed to be obvious:
+I eventually added a status indicator {/* prettier-ignore */}
+and _"bear-fit
+saves automatically"_ message when someone presses <Kbd>⌘</Kbd><Kbd>S</Kbd>.
 
 <aside className="relative max-sm:h-0">
   <video
