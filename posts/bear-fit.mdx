@@ -12,9 +12,9 @@ import {
   MessageFooter,
 } from "../src/own/ChatConversation";
 import { Kbd } from "../src/lib/Kbd";
-import fuckDoodle from "../src/images/bear-fit/fuck-doodle.png";
-import saveUxRequest from "../src/images/bear-fit/save-ux-request.png";
-import wordOfMouth from "../src/images/bear-fit/word-of-mouth.png";
+import fuckDoodle from "../src/images/bear-fit/fuck-doodle.webp";
+import saveUxRequest from "../src/images/bear-fit/save-ux-request.webp";
+import wordOfMouth from "../src/images/bear-fit/word-of-mouth.webp";
 
 tldr: In 2024 I built bear-fit to make meeting my friends dead simple. Try it at
 [bear-fit.haspar.us](https://bear-fit.haspar.us). It works because it asks
@@ -97,10 +97,9 @@ something that's deliberately ass.
 I'm a sucker for personal malleable software. Been like that since I read the
 first blog posts. A few years ago I saw
 [Patchwork](https://www.inkandswitch.com/patchwork/notebook/2024-version-control/)
-and [Playbit](https://playbit.app/) at Local-First Conf in Berlin. It seems like
-with agents and environments like
-[Cloudflare OS](https://blog.cloudflare.com/cloudflare-os) it's slowly happening
-now.
+and [Playbit](https://playbit.app/) at Local-First Conf. Seems like with agents
+and new coding environments it's
+[slowly happening](https://blog.cloudflare.com/cloudflare-os) now.
 
 Two years ago when I built bear-fit, software was already cheap enough you could
 build for a few dozen people. It's even cheaper now.
@@ -118,21 +117,21 @@ If you don't know any normie, the main thing you need to understand about them
 is that computers effectively hate them.
 
 If they have a website, they probably bought the domain bundled with hosting and
-WordPress at a 500% markup. The internet is brutal to normies, but they're used
-to that. Low-tech vendors have been preying on them **for decades**.
+WordPress at a 500% markup. The internet is brutal, but they're used to that.
+Low-tech vendors have been preying on them **for decades**.
 
 I needed the UX to be straightforward enough that people actually bother. Just
 click the day. Like an advent calendar. That's it. You can drag to "paint".
 There's basically just a mobile UI. Desktop UI is a phone-shaped card in the
 middle of the screen.
 
-By simplicity I mean something quantifiable here: the number of clicks to your
-goal. I got down to 2:
+**By simplicity I mean something quantifiable here: the number of clicks to your
+goal.** I got down to 2:
 
 1. Click the link in a group chat to visit the app.
 2. Click the day when you're available or paint the whole week.
 
-{/* TODO: Demo embed with painting on the calendar. One-off UI. A fake "collaborator" cursor paints a span of 3 days Mon-Wed and clicks through the Friday, Sunday. */}
+{/* TODO: Demo embed with painting on the calendar. One-off UI. Copy the code from bear-fit. A fake "collaborator" cursor paints a span of 3 days Mon-Wed and clicks through the Friday, Sunday. */}
 
 That's the entire guest flow. No account, onboarding, installation, calendar
 permissions, or save button. Open the link, mark your days, leave. Everyone sees
@@ -183,6 +182,12 @@ crab.fit is great, but dragging does a selection there like in Excel/Sheets and
 I don't wanna select any hours a month ahead. idk, mate. I may work till 6pm, I
 may work a bit longer. One of my friends is a political editor, so whenever shit
 hits the fan she needs to stay longer in the office.
+
+There are also alternatives that used to be good.
+
+<div className="flex gap-2">
+  ![](/bear-fit/doodle-1.webp) ![](/bear-fit/doodle-2.webp)
+</div>
 
 <ChatConversation original={fuckDoodle}>
   <Message>
@@ -286,6 +291,8 @@ Have I inadvertently used an
 think it was worth it.
 
 ---
+
+{/* I'm probably missing something here. */}
 
 You can use [bear-fit](https://bear-fit.haspar.us) while tired, in a rush, or
 overstimulated by your 20 AI agents. Just click the thing and reserve your
