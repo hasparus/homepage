@@ -11,7 +11,7 @@ export function ChatConversation(props: ChatConversationProps) {
     `chat-${(props.original ?? "").replaceAll(/[^a-z0-9]+/gi, "-")}`;
 
   const transcript = (
-    <div class="flex flex-col gap-3 p-4 text-[0.9375rem] [&>*:has([data-quoted])+*]:-mt-[calc(--spacing(3)+4px)] rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950">
+    <div class="flex flex-col gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-[0.9375rem] shadow-md dark:border-gray-800 dark:bg-gray-950 [&>*:has([data-quoted])+*]:-mt-[calc(--spacing(3)+4px)]">
       {props.children}
     </div>
   );
@@ -23,20 +23,20 @@ export function ChatConversation(props: ChatConversationProps) {
     >
       <div class="my-8 grid max-w-md pr-16">
         <input id={id()} type="checkbox" class="peer sr-only" />
-        <div class="col-start-1 row-start-1 z-10 transition-[transform,opacity,filter] duration-200 motion-reduce:transition-none ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:-rotate-3 peer-checked:scale-95 peer-checked:opacity-50 peer-checked:blur-[2px]">
+        <div class="z-10 col-start-1 row-start-1 transition-[transform,opacity,filter] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:scale-95 peer-checked:-rotate-3 peer-checked:opacity-50 peer-checked:blur-[2px] motion-reduce:transition-none">
           {transcript}
         </div>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label
           for={id()}
-          class="col-start-1 row-start-1 z-0 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 motion-reduce:transition-none ease-[cubic-bezier(0.23,1,0.32,1)] pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8 active:scale-[0.97] peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0 peer-focus-visible:outline peer-focus-visible:outline-offset-4"
+          class="z-0 col-start-1 row-start-1 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0 peer-focus-visible:outline peer-focus-visible:outline-offset-4 active:scale-[0.97] motion-reduce:transition-none pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8"
         >
           <span class="sr-only">show the original screenshot</span>
           <img
             src={props.original}
             alt=""
             loading="lazy"
-            class="w-full rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950 dark:opacity-80"
+            class="w-full rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950 dark:opacity-80 dark:backdrop-blur-lg"
           />
         </label>
       </div>
@@ -83,8 +83,7 @@ export function MessageAvatar(props: MessageAvatarProps) {
     <span
       class={props.class}
       classList={{
-        "mt-auto grid size-8 shrink-0 place-items-center overflow-hidden rounded-full bg-gray-200 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300":
-          true,
+        "mt-auto grid size-8 shrink-0 place-items-center overflow-hidden rounded-full bg-gray-200 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300": true,
       }}
     >
       {props.src ? (
@@ -135,7 +134,7 @@ export function Bubble(props: BubbleProps) {
   return (
     <div
       data-quoted={props.quoted ? "" : undefined}
-      class="rounded-2xl bg-gray-100 text-gray-900 group-data-[align=end]:bg-gray-900 group-data-[align=end]:text-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:group-data-[align=end]:bg-gray-200 dark:group-data-[align=end]:text-gray-900 data-[quoted]:rounded-l-sm data-[quoted]:border-l-2 data-[quoted]:border-gray-300 data-[quoted]:bg-gray-50 data-[quoted]:text-sm data-[quoted]:text-gray-600 data-[quoted]:italic dark:data-[quoted]:border-gray-600 dark:data-[quoted]:bg-gray-900 dark:data-[quoted]:text-gray-300"
+      class="rounded-2xl bg-gray-100 text-gray-900 group-data-[align=end]:bg-gray-900 group-data-[align=end]:text-gray-50 data-[quoted]:rounded-l-sm data-[quoted]:border-l-2 data-[quoted]:border-gray-300 data-[quoted]:bg-gray-50 data-[quoted]:text-sm data-[quoted]:text-gray-600 data-[quoted]:italic dark:bg-gray-800 dark:text-gray-100 dark:group-data-[align=end]:bg-gray-200 dark:group-data-[align=end]:text-gray-900 dark:data-[quoted]:border-gray-600 dark:data-[quoted]:bg-gray-900 dark:data-[quoted]:text-gray-300"
     >
       {props.children}
     </div>
