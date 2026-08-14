@@ -120,8 +120,8 @@ If they have a website, they probably bought the domain bundled with hosting and
 WordPress at a 500% markup. The internet is brutal, but they're used to that.
 Low-tech vendors have been preying on them **for decades**.
 
-I needed the UX to be straightforward enough that people actually bother. Just
-click the day. Like an advent calendar. That's it. You can drag to "paint".
+I needed the UX to be straightforward enough that people would actually bother.
+Just click the day. Like an advent calendar. That's it. You can drag to "paint".
 There's basically just a mobile UI. Desktop UI is a phone-shaped card in the
 middle of the screen.
 
@@ -144,18 +144,19 @@ You don't have to name the calendar nor yourself if you ain't got time for that.
 I could technically get down to 0 clicks in repeated use with about 5 for setup
 by piggybacking on Google Calendar but it wouldn't work for all of my friends.
 
-<ChatConversation original={wordOfMouth}>
+<ChatConversation classList={{ "my-8": true }} original={wordOfMouth}>
   <Message>
     <MessageContent>
       <Bubble quoted>
         <BubbleContent>
-          We have lots of dates, I ticked mine. Great app btw 🙂
+          We have lots of dates, I ticked mine. <br />
+          Awesome app btw 🙂
         </BubbleContent>
       </Bubble>
     </MessageContent>
   </Message>
   <Message>
-    <MessageAvatar alt="Weronika">W</MessageAvatar>
+    <MessageAvatar />
     <MessageContent>
       <Bubble>
         <BubbleContent>and here</BubbleContent>
@@ -164,7 +165,7 @@ by piggybacking on Google Calendar but it wouldn't work for all of my friends.
     </MessageContent>
   </Message>
   <Message>
-    <MessageAvatar alt="Weronika">W</MessageAvatar>
+    <MessageAvatar />
     <MessageContent>
       <Bubble>
         <BubbleContent>
@@ -176,6 +177,8 @@ by piggybacking on Google Calendar but it wouldn't work for all of my friends.
   </Message>
 </ChatConversation>
 
+## Alternatives
+
 There's a lot of good alternatives. Cal.com is great, but it's a whole product.
 
 crab.fit is great, but dragging does a selection there like in Excel/Sheets and
@@ -183,28 +186,52 @@ I don't wanna select any hours a month ahead. idk, mate. I may work till 6pm, I
 may work a bit longer. One of my friends is a political editor, so whenever shit
 hits the fan she needs to stay longer in the office.
 
-There are also alternatives that used to be good.
+There are also alternatives that
+[used to](https://pluralistic.net/tag/enshittification/) be good.
 
-<div className="flex gap-2">
-  ![](/bear-fit/doodle-1.webp) ![](/bear-fit/doodle-2.webp)
-</div>
+<figure>
+  ![Doodle homepage and cookie banner.](/bear-fit/doodle-1.webp)
+  <figcaption>
+    Opening Doodle. I accept the cookies and press "Create a Doodle".
+  </figcaption>
+</figure>
 
-<ChatConversation original={fuckDoodle}>
-  <Message>
-    <MessageAvatar />
-    <MessageContent>
-      <Bubble>
-        <BubbleContent>omg what a good tool, fuck doodle</BubbleContent>
-      </Bubble>
-      <Bubble>
-        <BubbleContent>which sucks and has date limits</BubbleContent>
-      </Bubble>
-      <Bubble>
-        <BubbleContent>tell them it's great</BubbleContent>
-      </Bubble>
-    </MessageContent>
-  </Message>
-</ChatConversation>
+<figure>
+  ![Doodle's four creation options.](/bear-fit/doodle-2.webp)
+  <figcaption>I think I want a Group Poll?</figcaption>
+</figure>
+
+<figure>
+  ![Doodle group poll creation screen blocked by an upgrade dialog after
+  reaching the free poll limit.](/bear-fit/doodle-3.webp)
+  <figcaption>
+    A form to fill and a monthly sub $3 cheaper than ChatGPT Plus. A bargain.
+  </figcaption>
+</figure>
+
+It's not _just me_.
+
+<figure>
+  <ChatConversation original={fuckDoodle}>
+    <Message>
+      <MessageAvatar />
+      <MessageContent>
+        <Bubble>
+          <BubbleContent>omg what a good tool, fuck doodle</BubbleContent>
+        </Bubble>
+        <Bubble>
+          <BubbleContent>which sucks and has date limits</BubbleContent>
+        </Bubble>
+        <Bubble>
+          <BubbleContent>tell them it's great</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+  </ChatConversation>
+  <figcaption className="mt-4">
+    I don't know this person. Got a screenshot of a Discord message.
+  </figcaption>
+</figure>
 
 Simple is convenient and fast. It doesn't demand that users learn your thing,
 let alone _adopt_ it. You can adopt a cat or a little human. Tools are to be
@@ -212,7 +239,7 @@ _used_.
 
 <iframe
   data-testid="embed-iframe"
-  style="border-radius:16px"
+  className="rounded-[12.5px]"
   src="https://open.spotify.com/embed/track/4gRA0i5sxx3jAhHaVjPnUN?utm_source=generator&theme=0&si=77141bdcd9484904"
   width="67%"
   height="152"
@@ -222,17 +249,21 @@ _used_.
   loading="lazy"
 />
 
-To make something simple for the users, we often have to
-[absorb the complexity](https://overreacted.io/what-are-the-react-team-principles/#absorb-the-complexity)
+## Eating complexity
+
+To make something simple for the users, we often have to [absorb the complexity]
 ourselves.
+
+[absorb the complexity]:
+  https://overreacted.io/what-are-the-react-team-principles/#absorb-the-complexity
 
 First, we reduce complexity through product judgment and scoping, like realizing
 users can't predict hourly availability three weeks out, then cutting hours from
 the product.
 
 Then, we eat the irreducible complexity with code. Take up the cross and suffer
-random segmentation faults from your dev deps so the user can click rectangles
-on the screen.
+random segmentation faults from your dev deps so the user can tap rectangles on
+the screen.
 
 If we absorb enough pain, the end result can feel like magic.
 
@@ -244,7 +275,7 @@ Every change is saved and immediately propagated to everyone else. That avoids
 conversations like "yeah, I'm just doing it, saving in a minute", but for
 first-time users, it's surprising. It's something they haven't seen before.
 
-<ChatConversation original={saveUxRequest}>
+<ChatConversation classList={{ "my-8": true }} original={saveUxRequest}>
   <Message>
     <MessageAvatar />
     <MessageContent>
