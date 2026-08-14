@@ -13,7 +13,7 @@ import {
 } from "../src/own/ChatConversation";
 import { Kbd } from "../src/lib/Kbd";
 
-tldr: I've built bear-fit to make meeting my friends dead simple. Try it at
+tldr: In 2024 I built bear-fit to make meeting my friends dead simple. Try it at
 [bear-fit.haspar.us](https://bear-fit.haspar.us). It works because it asks
 "which days could work?", not "which 30-minute intervals are you free three
 weeks from now?"
@@ -27,16 +27,15 @@ friend. A day job + day uni, with one of the most challenging majors in town.
 Great combo. It made me stop playing League of Legends, so there's that, but my
 calendar was **packed**.
 
-Most of my friends' calendars were also **packed**. Eureka moment. What if I did
+Most of my friends' calendars were also packed. Eureka moment. What if I did
 **set intersections?!** Just `&` calendars across each other. Simple, right?!
 
 Okay, but what if the users are not corporate slaves and their availability
 can't be derived from the events in their calendars?
 
-Tinder was kinda hot back then\*, so I thought _what if I could swipe time
-slots?_ Right for green and available, left for gray and busy. A stack of your
-friends' avatars so you can see who's free. Long press on the row to send an
-invite.
+Tinder was kinda hot back then, so I thought _what if I could swipe time slots?_
+Right for green and available, left for gray and busy. A stack of your friends'
+avatars so you can see who's free. Long press on the row to send an invite.
 
 {/* <!-- oooh! an interactive demo powered by a worker would be so hot here, like in Emil Kowalski's UX blog posts --> */}
 
@@ -263,13 +262,17 @@ chat, Figma-style. I eventually added a status indicator
 and _"bear-fit saves automatically"_ message popping out
 of it when <Kbd>⌘</Kbd><Kbd>S</Kbd> is pressed.
 
-<video
-  src="/content/bear-fit/saves-automatically.mp4"
-  autoPlay
-  loop
-  muted
-  playsInline
-/>
+<aside className="relative max-sm:h-0">
+  <video
+    src="/content/bear-fit/saves-automatically.mp4"
+    autoPlay
+    loop
+    muted
+    playsInline
+    width={320}
+    className="max-sm:absolute"
+  />
+</aside>
 
 Have I inadvertently used an
 [innovation token](https://mcfunley.com/choose-boring-technology) here? Maybe. I

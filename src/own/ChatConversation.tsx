@@ -6,23 +6,12 @@ export interface ChatConversationProps {
   original?: string;
 }
 
-const EASE_OUT = "ease-[cubic-bezier(0.23,1,0.32,1)]";
-
-const CARD =
-  "rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950";
-
 export function ChatConversation(props: ChatConversationProps) {
   const id = () =>
     `chat-${(props.original ?? "").replaceAll(/[^a-z0-9]+/gi, "-")}`;
 
   const transcript = (
-    <div
-      class={
-        "flex flex-col gap-3 p-4 text-[0.9375rem]" +
-        " [&>*:has([data-quoted])+*]:-mt-[calc(--spacing(3)+4px)] " +
-        CARD
-      }
-    >
+    <div class="flex flex-col gap-3 p-4 text-[0.9375rem] [&>*:has([data-quoted])+*]:-mt-[calc(--spacing(3)+4px)] rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950">
       {props.children}
     </div>
   );
@@ -34,32 +23,20 @@ export function ChatConversation(props: ChatConversationProps) {
     >
       <div class="my-8 grid max-w-md pr-16">
         <input id={id()} type="checkbox" class="peer sr-only" />
-        <div
-          class={
-            "col-start-1 row-start-1 z-10 transition-[transform,opacity,filter] duration-200 motion-reduce:transition-none " +
-            EASE_OUT +
-            " peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:-rotate-3 peer-checked:scale-95 peer-checked:opacity-50 peer-checked:blur-[2px]"
-          }
-        >
+        <div class="col-start-1 row-start-1 z-10 transition-[transform,opacity,filter] duration-200 motion-reduce:transition-none ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:-rotate-3 peer-checked:scale-95 peer-checked:opacity-50 peer-checked:blur-[2px]">
           {transcript}
         </div>
         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label
           for={id()}
-          class={
-            "col-start-1 row-start-1 z-0 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 motion-reduce:transition-none " +
-            EASE_OUT +
-            " pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8 active:scale-[0.97]" +
-            " peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0" +
-            " peer-focus-visible:outline peer-focus-visible:outline-offset-4"
-          }
+          class="col-start-1 row-start-1 z-0 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 motion-reduce:transition-none ease-[cubic-bezier(0.23,1,0.32,1)] pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8 active:scale-[0.97] peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0 peer-focus-visible:outline peer-focus-visible:outline-offset-4"
         >
           <span class="sr-only">show the original screenshot</span>
           <img
             src={props.original}
             alt=""
             loading="lazy"
-            class={`w-full p-1.5 dark:opacity-80 ${CARD}`}
+            class="w-full rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950 dark:opacity-80"
           />
         </label>
       </div>
@@ -70,7 +47,7 @@ export function ChatConversation(props: ChatConversationProps) {
 /** Consecutive messages from the same sender. */
 export function MessageGroup(props: { children: JSX.Element; class?: string }) {
   return (
-    <div class={`flex flex-col gap-1 ${props.class ?? ""}`}>
+    <div class={props.class} classList={{ "flex flex-col gap-1": true }}>
       {props.children}
     </div>
   );
@@ -86,10 +63,8 @@ export function Message(props: MessageProps) {
   return (
     <div
       data-align={props.align ?? "start"}
-      class={
-        "group flex gap-2 data-[align=end]:flex-row-reverse " +
-        (props.class ?? "")
-      }
+      class={props.class}
+      classList={{ "group flex gap-2 data-[align=end]:flex-row-reverse": true }}
     >
       {props.children}
     </div>
@@ -106,11 +81,11 @@ export interface MessageAvatarProps {
 export function MessageAvatar(props: MessageAvatarProps) {
   return (
     <span
-      class={
-        "mt-auto grid size-8 shrink-0 place-items-center overflow-hidden rounded-full" +
-        " bg-gray-200 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300 " +
-        (props.class ?? "")
-      }
+      class={props.class}
+      classList={{
+        "mt-auto grid size-8 shrink-0 place-items-center overflow-hidden rounded-full bg-gray-200 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300":
+          true,
+      }}
     >
       {props.src ? (
         <img
@@ -144,7 +119,7 @@ export function MessageHeader(props: { children: JSX.Element }) {
 
 export function MessageFooter(props: { children: JSX.Element }) {
   return (
-    <span class="-mt-3 self-end rounded-full bg-white px-1.5 py-0.5 text-xs shadow-sm dark:bg-gray-900">
+    <span class="-mt-3 self-end rounded-full bg-white p-0.5 aspect-square text-center text-xs shadow-sm dark:bg-gray-900">
       {props.children}
     </span>
   );
@@ -160,13 +135,7 @@ export function Bubble(props: BubbleProps) {
   return (
     <div
       data-quoted={props.quoted ? "" : undefined}
-      class={
-        "rounded-2xl" +
-        (props.quoted
-          ? " rounded-l-sm border-l-2 border-gray-300 bg-gray-50 text-sm text-gray-600 italic dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
-          : " bg-gray-100 text-gray-900 group-data-[align=end]:bg-gray-900 group-data-[align=end]:text-gray-50" +
-            " dark:bg-gray-800 dark:text-gray-100 dark:group-data-[align=end]:bg-gray-200 dark:group-data-[align=end]:text-gray-900")
-      }
+      class="rounded-2xl bg-gray-100 text-gray-900 group-data-[align=end]:bg-gray-900 group-data-[align=end]:text-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:group-data-[align=end]:bg-gray-200 dark:group-data-[align=end]:text-gray-900 data-[quoted]:rounded-l-sm data-[quoted]:border-l-2 data-[quoted]:border-gray-300 data-[quoted]:bg-gray-50 data-[quoted]:text-sm data-[quoted]:text-gray-600 data-[quoted]:italic dark:data-[quoted]:border-gray-600 dark:data-[quoted]:bg-gray-900 dark:data-[quoted]:text-gray-300"
     >
       {props.children}
     </div>
