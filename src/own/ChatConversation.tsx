@@ -1,15 +1,13 @@
+import type { ImageMetadata } from "astro";
 import { type JSX, Show } from "solid-js";
 
 export interface ChatConversationProps {
   children: JSX.Element;
   /** Screenshot of the real thing, stacked under the transcript. */
-  original?: string;
+  original?: ImageMetadata;
 }
 
 export function ChatConversation(props: ChatConversationProps) {
-  const id = () =>
-    `chat-${(props.original ?? "").replaceAll(/[^a-z0-9]+/gi, "-")}`;
-
   const transcript = (
     <div class="flex flex-col gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 text-[0.9375rem] shadow-md dark:border-gray-800 dark:bg-gray-950 [&>*:has([data-quoted])+*]:-mt-[calc(--spacing(3)+4px)]">
       {props.children}
@@ -19,27 +17,37 @@ export function ChatConversation(props: ChatConversationProps) {
   return (
     <Show
       when={props.original}
+      keyed
       fallback={<div class="my-8 max-w-md">{transcript}</div>}
     >
-      <div class="my-8 grid max-w-md pr-16">
-        <input id={id()} type="checkbox" class="peer sr-only" />
-        <div class="z-10 col-start-1 row-start-1 transition-[transform,opacity,filter] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-0 peer-checked:-translate-x-4 peer-checked:scale-95 peer-checked:-rotate-3 peer-checked:opacity-50 peer-checked:blur-[2px] motion-reduce:transition-none">
-          {transcript}
-        </div>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <label
-          for={id()}
-          class="z-0 col-start-1 row-start-1 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0 peer-focus-visible:outline peer-focus-visible:outline-offset-4 active:scale-[0.97] motion-reduce:transition-none pointer-fine:hover:translate-x-16 pointer-fine:hover:rotate-8"
-        >
-          <span class="sr-only">show the original screenshot</span>
-          <img
-            src={props.original}
-            alt=""
-            loading="lazy"
-            class="w-full rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950 dark:opacity-80 dark:backdrop-blur-lg"
-          />
-        </label>
-      </div>
+      {(original) => {
+        const inputId = `chat-${original.src.replaceAll(/[^a-z0-9]+/gi, "-")}`;
+
+        return (
+          <div class="group my-8 grid max-w-md pr-16">
+            <input id={inputId} type="checkbox" class="peer sr-only" />
+            <div class="z-10 col-start-1 row-start-1 transition-[transform,translate,scale,rotate,opacity,filter] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-0 peer-checked:-translate-x-5 peer-checked:scale-95 peer-checked:-rotate-3 peer-checked:opacity-50 peer-checked:blur-[2px] motion-reduce:transition-none peer-checked:pointer-fine:group-hover:-translate-x-8">
+              {transcript}
+            </div>
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label
+              for={inputId}
+              class="z-0 col-start-1 row-start-1 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0 peer-focus-visible:outline peer-focus-visible:outline-offset-4 active:scale-[0.97] motion-reduce:transition-none pointer-fine:group-hover:translate-x-16 pointer-fine:group-hover:rotate-8 peer-checked:pointer-fine:group-hover:translate-x-0 peer-checked:pointer-fine:group-hover:rotate-0"
+            >
+              <span class="sr-only">show the original screenshot</span>
+              <img
+                src={original.src}
+                width={original.width}
+                height={original.height}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                class="w-full rounded-xl border border-gray-200 bg-gray-50 shadow-md dark:border-gray-800 dark:bg-gray-950 dark:opacity-80 dark:backdrop-blur-lg"
+              />
+            </label>
+          </div>
+        );
+      }}
     </Show>
   );
 }
