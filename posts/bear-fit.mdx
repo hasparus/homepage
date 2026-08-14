@@ -121,7 +121,7 @@ If they have a website, they probably bought the domain bundled with hosting and
 WordPress at a 500% markup. The internet is brutal to normies, but they're used
 to that. Low-tech vendors have been preying on them **for decades**.
 
-I needed the UX to be so straightforward enough people actually bother. Just
+I needed the UX to be straightforward enough that people actually bother. Just
 click the day. Like an advent calendar. That's it. You can drag to "paint".
 There's basically just a mobile UI. Desktop UI is a phone-shaped card in the
 middle of the screen.
@@ -177,7 +177,7 @@ by piggybacking on Google Calendar but it wouldn't work for all of my friends.
   </Message>
 </ChatConversation>
 
-There's a lot of good alternatives. cal.com is great, but it's a whole product.
+There's a lot of good alternatives. Cal.com is great, but it's a whole product.
 
 crab.fit is great, but dragging does a selection there like in Excel/Sheets and
 I don't wanna select any hours a month ahead. idk, mate. I may work till 6pm, I
@@ -201,8 +201,9 @@ hits the fan she needs to stay longer in the office.
   </Message>
 </ChatConversation>
 
-Simple is convenient, fast. It doesn't demand that users learn your thing, let
-alone _adopt_ it. You can adopt a cat or a little human. Tools are to be _used_.
+Simple is convenient and fast. It doesn't demand that users learn your thing,
+let alone _adopt_ it. You can adopt a cat or a little human. Tools are to be
+_used_.
 
 <iframe
   data-testid="embed-iframe"
@@ -211,7 +212,7 @@ alone _adopt_ it. You can adopt a cat or a little human. Tools are to be _used_.
   width="67%"
   height="152"
   frameBorder="0"
-  allowfullscreen=""
+  allowFullScreen=""
   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
   loading="lazy"
 />
@@ -234,9 +235,9 @@ If we absorb enough pain, the end result can feel like magic.
 
 People repeatedly asked: "How do I save? Did it work? Just like that?"
 
-Real-time multiplayer helps avoid conversations like "yeah, I'm just doing it,
-saving in a minute", but for first-time users, it's surprising. It's something
-they haven't seen before.
+Every change is saved and immediately propagated to everyone else. That avoids
+conversations like "yeah, I'm just doing it, saving in a minute", but for
+first-time users, it's surprising. It's something they haven't seen before.
 
 <ChatConversation original={saveUxRequest}>
   <Message>
@@ -263,10 +264,10 @@ they haven't seen before.
 </ChatConversation>
 
 I really liked surprising my friends by popping in with the multiplayer cursor
-chat, Figma-style. But the core feature of "this is saved" needed to be obvious:
-I eventually added a status indicator {/* prettier-ignore */}
-and _"bear-fit
-saves automatically"_ message when someone presses <Kbd>⌘</Kbd><Kbd>S</Kbd>.
+chat, Figma-style. But saving was non-obvious: I eventually added a status
+indicator {/* prettier-ignore */}
+and _"bear-fit saves automatically"_ message
+when someone presses <Kbd>⌘</Kbd><Kbd>S</Kbd>.
 
 <aside className="relative sm:h-0">
   <video
