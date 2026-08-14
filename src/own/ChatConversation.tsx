@@ -26,13 +26,13 @@ export function ChatConversation(props: ChatConversationProps) {
         return (
           <div class="group my-8 grid max-w-md pr-16">
             <input id={inputId} type="checkbox" class="peer sr-only" />
-            <div class="z-10 col-start-1 row-start-1 transition-[transform,translate,scale,rotate,opacity,filter] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-0 peer-checked:-translate-x-5 peer-checked:scale-95 peer-checked:-rotate-3 peer-checked:opacity-50 peer-checked:blur-[2px] motion-reduce:transition-none peer-checked:pointer-fine:group-hover:-translate-x-8">
+            <div class="z-10 col-start-1 row-start-1 transition-[transform,translate,scale,rotate,opacity,filter] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-x-4 peer-checked:z-0 peer-checked:-translate-x-5 peer-checked:scale-95 peer-checked:-rotate-3 peer-checked:opacity-50 peer-checked:blur-[2px] motion-reduce:transition-none group-hover:pointer-fine:group-hover:-rotate-2 peer-checked:pointer-fine:group-hover:-translate-x-8 peer-checked:pointer-fine:group-hover:-rotate-4 [&_p]:leading-snug!">
               {transcript}
             </div>
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label
               for={inputId}
-              class="z-0 col-start-1 row-start-1 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0 peer-focus-visible:outline peer-focus-visible:outline-offset-4 active:scale-[0.97] motion-reduce:transition-none pointer-fine:group-hover:translate-x-16 pointer-fine:group-hover:rotate-8 peer-checked:pointer-fine:group-hover:translate-x-0 peer-checked:pointer-fine:group-hover:rotate-0"
+              class="z-0 col-start-1 row-start-1 my-auto translate-x-8 rotate-6 cursor-pointer transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] peer-checked:z-20 peer-checked:translate-x-0 peer-checked:rotate-0 peer-focus-visible:outline peer-focus-visible:outline-offset-4 active:scale-[0.97] motion-reduce:transition-none pointer-fine:group-hover:translate-x-16 pointer-fine:group-hover:rotate-8 peer-checked:pointer-fine:group-hover:translate-x-8 peer-checked:pointer-fine:group-hover:rotate-2"
             >
               <span class="sr-only">show the original screenshot</span>
               <img
@@ -142,7 +142,7 @@ export function Bubble(props: BubbleProps) {
   return (
     <div
       data-quoted={props.quoted ? "" : undefined}
-      class="rounded-2xl bg-gray-100 text-gray-900 group-data-[align=end]:bg-gray-900 group-data-[align=end]:text-gray-50 data-[quoted]:rounded-l-sm data-[quoted]:border-l-2 data-[quoted]:border-gray-300 data-[quoted]:bg-gray-50 data-[quoted]:text-sm data-[quoted]:text-gray-600 data-[quoted]:italic dark:bg-gray-800 dark:text-gray-100 dark:group-data-[align=end]:bg-gray-200 dark:group-data-[align=end]:text-gray-900 dark:data-[quoted]:border-gray-600 dark:data-[quoted]:bg-gray-900 dark:data-[quoted]:text-gray-300"
+      class="rounded-2xl bg-gray-100 text-gray-900 group-data-[align=end]:bg-gray-900 group-data-[align=end]:text-gray-50 data-quoted:rounded-l-sm data-quoted:border-l-2 data-quoted:border-gray-300 data-quoted:bg-gray-50 data-quoted:text-sm data-quoted:text-gray-600 data-quoted:italic dark:bg-gray-800 dark:text-gray-100 dark:group-data-[align=end]:bg-gray-200 dark:group-data-[align=end]:text-gray-900 dark:data-quoted:border-gray-600 dark:data-quoted:bg-gray-900 dark:data-quoted:text-gray-300"
     >
       {props.children}
     </div>
