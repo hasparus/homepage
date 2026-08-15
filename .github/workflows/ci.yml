@@ -56,7 +56,7 @@ jobs:
         run: pnpm typecheck
 
       - name: Detect UI anti-patterns
-        run: pnpm exec impeccable detect src
+        run: pnpm impeccable detect src
 
       - name: Build
         run: pnpm build
