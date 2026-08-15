@@ -12,6 +12,8 @@ import {
   MessageFooter,
 } from "../src/own/ChatConversation";
 import { Kbd } from "../src/lib/Kbd";
+import { CalendarDemo } from "../src/own/bear-fit/CalendarDemo";
+import { SwipeDemo } from "../src/own/bear-fit/SwipeDemo";
 import fuckDoodle from "../src/images/bear-fit/fuck-doodle.webp";
 import saveUxRequest from "../src/images/bear-fit/save-ux-request.webp";
 import wordOfMouth from "../src/images/bear-fit/word-of-mouth.webp";
@@ -58,7 +60,7 @@ the row to send an invite.
   </div>
 </aside>
 
-{/* <!-- TODO: oooh! an interactive demo powered by a worker would be so hot here, like in Emil Kowalski's UX blog posts --> */}
+<SwipeDemo client:visible />
 
 We didn't ship it. We didn't know how to raise, didn't have money to bootstrap.
 Most importantly, we didn't know shit. We were busy with other stuff. Remember
@@ -135,7 +137,7 @@ goal.** I got down to 2:
 1. Click the link in a group chat to visit the app.
 2. Click the day when you're available or paint the whole week.
 
-{/* TODO: Demo embed with painting on the calendar. One-off UI. Copy the code from bear-fit. A fake "collaborator" cursor paints a span of 3 days Mon-Wed and clicks through the Friday, Sunday. */}
+<CalendarDemo client:visible />
 
 That's the entire guest flow. No account, onboarding, installation, calendar
 permissions, or save button. Open the link, mark your days, leave. Everyone sees
