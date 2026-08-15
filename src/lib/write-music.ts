@@ -60,6 +60,9 @@ export async function toggleWriteMusic() {
           color: `hsl(${hue}deg 93% 70%)`,
           animation: { draw: false },
           edge: { cap: "round", waviness: 3, roughness: 1, radius: 8 },
+          ink: {
+            flowFade: 0.85,
+          },
           tip: {
             type: "fine",
           },
