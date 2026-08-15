@@ -60,7 +60,9 @@ the row to send an invite.
   </div>
 </aside>
 
-<SwipeDemo client:visible />
+<aside className="zaduma-aside-bare">
+  <SwipeDemo client:visible />
+</aside>
 
 We didn't ship it. We didn't know how to raise, didn't have money to bootstrap.
 Most importantly, we didn't know shit. We were busy with other stuff. Remember
@@ -137,9 +139,7 @@ goal.** I got down to 2:
 1. Click the link in a group chat to visit the app.
 2. Click the day when you're available or paint the whole week.
 
-<aside className="relative sm:h-0 sm:border-l-0 sm:pl-0 *:sm:absolute">
-  <CalendarDemo client:visible />
-</aside>
+<CalendarDemo client:visible />
 
 That's the entire guest flow. No account, onboarding, installation, calendar
 permissions, or save button. Open the link, mark your days, leave. Everyone sees
@@ -313,7 +313,7 @@ indicator {/* prettier-ignore */}
 and _"bear-fit saves automatically"_ message
 when someone presses <Kbd>⌘</Kbd><Kbd>S</Kbd>.
 
-<aside className="relative sm:h-0 sm:border-l-0 sm:pl-0">
+<aside className="zaduma-aside-bare">
   <video
     src="/content/bear-fit/saves-automatically.mp4"
     loading="lazy"

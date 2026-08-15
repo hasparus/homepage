@@ -201,7 +201,7 @@ export function CalendarDemo() {
 
   return (
     <div
-      class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#d7ae64] dark:[--cursor:oklch(70%_0.17_18)]"
+      class="@container mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cell:min(40px,calc((100cqw-24px)/7))] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#d7ae64] dark:[--cursor:oklch(58%_0.2_268)]"
       ref={root}
     >
       <p class="font-mono text-sm text-gray-500 dark:text-gray-400">Calendar</p>
@@ -209,7 +209,7 @@ export function CalendarDemo() {
 
       <div class="mt-2 mb-4">
         <div
-          class="relative grid grid-cols-[repeat(7,40px)] justify-between gap-[4px]"
+          class="relative grid grid-cols-[repeat(7,var(--cell))] justify-between gap-[4px]"
           ref={grid}
           onPointerLeave={() => setHovered(null)}
         >
@@ -219,14 +219,14 @@ export function CalendarDemo() {
           />
           <For each={getWeekDayNames(WEEK_STARTS_ON)}>
             {(name) => (
-              <div class="flex h-[40px] items-center justify-center text-[11.6667px] font-medium opacity-75">
+              <div class="flex h-(--cell) items-center justify-center text-[11.6667px] font-medium opacity-75">
                 {name}
               </div>
             )}
           </For>
 
           <Index each={Array.from({ length: paddingDays })}>
-            {() => <div class="h-[40px]" />}
+            {() => <div class="h-(--cell)" />}
           </Index>
 
           <For each={days}>
@@ -334,7 +334,7 @@ function AvailabilityGridCell(props: AvailabilityGridCellProps) {
         timeZone: "UTC",
       })}
       aria-pressed={props.isMine}
-      class="flex size-[40px] touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-pressed:border-[5px] aria-pressed:border-gray-200 data-strong:text-white dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-strong:text-gray-950"
+      class="flex size-(--cell) touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-pressed:border-[5px] aria-pressed:border-gray-200 data-strong:text-white dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-strong:text-gray-950"
       data-strong={fill() > 0.5 ? "" : undefined}
       ref={props.ref}
       style={{

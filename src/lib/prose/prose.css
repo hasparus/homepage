@@ -79,7 +79,12 @@
       .dark &::before {
         border-color: var(--color-gray-700);
       }
+
+      &.zaduma-aside-bare {
+        @apply relative sm:h-0 sm:border-l-0 sm:pl-0 *:sm:absolute;
+      }
     }
+
 
 
     &>.jsx+aside::before {
