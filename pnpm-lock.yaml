@@ -43,6 +43,9 @@ importers:
       '@hasparus/tailwind':
         specifier: ^1.1.7
         version: 1.1.7(tailwindcss@4.3.2)
+      '@highlighters/core':
+        specifier: 1.2.0
+        version: 1.2.0
       '@mdx-js/mdx':
         specifier: 3.1.1
         version: 3.1.1
@@ -804,6 +807,10 @@ packages:
     resolution: {integrity: sha512-Xcu9wolWMUf/SRMx8xITGFU9HJxoPPPheLVhJDwSnI9ApUG+01w91NRymfFCEZV56RaYcpqSkP7qc1mbEK8uJQ==}
     peerDependencies:
       tailwindcss: '>=3.0.0'
+
+  '@highlighters/core@1.2.0':
+    resolution: {integrity: sha512-+mUjhN+S0fFPBx8RFWg03rwR9SmcAZzkSx820iz/Vl44jSnUdeGxL7rt8YgIoH3KeBTBNqWQlBlmwB8xnOfI6A==}
+    engines: {node: '>=18'}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -7009,6 +7016,8 @@ snapshots:
   '@hasparus/tailwind@1.1.7(tailwindcss@4.3.2)':
     dependencies:
       tailwindcss: 4.3.2
+
+  '@highlighters/core@1.2.0': {}
 
   '@humanfs/core@0.19.2':
     dependencies:
