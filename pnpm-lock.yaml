@@ -174,8 +174,8 @@ importers:
         specifier: ^10.6.0
         version: 10.6.0(jiti@2.7.0)
       impeccable:
-        specifier: 3.5.0
-        version: 3.5.0(yauzl@2.10.0)
+        specifier: 3.6.0
+        version: 3.6.0(yauzl@2.10.0)
       prettier:
         specifier: ^3.8.3
         version: 3.9.4
@@ -3783,9 +3783,9 @@ packages:
   immediate@3.0.6:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
 
-  impeccable@3.5.0:
-    resolution: {integrity: sha512-mpm428oMTESAXKvHCCI+GsvhwAw2kTKtrnwsflLIyem6krMo2KoaH4RwRY7ke5JvtwAfYpu58AiIlptLOuKbzg==}
-    engines: {node: '>=22.12.0'}
+  impeccable@3.6.0:
+    resolution: {integrity: sha512-nysc6/2OHTWqLrcSxTxZk4r4QMufhU8NTIuG2ic6p5zzyZe45AWBX3/18OA5S88pCWq+4z8pKsjUxhAM990RKg==}
+    engines: {node: '>=22.18.0'}
     hasBin: true
 
   import-meta-resolve@4.2.0:
@@ -10652,7 +10652,7 @@ snapshots:
 
   immediate@3.0.6: {}
 
-  impeccable@3.5.0(yauzl@2.10.0):
+  impeccable@3.6.0(yauzl@2.10.0):
     dependencies:
       css-select: 7.0.0
       css-tree: 3.2.1

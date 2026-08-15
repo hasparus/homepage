@@ -28,11 +28,11 @@ const EVERYONE_ELSE = FRIENDS.reduce((mask, friend) => mask & friend.hours, -1);
 
 const DISTANCE_THRESHOLD = 64;
 const VELOCITY_THRESHOLD = 0.2;
-/** Overshoots by ~10% so the row springs back instead of gliding to a stop. */
+/** Damped spring, ~4.6% overshoot — enough to feel elastic, not bouncy. */
 const SPRING =
-  "linear(0 0%, 0.5007 7.21%, 0.7803 12.29%, 0.8883 14.93%, 0.9724 17.63%, 1.0343 20.44%, 1.0754 23.44%, 1.0898 25.22%, 1.0984 27.11%, 1.1014 29.15%, 1.0989 31.4%, 1.0854 35.23%, 1.0196 48.86%, 1.0043 54.06%, 0.9956 59.6%, 0.9925 68.11%, 1 100%)";
+  "linear(0 0%, 0.0503 4.5%, 0.1697 9.1%, 0.3208 13.6%, 0.4773 18.2%, 0.6226 22.7%, 0.7475 27.3%, 0.8481 31.8%, 0.9244 36.4%, 0.9786 40.9%, 1.0140 45.5%, 1.0346 50%, 1.0441 54.5%, 1.0459 59.1%, 1.0427 63.6%, 1.0367 68.2%, 1.0297 72.7%, 1.0225 77.3%, 1.0160 81.8%, 1.0105 86.4%, 1.0061 90.9%, 1.0029 95.5%, 1 100%)";
 
-const SETTLE = `transform 420ms ${SPRING}`;
+const SETTLE = `transform 260ms ${SPRING}`;
 const SETTLE_REDUCED = "transform 150ms ease-out";
 
 export function SwipeDemo() {
@@ -48,26 +48,27 @@ export function SwipeDemo() {
   const shared = () => free() & EVERYONE_ELSE;
 
   return (
-    <div class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-3 [--busy:#71717a] [--free:#16a34a] dark:border-gray-800 dark:bg-gray-950 dark:[--busy:#a1a1aa] dark:[--free:#4ade80]">
-      <p class="mb-2 flex justify-between font-mono text-sm text-gray-500 dark:text-gray-400">
-        Thursday
-        <span class="text-gray-400 dark:text-gray-500">← busy · free →</span>
-      </p>
+    <section>
+      <article class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white [--busy:#71717a] [--free:#16a34a] dark:border-gray-800 dark:bg-gray-950 dark:[--busy:#a1a1aa] dark:[--free:#4ade80]">
+        <header class="flex justify-between p-2 font-mono text-sm text-gray-500 dark:text-gray-400">
+          Thursday
+          <span class="text-gray-400 dark:text-gray-500">← busy · free →</span>
+        </header>
 
-      <ul>
-        <For each={HOURS}>
-          {(hour) => (
-            <SlotRow
-              busy={(busy() & hours(hour)) !== 0}
-              free={(free() & hours(hour)) !== 0}
-              hour={hour}
-              onDecide={(verdict) => decide(hour, verdict)}
-            />
-          )}
-        </For>
-      </ul>
-
-      <p class="mt-3 border-t border-gray-100 pt-3 font-mono text-sm text-gray-500 tabular-nums dark:border-gray-800 dark:text-gray-400">
+        <ul>
+          <For each={HOURS}>
+            {(hour) => (
+              <SlotRow
+                busy={(busy() & hours(hour)) !== 0}
+                free={(free() & hours(hour)) !== 0}
+                hour={hour}
+                onDecide={(verdict) => decide(hour, verdict)}
+              />
+            )}
+          </For>
+        </ul>
+      </article>
+      <footer class="mt-2 font-serif text-sm italic tabular-nums">
         you & {FRIENDS.map((friend) => friend.initials).join(" & ")} ={" "}
         <span class="text-gray-900 dark:text-gray-100">
           {shared()
@@ -76,8 +77,8 @@ export function SwipeDemo() {
                 .join(", ")
             : "∅"}
         </span>
-      </p>
-    </div>
+      </footer>
+    </section>
   );
 }
 
@@ -91,6 +92,7 @@ interface SlotRowProps {
 function SlotRow(props: SlotRowProps) {
   let node!: HTMLButtonElement;
   let track!: HTMLDivElement;
+  let trackLabel!: HTMLSpanElement;
 
   onMount(() => {
     const settle = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -101,12 +103,18 @@ function SlotRow(props: SlotRowProps) {
       node,
       ({ active, direction: [dx], last, movement: [mx], velocity: [vx] }) => {
         if (active) {
+          const verdict = mx > 0 ? "free" : "busy";
+          const color = `var(--${verdict})`;
+
           node.style.transition = "none";
           node.style.transform = `translate3d(${mx}px, 0, 0)`;
           track.style.opacity = String(
             Math.min(Math.abs(mx) / DISTANCE_THRESHOLD, 1),
           );
-          track.style.backgroundColor = mx > 0 ? "var(--free)" : "var(--busy)";
+          track.style.backgroundColor = `color-mix(in oklab, ${color} 18%, transparent)`;
+          track.style.color = color;
+          track.style.justifyContent = mx > 0 ? "flex-start" : "flex-end";
+          trackLabel.textContent = verdict;
           return;
         }
 
@@ -135,13 +143,15 @@ function SlotRow(props: SlotRowProps) {
     <li class="relative isolate overflow-hidden rounded-md">
       <div
         aria-hidden="true"
-        class="absolute inset-0 -z-10 opacity-0 transition-opacity duration-100"
+        class="absolute inset-0 -z-10 flex items-center px-1 text-xs font-medium opacity-0 transition-opacity duration-100"
         ref={track}
-      />
+      >
+        <span ref={trackLabel} />
+      </div>
       <button
         aria-label={`${props.hour}:00`}
         aria-pressed={props.free}
-        class="flex h-11 w-full cursor-grab touch-pan-y items-center gap-3 rounded-md bg-white px-2 text-left transition-[background-color] duration-150 ease-out select-none active:cursor-grabbing dark:bg-gray-950"
+        class="flex h-11 w-full cursor-grab touch-pan-y items-center gap-2 bg-white px-2 text-left transition-[background-color] duration-150 ease-out select-none active:cursor-grabbing dark:bg-gray-950"
         ref={node}
         style={{
           "background-color": props.free
@@ -153,7 +163,7 @@ function SlotRow(props: SlotRowProps) {
         type="button"
         onClick={() => props.onDecide(props.free ? "busy" : "free")}
       >
-        <span class="w-14 font-mono text-sm tabular-nums">{props.hour}:00</span>
+        <span class="text-xs tabular-nums">{props.hour}:00</span>
         <span class="flex -space-x-1">
           <For each={availableFriends()}>
             {(friend) => (

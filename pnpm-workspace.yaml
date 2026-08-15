@@ -4,3 +4,4 @@ minimumReleaseAgeExclude:
   - "@hasparus/tailwind"
   - "astro"
   - "@astrojs/*"
+  - "impeccable"

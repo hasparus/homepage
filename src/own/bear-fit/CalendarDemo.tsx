@@ -5,6 +5,18 @@ const RANGE_START = "2024-09-04";
 const RANGE_END = "2024-09-29";
 const COLLABORATOR = "Kasia";
 
+/** Someone who filled the calendar in before you opened the link. */
+const EARLY_BIRD = "Wojtek";
+const EARLY_BIRD_DATES: ReadonlySet<string> = new Set([
+  "2024-09-10",
+  "2024-09-11",
+  "2024-09-12",
+  "2024-09-18",
+  "2024-09-19",
+  "2024-09-25",
+  "2024-09-26",
+]);
+
 /** The cursor travels to a date, presses, marks it. `held` keeps the button down. */
 const PATTERNS = [
   [
@@ -25,6 +37,10 @@ const PATTERNS = [
 ];
 
 const REST_BETWEEN_PATTERNS = 2600;
+const IDLE_BEFORE_RESUME = 6000;
+
+const TOOLTIP_PADDING_X = 16;
+const TOOLTIP_OFFSET_Y = 8;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -37,20 +53,24 @@ export function CalendarDemo() {
   const [mine, setMine] = createSignal<ReadonlySet<string>>(new Set());
   const [theirs, setTheirs] = createSignal<ReadonlySet<string>>(new Set());
   const [cursorState, setCursorState] = createSignal<CursorState>("gone");
+  const [hovered, setHovered] = createSignal<null | string>(null);
 
   let root!: HTMLDivElement;
   let grid!: HTMLDivElement;
   let cursor!: HTMLDivElement;
+  let tooltip!: HTMLSpanElement;
   const cells = new Map<string, HTMLButtonElement>();
 
   let stopped = false;
   let started = false;
   let visible = false;
+  let paused = false;
+  let resumeTimer: number | undefined;
   let dragMode: "clearing" | "none" | "painting" = "none";
   let lastToggled: null | string = null;
 
   const totalUsers = () =>
-    (mine().size > 0 ? 1 : 0) + (theirs().size > 0 ? 1 : 0);
+    (mine().size > 0 ? 1 : 0) + (theirs().size > 0 ? 1 : 0) + 1;
 
   const setAvailability = (date: string, value: boolean) => {
     setMine((prev) => {
@@ -61,9 +81,18 @@ export function CalendarDemo() {
     });
   };
 
-  const handlePointerDown = (date: string) => {
-    stopped = true;
+  /** Kasia steps aside while you paint, and picks up again once you stop. */
+  const yieldToUser = () => {
+    paused = true;
     setCursorState("gone");
+    clearTimeout(resumeTimer);
+    resumeTimer = window.setTimeout(() => {
+      paused = false;
+    }, IDLE_BEFORE_RESUME);
+  };
+
+  const handlePointerDown = (date: string) => {
+    yieldToUser();
 
     const available = mine().has(date);
     dragMode = available ? "clearing" : "painting";
@@ -71,7 +100,15 @@ export function CalendarDemo() {
     lastToggled = date;
   };
 
+  const namesOn = (date: string) =>
+    [
+      mine().has(date) && "you",
+      theirs().has(date) && COLLABORATOR,
+      EARLY_BIRD_DATES.has(date) && EARLY_BIRD,
+    ].filter((name) => typeof name === "string");
+
   const handlePointerEnter = (date: string) => {
+    setHovered(date);
     if (dragMode === "none" || lastToggled === date) return;
     setAvailability(date, dragMode === "painting");
     lastToggled = date;
@@ -84,6 +121,17 @@ export function CalendarDemo() {
     };
     document.addEventListener("pointerup", endDrag);
     document.addEventListener("pointercancel", endDrag);
+
+    const moveTooltip = (e: MouseEvent) => {
+      const gridRect = grid.getBoundingClientRect();
+      const y = e.clientY - gridRect.top - TOOLTIP_OFFSET_Y;
+      const x = Math.min(
+        Math.max(e.clientX - gridRect.left, TOOLTIP_PADDING_X),
+        gridRect.width - TOOLTIP_PADDING_X,
+      );
+      tooltip.style.transform = `translate3d(calc(${x}px - 50%), ${y}px, 0)`;
+    };
+    window.addEventListener("mousemove", moveTooltip);
 
     const moveTo = (date: string, duration: number) => {
       const cell = cells.get(date);
@@ -98,18 +146,20 @@ export function CalendarDemo() {
       return true;
     };
 
+    const interrupted = () => stopped || paused;
+
     const runPattern = async (pattern: (typeof PATTERNS)[number]) => {
       if (!moveTo(pattern[0]!.date, 0)) return;
       cursor.style.transform += " translate(-2.5rem, 5rem)";
       await sleep(500);
-      if (stopped) return;
+      if (interrupted()) return;
       setCursorState("idle");
 
       for (const [i, step] of pattern.entries()) {
-        if (stopped || !moveTo(step.date, step.travel)) return;
+        if (interrupted() || !moveTo(step.date, step.travel)) return;
 
         await sleep(step.travel);
-        if (stopped) return;
+        if (interrupted()) return;
 
         setCursorState("pressed");
         setTheirs((prev) => new Set(prev).add(step.date));
@@ -122,7 +172,7 @@ export function CalendarDemo() {
       }
 
       await sleep(900);
-      if (!stopped) setCursorState("gone");
+      if (!interrupted()) setCursorState("gone");
     };
 
     const play = async () => {
@@ -132,10 +182,10 @@ export function CalendarDemo() {
       }
 
       for (let round = 0; !stopped; round++) {
-        while (!visible && !stopped) await sleep(300);
+        while ((!visible || paused) && !stopped) await sleep(300);
         if (stopped) return;
 
-        if (round > 0) {
+        if (theirs().size > 0) {
           setTheirs(new Set<string>());
           await sleep(700);
         }
@@ -159,9 +209,11 @@ export function CalendarDemo() {
 
     onCleanup(() => {
       stopped = true;
+      clearTimeout(resumeTimer);
       observer.disconnect();
       document.removeEventListener("pointerup", endDrag);
       document.removeEventListener("pointercancel", endDrag);
+      window.removeEventListener("mousemove", moveTooltip);
     });
   });
 
@@ -171,21 +223,28 @@ export function CalendarDemo() {
       ref={root}
     >
       <p class="font-mono text-sm text-gray-500 dark:text-gray-400">Calendar</p>
-      <h3 class="mb-4 text-lg leading-[1.3333]">Beers with the crew</h3>
+      <h3 class="mb-4 text-lg leading-[1.3333]">beers and basketball</h3>
 
       <div class="mt-2 mb-4">
-        <div class="mb-2">September 2024</div>
-        <div class="relative grid grid-cols-7 gap-1" ref={grid}>
+        <div
+          class="relative grid grid-cols-[repeat(7,40px)] justify-between gap-[4px]"
+          ref={grid}
+          onPointerLeave={() => setHovered(null)}
+        >
+          <GridCellTooltip
+            names={hovered() ? namesOn(hovered()!) : []}
+            ref={tooltip}
+          />
           <For each={getWeekDayNames(WEEK_STARTS_ON)}>
             {(name) => (
-              <div class="flex h-10 items-center justify-center text-[11.6667px] font-medium opacity-75">
+              <div class="flex h-[40px] items-center justify-center text-[11.6667px] font-medium opacity-75">
                 {name}
               </div>
             )}
           </For>
 
           <Index each={Array.from({ length: paddingDays })}>
-            {() => <div class="h-10" />}
+            {() => <div class="h-[40px]" />}
           </Index>
 
           <For each={days}>
@@ -195,7 +254,9 @@ export function CalendarDemo() {
               return (
                 <AvailabilityGridCell
                   availableUsers={
-                    (mine().has(date) ? 1 : 0) + (theirs().has(date) ? 1 : 0)
+                    (mine().has(date) ? 1 : 0) +
+                    (theirs().has(date) ? 1 : 0) +
+                    (EARLY_BIRD_DATES.has(date) ? 1 : 0)
                   }
                   day={day}
                   isMine={mine().has(date)}
@@ -227,8 +288,29 @@ export function CalendarDemo() {
       <dl class="font-mono text-sm text-gray-500 dark:text-gray-400">
         <Participant count={mine().size} name="you" />
         <Participant count={theirs().size} name={COLLABORATOR} />
+        <Participant count={EARLY_BIRD_DATES.size} name={EARLY_BIRD} />
       </dl>
     </div>
+  );
+}
+
+function GridCellTooltip(props: {
+  names: string[];
+  ref: HTMLSpanElement | ((el: HTMLSpanElement) => void);
+}) {
+  return (
+    <span
+      aria-live="polite"
+      class="pointer-events-none absolute bottom-full left-0 z-10 mb-2 rounded-sm bg-gray-900 px-2 py-1 text-left font-mono text-xs whitespace-pre text-white transition-[opacity,transform] duration-150 ease-out motion-reduce:transition-none dark:bg-gray-100 dark:text-gray-900"
+      ref={props.ref}
+      role="tooltip"
+      style={{
+        opacity: props.names.length > 0 ? 1 : 0,
+        "transition-duration": "150ms, 75ms",
+      }}
+    >
+      <For each={props.names}>{(name) => <div>{name}</div>}</For>
+    </span>
   );
 }
 
@@ -270,7 +352,7 @@ function AvailabilityGridCell(props: AvailabilityGridCellProps) {
         timeZone: "UTC",
       })}
       aria-pressed={props.isMine}
-      class="flex size-10 touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-pressed:border-[5px] aria-pressed:border-gray-200 data-strong:text-white dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-strong:text-gray-950"
+      class="flex size-[40px] touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-pressed:border-[5px] aria-pressed:border-gray-200 data-strong:text-white dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-strong:text-gray-950"
       data-strong={fill() > 0.5 ? "" : undefined}
       ref={props.ref}
       style={{
@@ -310,11 +392,22 @@ function Cursor(props: {
           scale: props.state === "pressed" ? "0.88" : "1",
         }}
       >
-        <svg fill="none" height="24" viewBox="0 0 12 18" width="16">
+        {}
+        <svg fill="none" height="26" viewBox="-3 -3 18 24" width="18">
           <path
             d="M5.65 12.37h-.19l-.14.13L.5 16.88V1.2l11.28 11.17H5.65Z"
             fill="var(--cursor)"
+            paint-order="stroke"
             stroke="white"
+            stroke-linejoin="round"
+            stroke-width="4.5"
+          />
+          <path
+            d="M5.65 12.37h-.19l-.14.13L.5 16.88V1.2l11.28 11.17H5.65Z"
+            fill="var(--cursor)"
+            stroke="var(--cursor)"
+            stroke-linejoin="round"
+            stroke-width="3"
           />
         </svg>
         <span
