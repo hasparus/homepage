@@ -36,8 +36,8 @@ const SETTLE = `transform 260ms ${SPRING}`;
 const SETTLE_REDUCED = "transform 150ms ease-out";
 
 export function SwipeDemo() {
-  const [free, setFree] = createSignal(0);
-  const [busy, setBusy] = createSignal(0);
+  const [free, setFree] = createSignal(hours(19));
+  const [busy, setBusy] = createSignal(hours(20));
 
   const decide = (hour: number, verdict: "busy" | "free") => {
     const bit = hours(hour);
@@ -49,10 +49,12 @@ export function SwipeDemo() {
 
   return (
     <section class="flex flex-col items-center">
-      <article class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white [--busy:var(--color-gray-100)] [--free:#16a34a] dark:border-gray-800 dark:bg-gray-950 dark:[--busy:var(--color-gray-600)] dark:[--free:#4ade80]">
-        <header class="flex justify-between p-2 font-mono text-sm text-gray-500 dark:text-gray-400">
+      <article class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white [--busy:var(--color-gray-300)] [--free:#16a34a] dark:border-gray-800 dark:bg-gray-950 dark:[--busy:var(--color-gray-600)] dark:[--free:#4ade80]">
+        <header class="flex justify-between border-b border-dashed border-gray-200/50 p-2 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400">
           Thursday
-          <span class="text-gray-400 dark:text-gray-500">← busy · free →</span>
+          <span class="font-serif text-gray-400 italic dark:text-gray-500">
+            click or swipe ↔
+          </span>
         </header>
 
         <ul>
@@ -105,7 +107,10 @@ function SlotRow(props: SlotRowProps) {
       ({ active, direction: [dx], last, movement: [mx], velocity: [vx] }) => {
         if (active) {
           const verdict = mx > 0 ? "free" : "busy";
-          const color = `var(--${verdict})`;
+          const color =
+            verdict === "free"
+              ? "var(--free)"
+              : "light-dark(var(--color-gray-700), var(--color-gray-50))";
 
           node.style.transition = "none";
           node.style.transform = `translate3d(${mx}px, 0, 0)`;
@@ -152,7 +157,7 @@ function SlotRow(props: SlotRowProps) {
       <button
         aria-label={`${props.hour}:00`}
         aria-pressed={props.free}
-        class="flex h-11 w-full cursor-grab touch-pan-y items-center gap-2 bg-white px-2 text-left transition-[background-color] duration-150 ease-out select-none active:cursor-grabbing dark:bg-gray-950"
+        class="flex h-11 w-full cursor-grab touch-pan-y items-center gap-[9px] bg-white px-2 text-left transition-[background-color] duration-150 ease-out select-none active:cursor-grabbing dark:bg-gray-950"
         ref={node}
         style={{
           "background-color": props.free
@@ -178,14 +183,8 @@ function SlotRow(props: SlotRowProps) {
           </For>
         </span>
         <span
-          class="ml-auto text-xs text-white"
-          style={{
-            color: props.free
-              ? "var(--free)"
-              : props.busy
-                ? "var(--busy)"
-                : undefined,
-          }}
+          class="ml-auto text-xs text-gray-800 dark:text-white"
+          style={{ color: props.free ? "var(--free)" : undefined }}
         >
           {props.free ? "free" : props.busy ? "busy" : ""}
         </span>
