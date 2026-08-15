@@ -25,6 +25,7 @@
 }
 
 @font-face {
+  /* impeccable-disable-next-line overused-font -- Inter is this site's typeface */
   font-family: "Inter";
   font-style: normal;
   font-display: block;
