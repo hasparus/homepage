@@ -137,7 +137,7 @@ goal.** I got down to 2:
 1. Click the link in a group chat to visit the app.
 2. Click the day when you're available or paint the whole week.
 
-<aside>
+<aside className="relative sm:h-0 sm:border-l-0 sm:pl-0 *:sm:absolute">
   <CalendarDemo client:visible />
 </aside>
 
@@ -313,9 +313,10 @@ indicator {/* prettier-ignore */}
 and _"bear-fit saves automatically"_ message
 when someone presses <Kbd>⌘</Kbd><Kbd>S</Kbd>.
 
-<aside className="relative sm:h-0">
+<aside className="relative sm:h-0 sm:border-l-0 sm:pl-0">
   <video
     src="/content/bear-fit/saves-automatically.mp4"
+    loading="lazy"
     autoPlay
     loop
     muted

@@ -37,7 +37,6 @@ const PATTERNS = [
 ];
 
 const REST_BETWEEN_PATTERNS = 2600;
-const IDLE_BEFORE_RESUME = 6000;
 
 const TOOLTIP_PADDING_X = 16;
 const TOOLTIP_OFFSET_Y = 8;
@@ -64,8 +63,6 @@ export function CalendarDemo() {
   let stopped = false;
   let started = false;
   let visible = false;
-  let paused = false;
-  let resumeTimer: number | undefined;
   let dragMode: "clearing" | "none" | "painting" = "none";
   let lastToggled: null | string = null;
 
@@ -81,19 +78,7 @@ export function CalendarDemo() {
     });
   };
 
-  /** Kasia steps aside while you paint, and picks up again once you stop. */
-  const yieldToUser = () => {
-    paused = true;
-    setCursorState("gone");
-    clearTimeout(resumeTimer);
-    resumeTimer = window.setTimeout(() => {
-      paused = false;
-    }, IDLE_BEFORE_RESUME);
-  };
-
   const handlePointerDown = (date: string) => {
-    yieldToUser();
-
     const available = mine().has(date);
     dragMode = available ? "clearing" : "painting";
     setAvailability(date, !available);
@@ -146,20 +131,18 @@ export function CalendarDemo() {
       return true;
     };
 
-    const interrupted = () => stopped || paused;
-
     const runPattern = async (pattern: (typeof PATTERNS)[number]) => {
       if (!moveTo(pattern[0]!.date, 0)) return;
       cursor.style.transform += " translate(-2.5rem, 5rem)";
       await sleep(500);
-      if (interrupted()) return;
+      if (stopped) return;
       setCursorState("idle");
 
       for (const [i, step] of pattern.entries()) {
-        if (interrupted() || !moveTo(step.date, step.travel)) return;
+        if (stopped || !moveTo(step.date, step.travel)) return;
 
         await sleep(step.travel);
-        if (interrupted()) return;
+        if (stopped) return;
 
         setCursorState("pressed");
         setTheirs((prev) => new Set(prev).add(step.date));
@@ -172,7 +155,7 @@ export function CalendarDemo() {
       }
 
       await sleep(900);
-      if (!interrupted()) setCursorState("gone");
+      if (!stopped) setCursorState("gone");
     };
 
     const play = async () => {
@@ -182,7 +165,7 @@ export function CalendarDemo() {
       }
 
       for (let round = 0; !stopped; round++) {
-        while ((!visible || paused) && !stopped) await sleep(300);
+        while (!visible && !stopped) await sleep(300);
         if (stopped) return;
 
         if (theirs().size > 0) {
@@ -209,7 +192,6 @@ export function CalendarDemo() {
 
     onCleanup(() => {
       stopped = true;
-      clearTimeout(resumeTimer);
       observer.disconnect();
       document.removeEventListener("pointerup", endDrag);
       document.removeEventListener("pointercancel", endDrag);
@@ -219,7 +201,7 @@ export function CalendarDemo() {
 
   return (
     <div
-      class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#5b9dff] dark:[--cursor:oklch(70%_0.17_18)]"
+      class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:color(display-p3_0.95_0.56_0.08)] dark:[--cursor:oklch(70%_0.17_18)]"
       ref={root}
     >
       <p class="font-mono text-sm text-gray-500 dark:text-gray-400">Calendar</p>
@@ -357,7 +339,7 @@ function AvailabilityGridCell(props: AvailabilityGridCellProps) {
       ref={props.ref}
       style={{
         "background-color": fill()
-          ? `hsl(from var(--accent) h s l / ${fill()})`
+          ? `color(from var(--accent) display-p3 r g b / ${fill()})`
           : undefined,
       }}
       tabindex={props.tabIndex}

@@ -18,15 +18,15 @@ const FRIENDS = [
     tint: "linear-gradient(145deg, oklch(82% 0.07 155), oklch(58% 0.1 168))",
   },
   {
-    hours: hours(16, 19),
-    initials: "W",
+    hours: hours(16, 19) | hours(21),
+    initials: "M",
     tint: "linear-gradient(145deg, oklch(84% 0.08 65), oklch(62% 0.11 45))",
   },
 ];
 
 const EVERYONE_ELSE = FRIENDS.reduce((mask, friend) => mask & friend.hours, -1);
 
-const DISTANCE_THRESHOLD = 64;
+const DISTANCE_THRESHOLD = 32;
 const VELOCITY_THRESHOLD = 0.2;
 /** Damped spring, ~4.6% overshoot — enough to feel elastic, not bouncy. */
 const SPRING =
@@ -48,8 +48,8 @@ export function SwipeDemo() {
   const shared = () => free() & EVERYONE_ELSE;
 
   return (
-    <section>
-      <article class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white [--busy:#71717a] [--free:#16a34a] dark:border-gray-800 dark:bg-gray-950 dark:[--busy:#a1a1aa] dark:[--free:#4ade80]">
+    <section class="flex flex-col items-center">
+      <article class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white [--busy:var(--color-gray-100)] [--free:#16a34a] dark:border-gray-800 dark:bg-gray-950 dark:[--busy:var(--color-gray-600)] dark:[--free:#4ade80]">
         <header class="flex justify-between p-2 font-mono text-sm text-gray-500 dark:text-gray-400">
           Thursday
           <span class="text-gray-400 dark:text-gray-500">← busy · free →</span>
@@ -68,7 +68,7 @@ export function SwipeDemo() {
           </For>
         </ul>
       </article>
-      <footer class="mt-2 font-serif text-sm italic tabular-nums">
+      <footer class="mt-2 font-mono text-sm tabular-nums">
         you & {FRIENDS.map((friend) => friend.initials).join(" & ")} ={" "}
         <span class="text-gray-900 dark:text-gray-100">
           {shared()
@@ -101,6 +101,7 @@ function SlotRow(props: SlotRowProps) {
 
     const gesture = new DragGesture(
       node,
+      // eslint-disable-next-line solid/reactivity -- a DOM listener, so props are read when it fires
       ({ active, direction: [dx], last, movement: [mx], velocity: [vx] }) => {
         if (active) {
           const verdict = mx > 0 ? "free" : "busy";
@@ -140,7 +141,7 @@ function SlotRow(props: SlotRowProps) {
     FRIENDS.filter((friend) => friend.hours & hours(props.hour));
 
   return (
-    <li class="relative isolate overflow-hidden rounded-md">
+    <li class="relative isolate overflow-hidden">
       <div
         aria-hidden="true"
         class="absolute inset-0 -z-10 flex items-center px-1 text-xs font-medium opacity-0 transition-opacity duration-100"
@@ -177,7 +178,7 @@ function SlotRow(props: SlotRowProps) {
           </For>
         </span>
         <span
-          class="ml-auto text-xs text-gray-400 dark:text-gray-500"
+          class="ml-auto text-xs text-white"
           style={{
             color: props.free
               ? "var(--free)"
