@@ -54,10 +54,13 @@ export async function toggleWriteMusic() {
       range.setStart(...start);
       range.setEnd(...end);
 
+      // ponytail: This doesn't react to color mode changes. But it's just an internal tool, so it's fine.
+      const dark = document.documentElement.classList.contains("dark");
       const hue = HUES[Math.min(count, HUES.length - 1)]!;
       marks.push(
         highlight(range, {
-          color: `hsl(${hue}deg 93% 70%)`,
+          color: dark ? `hsl(${hue}deg 70% 55%)` : `hsl(${hue}deg 93% 70%)`,
+          vivid: dark ? "screen" : false,
           animation: { draw: false },
           edge: { cap: "round", waviness: 3, roughness: 1, radius: 8 },
           ink: {
