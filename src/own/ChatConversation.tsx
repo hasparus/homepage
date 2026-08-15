@@ -126,7 +126,7 @@ export function MessageHeader(props: { children: JSX.Element }) {
 
 export function MessageFooter(props: { children: JSX.Element }) {
   return (
-    <span class="absolute right-0 bottom-0 translate-y-1/2 rounded-full bg-white px-1 pt-0.75 pb-0.25 text-center text-xs shadow-sm dark:bg-gray-900 dark:ring dark:ring-white/5">
+    <span class="absolute right-0 bottom-0 translate-y-1/2 rounded-full bg-linear-to-br from-gray-50 to-gray-200/70 px-1 text-center text-sm ring-2 ring-white ring-offset-1 dark:from-gray-900 dark:to-gray-800/70 dark:ring-gray-950 dark:ring-offset-white/10">
       {props.children}
     </span>
   );

@@ -28,11 +28,8 @@ import { isMac } from "./isMac";
 import { Kbd } from "./Kbd";
 import { parseKeys } from "./parseKeys";
 import { Shortcut } from "./Shortcut";
-import { toggleWriteMusic } from "./write-music";
 
 const INPUT_ID = "command-input";
-
-const IS_PROD = import.meta.env.PUBLIC_URL === import.meta.env.SITE;
 
 export function Commands(props: { posts: { title: string; href: string }[] }) {
   const [clientside, setClientside] = createSignal(false);
@@ -120,14 +117,14 @@ export function CommandsPalette(props: {
         setPage("posts");
       },
     ],
+    [
+      "alt+m",
+      () => {
+        void import("./write-music").then((m) => m.toggleWriteMusic());
+        dialog?.close();
+      },
+    ],
   ]);
-
-  if (!IS_PROD) {
-    keybindings.set("alt+m", () => {
-      void toggleWriteMusic();
-      dialog?.close();
-    });
-  }
 
   createEffect(() => {
     const onKeydown = (event: KeyboardEvent) => {
@@ -188,13 +185,6 @@ export function CommandsPalette(props: {
                   Search Posts
                 </CommandItem>
               </CommandGroup>
-              <Show when={!IS_PROD}>
-                <CommandGroup heading={<GroupHeading>Authoring</GroupHeading>}>
-                  <CommandItem shortcut="alt+m" onClick={handleShortcut}>
-                    /write-music
-                  </CommandItem>
-                </CommandGroup>
-              </Show>
               <CommandGroup heading={<GroupHeading>Links</GroupHeading>}>
                 <CommandItem href="https://twitter.com/hasparus">
                   Twitter
@@ -207,6 +197,11 @@ export function CommandsPalette(props: {
                   Contact
                 </CommandItem>
                 <CommandItem href="/rss.xml">RSS</CommandItem>
+              </CommandGroup>
+              <CommandGroup heading={<GroupHeading>Authoring</GroupHeading>}>
+                <CommandItem shortcut="alt+m" onClick={handleShortcut}>
+                  /write-music
+                </CommandItem>
               </CommandGroup>
             </>
           }
