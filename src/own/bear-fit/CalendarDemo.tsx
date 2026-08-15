@@ -201,7 +201,7 @@ export function CalendarDemo() {
 
   return (
     <div
-      class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:color(display-p3_0.95_0.56_0.08)] dark:[--cursor:oklch(70%_0.17_18)]"
+      class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#d7ae64] dark:[--cursor:oklch(70%_0.17_18)]"
       ref={root}
     >
       <p class="font-mono text-sm text-gray-500 dark:text-gray-400">Calendar</p>

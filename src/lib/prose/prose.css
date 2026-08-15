@@ -51,52 +51,54 @@
 }
 
 /* Introduced in src/build-time/asidesPlugin.ts */
-.zaduma-aside {
-  --aside-width: 20em;
-  --gap: 1rem;
-  --divider-width: 1px;
+@layer base {
+  .zaduma-aside {
+    --aside-width: 20em;
+    --gap: 1rem;
+    --divider-width: 1px;
 
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(100% + var(--aside-width) + var(--gap) + var(--divider-width));
-  max-width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + var(--aside-width) + var(--gap) + var(--divider-width));
+    max-width: 100vw;
 
-  &> :first-child {
-    @apply max-w-container w-full shrink-0 grow;
-  }
-
-  &>aside {
-    @apply relative h-min shrink-0 grow text-sm;
-    width: var(--aside-width);
-    padding-left: var(--gap);
-
-    &::before {
-      content: "";
-      @apply absolute -left-px h-full border-l;
-    }
-
-    .dark &::before {
-      border-color: var(--color-gray-700);
-    }
-  }
-
-
-  &>.jsx+aside::before {
-    border: none;
-  }
-
-  @media (max-width: 1280px) {
-    & {
-      width: 100%;
+    &> :first-child {
+      @apply max-w-container w-full shrink-0 grow;
     }
 
     &>aside {
-      margin-top: var(--block-mb);
+      @apply relative h-min shrink-0 grow text-sm;
+      width: var(--aside-width);
+      padding-left: var(--gap);
 
       &::before {
-        /* The left border of `aside` will always be positioned inside of the
-           prose container. */
-        @apply left-0;
+        content: "";
+        @apply absolute -left-px h-full border-l;
+      }
+
+      .dark &::before {
+        border-color: var(--color-gray-700);
+      }
+    }
+
+
+    &>.jsx+aside::before {
+      border: none;
+    }
+
+    @media (max-width: 1280px) {
+      & {
+        width: 100%;
+      }
+
+      &>aside {
+        margin-top: var(--block-mb);
+
+        &::before {
+          /* The left border of `aside` will always be positioned inside of the
+             prose container. */
+          @apply left-0;
+        }
       }
     }
   }
