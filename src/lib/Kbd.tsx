@@ -22,8 +22,8 @@ export function Kbd(props: KbdProps) {
       {...rest}
       class={local.class}
       classList={{
-        "rounded-md border border-b-2 bg-gray-50 p-1 dark:border-gray-700 dark:bg-gray-800 text-xs leading-none tracking-tighter group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline data-pressed:border-b":
-          true,
+        // impeccable-disable-next-line border-accent-on-rounded -- the thicker bottom edge is the keycap
+        "rounded-md border border-b-2 bg-gray-50 p-1 dark:border-gray-700 dark:bg-gray-800 text-xs leading-none tracking-tighter group-hover:border-b group-hover:shadow-[inset_0_1px_1px_0_rgba(0,0,0,0.025)] group-focus:outline data-pressed:border-b": true,
         "pointer-coarse:hidden": local.hint,
       }}
     />

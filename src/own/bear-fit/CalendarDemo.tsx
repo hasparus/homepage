@@ -6,13 +6,25 @@ const RANGE_END = "2024-09-29";
 const COLLABORATOR = "Kasia";
 
 /** The cursor travels to a date, presses, marks it. `held` keeps the button down. */
-const SCRIPT = [
-  { date: "2024-09-09", travel: 560 },
-  { date: "2024-09-10", held: true, travel: 190 },
-  { date: "2024-09-11", held: true, travel: 190 },
-  { date: "2024-09-13", travel: 440 },
-  { date: "2024-09-15", travel: 440 },
+const PATTERNS = [
+  [
+    { date: "2024-09-09", travel: 560 },
+    { date: "2024-09-10", held: true, travel: 190 },
+    { date: "2024-09-11", held: true, travel: 190 },
+    { date: "2024-09-13", travel: 440 },
+    { date: "2024-09-15", travel: 440 },
+  ],
+  [
+    { date: "2024-09-17", travel: 520 },
+    { date: "2024-09-18", held: true, travel: 190 },
+    { date: "2024-09-19", held: true, travel: 190 },
+    { date: "2024-09-21", travel: 420 },
+    { date: "2024-09-24", travel: 480 },
+    { date: "2024-09-25", held: true, travel: 190 },
+  ],
 ];
+
+const REST_BETWEEN_PATTERNS = 2600;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -32,6 +44,8 @@ export function CalendarDemo() {
   const cells = new Map<string, HTMLButtonElement>();
 
   let stopped = false;
+  let started = false;
+  let visible = false;
   let dragMode: "clearing" | "none" | "painting" = "none";
   let lastToggled: null | string = null;
 
@@ -84,19 +98,14 @@ export function CalendarDemo() {
       return true;
     };
 
-    const play = async () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        setTheirs(new Set(SCRIPT.map((step) => step.date)));
-        return;
-      }
-
-      if (!moveTo(SCRIPT[0]!.date, 0)) return;
+    const runPattern = async (pattern: (typeof PATTERNS)[number]) => {
+      if (!moveTo(pattern[0]!.date, 0)) return;
       cursor.style.transform += " translate(-2.5rem, 5rem)";
       await sleep(500);
       if (stopped) return;
       setCursorState("idle");
 
-      for (const [i, step] of SCRIPT.entries()) {
+      for (const [i, step] of pattern.entries()) {
         if (stopped || !moveTo(step.date, step.travel)) return;
 
         await sleep(step.travel);
@@ -105,7 +114,7 @@ export function CalendarDemo() {
         setCursorState("pressed");
         setTheirs((prev) => new Set(prev).add(step.date));
 
-        if (!SCRIPT[i + 1]?.held) {
+        if (!pattern[i + 1]?.held) {
           await sleep(120);
           setCursorState("idle");
           await sleep(180);
@@ -116,13 +125,35 @@ export function CalendarDemo() {
       if (!stopped) setCursorState("gone");
     };
 
+    const play = async () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setTheirs(new Set(PATTERNS[0]!.map((step) => step.date)));
+        return;
+      }
+
+      for (let round = 0; !stopped; round++) {
+        while (!visible && !stopped) await sleep(300);
+        if (stopped) return;
+
+        if (round > 0) {
+          setTheirs(new Set<string>());
+          await sleep(700);
+        }
+
+        await runPattern(PATTERNS[round % PATTERNS.length]!);
+        await sleep(REST_BETWEEN_PATTERNS);
+      }
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (!entries[0]?.isIntersecting) return;
-        observer.disconnect();
-        void play();
+        visible = !!entries[0]?.isIntersecting;
+        if (visible && !started) {
+          started = true;
+          void play();
+        }
       },
-      { threshold: 0.6 },
+      { threshold: 0.4 },
     );
     observer.observe(root);
 
@@ -136,7 +167,7 @@ export function CalendarDemo() {
 
   return (
     <div
-      class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#5b9dff]"
+      class="mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#5b9dff] dark:[--cursor:oklch(70%_0.17_18)]"
       ref={root}
     >
       <p class="font-mono text-sm text-gray-500 dark:text-gray-400">Calendar</p>
@@ -273,27 +304,23 @@ function Cursor(props: {
       ref={props.ref}
     >
       <div
-        class="flex origin-top-left items-start transition-[opacity,scale] duration-150 ease-out"
+        class="flex origin-top-left items-start drop-shadow-[0_2px_4px_rgb(0_0_0/0.28)] transition-[opacity,scale] duration-150 ease-out"
         style={{
           opacity: props.state === "gone" ? 0 : 1,
           scale: props.state === "pressed" ? "0.88" : "1",
         }}
       >
-        <svg
-          class="shrink-0 drop-shadow-sm"
-          fill="none"
-          height="20"
-          viewBox="0 0 12 20"
-          width="12"
-        >
+        <svg fill="none" height="24" viewBox="0 0 12 18" width="16">
           <path
-            d="M1 1L1 15.5L4.7 12.1L7.2 18L9.6 17L7.1 11.2L11.7 10.8L1 1Z"
-            fill="white"
-            stroke="black"
-            stroke-width="1.2"
+            d="M5.65 12.37h-.19l-.14.13L.5 16.88V1.2l11.28 11.17H5.65Z"
+            fill="var(--cursor)"
+            stroke="white"
           />
         </svg>
-        <span class="mt-2.5 ml-1 rounded-sm bg-black px-1.5 py-0.5 text-[11px] font-medium whitespace-nowrap text-white">
+        <span
+          class="-mt-0.5 ml-0.5 rounded-full px-2 py-0.5 text-[11px] font-medium whitespace-nowrap text-white"
+          style={{ "background-color": "var(--cursor)" }}
+        >
           {props.name}
         </span>
       </div>

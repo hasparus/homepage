@@ -10,8 +10,8 @@ on:
 jobs:
   build-and-deploy:
     if: >-
-      github.event_name != 'pull_request_target'
-      || contains(github.event.pull_request.labels.*.name, 'trusted')
+      github.event_name != 'pull_request_target' ||
+      contains(github.event.pull_request.labels.*.name, 'trusted')
     runs-on: ubuntu-latest
     permissions:
       deployments: write
@@ -55,11 +55,17 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Detect UI anti-patterns
+        run: pnpm exec impeccable detect src
+
       - name: Build
         run: pnpm build
         env:
           # Falls back only for fork PRs and dependabot runs, which can't read secrets.
-          OG_IMAGE_SECRET: ${{ (github.event.pull_request.head.repo.fork == true || github.actor == 'dependabot[bot]') && 'placeholder' || secrets.OG_IMAGE_SECRET }}
+          OG_IMAGE_SECRET:
+            ${{ (github.event.pull_request.head.repo.fork == true ||
+            github.actor == 'dependabot[bot]') && 'placeholder' ||
+            secrets.OG_IMAGE_SECRET }}
 
       - name: Install Playwright system deps
         run: pnpm exec playwright install-deps chromium
@@ -92,15 +98,17 @@ jobs:
 
       - name: Deploy Preview to Vercel
         if:
-          ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
-          (github.event_name == 'pull_request_target' &&
+          ${{ github.event_name != 'push' &&
+          (!github.event.pull_request.head.repo.fork || (github.event_name ==
+          'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Create GitHub Preview Deployment
         if:
-          ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
-          (github.event_name == 'pull_request_target' &&
+          ${{ github.event_name != 'push' &&
+          (!github.event.pull_request.head.repo.fork || (github.event_name ==
+          'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         uses: chrnorm/deployment-action@500aa6a23c81ffa1acf71072aee3cfa2cc2e556a
         with:
@@ -127,9 +135,10 @@ jobs:
     needs: build-and-deploy
     runs-on: ubuntu-latest
     if:
-      ${{ github.event_name != 'push' && (!github.event.pull_request.head.repo.fork ||
-      (github.event_name == 'pull_request_target' &&
-      contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
+      ${{ github.event_name != 'push' &&
+      (!github.event.pull_request.head.repo.fork || (github.event_name ==
+      'pull_request_target' && contains(github.event.pull_request.labels.*.name,
+      'trusted'))) }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
         with:

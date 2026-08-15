@@ -41,6 +41,7 @@ export const CodesandboxIframe = (
           </Match>
           <Match when={state() === "loading"}>
             <div class="absolute inset-0 flex cursor-progress items-center justify-center gap-3 rounded-sm bg-gray-100/50 dark:bg-gray-800/25">
+              {/* impeccable-disable-next-line border-accent-on-rounded -- spinner arc, not a card border */}
               <div class="size-4 animate-spin rounded-full border-b-2 border-gray-200 dark:border-gray-700" />
             </div>
           </Match>
