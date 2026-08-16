@@ -120,7 +120,10 @@ export function CommandsPalette(props: {
     [
       "alt+m",
       () => {
-        void import("./write-music").then((m) => m.toggleWriteMusic());
+        void import("./write-music")
+          .then((m) => m.toggleWriteMusic())
+          // eslint-disable-next-line no-console
+          .catch(console.error);
         dialog?.close();
       },
     ],

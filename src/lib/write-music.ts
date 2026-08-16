@@ -14,9 +14,9 @@ export async function toggleWriteMusic() {
     marks = null;
     return;
   }
+  const { highlight } = await import("@highlighters/core");
   marks = [];
 
-  const { highlight } = await import("@highlighters/core");
   const sentences = new Intl.Segmenter("en", { granularity: "sentence" });
   const words = new Intl.Segmenter("en", { granularity: "word" });
 

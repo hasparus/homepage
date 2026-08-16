@@ -87,6 +87,7 @@ export default defineConfig({
     }),
   ],
   vite: {
+    optimizeDeps: { include: ["@highlighters/core"] },
     ssr: {
       noExternal: [
         "@fontsource-variable/inter",
