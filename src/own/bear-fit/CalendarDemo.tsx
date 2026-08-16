@@ -53,6 +53,8 @@ export function CalendarDemo() {
   const [theirs, setTheirs] = createSignal<ReadonlySet<string>>(new Set());
   const [cursorState, setCursorState] = createSignal<CursorState>("gone");
   const [hovered, setHovered] = createSignal<null | string>(null);
+  const [hoveredName, setHoveredName] = createSignal<null | string>(null);
+  const [pinned, setPinned] = createSignal<ReadonlySet<string>>(new Set());
 
   let root!: HTMLDivElement;
   let grid!: HTMLDivElement;
@@ -91,6 +93,15 @@ export function CalendarDemo() {
       theirs().has(date) && COLLABORATOR,
       EARLY_BIRD_DATES.has(date) && EARLY_BIRD,
     ].filter((name) => typeof name === "string");
+
+  /** Hovering a name previews it, checking names keeps the filter on. */
+  const dimOf = (date: string) => {
+    const names = namesOn(date);
+    const peeked = hoveredName();
+    if (peeked) return names.includes(peeked) ? "none" : "peek";
+    for (const name of pinned()) if (!names.includes(name)) return "pinned";
+    return "none";
+  };
 
   const handlePointerEnter = (date: string) => {
     setHovered(date);
@@ -241,7 +252,11 @@ export function CalendarDemo() {
                     (EARLY_BIRD_DATES.has(date) ? 1 : 0)
                   }
                   day={day}
+                  dim={dimOf(date)}
                   isMine={mine().has(date)}
+                  peeked={
+                    !!hoveredName() && namesOn(date).includes(hoveredName()!)
+                  }
                   ref={(el) => cells.set(date, el)}
                   tabIndex={i() === 0 ? 0 : -1}
                   totalUsers={totalUsers()}
@@ -267,11 +282,34 @@ export function CalendarDemo() {
         </div>
       </div>
 
-      <dl class="font-mono text-sm text-gray-500 dark:text-gray-400">
-        <Participant count={mine().size} name="you" />
-        <Participant count={theirs().size} name={COLLABORATOR} />
-        <Participant count={EARLY_BIRD_DATES.size} name={EARLY_BIRD} />
-      </dl>
+      <div
+        class="font-mono text-sm text-gray-500 dark:text-gray-400"
+        onMouseLeave={() => setHoveredName(null)}
+      >
+        <For
+          each={[
+            { count: mine().size, name: "you" },
+            { count: theirs().size, name: COLLABORATOR },
+            { count: EARLY_BIRD_DATES.size, name: EARLY_BIRD },
+          ]}
+        >
+          {(participant) => (
+            <Participant
+              count={participant.count}
+              name={participant.name}
+              pinned={pinned().has(participant.name)}
+              onClick={() =>
+                setPinned((prev) => {
+                  const next = new Set(prev);
+                  if (!next.delete(participant.name)) next.add(participant.name);
+                  return next;
+                })
+              }
+              onMouseEnter={() => setHoveredName(participant.name)}
+            />
+          )}
+        </For>
+      </div>
     </div>
   );
 }
@@ -296,20 +334,35 @@ function GridCellTooltip(props: {
   );
 }
 
-function Participant(props: { count: number; name: string }) {
+function Participant(props: {
+  count: number;
+  name: string;
+  onClick: () => void;
+  onMouseEnter: () => void;
+  pinned: boolean;
+}) {
   return (
-    <div class="flex justify-between gap-2">
-      <dt>{props.name}</dt>
-      <dd class="tabular-nums">
+    <button
+      aria-pressed={props.pinned}
+      class="group -mx-1 flex w-[calc(100%+0.5rem)] cursor-pointer justify-between gap-2 rounded-sm px-1 py-0.5 text-left transition-colors duration-100 ease-out hover:bg-gray-100 hover:text-gray-800 aria-pressed:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-200 dark:aria-pressed:text-gray-100"
+      type="button"
+      onClick={() => props.onClick()}
+      onMouseEnter={() => props.onMouseEnter()}
+    >
+      <span class="group-aria-pressed:before:content-['✓_']">
+        {props.name}
+      </span>
+      <span class="tabular-nums">
         {props.count} date{props.count === 1 ? "" : "s"}
-      </dd>
-    </div>
+      </span>
+    </button>
   );
 }
 
 interface AvailabilityGridCellProps {
   availableUsers: number;
   day: Date;
+  dim: "none" | "peek" | "pinned";
   isMine: boolean;
   onKeyDown: (
     event: KeyboardEvent & { currentTarget: HTMLButtonElement },
@@ -318,6 +371,7 @@ interface AvailabilityGridCellProps {
     event: PointerEvent & { currentTarget: HTMLButtonElement },
   ) => void;
   onPointerEnter: () => void;
+  peeked: boolean;
   ref: (el: HTMLButtonElement) => void;
   tabIndex: number;
   totalUsers: number;
@@ -334,13 +388,17 @@ function AvailabilityGridCell(props: AvailabilityGridCellProps) {
         timeZone: "UTC",
       })}
       aria-pressed={props.isMine}
-      class="flex size-(--cell) touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-pressed:border-[5px] aria-pressed:border-gray-200 data-strong:text-white dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-strong:text-gray-950"
+      class="flex size-(--cell) touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,filter,opacity,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-pressed:border-[5px] aria-pressed:border-gray-200 data-peeked:border-4 data-peeked:border-gray-200 data-strong:text-white dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-peeked:border-gray-600 dark:data-strong:text-gray-950"
+      data-peeked={props.peeked ? "" : undefined}
       data-strong={fill() > 0.5 ? "" : undefined}
       ref={props.ref}
       style={{
         "background-color": fill()
           ? `color(from var(--accent) display-p3 r g b / ${fill()})`
           : undefined,
+        filter: props.dim === "none" ? undefined : "saturate(0.25)",
+        opacity:
+          props.dim === "peek" ? 0.6 : props.dim === "pinned" ? 0.8 : undefined,
       }}
       tabindex={props.tabIndex}
       type="button"
