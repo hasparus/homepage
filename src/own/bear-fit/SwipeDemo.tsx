@@ -37,20 +37,14 @@ const everyoneElse = () =>
 
 /** M drops out of the early slots and joins the late one, then starts over. */
 const CURSOR_SCRIPT = [
-  { dx: -70, hour: 17, next: (mask: number) => mask & ~hours(17) },
-  { dx: -70, hour: 18, next: (mask: number) => mask & ~hours(18) },
-  { dx: 70, hour: 20, next: (mask: number) => mask | hours(20) },
+  { hour: 17, next: (mask: number) => mask & ~hours(17) },
+  { hour: 18, next: (mask: number) => mask & ~hours(18) },
+  { hour: 20, next: (mask: number) => mask | hours(20) },
 ];
 
 const REST_BEFORE_REPLAY = 3000;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-interface RowHandle {
-  drag: (mx: number) => void;
-  node: HTMLButtonElement;
-  release: () => void;
-}
 
 const DISTANCE_THRESHOLD = 32;
 const VELOCITY_THRESHOLD = 0.2;
@@ -74,10 +68,11 @@ export function SwipeDemo() {
   const shared = () => free() & everyoneElse();
 
   const [cursorState, setCursorState] = createSignal<CursorState>("gone");
-  const rows = new Map<number, RowHandle>();
+  const rows = new Map<number, HTMLButtonElement>();
   let root!: HTMLElement;
   let list!: HTMLUListElement;
   let cursor!: HTMLDivElement;
+  let trail!: HTMLDivElement;
   let stopped = false;
   let started = false;
   let visible = false;
@@ -86,37 +81,34 @@ export function SwipeDemo() {
     const moveCursor = (x: number, y: number, duration: number) => {
       cursor.style.transitionDuration = `${duration}ms`;
       cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      trail.style.transitionDuration = `${Math.round(duration * 1.9)}ms`;
+      trail.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     };
 
-    const anchor = (row: RowHandle) => {
+    const anchor = (node: HTMLButtonElement) => {
       const origin = list.getBoundingClientRect();
-      const target = row.node.getBoundingClientRect();
+      const target = node.getBoundingClientRect();
       return {
-        x: target.left - origin.left + target.width * 0.55,
+        x: target.left - origin.left + target.width * 0.25,
         y: target.top - origin.top + target.height * 0.5,
       };
     };
 
     const runStep = async (step: (typeof CURSOR_SCRIPT)[number]) => {
-      const row = rows.get(step.hour);
-      if (!row) return;
+      const node = rows.get(step.hour);
+      if (!node) return;
 
-      const { x, y } = anchor(row);
+      const { x, y } = anchor(node);
       moveCursor(x, y, 420);
       setCursorState("idle");
       await sleep(420);
       if (stopped) return;
 
       setCursorState("pressed");
-      for (const progress of [0.25, 0.5, 0.75, 1]) {
-        row.drag(step.dx * progress);
-        moveCursor(x + step.dx * progress, y, 70);
-        await sleep(70);
-        if (stopped) return;
-      }
+      await sleep(140);
+      if (stopped) return;
 
       setCollaboratorHours(step.next);
-      row.release();
       setCursorState("idle");
       await sleep(320);
     };
@@ -194,6 +186,14 @@ export function SwipeDemo() {
               />
             )}
           </For>
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute top-0 left-0 z-20 transition-[opacity,transform] ease-out"
+            ref={trail}
+            style={{ opacity: cursorState() === "gone" ? 0 : 0.3 }}
+          >
+            <div class="size-2.5 -translate-1/2 rounded-full bg-(--cursor) blur-[3px]" />
+          </div>
           <Cursor name="M" ref={cursor} state={cursorState()} />
         </ul>
       </article>
@@ -216,7 +216,7 @@ interface SlotRowProps {
   free: boolean;
   hour: number;
   onDecide: (verdict: "busy" | "free") => void;
-  register: (handle: RowHandle) => void;
+  register: (node: HTMLButtonElement) => void;
 }
 
 function SlotRow(props: SlotRowProps) {
@@ -253,7 +253,7 @@ function SlotRow(props: SlotRowProps) {
       node.style.transform = "translate3d(0, 0, 0)";
     };
 
-    props.register({ drag, node, release });
+    props.register(node);
 
     const gesture = new DragGesture(
       node,
@@ -280,9 +280,6 @@ function SlotRow(props: SlotRowProps) {
     onCleanup(() => gesture.destroy());
   });
 
-  const availableFriends = () =>
-    FRIENDS.filter((friend) => friend.hours() & hours(props.hour));
-
   return (
     <li class="relative isolate overflow-hidden">
       <div
@@ -308,16 +305,25 @@ function SlotRow(props: SlotRowProps) {
         onClick={() => props.onDecide(props.free ? "busy" : "free")}
       >
         <span class="text-xs tabular-nums">{props.hour}:00</span>
-        <span class="flex -space-x-1">
-          <For each={availableFriends()}>
-            {(friend) => (
-              <span
-                class="flex size-6 items-center justify-center rounded-full text-[11px] font-medium text-white ring-2 ring-white dark:ring-gray-950"
-                style={{ "background-image": friend.tint }}
-              >
-                {friend.initials}
-              </span>
-            )}
+        <span class="flex">
+          <For each={FRIENDS}>
+            {(friend) => {
+              const here = () => (friend.hours() & hours(props.hour)) !== 0;
+              return (
+                <span
+                  class="flex h-6 items-center justify-center overflow-hidden rounded-full text-[11px] font-medium text-white ring-2 ring-white transition-[margin,opacity,scale,width] duration-200 ease-out dark:ring-gray-950"
+                  style={{
+                    "background-image": friend.tint,
+                    "margin-right": here() ? "-0.25rem" : "0",
+                    opacity: here() ? 1 : 0,
+                    scale: here() ? "1" : "0.9",
+                    width: here() ? "1.5rem" : "0",
+                  }}
+                >
+                  {friend.initials}
+                </span>
+              );
+            }}
           </For>
         </span>
         <span
