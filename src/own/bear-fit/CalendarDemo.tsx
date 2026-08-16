@@ -95,11 +95,11 @@ export function CalendarDemo() {
     ].filter((name) => typeof name === "string");
 
   /** Hovering a name previews it, checking names keeps the filter on. */
-  const dimOf = (date: string) => {
+  const emphasisOf = (date: string) => {
     const names = namesOn(date);
     const peeked = hoveredName();
-    if (peeked) return names.includes(peeked) ? "none" : "peek";
-    for (const name of pinned()) if (!names.includes(name)) return "pinned";
+    if (peeked) return names.includes(peeked) ? "ring" : "faded";
+    for (const name of pinned()) if (!names.includes(name)) return "dimmed";
     return "none";
   };
 
@@ -252,11 +252,8 @@ export function CalendarDemo() {
                     (EARLY_BIRD_DATES.has(date) ? 1 : 0)
                   }
                   day={day}
-                  dim={dimOf(date)}
+                  emphasis={emphasisOf(date)}
                   isMine={mine().has(date)}
-                  peeked={
-                    !!hoveredName() && namesOn(date).includes(hoveredName()!)
-                  }
                   ref={(el) => cells.set(date, el)}
                   tabIndex={i() === 0 ? 0 : -1}
                   totalUsers={totalUsers()}
@@ -362,7 +359,7 @@ function Participant(props: {
 interface AvailabilityGridCellProps {
   availableUsers: number;
   day: Date;
-  dim: "none" | "peek" | "pinned";
+  emphasis: "dimmed" | "faded" | "none" | "ring";
   isMine: boolean;
   onKeyDown: (
     event: KeyboardEvent & { currentTarget: HTMLButtonElement },
@@ -371,7 +368,6 @@ interface AvailabilityGridCellProps {
     event: PointerEvent & { currentTarget: HTMLButtonElement },
   ) => void;
   onPointerEnter: () => void;
-  peeked: boolean;
   ref: (el: HTMLButtonElement) => void;
   tabIndex: number;
   totalUsers: number;
@@ -389,16 +385,23 @@ function AvailabilityGridCell(props: AvailabilityGridCellProps) {
       })}
       aria-pressed={props.isMine}
       class="flex size-(--cell) touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,filter,opacity,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-pressed:border-[5px] aria-pressed:border-gray-200 data-peeked:border-4 data-peeked:border-gray-200 data-strong:text-white dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-peeked:border-gray-600 dark:data-strong:text-gray-950"
-      data-peeked={props.peeked ? "" : undefined}
+      data-peeked={props.emphasis === "ring" ? "" : undefined}
       data-strong={fill() > 0.5 ? "" : undefined}
       ref={props.ref}
       style={{
         "background-color": fill()
           ? `color(from var(--accent) display-p3 r g b / ${fill()})`
           : undefined,
-        filter: props.dim === "none" ? undefined : "saturate(0.25)",
+        filter:
+          props.emphasis === "faded" || props.emphasis === "dimmed"
+            ? "saturate(0.25)"
+            : undefined,
         opacity:
-          props.dim === "peek" ? 0.6 : props.dim === "pinned" ? 0.8 : undefined,
+          props.emphasis === "faded"
+            ? 0.6
+            : props.emphasis === "dimmed"
+              ? 0.8
+              : undefined,
       }}
       tabindex={props.tabIndex}
       type="button"

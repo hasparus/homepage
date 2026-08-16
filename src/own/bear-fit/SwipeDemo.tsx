@@ -36,13 +36,10 @@ const everyoneElse = () =>
   FRIENDS.reduce((mask, friend) => mask & friend.hours(), -1);
 
 /** M drops out of the early slots and joins the late one, then starts over. */
-const CURSOR_SCRIPT = [
-  { hour: 17, next: (mask: number) => mask & ~hours(17) },
-  { hour: 18, next: (mask: number) => mask & ~hours(18) },
-  { hour: 20, next: (mask: number) => mask | hours(20) },
-];
+const CURSOR_SCRIPT = [17, 18, 20];
 
 const REST_BEFORE_REPLAY = 3000;
+const SWIPE = 70;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -68,7 +65,6 @@ export function SwipeDemo() {
   const shared = () => free() & everyoneElse();
 
   const [cursorState, setCursorState] = createSignal<CursorState>("gone");
-  const rows = new Map<number, HTMLButtonElement>();
   let root!: HTMLElement;
   let list!: HTMLUListElement;
   let cursor!: HTMLDivElement;
@@ -85,30 +81,35 @@ export function SwipeDemo() {
       trail.style.transform = `translate3d(${x}px, ${y}px, 0)`;
     };
 
-    const anchor = (node: HTMLButtonElement) => {
+    const anchor = (hour: number) => {
       const origin = list.getBoundingClientRect();
-      const target = node.getBoundingClientRect();
+      const row = list.querySelectorAll("button")[HOURS.indexOf(hour)]!;
+      const target = row.getBoundingClientRect();
       return {
         x: target.left - origin.left + target.width * 0.25,
         y: target.top - origin.top + target.height * 0.5,
       };
     };
 
-    const runStep = async (step: (typeof CURSOR_SCRIPT)[number]) => {
-      const node = rows.get(step.hour);
-      if (!node) return;
-
-      const { x, y } = anchor(node);
+    const runStep = async (hour: number) => {
+      const { x, y } = anchor(hour);
       moveCursor(x, y, 420);
       setCursorState("idle");
       await sleep(420);
       if (stopped) return;
 
       setCursorState("pressed");
-      await sleep(140);
+      await sleep(120);
       if (stopped) return;
 
-      setCollaboratorHours(step.next);
+      const dx = collaboratorHours() & hours(hour) ? -SWIPE : SWIPE;
+      for (const progress of [0.35, 0.7, 1]) {
+        moveCursor(x + dx * progress, y, 90);
+        await sleep(90);
+        if (stopped) return;
+      }
+
+      setCollaboratorHours((mask) => mask ^ hours(hour));
       setCursorState("idle");
       await sleep(320);
     };
@@ -117,7 +118,7 @@ export function SwipeDemo() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setCollaboratorHours((mask) => {
           let settled = mask;
-          for (const step of CURSOR_SCRIPT) settled = step.next(settled);
+          for (const hour of CURSOR_SCRIPT) settled ^= hours(hour);
           return settled;
         });
         return;
@@ -130,15 +131,12 @@ export function SwipeDemo() {
         setCollaboratorHours(COLLABORATOR_HOURS);
         await sleep(600);
 
-        const first = rows.get(CURSOR_SCRIPT[0]!.hour);
-        if (first) {
-          const { x, y } = anchor(first);
-          moveCursor(x + 60, y + 40, 0);
-        }
+        const { x, y } = anchor(CURSOR_SCRIPT[0]!);
+        moveCursor(x + 60, y + 40, 0);
 
-        for (const step of CURSOR_SCRIPT) {
+        for (const hour of CURSOR_SCRIPT) {
           if (stopped) return;
-          await runStep(step);
+          await runStep(hour);
         }
 
         setCursorState("gone");
@@ -181,7 +179,6 @@ export function SwipeDemo() {
                 busy={(busy() & hours(hour)) !== 0}
                 free={(free() & hours(hour)) !== 0}
                 hour={hour}
-                register={(handle) => rows.set(hour, handle)}
                 onDecide={(verdict) => decide(hour, verdict)}
               />
             )}
@@ -216,13 +213,11 @@ interface SlotRowProps {
   free: boolean;
   hour: number;
   onDecide: (verdict: "busy" | "free") => void;
-  register: (node: HTMLButtonElement) => void;
 }
 
 function SlotRow(props: SlotRowProps) {
   let node!: HTMLButtonElement;
   let track!: HTMLDivElement;
-  let trackLabel!: HTMLSpanElement;
 
   onMount(() => {
     const settle = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -244,7 +239,7 @@ function SlotRow(props: SlotRowProps) {
       track.style.backgroundColor = `color-mix(in oklab, ${color} 18%, transparent)`;
       track.style.color = color;
       track.style.justifyContent = mx > 0 ? "flex-start" : "flex-end";
-      trackLabel.textContent = verdict;
+      track.textContent = verdict;
     };
 
     const release = () => {
@@ -252,8 +247,6 @@ function SlotRow(props: SlotRowProps) {
       node.style.transition = settle;
       node.style.transform = "translate3d(0, 0, 0)";
     };
-
-    props.register(node);
 
     const gesture = new DragGesture(
       node,
@@ -286,9 +279,7 @@ function SlotRow(props: SlotRowProps) {
         aria-hidden="true"
         class="absolute inset-0 -z-10 flex items-center px-1 text-xs font-medium opacity-0 transition-opacity duration-100"
         ref={track}
-      >
-        <span ref={trackLabel} />
-      </div>
+      />
       <button
         aria-label={`${props.hour}:00`}
         aria-pressed={props.free}
@@ -311,13 +302,12 @@ function SlotRow(props: SlotRowProps) {
               const here = () => (friend.hours() & hours(props.hour)) !== 0;
               return (
                 <span
-                  class="flex h-6 items-center justify-center overflow-hidden rounded-full text-[11px] font-medium text-white ring-2 ring-white transition-[margin,opacity,scale,width] duration-200 ease-out dark:ring-gray-950"
+                  class="flex size-6 items-center justify-center rounded-full text-[11px] font-medium text-white ring-2 ring-white transition-[margin,opacity,scale] duration-200 ease-out dark:ring-gray-950"
                   style={{
                     "background-image": friend.tint,
-                    "margin-right": here() ? "-0.25rem" : "0",
+                    "margin-right": here() ? "-0.25rem" : "-1.5rem",
                     opacity: here() ? 1 : 0,
                     scale: here() ? "1" : "0.9",
-                    width: here() ? "1.5rem" : "0",
                   }}
                 >
                   {friend.initials}
