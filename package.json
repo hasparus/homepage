@@ -48,7 +48,7 @@
     "@vercel/analytics": "^2.0.1",
     "@vercel/og": "^0.11.1",
     "astro": "^6.4.6",
-    "astro-eslint-parser": "^1.4.0",
+    "astro-eslint-parser": "^3.1.0",
     "eslint-plugin-markdown": "^5.0.0",
     "estree-util-value-to-estree": "^3.5.0",
     "plaiceholder": "^3.0.0",
