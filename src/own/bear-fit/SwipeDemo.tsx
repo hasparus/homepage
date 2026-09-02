@@ -18,24 +18,24 @@ const FRIENDS = [
   {
     hours: () => hours(17, 20),
     initials: "B",
-    tint: "linear-gradient(145deg, oklch(68% 0.16 255), oklch(56% 0.2 268))",
+    tint: "linear-gradient(145deg, oklch(68% 0.152 255), oklch(56% 0.19 268))",
   },
   {
     hours: () => hours(18, 22),
     initials: "P",
-    tint: "linear-gradient(145deg, oklch(70% 0.16 155), oklch(56% 0.2 168))",
+    tint: "linear-gradient(145deg, oklch(70% 0.152 155), oklch(56% 0.19 168))",
   },
   {
     hours: collaboratorHours,
     initials: "M",
-    tint: "linear-gradient(145deg, oklch(68% 0.17 18), oklch(56% 0.2 18))",
+    tint: "linear-gradient(145deg, oklch(68% 0.162 18), oklch(56% 0.19 18))",
   },
 ];
 
 const everyoneElse = () =>
   FRIENDS.reduce((mask, friend) => mask & friend.hours(), -1);
 
-/** M drops out of the early slots and joins the late one, then starts over. */
+/** M drops out of the early slots and joins the late one; odd turns reverse. */
 const CURSOR_SCRIPT = [17, 18, 20];
 
 const REST_BEFORE_REPLAY = 3000;
@@ -144,23 +144,29 @@ export function SwipeDemo() {
         return;
       }
 
+      setCollaboratorHours(COLLABORATOR_HOURS);
+      let turn = 0;
+
       for (;;) {
         while (!visible && !stopped) await sleep(300);
         if (stopped) return;
 
-        setCollaboratorHours(COLLABORATOR_HOURS);
-        await sleep(600);
+        const script = turn & 1 ? CURSOR_SCRIPT.toReversed() : CURSOR_SCRIPT;
 
-        const { x, y } = anchor(CURSOR_SCRIPT[0]!);
-        moveCursor(x + 60, y + 40, 0);
+        if (turn === 0) {
+          await sleep(600);
+          const { x, y } = anchor(script[0]!);
+          moveCursor(x + 60, y + 40, 0);
+        }
 
-        for (const hour of CURSOR_SCRIPT) {
+        for (const hour of script) {
           if (stopped) return;
           await runStep(hour);
         }
 
         setCursorState("gone");
         await sleep(REST_BEFORE_REPLAY);
+        turn++;
       }
     };
 
@@ -205,7 +211,7 @@ export function SwipeDemo() {
           </For>
           <div
             aria-hidden="true"
-            class="pointer-events-none absolute top-0 left-0 z-20 h-2 w-0 rounded-full opacity-0 blur-[5px]"
+            class="pointer-events-none absolute top-0 left-0 z-20 h-1.5 w-0 rounded-full opacity-0 blur-[1px]"
             ref={trail}
           />
           <Cursor name="M" ref={cursor} state={cursorState()} />

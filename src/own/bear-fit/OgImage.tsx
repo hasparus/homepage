@@ -30,7 +30,7 @@ export function OgImage() {
     >
       <div class="relative w-[340px] zoom-[1.32] rounded-sm border-2 border-black bg-white p-[10px] shadow-[2px_2px_#000]">
         <p class="font-mono text-sm">Calendar</p>
-        <h1 class="mb-4 text-base leading-[1.3333] font-normal">
+        <h1 class="mb-4 text-xl leading-[1.3333] font-normal">
           beers and basketball
         </h1>
         <p class="mb-4 leading-[1.3333]">September</p>
