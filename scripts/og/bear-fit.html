@@ -1,72 +1,71 @@
 <!doctype html>
 <meta charset="utf-8" />
 <style>
+  @font-face { font-family: "Czikago"; src: url("../../aux/bear-fit/public/fonts/Czikago.woff2") format("woff2"); }
   * { box-sizing: border-box; }
   html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
   body {
-    background: #171717;
-    font-family: Inter, -apple-system, system-ui, sans-serif;
-    color: #111;
-    display: flex; align-items: flex-start; justify-content: center;
-    padding-top: 14px;
-    --accent: #05e; --cell: 58px;
+    background:
+      linear-gradient(90deg, #fff 21px, transparent 1%) 50%,
+      linear-gradient(#fff 21px, transparent 1%) 50%,
+      #000;
+    background-size: 22px 22px;
+    font-family: "Czikago", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px; color: #000;
+    display: flex; justify-content: center; align-items: flex-start; padding-top: 12px;
+    --accent: #05e;
   }
-  .card {
-    width: 490px; background: #fff; border-radius: 12px;
-    border: 3px solid #e5e7eb; padding: 16px 18px 12px;
-    position: relative;
+  .dialog {
+    zoom: 1.16;
+    width: 340px; background: #fff; border: 2px solid #000; box-shadow: 2px 2px #000;
+    border-radius: 2px; padding: 10px; position: relative;
   }
-  .kicker { font-family: ui-monospace, Menlo, monospace; font-size: 17px; color: #6b7280; margin: 0; }
-  h3 { margin: 2px 0 18px; font-size: 26px; font-weight: 400; }
-  .grid { display: grid; grid-template-columns: repeat(7, var(--cell)); justify-content: space-between; gap: 5px; position: relative; }
-  .wd { height: var(--cell); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; opacity: .75; }
+  .label { font-family: Inconsolata, Menlo, monospace; font-size: 14px; margin: 0; }
+  h1 { font-size: 16px; font-weight: 400; line-height: 1.3333; margin: 0 0 16px; }
+  .month { margin: 8px 0 8px; }
+  .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; position: relative; }
+  .wd { height: 40px; display: flex; align-items: center; justify-content: center; font-size: 11.6667px; font-weight: 500; opacity: .75; }
   .d {
-    width: var(--cell); height: var(--cell); border-radius: 9px; background: #f3f4f6;
-    display: flex; align-items: center; justify-content: center; font-size: 19px;
-    font-variant-numeric: tabular-nums; border: 2px solid transparent;
+    height: 40px; border-radius: 6px; background: #f5f5f5; border: 2px solid transparent;
+    display: flex; align-items: center; justify-content: center;
   }
-  .d[data-n="1"] { background: color-mix(in srgb, var(--accent) 33%, #fff); }
-  .d[data-n="2"] { background: color-mix(in srgb, var(--accent) 66%, #fff); color: #fff; }
-  .d[data-n="3"] { background: var(--accent); color: #fff; }
-  .d.mine { border: 6px solid #e5e7eb; }
-  .people { font-family: ui-monospace, Menlo, monospace; font-size: 17px; color: #6b7280; margin-top: 16px; display: grid; gap: 4px; }
-  .people div { display: flex; justify-content: space-between; }
-  .people .you { color: #111; }
-  .cursor { position: absolute; z-index: 2; pointer-events: none; }
+  .d.mine { border: 6px solid #e5e5e5; }
+  dl { margin: 24px 0 0; font-size: 14px; }
+  dl div { display: flex; justify-content: space-between; padding: 2px 4px; margin: -2px -4px; }
+  dt, dd { margin: 0; }
+  .cursor { position: absolute; z-index: 2; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .25)); --color: #a855f7; --fill: color-mix(in oklch, var(--color), black 25%); }
   .cursor svg { display: block; }
   .cursor span {
-    position: absolute; left: 16px; top: 18px; background: #e11d48; color: #fff;
-    font-size: 15px; padding: 3px 8px; border-radius: 6px; white-space: nowrap;
+    position: absolute; left: 14px; top: 16px; background: var(--fill); color: #fff;
+    font-size: 16px; padding: 4px 8px; border-radius: 4px; white-space: nowrap;
+    font-family: "Czikago"; 
   }
 </style>
-<div class="card">
-  <p class="kicker">Calendar</p>
-  <h3>beers and basketball</h3>
+<div class="dialog">
+  <p class="label">Calendar</p>
+  <h1>beers and basketball</h1>
+  <div class="month">September</div>
   <div class="grid" id="grid"></div>
-  <div class="people">
-    <div class="you"><span>✓ you</span><span>4</span></div>
-    <div><span>Kasia</span><span>6</span></div>
-    <div><span>Wojtek</span><span>7</span></div>
-  </div>
-  <div class="cursor" id="cursor">
-    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#e11d48" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
-    <span>Kasia</span>
-  </div>
+  <dl>
+    <div><dt>Kasia (you)</dt><dd>4 dates</dd></div>
+    <div><dt>Wojtek</dt><dd>7 dates</dd></div>
+    <div><dt>Piotr (creator)</dt><dd>6 dates</dd></div>
+  </dl>
 </div>
 <script>
   const grid = document.getElementById("grid");
   for (const n of ["Mo","Tu","We","Th","Fr","Sa","Su"]) grid.insertAdjacentHTML("beforeend", `<div class="wd">${n}</div>`);
-  // Sept 2024, range 4–29; starts on a Wednesday
+  // September 2024, range 4-29, week starts Monday: the 4th is a Wednesday
   for (let i = 0; i < 2; i++) grid.insertAdjacentHTML("beforeend", `<div></div>`);
-  const you = new Set([9,10,11,13]), kasia = new Set([10,11,17,18,19,25]), wojtek = new Set([10,11,12,18,19,25,26]);
+  const you = new Set([9,10,11,13]), wojtek = new Set([10,11,12,18,19,25,26]), piotr = new Set([10,11,17,18,19,25]);
   for (let d = 4; d <= 29; d++) {
-    const n = you.has(d) + kasia.has(d) + wojtek.has(d);
-    grid.insertAdjacentHTML("beforeend", `<div class="d${you.has(d) ? " mine" : ""}" data-n="${n}">${d}</div>`);
+    const fill = (you.has(d) + wojtek.has(d) + piotr.has(d)) / 3;
+    const bg = fill ? `background:hsl(from var(--accent) h s l / ${fill});color:${fill > .5 ? "#fff" : "#000"}` : "";
+    grid.insertAdjacentHTML("beforeend", `<div class="d${you.has(d) ? " mine" : ""}" style="${bg}">${d}</div>`);
   }
-  // park the cursor on the 18th, mid-paint
+  // Piotr's cursor, mid-paint on the 18th
   const cell = grid.children[7 + 2 + (18 - 4)];
-  const c = document.getElementById("cursor");
-  grid.appendChild(c);
-  c.style.left = cell.offsetLeft + 30 + "px";
-  c.style.top = cell.offsetTop + 28 + "px";
+  grid.insertAdjacentHTML("beforeend", `<div class="cursor" style="left:${cell.offsetLeft + 26}px;top:${cell.offsetTop + 22}px">
+    <svg width="20" height="20" viewBox="0 0 20 20"><path d="M2 1l6 16 2.2-6.2L16.5 8.6z" fill="var(--color)" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <span>Piotr</span></div>`);
 </script>
