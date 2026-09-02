@@ -27,7 +27,10 @@ interface Props
 
 const { frontmatter, headings } = Astro.props;
 
-const ogImage = createOgImageLink(frontmatter);
+const ogImage =
+  typeof frontmatter.img === "object" && frontmatter.img.og?.startsWith("static!")
+    ? frontmatter.img.og.slice("static!".length)
+    : createOgImageLink(frontmatter);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
 const imgSrc =

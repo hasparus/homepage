@@ -1,0 +1,20 @@
+---
+// Design surface for the social card. Screenshot it: `node scripts/og/shoot.mjs bear-fit`.
+import czikago from "../../../aux/bear-fit/public/fonts/Czikago.woff2?url";
+
+import { OgImage } from "../../own/bear-fit/OgImage";
+
+import "../../global-styles/base.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>bear-fit og</title>
+    <style
+      set:html={`@font-face { font-family: "Czikago"; src: url("${czikago}") format("woff2"); }`}
+    ></style>
+  </head>
+  <body class="m-0"><OgImage /></body>
+</html>

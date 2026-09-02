@@ -5,7 +5,7 @@ interface Props {
 
 let { ogImage } = Astro.props;
 
-ogImage &&= ogImage.startsWith("/api/og")
+ogImage &&= ogImage.startsWith("/")
   ? new URL(ogImage, import.meta.env.PUBLIC_URL).href
   : ogImage;
 ---

@@ -2,7 +2,7 @@ export type CursorState = "gone" | "idle" | "pressed";
 
 export function Cursor(props: {
   name: string;
-  ref: HTMLDivElement | ((el: HTMLDivElement) => void);
+  ref?: HTMLDivElement | ((el: HTMLDivElement) => void);
   state: CursorState;
 }) {
   return (

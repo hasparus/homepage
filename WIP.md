@@ -20,7 +20,7 @@ Content ~90% there. Missing a landing, not material. Placeholders in the file: `
 
 ## Ship checklist
 
-- [x] `img.og` added: `src/images/bear-fit/og.png` (2400×1260), rendered at 2x (2400x1260) from `scripts/og/bear-fit.html` via `node scripts/og/shoot.mjs bear-fit`. Uses bear-fit's dialog, dot grid, and Czikago font from the `aux/bear-fit` submodule. Uses bear-fit chrome, Czikago, cursor-party arrow from the `aux/bear-fit` submodule. Verify on a Vercel preview (og endpoint only runs there).
+- [x] OG image: `public/content/bear-fit/og.png` (2400×1260), designed in Solid at `src/own/bear-fit/OgImage.tsx`, served on `/og/bear-fit`, shot via `node scripts/og/shoot.mjs bear-fit` with the dev server up. Frontmatter uses `static!` so the endpoint is bypassed.
 - [ ] Verify demos at mobile width and with `prefers-reduced-motion`: SwipeDemo, CalendarDemo, `sm:absolute` video in autosave aside (may overlap text on narrow viewports).
 - [x] Images resolve (`src/images/bear-fit` follows the deliver convention).
 
