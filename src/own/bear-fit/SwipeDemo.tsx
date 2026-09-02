@@ -18,17 +18,17 @@ const FRIENDS = [
   {
     hours: () => hours(17, 20),
     initials: "B",
-    tint: "linear-gradient(145deg, oklch(80% 0.07 255), oklch(57% 0.1 268))",
+    tint: "linear-gradient(145deg, oklch(68% 0.16 255), oklch(56% 0.2 268))",
   },
   {
     hours: () => hours(18, 22),
     initials: "P",
-    tint: "linear-gradient(145deg, oklch(82% 0.07 155), oklch(58% 0.1 168))",
+    tint: "linear-gradient(145deg, oklch(70% 0.16 155), oklch(56% 0.2 168))",
   },
   {
     hours: collaboratorHours,
     initials: "M",
-    tint: "linear-gradient(145deg, oklch(84% 0.08 65), oklch(62% 0.11 45))",
+    tint: "linear-gradient(145deg, oklch(68% 0.17 18), oklch(56% 0.2 18))",
   },
 ];
 
@@ -39,7 +39,9 @@ const everyoneElse = () =>
 const CURSOR_SCRIPT = [17, 18, 20];
 
 const REST_BEFORE_REPLAY = 3000;
+const REST_BETWEEN_SWIPES = 960;
 const SWIPE = 70;
+const SWIPE_MS = 270;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -77,8 +79,16 @@ export function SwipeDemo() {
     const moveCursor = (x: number, y: number, duration: number) => {
       cursor.style.transitionDuration = `${duration}ms`;
       cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      trail.style.transitionDuration = `${Math.round(duration * 1.9)}ms`;
-      trail.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    };
+
+    const paintTrail = (fromX: number, fromY: number, toX: number) => {
+      const dx = toX - fromX;
+      trail.style.width = `${Math.abs(dx)}px`;
+      trail.style.backgroundImage =
+        dx >= 0
+          ? "linear-gradient(to right, transparent, var(--cursor))"
+          : "linear-gradient(to left, transparent, var(--cursor))";
+      trail.style.transform = `translate3d(${Math.min(fromX, toX)}px, ${fromY}px, 0) translateY(-50%)`;
     };
 
     const anchor = (hour: number) => {
@@ -103,6 +113,14 @@ export function SwipeDemo() {
       if (stopped) return;
 
       const dx = collaboratorHours() & hours(hour) ? -SWIPE : SWIPE;
+      trail.style.transition = "none";
+      trail.style.opacity = "0";
+      paintTrail(x, y, x);
+      void trail.offsetWidth;
+      trail.style.transition = `width ${SWIPE_MS}ms ease-out, transform ${SWIPE_MS}ms ease-out, opacity 80ms linear`;
+      trail.style.opacity = "0.55";
+      paintTrail(x, y, x + dx);
+
       for (const progress of [0.35, 0.7, 1]) {
         moveCursor(x + dx * progress, y, 90);
         await sleep(90);
@@ -111,7 +129,9 @@ export function SwipeDemo() {
 
       setCollaboratorHours((mask) => mask ^ hours(hour));
       setCursorState("idle");
-      await sleep(320);
+      trail.style.transition = "opacity 280ms ease-out";
+      trail.style.opacity = "0";
+      await sleep(REST_BETWEEN_SWIPES);
     };
 
     const play = async () => {
@@ -185,12 +205,9 @@ export function SwipeDemo() {
           </For>
           <div
             aria-hidden="true"
-            class="pointer-events-none absolute top-0 left-0 z-20 transition-[opacity,transform] ease-out"
+            class="pointer-events-none absolute top-0 left-0 z-20 h-2 w-0 rounded-full opacity-0 blur-[5px]"
             ref={trail}
-            style={{ opacity: cursorState() === "gone" ? 0 : 0.3 }}
-          >
-            <div class="size-2.5 -translate-1/2 rounded-full bg-(--cursor) blur-[3px]" />
-          </div>
+          />
           <Cursor name="M" ref={cursor} state={cursorState()} />
         </ul>
       </article>

@@ -21,7 +21,7 @@ export function OgImage() {
   return (
     <div
       id="og"
-      class="flex h-[630px] w-[1200px] items-center justify-center overflow-hidden font-[Czikago,sans-serif] text-black [--cursor:#7c3aed]"
+      class="flex h-[630px] w-[1200px] items-center justify-center overflow-hidden font-[Czikago,sans-serif] text-black [--cursor:oklch(58%_0.2_18)]"
       style={{
         background:
           "linear-gradient(90deg, #fff 21px, transparent 1%) 50%, linear-gradient(#fff 21px, transparent 1%) 50%, #000",
@@ -60,7 +60,7 @@ export function OgImage() {
               >
                 {day}
                 {day === CURSOR_ON && (
-                  <div class="absolute top-[26px] left-[24px] [--cursor:#7c3aed]">
+                  <div class="absolute top-[26px] left-[24px] [--cursor:oklch(58%_0.2_18)]">
                     <Cursor name="Piotr" state="idle" />
                   </div>
                 )}

@@ -45,7 +45,7 @@ const TOOLTIP_OFFSET_Y = 8;
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export function CalendarDemo() {
+export function CalendarDemo(props: { class?: string }) {
   const days = eachDayOfInterval(RANGE_START, RANGE_END);
   const paddingDays = getPaddingDays(new Date(RANGE_START), WEEK_STARTS_ON);
 
@@ -212,7 +212,10 @@ export function CalendarDemo() {
 
   return (
     <div
-      class="@container mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cell:min(40px,calc((100cqw-24px)/7))] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#d7ae64] dark:[--cursor:oklch(58%_0.2_268)]"
+      classList={{
+        "@container mx-auto w-[340px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cell:min(40px,calc((100cqw-24px)/7))] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#d7ae64] dark:[--cursor:oklch(58%_0.2_268)]": true,
+        [props.class!]: !!props.class,
+      }}
       ref={root}
     >
       <p class="font-mono text-sm text-gray-500 dark:text-gray-400">Calendar</p>
@@ -298,7 +301,8 @@ export function CalendarDemo() {
               onClick={() =>
                 setPinned((prev) => {
                   const next = new Set(prev);
-                  if (!next.delete(participant.name)) next.add(participant.name);
+                  if (!next.delete(participant.name))
+                    next.add(participant.name);
                   return next;
                 })
               }
@@ -346,9 +350,7 @@ function Participant(props: {
       onClick={() => props.onClick()}
       onMouseEnter={() => props.onMouseEnter()}
     >
-      <span class="group-aria-pressed:before:content-['✓_']">
-        {props.name}
-      </span>
+      <span class="group-aria-pressed:before:content-['✓_']">{props.name}</span>
       <span class="tabular-nums">
         {props.count} date{props.count === 1 ? "" : "s"}
       </span>
