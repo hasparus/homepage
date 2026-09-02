@@ -21,14 +21,22 @@ export function OgImage() {
   return (
     <div
       id="og"
-      class="flex h-[630px] w-[1200px] items-center justify-center overflow-hidden font-[Czikago,sans-serif] text-black [--cursor:oklch(58%_0.2_18)]"
+      class="flex h-[630px] w-[1200px] items-center gap-14 overflow-hidden px-16 font-[Czikago,sans-serif] text-black [--cursor:oklch(58%_0.2_18)]"
       style={{
         background:
           "linear-gradient(90deg, #fff 21px, transparent 1%) 50%, linear-gradient(#fff 21px, transparent 1%) 50%, #000",
         "background-size": "22px 22px",
       }}
     >
-      <div class="relative w-[340px] zoom-[1.32] rounded-sm border-2 border-black bg-white p-[10px] shadow-[2px_2px_#000]">
+      <div class="min-w-0 flex-1 font-[Czikago,sans-serif]">
+        <h1 class="text-[2.75rem] leading-[1.12] font-[555] text-balance">
+          bear-fit: the simplest UX for syncing humans
+        </h1>
+        <p class="mt-4 text-2xl tracking-tighter text-gray-600 tabular-nums">
+          6 min read · 2026-08-07
+        </p>
+      </div>
+      <div class="relative w-[340px] shrink-0 zoom-[1.32] rounded-sm border-2 border-black bg-white p-[10px] shadow-[2px_2px_#000]">
         <p class="font-mono text-sm">Calendar</p>
         <h1 class="mb-4 text-xl leading-[1.3333] font-normal">
           beers and basketball
