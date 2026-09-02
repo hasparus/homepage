@@ -1,5 +1,11 @@
 /** @jsxImportSource react */
 
+// This is a react-three-fiber Canvas (WebGL) component: it unconditionally
+// touches `document` while building its scene graph, so it has no valid
+// server-rendered form. It must always be mounted with `client:only="react"`
+// (never `client:visible`/`client:load`) wherever it's used, or Astro will
+// try to SSR it and crash — see posts/three-types-of-software.mdx.
+
 import { OrbitControls, Plane, SoftShadows } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import {
