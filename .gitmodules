@@ -1,0 +1,3 @@
+[submodule "aux/bear-fit"]
+	path = aux/bear-fit
+	url = https://github.com/hasparus/bear-fit

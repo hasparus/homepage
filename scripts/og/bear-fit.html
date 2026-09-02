@@ -1,0 +1,72 @@
+<!doctype html>
+<meta charset="utf-8" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: #171717;
+    font-family: Inter, -apple-system, system-ui, sans-serif;
+    color: #111;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 14px;
+    --accent: #05e; --cell: 58px;
+  }
+  .card {
+    width: 490px; background: #fff; border-radius: 12px;
+    border: 3px solid #e5e7eb; padding: 16px 18px 12px;
+    position: relative;
+  }
+  .kicker { font-family: ui-monospace, Menlo, monospace; font-size: 17px; color: #6b7280; margin: 0; }
+  h3 { margin: 2px 0 18px; font-size: 26px; font-weight: 400; }
+  .grid { display: grid; grid-template-columns: repeat(7, var(--cell)); justify-content: space-between; gap: 5px; position: relative; }
+  .wd { height: var(--cell); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; opacity: .75; }
+  .d {
+    width: var(--cell); height: var(--cell); border-radius: 9px; background: #f3f4f6;
+    display: flex; align-items: center; justify-content: center; font-size: 19px;
+    font-variant-numeric: tabular-nums; border: 2px solid transparent;
+  }
+  .d[data-n="1"] { background: color-mix(in srgb, var(--accent) 33%, #fff); }
+  .d[data-n="2"] { background: color-mix(in srgb, var(--accent) 66%, #fff); color: #fff; }
+  .d[data-n="3"] { background: var(--accent); color: #fff; }
+  .d.mine { border: 6px solid #e5e7eb; }
+  .people { font-family: ui-monospace, Menlo, monospace; font-size: 17px; color: #6b7280; margin-top: 16px; display: grid; gap: 4px; }
+  .people div { display: flex; justify-content: space-between; }
+  .people .you { color: #111; }
+  .cursor { position: absolute; z-index: 2; pointer-events: none; }
+  .cursor svg { display: block; }
+  .cursor span {
+    position: absolute; left: 16px; top: 18px; background: #e11d48; color: #fff;
+    font-size: 15px; padding: 3px 8px; border-radius: 6px; white-space: nowrap;
+  }
+</style>
+<div class="card">
+  <p class="kicker">Calendar</p>
+  <h3>beers and basketball</h3>
+  <div class="grid" id="grid"></div>
+  <div class="people">
+    <div class="you"><span>✓ you</span><span>4</span></div>
+    <div><span>Kasia</span><span>6</span></div>
+    <div><span>Wojtek</span><span>7</span></div>
+  </div>
+  <div class="cursor" id="cursor">
+    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="#e11d48" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <span>Kasia</span>
+  </div>
+</div>
+<script>
+  const grid = document.getElementById("grid");
+  for (const n of ["Mo","Tu","We","Th","Fr","Sa","Su"]) grid.insertAdjacentHTML("beforeend", `<div class="wd">${n}</div>`);
+  // Sept 2024, range 4–29; starts on a Wednesday
+  for (let i = 0; i < 2; i++) grid.insertAdjacentHTML("beforeend", `<div></div>`);
+  const you = new Set([9,10,11,13]), kasia = new Set([10,11,17,18,19,25]), wojtek = new Set([10,11,12,18,19,25,26]);
+  for (let d = 4; d <= 29; d++) {
+    const n = you.has(d) + kasia.has(d) + wojtek.has(d);
+    grid.insertAdjacentHTML("beforeend", `<div class="d${you.has(d) ? " mine" : ""}" data-n="${n}">${d}</div>`);
+  }
+  // park the cursor on the 18th, mid-paint
+  const cell = grid.children[7 + 2 + (18 - 4)];
+  const c = document.getElementById("cursor");
+  grid.appendChild(c);
+  c.style.left = cell.offsetLeft + 30 + "px";
+  c.style.top = cell.offsetTop + 28 + "px";
+</script>
