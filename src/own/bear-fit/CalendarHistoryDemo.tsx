@@ -37,6 +37,8 @@ import {
 } from "./calendarHistoryModel";
 import { fetchHistory, replayHistory } from "./history";
 
+import styles from "./CalendarHistoryDemo.module.css";
+
 export const BLOG_ROOM = "blog-y-travelling-technicolor-2077";
 export const PARTICIPANTS = [
   { id: "blog-reader-barney", name: "Barney" },
@@ -79,6 +81,7 @@ export function CalendarHistoryDemo() {
   const id = createUniqueId();
   const days = eachDayOfInterval(START, END);
   const [userId, setUserId] = createSignal("");
+  const [hasConnected, setHasConnected] = createSignal(false);
   const [model, setModel] = createSignal(initialCalendarHistoryState());
   const send = (event: CalendarHistoryEvent) =>
     setModel((state) => transitionCalendarHistory(state, event));
@@ -253,6 +256,7 @@ export function CalendarHistoryDemo() {
           });
         }
         send({ type: "CONNECTED", snapshot: calendarState(doc) });
+        setHasConnected(true);
         scheduleHistory();
       });
       next.on("connection-error", () => {
@@ -375,228 +379,259 @@ export function CalendarHistoryDemo() {
   });
 
   return (
-    <section
-      aria-label="Interactive calendar history demo"
-      class="my-8 space-y-3"
-    >
-      <div class={CALENDAR_CLASS}>
-        <div class="flex h-5 items-center justify-between gap-2">
-          <p class="font-mono text-sm text-gray-500 dark:text-gray-400">
-            September 2077
+    <aside aria-label="Try calendar history" class={styles.aside}>
+      <Show when={!hasConnected()}>
+        <div
+          class="text-sm text-gray-500 dark:text-gray-400"
+          classList={{ [styles.connecting!]: true }}
+        >
+          <p role="status">
+            {connection() === "offline"
+              ? connectionError()
+              : "Connecting to the calendar…"}
           </p>
           <Show when={connection() === "offline"}>
             <button
-              aria-label="Reconnect"
-              class="flex h-5 cursor-pointer items-center gap-1.5 rounded-sm px-1 font-mono text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
-              title={connectionError() ?? undefined}
+              class="min-h-11 cursor-pointer underline"
               type="button"
               onClick={connect}
             >
-              <span
-                aria-hidden="true"
-                class="size-1.5 shrink-0 rounded-full bg-[#ef4444]"
-              />
-              reconnect
+              Reconnect
             </button>
           </Show>
         </div>
-        <h3 class="mb-4 text-lg leading-[1.3333]">{EVENT_TITLE}</h3>
-        <div class="mt-2 mb-4">
-          <div
-            class={CALENDAR_GRID_CLASS}
-            ref={grid}
-            onPointerLeave={() => setHovered(null)}
-          >
-            <GridCellTooltip
-              names={hovered() ? usersOn(hovered()!).map(nameOf) : []}
-              ref={tooltip}
-            />
-            <For each={getWeekDayNames(1)}>
-              {(name) => (
-                <div class="flex h-(--cell) items-center justify-center text-[11.6667px] font-medium opacity-75">
-                  {name}
-                </div>
-              )}
-            </For>
-            <Index
-              each={Array.from({ length: getPaddingDays(new Date(START), 1) })}
+      </Show>
+      <section
+        aria-label="Interactive calendar history demo"
+        class="space-y-3"
+        classList={{ [styles.content!]: true }}
+        data-connected={hasConnected()}
+      >
+        <div class={CALENDAR_CLASS}>
+          <div class="flex h-5 items-center justify-between gap-2">
+            <p class="font-mono text-sm text-gray-500 dark:text-gray-400">
+              September 2077
+            </p>
+            <Show when={connection() === "offline"}>
+              <button
+                aria-label="Reconnect"
+                class="flex h-5 cursor-pointer items-center gap-1.5 rounded-sm px-1 font-mono text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                title={connectionError() ?? undefined}
+                type="button"
+                onClick={connect}
+              >
+                <span
+                  aria-hidden="true"
+                  class="size-1.5 shrink-0 rounded-full bg-[#ef4444]"
+                />
+                reconnect
+              </button>
+            </Show>
+          </div>
+          <h3 class="mb-4 text-lg leading-[1.3333]">{EVENT_TITLE}</h3>
+          <div class="mt-2 mb-4">
+            <div
+              class={CALENDAR_GRID_CLASS}
+              ref={grid}
+              onPointerLeave={() => setHovered(null)}
             >
-              {() => <div class="h-(--cell)" />}
-            </Index>
-            <For each={days}>
-              {(day, index) => {
-                const date = isoDate(day);
-                return (
-                  <AvailabilityGridCell
-                    availableUsers={usersOn(date).length}
-                    day={day}
-                    emphasis={emphasis(date)}
-                    isMine={mine(date)}
-                    readOnly={!editable()}
-                    tabIndex={index() === 0 ? 0 : -1}
-                    totalUsers={participants().size}
-                    onClick={(event) => {
-                      if (event.detail === 0) toggle(date);
-                    }}
-                    onKeyDown={(event) =>
-                      moveFocusWithArrowKeys(event, () => toggle(date))
-                    }
-                    onPointerDown={(event) => {
-                      if (event.button !== 0) return;
-                      drag = !mine(date);
-                      setDate(date, drag);
-                      if (
-                        event.currentTarget.hasPointerCapture(event.pointerId)
-                      )
-                        event.currentTarget.releasePointerCapture(
-                          event.pointerId,
-                        );
-                    }}
-                    onPointerEnter={() => {
-                      setHovered(date);
-                      if (drag !== null) setDate(date, drag);
-                    }}
-                  />
-                );
-              }}
+              <GridCellTooltip
+                names={hovered() ? usersOn(hovered()!).map(nameOf) : []}
+                ref={tooltip}
+              />
+              <For each={getWeekDayNames(1)}>
+                {(name) => (
+                  <div class="flex h-(--cell) items-center justify-center text-[11.6667px] font-medium opacity-75">
+                    {name}
+                  </div>
+                )}
+              </For>
+              <Index
+                each={Array.from({
+                  length: getPaddingDays(new Date(START), 1),
+                })}
+              >
+                {() => <div class="h-(--cell)" />}
+              </Index>
+              <For each={days}>
+                {(day, index) => {
+                  const date = isoDate(day);
+                  return (
+                    <AvailabilityGridCell
+                      availableUsers={usersOn(date).length}
+                      day={day}
+                      emphasis={emphasis(date)}
+                      isMine={mine(date)}
+                      readOnly={!editable()}
+                      tabIndex={index() === 0 ? 0 : -1}
+                      totalUsers={participants().size}
+                      onClick={(event) => {
+                        if (event.detail === 0) toggle(date);
+                      }}
+                      onKeyDown={(event) =>
+                        moveFocusWithArrowKeys(event, () => toggle(date))
+                      }
+                      onPointerDown={(event) => {
+                        if (event.button !== 0) return;
+                        drag = !mine(date);
+                        setDate(date, drag);
+                        if (
+                          event.currentTarget.hasPointerCapture(event.pointerId)
+                        )
+                          event.currentTarget.releasePointerCapture(
+                            event.pointerId,
+                          );
+                      }}
+                      onPointerEnter={() => {
+                        setHovered(date);
+                        if (drag !== null) setDate(date, drag);
+                      }}
+                    />
+                  );
+                }}
+              </For>
+            </div>
+          </div>
+          <div
+            class="max-h-44 overflow-x-clip overflow-y-auto font-mono text-sm text-gray-500 dark:text-gray-400"
+            onMouseLeave={() => setHoveredUser(null)}
+          >
+            <For each={visibleParticipants()}>
+              {({ id: user }) => (
+                <Participant
+                  count={participants().get(user) ?? 0}
+                  name={`${nameOf(user)}${user === userId() ? " (you)" : ""}`}
+                  pinned={pinned().has(user)}
+                  onClick={() =>
+                    setPinned((previous) => {
+                      const next = new Set(previous);
+                      if (!next.delete(user)) next.add(user);
+                      return next;
+                    })
+                  }
+                  onMouseEnter={() => setHoveredUser(user)}
+                />
+              )}
             </For>
           </div>
         </div>
-        <div
-          class="max-h-44 overflow-x-clip overflow-y-auto font-mono text-sm text-gray-500 dark:text-gray-400"
-          onMouseLeave={() => setHoveredUser(null)}
-        >
-          <For each={visibleParticipants()}>
-            {({ id: user }) => (
-              <Participant
-                count={participants().get(user) ?? 0}
-                name={`${nameOf(user)}${user === userId() ? " (you)" : ""}`}
-                pinned={pinned().has(user)}
-                onClick={() =>
-                  setPinned((previous) => {
-                    const next = new Set(previous);
-                    if (!next.delete(user)) next.add(user);
-                    return next;
-                  })
-                }
-                onMouseEnter={() => setHoveredUser(user)}
-              />
-            )}
-          </For>
-        </div>
-      </div>
-      <div class="mx-auto w-[328px] max-w-full text-sm">
-        <div class="flex items-center gap-2">
-          <button
-            aria-label="Previous version"
-            class={ARROW_CLASS}
-            disabled={
-              pastVersions().length === 0 ||
-              previewUnavailable() ||
-              position() === 0
-            }
-            type="button"
-            onClick={() => showPosition(position() - 1)}
-          >
-            <svg
-              aria-hidden="true"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path d="m14 6-6 6 6 6" />
-            </svg>
-          </button>
-          <input
-            aria-label="Calendar history"
-            aria-describedby={`${id}-position`}
-            aria-valuetext={
-              historic()
-                ? `Storage clock ${selectedClock()}, read-only`
-                : editable()
-                  ? "Present, editable"
-                  : "Present, read-only"
-            }
-            class="block h-11 w-full min-w-0 accent-[#05e] dark:accent-[#d7ae64]"
-            disabled={pastVersions().length === 0 || previewUnavailable()}
-            max="0"
-            min="0"
-            ref={(input) =>
-              createRenderEffect(() => {
-                input.max = String(pastVersions().length);
-                input.value = String(position());
-              })
-            }
-            step="1"
-            type="range"
-            onInput={(event) => showPosition(Number(event.currentTarget.value))}
-          />
-          <button
-            aria-label="Next version"
-            class={ARROW_CLASS}
-            disabled={!historic()}
-            type="button"
-            onClick={() =>
-              showPosition(
-                previewUnavailable() ? pastVersions().length : position() + 1,
-              )
-            }
-          >
-            <svg
-              aria-hidden="true"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <path d="m10 6 6 6-6 6" />
-            </svg>
-          </button>
-        </div>
-        <p
-          id={`${id}-position`}
-          class="text-center font-mono text-xs text-gray-500 dark:text-gray-400"
-          role="status"
-        >
-          {historic()
-            ? `storage clock ${selectedClock()} / read-only`
-            : editable()
-              ? "present / editable"
-              : "present / read-only"}
-        </p>
-        <Show when={compacted()}>
-          <p role="status">
-            This version was compacted from storage. Preview kept; use Next to
-            return to the present.
-          </p>
-        </Show>
-        <Show when={outsideWindow()}>
-          <p role="status">
-            This version is outside the last 250 records. Preview kept; use Next
-            to return to the present.
-          </p>
-        </Show>
-        <Show when={connection() === "connected" && !model().present.event.id}>
-          <p role="status">This calendar hasn’t been published yet.</p>
-        </Show>
-        <Show when={error() && connection() !== "offline"}>
-          <p role="alert">
-            {error()}{" "}
+        <div class="mx-auto w-[328px] max-w-full text-sm">
+          <div class="flex items-center gap-2">
             <button
-              class="underline"
+              aria-label="Previous version"
+              class={ARROW_CLASS}
+              disabled={
+                pastVersions().length === 0 ||
+                previewUnavailable() ||
+                position() === 0
+              }
               type="button"
-              onClick={() => void refreshHistory()}
+              onClick={() => showPosition(position() - 1)}
             >
-              Retry history
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path d="m14 6-6 6 6 6" />
+              </svg>
             </button>
+            <input
+              aria-label="Calendar history"
+              aria-describedby={`${id}-position`}
+              aria-valuetext={
+                historic()
+                  ? `Storage clock ${selectedClock()}, read-only`
+                  : editable()
+                    ? "Present, editable"
+                    : "Present, read-only"
+              }
+              class="block h-11 w-full min-w-0 accent-[#05e] dark:accent-[#d7ae64]"
+              disabled={pastVersions().length === 0 || previewUnavailable()}
+              max="0"
+              min="0"
+              ref={(input) =>
+                createRenderEffect(() => {
+                  input.max = String(pastVersions().length);
+                  input.value = String(position());
+                })
+              }
+              step="1"
+              type="range"
+              onInput={(event) =>
+                showPosition(Number(event.currentTarget.value))
+              }
+            />
+            <button
+              aria-label="Next version"
+              class={ARROW_CLASS}
+              disabled={!historic()}
+              type="button"
+              onClick={() =>
+                showPosition(
+                  previewUnavailable() ? pastVersions().length : position() + 1,
+                )
+              }
+            >
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path d="m10 6 6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+          <p
+            id={`${id}-position`}
+            class="text-center font-mono text-xs text-gray-500 dark:text-gray-400"
+            role="status"
+          >
+            {historic()
+              ? `storage clock ${selectedClock()} / read-only`
+              : editable()
+                ? "present / editable"
+                : "present / read-only"}
           </p>
-        </Show>
-      </div>
-    </section>
+          <Show when={compacted()}>
+            <p role="status">
+              This version was compacted from storage. Preview kept; use Next to
+              return to the present.
+            </p>
+          </Show>
+          <Show when={outsideWindow()}>
+            <p role="status">
+              This version is outside the last 250 records. Preview kept; use
+              Next to return to the present.
+            </p>
+          </Show>
+          <Show
+            when={connection() === "connected" && !model().present.event.id}
+          >
+            <p role="status">This calendar hasn’t been published yet.</p>
+          </Show>
+          <Show when={error() && connection() !== "offline"}>
+            <p role="alert">
+              {error()}{" "}
+              <button
+                class="underline"
+                type="button"
+                onClick={() => void refreshHistory()}
+              >
+                Retry history
+              </button>
+            </p>
+          </Show>
+        </div>
+      </section>
+    </aside>
   );
 }

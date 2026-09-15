@@ -40,14 +40,19 @@ function roomUrl(room: string) {
   return url.href;
 }
 
-async function prepare(context: BrowserContext, participant?: string) {
-  await context.routeWebSocket("**/parties/main/**", (socket) => {
+async function prepare(
+  context: BrowserContext,
+  participant?: string,
+  beforeConnect?: () => Promise<void>,
+) {
+  await context.routeWebSocket("**/parties/main/**", async (socket) => {
     const url = new URL(socket.url());
     expect(url.hostname, "Never mutate the production shared room").toBe(
       "127.0.0.1",
     );
     expect(url.port).toBe("1999");
     expect(url.pathname).toMatch(/\/blog-y-travelling-technicolor-2077-test-/);
+    await beforeConnect?.();
     socket.connectToServer();
   });
   if (participant)
@@ -93,6 +98,85 @@ async function gapMeasurements(button: Locator) {
     };
   });
 }
+
+test("calendar enters on first sync and stays visible through reconnects", async ({
+  page,
+}) => {
+  test.skip(!demoUrl, "Set HISTORY_DEMO_URL to the local-backend homepage");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  let release!: () => void;
+  const firstConnection = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await prepare(page.context(), ids[0], () => firstConnection);
+  await page.addInitScript(() => {
+    document.addEventListener("animationstart", (event) => {
+      if (
+        !(event.target instanceof HTMLElement) ||
+        !event.target.hasAttribute("data-connected")
+      )
+        return;
+      const root = document.documentElement;
+      root.dataset.calendarEntrances = String(
+        Number(root.dataset.calendarEntrances ?? 0) + 1,
+      );
+    });
+  });
+  const room = `blog-y-travelling-technicolor-2077-test-${randomUUID()}`;
+  await page.goto(roomUrl(room));
+  const content = page.getByRole("region", {
+    name: "Interactive calendar history demo",
+    includeHidden: true,
+  });
+  await expect(content).toHaveAttribute("data-connected", "false");
+  await expect(content).toBeHidden();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Connecting to the calendar" }),
+  ).toBeVisible();
+  release();
+  await expect(day(page)).toBeEnabled({ timeout: 15_000 });
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-calendar-entrances",
+    "1",
+  );
+
+  const aside = page.getByRole("complementary", {
+    name: "Try calendar history",
+  });
+  if (page.viewportSize()!.width >= 1280) {
+    await expect(aside).toHaveCSS("position", "sticky");
+    const bounds = await aside.boundingBox();
+    const code = await page.locator("pre.twoslash").first().boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(code!.x + code!.width);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(
+      page.viewportSize()!.width,
+    );
+    await page.evaluate(() =>
+      window.scrollTo({ top: 1000, behavior: "instant" }),
+    );
+    await expect
+      .poll(async () => (await aside.boundingBox())!.y)
+      .toBeCloseTo(60, 0);
+  } else {
+    await expect(aside).toHaveCSS("position", "relative");
+  }
+
+  await page.context().setOffline(true);
+  await expect(
+    region(page).getByRole("button", { name: "Reconnect" }),
+  ).toBeVisible();
+  await expect(content).toBeVisible();
+  await expect(content).toHaveAttribute("data-connected", "true");
+  await page.context().setOffline(false);
+  await expect(day(page)).toBeEnabled({ timeout: 15_000 });
+  await expect(page.locator("html")).toHaveAttribute(
+    "data-calendar-entrances",
+    "1",
+  );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(content).toHaveCSS("animation-name", "none");
+  await expect(content).toHaveCSS("transform", "none");
+});
 
 test("four shared identities, separate marks, stable previews and reload persistence", async ({
   browser,
@@ -433,7 +517,11 @@ test("the original calendar retains equal gaps and does not load history depende
   test.skip(!demoUrl, "Requires a selected homepage server");
   const scripts: string[] = [];
   page.on("request", (request) => {
-    if (request.resourceType() === "script") scripts.push(request.url());
+    if (
+      request.resourceType() === "script" &&
+      !new URL(request.url()).pathname.endsWith(".css")
+    )
+      scripts.push(request.url());
   });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(new URL("/bear-fit", demoUrl!).href);

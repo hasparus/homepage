@@ -5,7 +5,7 @@ date: 2026-09-15
 
 import { CalendarHistoryDemo } from "../src/own/bear-fit/CalendarHistoryDemo";
 
-<CalendarHistoryDemo client:visible />
+<CalendarHistoryDemo client:load />
 
 Adding a simple version history to any Y.js is way easier than you'd expect.
 
@@ -19,13 +19,13 @@ enough to do this:
 
 ```
 
-The slider chooses how many saved updates to replay into a separate `Y.Doc`.
+The slider chooses a point in time i.e. how many saved updates to replay into a
+separate `Y.Doc`.
 
 I wanted this for a recurring meeting without a fixed time slot. I'd make a
-calendar for two months, and people's availability would change along the way.
-Sometimes it helped to look back before messaging the group.
-
-Try marking a few days in the calendar above, then moving the slider back.
+calendar for two or three months, and people's availability would change along
+the way. Having a history helped choosing the dates, because we could see how
+fast are the dates disappearing and reappearing.
 
 ## Getting the updates
 
@@ -48,8 +48,8 @@ key range:
 
 ```
 
-Those keys are y-partykit's internal storage format. Check them before
-upgrading.
+Those keys are y-partykit's internal storage format. Not very nice of me, but we
+have tests, and y-partykit is open source, so I can track any changes there.
 
 ## Fetching the history
 
@@ -88,9 +88,7 @@ The browser fetches the endpoint and decodes its response:
 
 ## Showing an old version
 
-The slider's position supplies `count` to the replay function. Later updates may
-depend on earlier ones, so limiting the slider to recent versions doesn't mean
-you can discard the start of the log.
+The slider's position supplies `count` to the replay function.
 
 The [embedded calendar][demo-source] takes plain data, so I read the maps from
 the replayed document before destroying it:
@@ -98,6 +96,25 @@ the replayed document before destroying it:
 ```ts twoslash file=../src/code-blocks/y-travelling/readHistoricalCalendar.ts
 
 ```
+
+## Reusing the document
+
+That rebuilds the document on every slider move. For a longer log, we can replay
+it once and keep the last 250 versions as plain data:
+
+```ts twoslash file=../src/code-blocks/y-travelling/cacheCalendarHistory.ts
+
+```
+
+Each snapshot copies the maps, so applying the next update doesn't change the
+versions already saved. The slider can read `versions[index].snapshot` without
+running any Y.js code. Rebuild the cache when the fetched history changes,
+including after compaction.
+
+In a [benchmark with 10,000 generated updates][replay-benchmark], rebuilding
+took about 59 ms per backward step. The cache took 24 ms to build, then lookups
+were below 0.1 ms. Those are medians in Chromium with 4× CPU throttling on an M1
+Pro, measuring JavaScript work without rendering.
 
 <aside>
   Applying an old update to the live document doesn't undo later changes.
@@ -130,3 +147,5 @@ the replayed document before destroying it:
   https://github.com/hasparus/bear-fit/blob/37d31b5/app/encodeHistoryUpdates.ts
 [demo-source]:
   https://github.com/hasparus/homepage/blob/main/src/own/bear-fit/CalendarHistoryDemo.tsx
+[replay-benchmark]:
+  https://github.com/hasparus/homepage/tree/main/plans/yjs-history
