@@ -380,14 +380,14 @@ export function CalendarHistoryDemo() {
       class="my-8 space-y-3"
     >
       <div class={CALENDAR_CLASS}>
-        <div class="flex items-center justify-between gap-2">
+        <div class="flex h-5 items-center justify-between gap-2">
           <p class="font-mono text-sm text-gray-500 dark:text-gray-400">
             September 2077
           </p>
           <Show when={connection() === "offline"}>
             <button
               aria-label="Reconnect"
-              class="flex min-h-6 cursor-pointer items-center gap-1 rounded-sm px-1 font-mono text-[10px] text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+              class="flex h-5 cursor-pointer items-center gap-1.5 rounded-sm px-1 font-mono text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
               title={connectionError() ?? undefined}
               type="button"
               onClick={connect}
