@@ -6,7 +6,13 @@ import {
   type Locator,
   type Page,
 } from "@playwright/test";
-import { fetchHistory, replayHistory } from "../src/own/bear-fit/history";
+import { Doc } from "yjs";
+import { encodeHistoryUpdates } from "../src/code-blocks/y-travelling-server";
+import {
+  fetchHistory,
+  type HistoryUpdate,
+  replayHistory,
+} from "../src/own/bear-fit/history";
 
 const demoUrl = process.env.HISTORY_DEMO_URL;
 const server = "http://127.0.0.1:1999";
@@ -244,9 +250,7 @@ test("four shared identities, separate marks, stable previews and reload persist
     await expect(slider(a!)).toHaveValue(
       (await slider(a!).getAttribute("max"))!,
     );
-    await expect(
-      region(a!).getByText(/^present\b/i),
-    ).toBeVisible();
+    await expect(region(a!).getByText(/^present\b/i)).toBeVisible();
     await expect(slider(a!)).toHaveAttribute(
       "aria-valuetext",
       "Present, editable",
@@ -330,10 +334,30 @@ test("random assignment persists, touch works, errors and compaction preserve pr
       route.fulfill({ status: 200, body: "" }),
     );
     await context.setOffline(true);
+    const reconnect = region(page).getByRole("button", { name: "Reconnect" });
+    await expect(reconnect).toBeVisible();
+    await expect(reconnect).toHaveText("reconnect");
+    await expect(reconnect).toHaveCSS("font-size", "10px");
+    await expect(reconnect.locator("[aria-hidden=true]")).toHaveCSS(
+      "background-color",
+      "rgb(239, 68, 68)",
+    );
     await expect(
-      region(page).getByRole("button", { name: "Reconnect" }),
-    ).toBeVisible();
+      region(page).getByText("You’re offline. Editing is paused.", {
+        exact: true,
+      }),
+    ).toHaveCount(0);
+    const month = (await region(page)
+      .getByText("September 2077", { exact: true })
+      .boundingBox())!;
+    const status = (await reconnect.boundingBox())!;
+    expect(status.x).toBeGreaterThan(month.x + month.width);
+    expect(Math.abs(status.y - month.y)).toBeLessThan(8);
+    await region(page).screenshot({
+      path: testInfo.outputPath("history-offline-indicator.png"),
+    });
     await context.setOffline(false);
+    await expect(reconnect).toHaveCount(0);
     await expect(region(page).getByText(/Preview kept/)).toBeVisible();
     await expect(day(page)).toHaveAttribute("aria-pressed", preview!);
     await expect(slider(page)).toBeDisabled();
@@ -350,6 +374,55 @@ test("random assignment persists, touch works, errors and compaction preserve pr
     await region(page).screenshot({
       path: testInfo.outputPath("history-dark-touch-320.png"),
     });
+  } finally {
+    await context.close();
+  }
+});
+
+test("timeline caps at 250 versions and replays the earlier prefix", async ({
+  browser,
+}, testInfo) => {
+  test.skip(!demoUrl, "Requires a local-backend homepage");
+  const room = `blog-y-travelling-technicolor-2077-test-${randomUUID()}`;
+  const context = await browser.newContext({
+    viewport: testInfo.project.use.viewport,
+  });
+  await prepare(context, ids[0]);
+  const doc = new Doc();
+  const updates: HistoryUpdate[] = [];
+  doc.on("update", (value: Uint8Array) =>
+    updates.push({ clock: String(updates.length), value }),
+  );
+  doc.getMap("availability").set(`${ids[0]}〷2077-09-06`, true);
+  for (let i = 0; i < 300; i++) doc.getMap("test-history").set("counter", i);
+  const bytes = encodeHistoryUpdates(updates);
+  doc.destroy();
+  try {
+    const page = await context.newPage();
+    await page.route("**/history", (route) =>
+      route.fulfill({
+        contentType: "application/octet-stream",
+        body: Buffer.from(bytes),
+      }),
+    );
+    await open(page, room);
+    await expect(slider(page)).toHaveAttribute("max", "250");
+    await expect(slider(page)).toHaveValue("250");
+    await slider(page).press("Home");
+    await expect(slider(page)).toHaveValue("0");
+    await expect(slider(page)).toHaveAttribute(
+      "aria-valuetext",
+      "Storage clock 51, read-only",
+    );
+    await expect(day(page)).toHaveAttribute("aria-pressed", "true");
+    await expect(day(page)).toBeDisabled();
+    await expect(
+      region(page).getByRole("button", { name: "Previous version" }),
+    ).toBeDisabled();
+    await slider(page).press("End");
+    await expect(slider(page)).toHaveValue("250");
+    await expect(day(page)).toBeEnabled();
+    await expect(day(page)).toHaveAttribute("aria-pressed", "false");
   } finally {
     await context.close();
   }

@@ -67,8 +67,9 @@ function calendarState(doc: Doc): CalendarSnapshot {
 }
 
 function calendarFingerprint(doc: Doc) {
+  const snapshot = calendarState(doc);
   return JSON.stringify(
-    Object.values(calendarState(doc)).map((map) =>
+    [snapshot.availability, snapshot.names, snapshot.event].map((map) =>
       Object.entries(map).sort(([a], [b]) => a.localeCompare(b)),
     ),
   );
@@ -81,32 +82,28 @@ export function CalendarHistoryDemo() {
   const [model, setModel] = createSignal(initialCalendarHistoryState());
   const send = (event: CalendarHistoryEvent) =>
     setModel((state) => transitionCalendarHistory(state, event));
-  const connection = createMemo(() => model().connection.kind);
-  const connectionError = createMemo(() => {
+  const connection = () => model().connection.kind;
+  const connectionError = () => {
     const connection = model().connection;
     return connection.kind === "offline" ? connection.message : null;
-  });
-  const updates = createMemo(() => model().updates);
+  };
+  const updates = () => model().updates;
   const pastVersions = createMemo(() => visibleHistory(model()));
-  const selectedClock = createMemo(() => {
+  const selectedClock = () => {
     const timeline = model().timeline;
     return timeline.kind === "present" ? null : timeline.clock;
-  });
-  const compacted = createMemo(
-    () => model().timeline.kind === "compacted-past",
-  );
-  const outsideWindow = createMemo(
-    () => model().timeline.kind === "outside-window-past",
-  );
-  const previewUnavailable = createMemo(() => compacted() || outsideWindow());
-  const error = createMemo(() => model().error);
+  };
+  const compacted = () => model().timeline.kind === "compacted-past";
+  const outsideWindow = () => model().timeline.kind === "outside-window-past";
+  const previewUnavailable = () => compacted() || outsideWindow();
+  const error = () => model().error;
   const [hovered, setHovered] = createSignal<string | null>(null);
   const [hoveredUser, setHoveredUser] = createSignal<string | null>(null);
   const [pinned, setPinned] = createSignal<ReadonlySet<string>>(new Set());
-  const historic = createMemo(() => model().timeline.kind !== "present");
-  const editable = createMemo(() => calendarIsEditable(model()));
+  const historic = () => model().timeline.kind !== "present";
+  const editable = () => calendarIsEditable(model());
   const state = createMemo(() => displayedCalendar(model()));
-  const position = createMemo(() => timelinePosition(model()));
+  const position = () => timelinePosition(model());
   const usersByDate = createMemo(() => {
     const result = new Map<string, string[]>();
     for (const [key, available] of Object.entries(state().availability)) {
@@ -130,15 +127,11 @@ export function CalendarHistoryDemo() {
       for (const user of users) counts.set(user, (counts.get(user) ?? 0) + 1);
     return counts;
   });
-  const activeParticipants = createMemo(() =>
-    PARTICIPANTS.filter((participant) => participants().has(participant.id)),
-  );
-  const visibleParticipants = createMemo(() =>
+  const visibleParticipants = () =>
     PARTICIPANTS.filter(
       (participant) =>
         participant.id === userId() || participants().has(participant.id),
-    ),
-  );
+    );
   const nameOf = (user: string) =>
     PARTICIPANTS.find((participant) => participant.id === user)?.name || user;
   const usersOn = (date: string) => usersByDate().get(date) ?? [];
@@ -387,9 +380,26 @@ export function CalendarHistoryDemo() {
       class="my-8 space-y-3"
     >
       <div class={CALENDAR_CLASS}>
-        <p class="font-mono text-sm text-gray-500 dark:text-gray-400">
-          September 2077
-        </p>
+        <div class="flex items-center justify-between gap-2">
+          <p class="font-mono text-sm text-gray-500 dark:text-gray-400">
+            September 2077
+          </p>
+          <Show when={connection() === "offline"}>
+            <button
+              aria-label="Reconnect"
+              class="flex min-h-6 cursor-pointer items-center gap-1 rounded-sm px-1 font-mono text-[10px] text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+              title={connectionError() ?? undefined}
+              type="button"
+              onClick={connect}
+            >
+              <span
+                aria-hidden="true"
+                class="size-1.5 shrink-0 rounded-full bg-[#ef4444]"
+              />
+              reconnect
+            </button>
+          </Show>
+        </div>
         <h3 class="mb-4 text-lg leading-[1.3333]">{EVENT_TITLE}</h3>
         <div class="mt-2 mb-4">
           <div
@@ -424,7 +434,7 @@ export function CalendarHistoryDemo() {
                     isMine={mine(date)}
                     readOnly={!editable()}
                     tabIndex={index() === 0 ? 0 : -1}
-                    totalUsers={activeParticipants().length}
+                    totalUsers={participants().size}
                     onClick={(event) => {
                       if (event.detail === 0) toggle(date);
                     }}
@@ -555,7 +565,9 @@ export function CalendarHistoryDemo() {
         >
           {historic()
             ? `storage clock ${selectedClock()} / read-only`
-            : "present / editable"}
+            : editable()
+              ? "present / editable"
+              : "present / read-only"}
         </p>
         <Show when={compacted()}>
           <p role="status">
@@ -569,21 +581,10 @@ export function CalendarHistoryDemo() {
             to return to the present.
           </p>
         </Show>
-        <Show when={connection() === "connecting"}>
-          <p role="status">Connecting…</p>
-        </Show>
-        <Show when={connectionError()}>
-          <p role="alert">
-            {connectionError()}{" "}
-            <button class="underline" type="button" onClick={connect}>
-              Reconnect
-            </button>
-          </p>
-        </Show>
         <Show when={connection() === "connected" && !model().present.event.id}>
           <p role="status">This calendar hasn’t been published yet.</p>
         </Show>
-        <Show when={error()}>
+        <Show when={error() && connection() !== "offline"}>
           <p role="alert">
             {error()}{" "}
             <button
