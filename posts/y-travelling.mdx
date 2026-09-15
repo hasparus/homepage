@@ -16,151 +16,101 @@ But if we don't need all that, and just want to see how the doc changed, it's
 enough to do this:
 
 ```ts twoslash file=../src/own/bear-fit/replayHistory.ts
+
 ```
 
-Make a fresh document and apply the first `count` saved updates. Stop where you
-want to look. The live document hasn't changed.
+The slider chooses how many saved updates to replay into a separate `Y.Doc`.
+In [bear-fit], I pass that document through the existing calendar's React
+context and disable editing. Looking at an old version leaves the live one
+alone.
 
-I added this to [bear-fit]. I used to make two-month calendars for a recurring
-meeting without a fixed time slot. People's availability changed, and sometimes
-it helped to look back before messaging the group.
+I wanted this for a recurring meeting without a fixed time slot. I'd make a
+calendar for two months, and people's availability would change along the way.
+Sometimes it helped to look back before messaging the group.
 
-The app already used Y.js and y-partykit. I hadn't designed for history. I copied
-one internal from y-partykit and added a slider.
+Try marking a few days in the calendar above, then moving the slider back.
 
-<aside>
-  The calendar above uses the same backend. Mark a few days, then move the
-  slider back. Everyone shares the event, and you get assigned one of four
-  characters from Harry Harrison's [The Technicolor Time Machine][harrison].
-  Otherwise, with 20 people, each person's availability would contribute just
-  5% to a cell's opacity.
-</aside>
+## Getting the updates
 
-Okay, but where do the updates come from?
-
-## Keeping the past
-
-You need to have kept them somewhere. In bear-fit, that's y-partykit's history
-persistence mode:
+bear-fit already used y-partykit. With history persistence enabled, it keeps
+the update log needed for replay:
 
 ```ts twoslash file=../src/code-blocks/y-travelling/persistence.ts
+
 ```
 
-I've left out the calendar setup and callbacks. This option tells y-partykit to
-keep an update log. Without that log, a copy of the current document won't give
-you all the intermediate versions back.
+A copy of the current document won't give you those intermediate versions.
+Even history mode can compact the log, merging earlier updates and losing the
+versions between them. These examples use y-partykit 0.0.32.
 
-<aside>
-  These examples use y-partykit 0.0.32. Its history mode can compact the log when
-  it reaches its limits, replacing earlier updates with a merged state. You can
-  replay what remains, but you lose the intermediate versions it compacted.
-</aside>
-
-## Borrowing an internal
-
-There was a function called `getLevelUpdates` that did what I needed. It wasn't
-exported. Probably for a reason.
-
-I copied it anyway. With the optional arguments and key helper inlined, it looks
-like this:
+The function for reading the log, `getLevelUpdates`, wasn't exported, so I
+[copied it][server-source]. It calls the exported `getLevelBulkData` with this
+key range:
 
 ```ts twoslash file=../src/code-blocks/y-travelling/getLevelUpdates.ts
+
 ```
 
-`getLevelBulkData` *is* exported. We ask it for the document's update records,
-using y-partykit's storage keys. The [full helper][server-source] keeps the
-optional arguments and types.
-
-This depends on an internal storage format. Check it before upgrading
-y-partykit.
-
-The fourth part of an update key is its `clock`, an incrementing storage
-counter. It isn't a timestamp. A stored record doesn't necessarily correspond
-to one click either.
+Those keys are y-partykit's internal storage format. Check them before
+upgrading.
 
 ## Fetching the history
 
-I added a `GET /parties/main/:room/history` endpoint. This is the HTTP part of
-the same server class as `onConnect`, with the other routes removed:
+I added `GET /parties/main/:room/history` to the server class containing
+`onConnect`:
 
 ```ts twoslash file=../src/code-blocks/y-travelling/historyEndpoint.ts
+
 ```
 
-The response contains clocks and binary Y.js updates. Each record starts with
-two lengths:
+The `clock` comes from an incrementing storage counter, not the time somebody
+clicked a day. A record doesn't necessarily correspond to one click either.
+The [encoder][encoder-source] writes each record as:
 
 ```text
 clock length | update length | UTF-8 clock | Y.js update
    4 bytes   |    4 bytes    |            |
 ```
 
-Both lengths are unsigned 32-bit integers, big-endian. The [encoder][encoder-source]
-writes the lengths, then copies the clock and update bytes after them.
+Both lengths are unsigned 32-bit integers, big-endian. Y.js updates can contain
+newline bytes, so splitting the response on newlines isn't safe.
 
-<aside>
-  The code I originally pasted into this post split the response on two newline
-  bytes. A binary update can contain those bytes too. The current implementation
-  uses lengths instead.
-</aside>
-
-This is the decoder used by the demo:
+The decoder reads both lengths from the eight-byte header. It decodes the clock
+as UTF-8 and copies the update bytes, then advances to the next record. If a
+header or record is truncated, it throws instead of returning a partial result:
 
 ```ts twoslash file=../src/own/bear-fit/decodeHistoryUpdates.ts
+
 ```
 
-`DataView` reads the lengths. `TextDecoder` handles the clock. The update stays
-a `Uint8Array`, ready for `Y.applyUpdate`.
-
-We can fetch and decode the log in one function:
+The browser fetches the endpoint and decodes its response:
 
 ```ts twoslash file=../src/own/bear-fit/fetchHistory.ts
+
 ```
 
-<aside>
-  bear-fit normally fetches from its own origin. For an embed like the one on
-  this page, the backend also needs to allow cross-origin HTTP requests. The
-  WebSocket connecting successfully doesn't tell you whether the fetch will work.
-</aside>
+## Showing an old version
 
-## Rendering the past
+The slider's position supplies `count` to the replay function. Later updates
+may depend on earlier ones, so limiting the slider to recent versions doesn't
+mean you can discard the start of the log.
 
-In bear-fit, I pass the reconstructed `Y.Doc` through the same React context as
-the live document. The calendar renders it with editing disabled. I didn't need
-to build another calendar UI.
-
-The blog demo uses Solid. It reads the reconstructed document into a plain
-snapshot and destroys the temporary `Y.Doc`. Separated from the UI code, that
-step looks like this:
+The [embedded calendar][demo-source] takes plain data, so I read the maps from
+the replayed document before destroying it:
 
 ```ts twoslash file=../src/code-blocks/y-travelling/readHistoricalCalendar.ts
+
 ```
 
-Those map names come from bear-fit's data model. This example combines the
-[demo's][demo-source] document reader and cleanup into one function. The UI keeps
-the snapshot and its clock together, so incoming edits don't move you to another
-version while you're looking at the past.
-
-For this post, I limited the slider to 250 past versions. It still replays the
-earlier updates needed to construct them. Slicing the log down to its last 250
-records *before* replay would lose that earlier state.
-
-The history endpoint isn't a live feed. The demo fetches it after the document
-changes and retries a few times if storage hasn't caught up yet.
-
-I rebuild the document on every slider move. Moving forward could just apply
-the next updates to an existing preview. I haven't needed that optimization.
-
 <aside>
-  Restoring is a separate operation. bear-fit reads the historical document as
-  application data and writes it into the live document with
-  `overwriteYDocWithJson`. Applying an old Y.js update to the live document
-  doesn't undo later changes. The demo on this page only previews history.
+  Applying an old update to the live document doesn't undo later changes.
+  bear-fit restores a version by reading its application data and writing that
+  data into the live document. The demo only previews versions.
 </aside>
 
 ## Time-travel-ish
 
-When I posted about this, [Jani Eväkallio][jani], who created [Foam] and
-worked on the writing tool verb.ai, pointed out a catch:
+When I tweeted about this, [Jani Eväkallio][jani], who created [Foam], replied:
 
 > Y.js history works well as long as the edits are synced roughly in order, but
 > with multiple clients with long latencies or offline sessions, the history no
@@ -169,20 +119,19 @@ worked on the writing tool verb.ai, pointed out a catch:
 > Seems good for your use case, but I learned this the hard way, so just heads
 > up!
 
-An edit can arrive long after someone made it. Replaying the stored updates
-won't necessarily show what people saw at the time.
+Someone can edit offline and sync after everyone else. Replaying the stored
+updates puts that edit later in the sequence, even though they made it earlier.
 
 I asked whether this was a rich-text problem. He said the intermediate states
 are easier to spot when text stops making sense, but Maps and Arrays can have
 the same issue.
 
-I wouldn't use this to settle an argument about who changed what first. It did
-the job for my calendars.
-
 [bear-fit]: /bear-fit
-[harrison]: https://en.wikipedia.org/wiki/The_Technicolor_Time_Machine
 [jani]: https://jevakallio.dev/
 [Foam]: https://foambubble.github.io/foam/
-[server-source]: https://github.com/hasparus/bear-fit/blob/37d31b5/party/server.ts
-[encoder-source]: https://github.com/hasparus/bear-fit/blob/37d31b5/app/encodeHistoryUpdates.ts
-[demo-source]: https://github.com/hasparus/homepage/blob/main/src/own/bear-fit/CalendarHistoryDemo.tsx
+[server-source]:
+  https://github.com/hasparus/bear-fit/blob/37d31b5/party/server.ts
+[encoder-source]:
+  https://github.com/hasparus/bear-fit/blob/37d31b5/app/encodeHistoryUpdates.ts
+[demo-source]:
+  https://github.com/hasparus/homepage/blob/main/src/own/bear-fit/CalendarHistoryDemo.tsx
