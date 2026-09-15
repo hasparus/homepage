@@ -1,5 +1,5 @@
 ---
-title: Really simple Y.js time travel
+title: Quick and dirty Yjs time travel
 date: 2026-09-15
 ---
 
@@ -20,9 +20,6 @@ enough to do this:
 ```
 
 The slider chooses how many saved updates to replay into a separate `Y.Doc`.
-In [bear-fit], I pass that document through the existing calendar's React
-context and disable editing. Looking at an old version leaves the live one
-alone.
 
 I wanted this for a recurring meeting without a fixed time slot. I'd make a
 calendar for two months, and people's availability would change along the way.
@@ -32,15 +29,15 @@ Try marking a few days in the calendar above, then moving the slider back.
 
 ## Getting the updates
 
-bear-fit already used y-partykit. With history persistence enabled, it keeps
-the update log needed for replay:
+bear-fit already used y-partykit. With history persistence enabled, it keeps the
+update log needed for replay:
 
 ```ts twoslash file=../src/code-blocks/y-travelling/persistence.ts
 
 ```
 
-A copy of the current document won't give you those intermediate versions.
-Even history mode can compact the log, merging earlier updates and losing the
+A copy of the current document won't give you those intermediate versions. Even
+history mode can compact the log, merging earlier updates and losing the
 versions between them. These examples use y-partykit 0.0.32.
 
 The function for reading the log, `getLevelUpdates`, wasn't exported, so I
@@ -64,8 +61,8 @@ I added `GET /parties/main/:room/history` to the server class containing
 ```
 
 The `clock` comes from an incrementing storage counter, not the time somebody
-clicked a day. A record doesn't necessarily correspond to one click either.
-The [encoder][encoder-source] writes each record as:
+clicked a day. A record doesn't necessarily correspond to one click either. The
+[encoder][encoder-source] writes each record as:
 
 ```text
 clock length | update length | UTF-8 clock | Y.js update
@@ -91,9 +88,9 @@ The browser fetches the endpoint and decodes its response:
 
 ## Showing an old version
 
-The slider's position supplies `count` to the replay function. Later updates
-may depend on earlier ones, so limiting the slider to recent versions doesn't
-mean you can discard the start of the log.
+The slider's position supplies `count` to the replay function. Later updates may
+depend on earlier ones, so limiting the slider to recent versions doesn't mean
+you can discard the start of the log.
 
 The [embedded calendar][demo-source] takes plain data, so I read the maps from
 the replayed document before destroying it:
@@ -108,27 +105,26 @@ the replayed document before destroying it:
   data into the live document. The demo only previews versions.
 </aside>
 
-## Time-travel-ish
+## Disclaimer
 
-When I tweeted about this, [Jani Eväkallio][jani], who created [Foam], replied:
+<figure>
+  <img
+    src="/content/y-travelling/jani-evakallio-history.png"
+    alt="Jani Eväkallio (@jevakallio): Y.js history works well as long as the edits are synced roughly in order, but with multiple clients with long latencies or offline sessions, the history no longer represents linear time. Seems good for your use case, but I learned this the hard way, so just heads up!"
+    width={1188}
+    height={522}
+    loading="lazy"
+    decoding="async"
+  />
+  <figcaption>
+    [Jani Eväkallio (@jevakallio)][jani], April 18, 2025.
+  </figcaption>
+</figure>
 
-> Y.js history works well as long as the edits are synced roughly in order, but
-> with multiple clients with long latencies or offline sessions, the history no
-> longer represents linear time.
->
-> Seems good for your use case, but I learned this the hard way, so just heads
-> up!
-
-Someone can edit offline and sync after everyone else. Replaying the stored
-updates puts that edit later in the sequence, even though they made it earlier.
-
-I asked whether this was a rich-text problem. He said the intermediate states
-are easier to spot when text stops making sense, but Maps and Arrays can have
-the same issue.
+This also affects Maps and Arrays.
 
 [bear-fit]: /bear-fit
-[jani]: https://jevakallio.dev/
-[Foam]: https://foambubble.github.io/foam/
+[jani]: https://x.com/jevakallio/status/1912996125168070751
 [server-source]:
   https://github.com/hasparus/bear-fit/blob/37d31b5/party/server.ts
 [encoder-source]:
