@@ -1,0 +1,10 @@
+---
+import { Code } from "astro:components";
+import { shikiConfig } from "../build-time/shiki";
+
+interface Props {
+  code: string;
+}
+---
+
+<Code {...shikiConfig} code={Astro.props.code} lang="ts" meta="twoslash" />

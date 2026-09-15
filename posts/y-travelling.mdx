@@ -4,6 +4,14 @@ date: 2026-09-15
 ---
 
 import { CalendarHistoryDemo } from "../src/own/bear-fit/CalendarHistoryDemo";
+import Twoslash from "../src/own/Twoslash.astro";
+import replay from "../src/own/bear-fit/replayHistory.ts?raw";
+import persistence from "../src/code-blocks/y-travelling/persistence.ts?raw";
+import storage from "../src/code-blocks/y-travelling/getLevelUpdates.ts?raw";
+import endpoint from "../src/code-blocks/y-travelling/historyEndpoint.ts?raw";
+import decoder from "../src/own/bear-fit/decodeHistoryUpdates.ts?raw";
+import fetcher from "../src/own/bear-fit/fetchHistory.ts?raw";
+import snapshot from "../src/code-blocks/y-travelling/readHistoricalCalendar.ts?raw";
 
 <CalendarHistoryDemo client:visible />
 
@@ -15,204 +23,167 @@ or Redux shenanigans, model the actions.
 But if we don't need all that, and just want to see how the doc changed, it's
 enough to do this:
 
-{/* <!-- To-do to-do! I've built something that I think is pretty rad and it was quite straightforward to do --> */}
+<Twoslash code={replay} />
 
-To-do: format this into nice Twoslash bits, hide the irrelevant stuff with
-Twoslash syntax.
+Make a fresh document and apply the first `count` saved updates. Stop where you
+want to look. The live document hasn't changed.
 
-```tsx
-export function getUpdatesFromUint8Array(body: Uint8Array) {
-  const textDecoder = new TextDecoder();
-  const parts: Uint8Array[] = [];
-  let start = 0;
+I added this to [bear-fit]. I used to make two-month calendars for a recurring
+meeting without a fixed time slot. People's availability changed, and sometimes
+it helped to look back before messaging the group.
 
-  for (let i = 0; i < body.length - 1; i++) {
-    if (body[i] === 10 && body[i + 1] === 10) {
-      parts.push(body.slice(start, i));
-      start = i + 2;
-      i++;
-    }
-  }
+The app already used Y.js and y-partykit. I hadn't designed for history. I copied
+one internal from y-partykit and added a slider.
 
-  if (start < body.length) {
-    parts.push(body.slice(start));
-  }
+<aside>
+  The calendar above uses the same backend. Mark a few days, then move the
+  slider back. Everyone shares the event, and you get assigned one of four
+  characters from Harry Harrison's [The Technicolor Time Machine][harrison].
+  Otherwise, with 20 people, each person's availability would contribute just
+  5% to a cell's opacity.
+</aside>
 
-  const updates: { clock: string; value: Uint8Array }[] = [];
+Okay, but where do the updates come from?
 
-  for (let i = 0; i < parts.length; i += 2) {
-    const clockOrSv = textDecoder.decode(parts[i]);
-    const value = parts[i + 1];
-    updates.push({ clock: clockOrSv, value });
-  }
+## Keeping the past
 
-  return updates;
-}
+You need to have kept them somewhere. In bear-fit, that's y-partykit's history
+persistence mode:
 
-function EventHistoryContent({
-  canRestore,
-  closeButtonRef,
-  eventId,
-  onRestoreVersion,
-  open,
-  ...rest
-}: EventHistoryContentProps) {
-  const [error, setError] = useState<Error | undefined>(undefined);
-  const [updates, setUpdates] = useState<
-    { clock: string; value: Uint8Array }[] | undefined
-  >();
-  // eslint-disable-next-line prefer-const
-  let [index, setIndex] = useState<number | undefined>(undefined);
+<Twoslash code={persistence} />
 
-  const [showData, setShowData] = useState(false);
-  const { nerdMode } = useUserState();
+I've left out the calendar setup and callbacks. This option tells y-partykit to
+keep an update log. Without that log, a copy of the current document won't give
+you all the intermediate versions back.
 
-  const latestVersionRef = useRef(0);
+<aside>
+  These examples use y-partykit 0.0.32. Its history mode can compact the log when
+  it reaches its limits, replacing earlier updates with a merged state. You can
+  replay what remains, but you lose the intermediate versions it compacted.
+</aside>
 
-  const latestVersion = updates ? updates.length - 1 : 0;
-  if (index === undefined) {
-    index = latestVersion;
-  }
+## Borrowing an internal
 
-  // We fetch history on render, because it's not exposed in a websocket
-  // and we'd have to rebuild the document model a bit to make it so.
-  // (Maybe even go for event sourcing.)
-  // Fortunately, YPartyKit allows us to access the history of the document,
-  // event if we don't design it that way.
-  useEffect(() => {
-    if (eventId) {
-      void getHistory(eventId)
-        .then((updates) => {
-          const parsedUpdates = getUpdatesFromUint8Array(
-            new Uint8Array(updates),
-          );
-          setUpdates(parsedUpdates);
-        })
-        .catch((error) => {
-          console.error("error fetching history", error);
-          setError(error);
-        });
-    }
-  }, [eventId]);
+There was a function called `getLevelUpdates` that did what I needed. It wasn't
+exported. Probably for a reason.
 
-  // TODO: We don't have to build a new Y.Doc when we scroll to the right.
-  const historicalDoc = useMemo(() => {
-    if (!updates || updates.length === 0) return null;
+I copied it anyway. With the optional arguments and key helper inlined, it looks
+like this:
 
-    try {
-      const doc = new Y.Doc();
+<Twoslash code={storage} />
 
-      for (let i = 0; i <= index; i++) {
-        if (i < updates.length && updates[i].value) {
-          Y.applyUpdate(doc, updates[i].value);
-        }
-      }
+`getLevelBulkData` *is* exported. We ask it for the document's update records,
+using y-partykit's storage keys. The [full helper][server-source] keeps the
+optional arguments and types.
 
-      return doc;
-    } catch (err) {
-      console.error("Error rebuilding document:", err);
-      setError(
-        err instanceof Error ? err : new Error("Failed to rebuild document"),
-      );
-      return null;
-    }
-  }, [index, updates]);
+This depends on an internal storage format. Check it before upgrading
+y-partykit.
 
-  const handleRestore = () => {
-    if (!historicalDoc || !onRestoreVersion || !canRestore) return;
+The fourth part of an update key is its `clock`, an incrementing storage
+counter. It isn't a timestamp. A stored record doesn't necessarily correspond
+to one click either.
 
-    onRestoreVersion(historicalDoc);
-    closeButtonRef.current?.click();
-  };
+## Fetching the history
 
-  useEffect(() => {
-    if (open) {
-      const eventHistoryContent = document.getElementById(
-        "event-history-content",
-      );
-      if (eventHistoryContent) {
-        eventHistoryContent.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-        });
-      }
-    }
-  }, [open]);
+I added a `GET /parties/main/:room/history` endpoint. This is the HTTP part of
+the same server class as `onConnect`, with the other routes removed:
 
-  return (
-    <div
-      id="event-history-content"
-      className="flex max-h-[calc(100dvh-32px)] flex-col gap-4 p-1 sm:p-2"
-      {...rest}
-    >
-      {error ? (
-        <div className="text-red-500">Error: {error.message}</div>
-      ) : (
-        <>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <span className="h-5 text-sm text-gray-600">
-                {updates && updates[index].clock}
-              </span>
-              {nerdMode && (
-                <CheckboxField
-                  id="show-data"
-                  checked={showData}
-                  onChange={(e) => {
-                    setShowData(e.target.checked);
-                  }}
-                >
-                  Show JSON
-                </CheckboxField>
-              )}
-            </div>
+<Twoslash code={endpoint} />
 
-            {/* todo: style the input */}
-            <input
-              type="range"
-              className="w-full"
-              disabled={!updates}
-              max={updates ? updates.length - 1 : 1}
-              min={5}
-              onChange={(e) => setIndex(parseInt(e.target.value))}
-              value={index}
-            />
-          </div>
+The response contains clocks and binary Y.js updates. Each record starts with
+two lengths:
 
-          {showData ? (
-            <>
-              {historicalDoc && (
-                <pre className="text-xs">
-                  {JSON.stringify(yDocToJson(historicalDoc), null, 2)}
-                </pre>
-              )}
-            </>
-          ) : updates ? (
-            <YDocContext.Provider value={historicalDoc}>
-              <EventDetails
-                className="-mx-1 shrink overflow-y-scroll rounded-none border-x-0 shadow-none [scrollbar-gutter:stable] max-sm:m-0 max-sm:w-full sm:-mx-2"
-                disabled
-              />
-            </YDocContext.Provider>
-          ) : (
-            <EventDetails
-              className="-mx-1 shrink overflow-y-scroll rounded-none border-x-0 shadow-none [scrollbar-gutter:stable] max-sm:m-0 max-sm:w-full sm:-mx-2"
-              disabled
-            />
-          )}
-
-          {canRestore && (
-            <button
-              className="btn btn-default h-[45px] shrink-0"
-              disabled={!updates || index === latestVersionRef.current}
-              onClick={handleRestore}
-            >
-              Restore This Version
-            </button>
-          )}
-        </>
-      )}
-    </div>
-  );
-}
+```text
+clock length | update length | UTF-8 clock | Y.js update
+   4 bytes   |    4 bytes    |            |
 ```
+
+Both lengths are unsigned 32-bit integers, big-endian. The [encoder][encoder-source]
+writes the lengths, then copies the clock and update bytes after them.
+
+<aside>
+  The code I originally pasted into this post split the response on two newline
+  bytes. A binary update can contain those bytes too. The current implementation
+  uses lengths instead.
+</aside>
+
+This is the decoder used by the demo:
+
+<Twoslash code={decoder} />
+
+`DataView` reads the lengths. `TextDecoder` handles the clock. The update stays
+a `Uint8Array`, ready for `Y.applyUpdate`.
+
+We can fetch and decode the log in one function:
+
+<Twoslash code={fetcher} />
+
+<aside>
+  bear-fit normally fetches from its own origin. For an embed like the one on
+  this page, the backend also needs to allow cross-origin HTTP requests. The
+  WebSocket connecting successfully doesn't tell you whether the fetch will work.
+</aside>
+
+## Rendering the past
+
+In bear-fit, I pass the reconstructed `Y.Doc` through the same React context as
+the live document. The calendar renders it with editing disabled. I didn't need
+to build another calendar UI.
+
+The blog demo uses Solid. It reads the reconstructed document into a plain
+snapshot and destroys the temporary `Y.Doc`. Separated from the UI code, that
+step looks like this:
+
+<Twoslash code={snapshot} />
+
+Those map names come from bear-fit's data model. This example combines the
+[demo's][demo-source] document reader and cleanup into one function. The UI keeps
+the snapshot and its clock together, so incoming edits don't move you to another
+version while you're looking at the past.
+
+For this post, I limited the slider to 250 past versions. It still replays the
+earlier updates needed to construct them. Slicing the log down to its last 250
+records *before* replay would lose that earlier state.
+
+The history endpoint isn't a live feed. The demo fetches it after the document
+changes and retries a few times if storage hasn't caught up yet.
+
+I rebuild the document on every slider move. Moving forward could just apply
+the next updates to an existing preview. I haven't needed that optimization.
+
+<aside>
+  Restoring is a separate operation. bear-fit reads the historical document as
+  application data and writes it into the live document with
+  `overwriteYDocWithJson`. Applying an old Y.js update to the live document
+  doesn't undo later changes. The demo on this page only previews history.
+</aside>
+
+## Time-travel-ish
+
+When I posted about this, [Jani Eväkallio][jani], who created [Foam] and
+worked on the writing tool verb.ai, pointed out a catch:
+
+> Y.js history works well as long as the edits are synced roughly in order, but
+> with multiple clients with long latencies or offline sessions, the history no
+> longer represents linear time.
+>
+> Seems good for your use case, but I learned this the hard way, so just heads
+> up!
+
+An edit can arrive long after someone made it. Replaying the stored updates
+won't necessarily show what people saw at the time.
+
+I asked whether this was a rich-text problem. He said the intermediate states
+are easier to spot when text stops making sense, but Maps and Arrays can have
+the same issue.
+
+I wouldn't use this to settle an argument about who changed what first. It did
+the job for my calendars.
+
+[bear-fit]: /bear-fit
+[harrison]: https://en.wikipedia.org/wiki/The_Technicolor_Time_Machine
+[jani]: https://jevakallio.dev/
+[Foam]: https://foambubble.github.io/foam/
+[server-source]: https://github.com/hasparus/bear-fit/blob/37d31b5/party/server.ts
+[encoder-source]: https://github.com/hasparus/bear-fit/blob/37d31b5/app/encodeHistoryUpdates.ts
+[demo-source]: https://github.com/hasparus/homepage/blob/main/src/own/bear-fit/CalendarHistoryDemo.tsx
