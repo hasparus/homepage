@@ -24,7 +24,18 @@ import {
   moveFocusWithArrowKeys,
   Participant,
 } from "./CalendarPresentation";
-import { fetchHistory, type HistoryUpdate, replayHistory } from "./history";
+import {
+  calendarIsEditable,
+  type CalendarHistoryEvent,
+  type CalendarSnapshot,
+  displayedCalendar,
+  historyWindowStart,
+  initialCalendarHistoryState,
+  timelinePosition,
+  transitionCalendarHistory,
+  visibleHistory,
+} from "./calendarHistoryModel";
+import { fetchHistory, replayHistory } from "./history";
 
 export const BLOG_ROOM = "blog-y-travelling-technicolor-2077";
 export const PARTICIPANTS = [
@@ -47,7 +58,7 @@ const LOCAL =
 const ARROW_CLASS =
   "flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-md hover:bg-gray-100 disabled:cursor-default disabled:opacity-40 dark:hover:bg-gray-800";
 
-function calendarState(doc: Doc) {
+function calendarState(doc: Doc): CalendarSnapshot {
   return {
     availability: Object.fromEntries(doc.getMap<boolean>("availability")),
     names: Object.fromEntries(doc.getMap<string>("names")),
@@ -67,38 +78,35 @@ export function CalendarHistoryDemo() {
   const id = createUniqueId();
   const days = eachDayOfInterval(START, END);
   const [userId, setUserId] = createSignal("");
-  const [connection, setConnection] = createSignal<
-    "connecting" | "live" | "offline"
-  >("connecting");
-  const [live, setLive] = createSignal<ReturnType<typeof calendarState>>({
-    availability: {},
-    names: {},
-    event: {},
+  const [model, setModel] = createSignal(initialCalendarHistoryState());
+  const send = (event: CalendarHistoryEvent) =>
+    setModel((state) => transitionCalendarHistory(state, event));
+  const connection = createMemo(() => model().connection.kind);
+  const connectionError = createMemo(() => {
+    const connection = model().connection;
+    return connection.kind === "offline" ? connection.message : null;
   });
-  const [past, setPast] = createSignal<ReturnType<typeof calendarState>>({
-    availability: {},
-    names: {},
-    event: {},
+  const updates = createMemo(() => model().updates);
+  const pastVersions = createMemo(() => visibleHistory(model()));
+  const selectedClock = createMemo(() => {
+    const timeline = model().timeline;
+    return timeline.kind === "present" ? null : timeline.clock;
   });
-  const [updates, setUpdates] = createSignal<HistoryUpdate[]>([]);
-  const [selectedClock, setSelectedClock] = createSignal<string | null>(null);
-  const [compacted, setCompacted] = createSignal(false);
-  const [error, setError] = createSignal("");
-  const [connectionError, setConnectionError] = createSignal("");
+  const compacted = createMemo(
+    () => model().timeline.kind === "compacted-past",
+  );
+  const outsideWindow = createMemo(
+    () => model().timeline.kind === "outside-window-past",
+  );
+  const previewUnavailable = createMemo(() => compacted() || outsideWindow());
+  const error = createMemo(() => model().error);
   const [hovered, setHovered] = createSignal<string | null>(null);
   const [hoveredUser, setHoveredUser] = createSignal<string | null>(null);
   const [pinned, setPinned] = createSignal<ReadonlySet<string>>(new Set());
-  const historic = () => selectedClock() !== null;
-  const editable = () =>
-    connection() === "live" && !!live().event.id && !historic();
-  const state = createMemo(() => (historic() ? past() : live()));
-  const position = () =>
-    historic()
-      ? Math.max(
-          0,
-          updates().findIndex((update) => update.clock === selectedClock()),
-        )
-      : updates().length;
+  const historic = createMemo(() => model().timeline.kind !== "present");
+  const editable = createMemo(() => calendarIsEditable(model()));
+  const state = createMemo(() => displayedCalendar(model()));
+  const position = createMemo(() => timelinePosition(model()));
   const usersByDate = createMemo(() => {
     const result = new Map<string, string[]>();
     for (const [key, available] of Object.entries(state().availability)) {
@@ -147,7 +155,6 @@ export function CalendarHistoryDemo() {
 
   let doc: Doc | undefined;
   let provider: YPartyKitProvider | undefined;
-  let preview: Doc | undefined;
   let room = BLOG_ROOM;
   let disposed = false;
   let request: AbortController | undefined;
@@ -184,43 +191,25 @@ export function CalendarHistoryDemo() {
       } finally {
         checked.destroy();
       }
-      if (historic() && !compacted()) {
-        const previous = updates();
-        const oldIndex = previous.findIndex(
-          (update) => update.clock === selectedClock(),
-        );
-        const newIndex = next.findIndex(
-          (update) => update.clock === selectedClock(),
-        );
-        const samePrefix =
-          oldIndex === newIndex &&
-          newIndex !== -1 &&
-          previous.slice(0, oldIndex + 1).every((update, index) => {
-            const candidate = next[index]!;
-            return (
-              update.clock === candidate.clock &&
-              update.value.length === candidate.value.length &&
-              update.value.every((byte, i) => byte === candidate.value[i])
-            );
-          });
-        if (!samePrefix) setCompacted(true);
-      }
-      setUpdates(next);
-      setError("");
+      send({ type: "HISTORY_RECEIVED", updates: next });
       if (!persisted && fetchedRevision === revision) {
         if (attempt < 4) scheduleHistory(attempt + 1, 500 * 2 ** attempt);
         else
-          setError(
-            "History is still catching up. Your live calendar is unchanged.",
-          );
+          send({
+            type: "HISTORY_FAILED",
+            message:
+              "History is still catching up. Your live calendar is unchanged.",
+          });
       }
     } catch (error_) {
       if (!disposed)
-        setError(
-          error_ instanceof Error && error_.name !== "AbortError"
-            ? `Could not load history: ${error_.message}.`
-            : "History request timed out.",
-        );
+        send({
+          type: "HISTORY_FAILED",
+          message:
+            error_ instanceof Error && error_.name !== "AbortError"
+              ? `Could not load history: ${error_.message}.`
+              : "History request timed out.",
+        });
     } finally {
       clearTimeout(timeout);
       request = undefined;
@@ -238,14 +227,12 @@ export function CalendarHistoryDemo() {
   const disconnect = (message: string) => {
     destroyProvider();
     endDrag();
-    setConnection("offline");
-    setConnectionError(message);
+    send({ type: "DISCONNECTED", message });
   };
   const connect = () => {
     if (!doc || disposed) return;
     destroyProvider();
-    setConnection("connecting");
-    setConnectionError("");
+    send({ type: "CONNECT" });
     try {
       const server = new URL(SERVER);
       const next = new YPartyKitProvider(server.host, room, doc, {
@@ -272,8 +259,7 @@ export function CalendarHistoryDemo() {
               doc!.getMap("names").set(participant.id, participant.name);
           });
         }
-        setLive(calendarState(doc));
-        setConnection("live");
+        send({ type: "CONNECTED", snapshot: calendarState(doc) });
         scheduleHistory();
       });
       next.on("connection-error", () => {
@@ -303,24 +289,33 @@ export function CalendarHistoryDemo() {
   const toggle = (date: string) => setDate(date, !mine(date));
   const showPosition = (index: number) => {
     endDrag();
-    if (index === updates().length) {
-      setSelectedClock(null);
-      setCompacted(false);
-      preview?.destroy();
-      preview = undefined;
+    if (index === pastVersions().length) {
+      send({ type: "VIEW_PRESENT" });
       return;
     }
     try {
-      const next = replayHistory(updates(), index + 1);
-      preview?.destroy();
-      preview = next;
-      setPast(calendarState(next));
-      setSelectedClock(updates()[index]!.clock);
-      setCompacted(false);
-    } catch {
-      setError(
-        "Could not reconstruct this version. Your live calendar is unchanged.",
+      const update = pastVersions()[index];
+      if (!Number.isInteger(index) || !update)
+        throw new RangeError("Invalid history position");
+      const next = replayHistory(
+        updates(),
+        historyWindowStart(model()) + index + 1,
       );
+      try {
+        send({
+          type: "VIEW_PAST",
+          clock: update.clock,
+          snapshot: calendarState(next),
+        });
+      } finally {
+        next.destroy();
+      }
+    } catch {
+      send({
+        type: "PREVIEW_FAILED",
+        message:
+          "Could not reconstruct this version. Your live calendar is unchanged.",
+      });
     }
   };
 
@@ -348,7 +343,6 @@ export function CalendarHistoryDemo() {
       clearTimeout(historyTimer);
       request?.abort();
       destroyProvider();
-      preview?.destroy();
       doc?.destroy();
       document.removeEventListener("pointerup", endDrag);
       document.removeEventListener("pointercancel", endDrag);
@@ -375,7 +369,7 @@ export function CalendarHistoryDemo() {
       doc = new Doc();
       doc.on("update", () => {
         if (!doc || disposed) return;
-        setLive(calendarState(doc));
+        send({ type: "DOCUMENT_CHANGED", snapshot: calendarState(doc) });
         revision++;
         scheduleHistory();
       });
@@ -486,7 +480,11 @@ export function CalendarHistoryDemo() {
           <button
             aria-label="Previous version"
             class={ARROW_CLASS}
-            disabled={updates().length === 0 || compacted() || position() === 0}
+            disabled={
+              pastVersions().length === 0 ||
+              previewUnavailable() ||
+              position() === 0
+            }
             type="button"
             onClick={() => showPosition(position() - 1)}
           >
@@ -513,12 +511,12 @@ export function CalendarHistoryDemo() {
                   : "Present, read-only"
             }
             class="block h-11 w-full min-w-0 accent-[#05e] dark:accent-[#d7ae64]"
-            disabled={updates().length === 0 || compacted()}
+            disabled={pastVersions().length === 0 || previewUnavailable()}
             max="0"
             min="0"
             ref={(input) =>
               createRenderEffect(() => {
-                input.max = String(updates().length);
+                input.max = String(pastVersions().length);
                 input.value = String(position());
               })
             }
@@ -532,7 +530,9 @@ export function CalendarHistoryDemo() {
             disabled={!historic()}
             type="button"
             onClick={() =>
-              showPosition(compacted() ? updates().length : position() + 1)
+              showPosition(
+                previewUnavailable() ? pastVersions().length : position() + 1,
+              )
             }
           >
             <svg
@@ -563,6 +563,12 @@ export function CalendarHistoryDemo() {
             return to the present.
           </p>
         </Show>
+        <Show when={outsideWindow()}>
+          <p role="status">
+            This version is outside the last 250 records. Preview kept; use Next
+            to return to the present.
+          </p>
+        </Show>
         <Show when={connection() === "connecting"}>
           <p role="status">Connecting…</p>
         </Show>
@@ -574,7 +580,7 @@ export function CalendarHistoryDemo() {
             </button>
           </p>
         </Show>
-        <Show when={connection() === "live" && !live().event.id}>
+        <Show when={connection() === "connected" && !model().present.event.id}>
           <p role="status">This calendar hasn’t been published yet.</p>
         </Show>
         <Show when={error()}>
