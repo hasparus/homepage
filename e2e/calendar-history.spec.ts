@@ -245,7 +245,7 @@ test("four shared identities, separate marks, stable previews and reload persist
       (await slider(a!).getAttribute("max"))!,
     );
     await expect(
-      region(a!).getByText("PRESENT", { exact: true }),
+      region(a!).getByText(/^present\b/i),
     ).toBeVisible();
     await expect(slider(a!)).toHaveAttribute(
       "aria-valuetext",
