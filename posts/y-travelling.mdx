@@ -4,14 +4,6 @@ date: 2026-09-15
 ---
 
 import { CalendarHistoryDemo } from "../src/own/bear-fit/CalendarHistoryDemo";
-import Twoslash from "../src/own/Twoslash.astro";
-import replay from "../src/own/bear-fit/replayHistory.ts?raw";
-import persistence from "../src/code-blocks/y-travelling/persistence.ts?raw";
-import storage from "../src/code-blocks/y-travelling/getLevelUpdates.ts?raw";
-import endpoint from "../src/code-blocks/y-travelling/historyEndpoint.ts?raw";
-import decoder from "../src/own/bear-fit/decodeHistoryUpdates.ts?raw";
-import fetcher from "../src/own/bear-fit/fetchHistory.ts?raw";
-import snapshot from "../src/code-blocks/y-travelling/readHistoricalCalendar.ts?raw";
 
 <CalendarHistoryDemo client:visible />
 
@@ -23,7 +15,8 @@ or Redux shenanigans, model the actions.
 But if we don't need all that, and just want to see how the doc changed, it's
 enough to do this:
 
-<Twoslash code={replay} />
+```ts twoslash file=../src/own/bear-fit/replayHistory.ts
+```
 
 Make a fresh document and apply the first `count` saved updates. Stop where you
 want to look. The live document hasn't changed.
@@ -50,7 +43,8 @@ Okay, but where do the updates come from?
 You need to have kept them somewhere. In bear-fit, that's y-partykit's history
 persistence mode:
 
-<Twoslash code={persistence} />
+```ts twoslash file=../src/code-blocks/y-travelling/persistence.ts
+```
 
 I've left out the calendar setup and callbacks. This option tells y-partykit to
 keep an update log. Without that log, a copy of the current document won't give
@@ -70,7 +64,8 @@ exported. Probably for a reason.
 I copied it anyway. With the optional arguments and key helper inlined, it looks
 like this:
 
-<Twoslash code={storage} />
+```ts twoslash file=../src/code-blocks/y-travelling/getLevelUpdates.ts
+```
 
 `getLevelBulkData` *is* exported. We ask it for the document's update records,
 using y-partykit's storage keys. The [full helper][server-source] keeps the
@@ -88,7 +83,8 @@ to one click either.
 I added a `GET /parties/main/:room/history` endpoint. This is the HTTP part of
 the same server class as `onConnect`, with the other routes removed:
 
-<Twoslash code={endpoint} />
+```ts twoslash file=../src/code-blocks/y-travelling/historyEndpoint.ts
+```
 
 The response contains clocks and binary Y.js updates. Each record starts with
 two lengths:
@@ -109,14 +105,16 @@ writes the lengths, then copies the clock and update bytes after them.
 
 This is the decoder used by the demo:
 
-<Twoslash code={decoder} />
+```ts twoslash file=../src/own/bear-fit/decodeHistoryUpdates.ts
+```
 
 `DataView` reads the lengths. `TextDecoder` handles the clock. The update stays
 a `Uint8Array`, ready for `Y.applyUpdate`.
 
 We can fetch and decode the log in one function:
 
-<Twoslash code={fetcher} />
+```ts twoslash file=../src/own/bear-fit/fetchHistory.ts
+```
 
 <aside>
   bear-fit normally fetches from its own origin. For an embed like the one on
@@ -134,7 +132,8 @@ The blog demo uses Solid. It reads the reconstructed document into a plain
 snapshot and destroys the temporary `Y.Doc`. Separated from the UI code, that
 step looks like this:
 
-<Twoslash code={snapshot} />
+```ts twoslash file=../src/code-blocks/y-travelling/readHistoricalCalendar.ts
+```
 
 Those map names come from bear-fit's data model. This example combines the
 [demo's][demo-source] document reader and cleanup into one function. The UI keeps

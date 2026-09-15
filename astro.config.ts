@@ -2,13 +2,13 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
+import { transformerTwoslash } from "@shikijs/twoslash";
 import { defineConfig } from "astro/config";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { rehypePlugins, remarkPlugins } from "./src/build-time";
 import { getHiddenPostUrls } from "./src/build-time/hiddenPostUrls";
-import { shikiConfig } from "./src/build-time/shiki";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -24,7 +24,10 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: "shiki",
     shikiConfig: {
-      ...shikiConfig,
+      themes: {
+        light: "github-light",
+        dark: "github-dark",
+      },
       transformers: [
         // Hide twoslash `include` definition blocks from rendered output.
         // The old shiki-twoslash did this automatically; @shikijs/twoslash doesn't.
@@ -52,7 +55,20 @@ export default defineConfig({
             }
           },
         },
-        ...shikiConfig.transformers,
+        transformerTwoslash({
+          explicitTrigger: true,
+          twoslashOptions: {
+            compilerOptions: {
+              strict: true,
+              module: 199,
+              moduleResolution: 99,
+              target: 99,
+              jsx: 4,
+              jsxImportSource: "react",
+              types: ["node"],
+            },
+          },
+        }),
       ],
     },
     gfm: true,

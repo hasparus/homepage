@@ -1,4 +1,4 @@
-// @filename: src/own/bear-fit/replayHistory.ts
+// @filename: src/own/bear-fit/example.ts
 import { applyUpdate, Doc } from "yjs";
 import type { HistoryUpdate } from "./history.js";
 // ---cut---

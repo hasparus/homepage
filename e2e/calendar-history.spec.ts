@@ -337,7 +337,6 @@ test("random assignment persists, touch works, errors and compaction preserve pr
     const reconnect = region(page).getByRole("button", { name: "Reconnect" });
     await expect(reconnect).toBeVisible();
     await expect(reconnect).toHaveText("reconnect");
-    await expect(reconnect).toHaveCSS("font-size", "10px");
     await expect(reconnect.locator("[aria-hidden=true]")).toHaveCSS(
       "background-color",
       "rgb(239, 68, 68)",

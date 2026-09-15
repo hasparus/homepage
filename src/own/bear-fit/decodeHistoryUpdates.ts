@@ -1,4 +1,4 @@
-// @filename: src/own/bear-fit/decodeHistoryUpdates.ts
+// @filename: src/own/bear-fit/example.ts
 import type { HistoryUpdate } from "./history.js";
 // ---cut---
 /** Wire format from bear-fit/app/decodeHistoryUpdates.ts. Lengths are big-endian. */

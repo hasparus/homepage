@@ -1,4 +1,4 @@
-// @filename: src/own/bear-fit/fetchHistory.ts
+// @filename: src/own/bear-fit/example.ts
 import { decodeHistoryUpdates } from "./decodeHistoryUpdates.js";
 import type { HistoryUpdate } from "./history.js";
 // ---cut---

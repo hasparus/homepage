@@ -1,4 +1,4 @@
-// @filename: src/code-blocks/y-travelling/readHistoricalCalendar.ts
+// @filename: src/code-blocks/y-travelling/example.ts
 import type { CalendarSnapshot } from "../../own/bear-fit/calendarHistoryModel.js";
 import {
   replayHistory,

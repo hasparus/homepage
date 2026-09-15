@@ -1,4 +1,4 @@
-// @filename: src/code-blocks/y-travelling/historyEndpoint.ts
+// @filename: src/code-blocks/y-travelling/example.ts
 import type * as Party from "partykit/server";
 import {
   encodeHistoryUpdates,
@@ -21,7 +21,7 @@ export default class Server implements Party.Server {
     return new Response(
       encodeHistoryUpdates(
         updates.map((update) => ({
-          clock: `${update.key[3] ?? "sv"}`,
+          clock: String(update.key[3] ?? "sv"),
           value: update.value,
         })),
       ) as BodyInit,

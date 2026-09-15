@@ -1,4 +1,4 @@
-// @filename: src/code-blocks/y-travelling/persistence.ts
+// @filename: src/code-blocks/y-travelling/example.ts
 import { onConnect } from "y-partykit";
 import type * as Party from "partykit/server";
 // ---cut---
