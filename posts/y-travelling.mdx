@@ -97,10 +97,10 @@ the replayed document before destroying it:
 
 ```
 
-## Reusing the document
+## Caching the previews
 
-That rebuilds the document on every slider move. For a longer log, we can replay
-it once and keep the last 250 versions as plain data:
+The demo rebuilds the document on every slider move. For a longer log, we can
+instead replay it once and keep the last 250 versions as plain data:
 
 ```ts twoslash file=../src/code-blocks/y-travelling/cacheCalendarHistory.ts
 
@@ -119,7 +119,8 @@ Pro, measuring JavaScript work without rendering.
 <aside>
   Applying an old update to the live document doesn't undo later changes.
   bear-fit restores a version by reading its application data and writing that
-  data into the live document. The demo only previews versions.
+  data into the live document, as if it was a new change. The demo only previews
+  versions.
 </aside>
 
 ## Disclaimer
