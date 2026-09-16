@@ -178,6 +178,46 @@ test("calendar enters on first sync and stays visible through reconnects", async
   await expect(content).toHaveCSS("transform", "none");
 });
 
+test("calendar catch-up retries identical history against newer live edits", async ({
+  page,
+}) => {
+  test.skip(!demoUrl, "Set HISTORY_DEMO_URL to the local-backend homepage");
+  await prepare(page.context(), ids[0]);
+  const room = `blog-y-travelling-technicolor-2077-test-${randomUUID()}`;
+  await open(page, room);
+  await expect
+    .poll(async () => Number(await slider(page).getAttribute("max")))
+    .toBeGreaterThan(0);
+  const initialMax = Number(await slider(page).getAttribute("max"));
+  const stale = encodeHistoryUpdates(
+    await fetchHistory(server, room, AbortSignal.timeout(5000)),
+  );
+  let requests = 0;
+  await page.route("**/history", async (route) => {
+    requests++;
+    await route.fulfill({
+      status: 200,
+      contentType: "application/octet-stream",
+      body: Buffer.from(stale),
+    });
+  });
+  await day(page).click();
+  await expect(day(page)).toHaveAttribute("aria-pressed", "true");
+  await expect(region(page).getByRole("alert")).toContainText(
+    "History is still catching up",
+    { timeout: 15_000 },
+  );
+  expect(requests).toBe(5);
+  await expect(slider(page)).toHaveAttribute("max", String(initialMax));
+  await expect(day(page)).toHaveAttribute("aria-pressed", "true");
+  await page.unroute("**/history");
+  await region(page).getByRole("button", { name: "Retry history" }).click();
+  await expect(region(page).getByRole("alert")).toHaveCount(0);
+  await expect
+    .poll(async () => Number(await slider(page).getAttribute("max")))
+    .toBeGreaterThan(initialMax);
+});
+
 test("four shared identities, separate marks, stable previews and reload persistence", async ({
   browser,
 }, testInfo) => {

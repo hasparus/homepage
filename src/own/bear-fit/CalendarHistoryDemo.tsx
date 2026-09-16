@@ -36,6 +36,7 @@ import {
   visibleHistory,
 } from "./calendarHistoryModel";
 import { fetchHistory, replayHistory } from "./history";
+import { createHistoryPersistenceCheck } from "./historyPersistence";
 
 import styles from "./CalendarHistoryDemo.module.css";
 
@@ -68,16 +69,8 @@ function calendarState(doc: Doc): CalendarSnapshot {
   };
 }
 
-function calendarFingerprint(doc: Doc) {
-  const snapshot = calendarState(doc);
-  return JSON.stringify(
-    [snapshot.availability, snapshot.names, snapshot.event].map((map) =>
-      Object.entries(map).sort(([a], [b]) => a.localeCompare(b)),
-    ),
-  );
-}
-
 export function CalendarHistoryDemo() {
+  const historyIsPersisted = createHistoryPersistenceCheck();
   const id = createUniqueId();
   const days = eachDayOfInterval(START, END);
   const [userId, setUserId] = createSignal("");
@@ -180,13 +173,7 @@ export function CalendarHistoryDemo() {
     try {
       const next = await fetchHistory(SERVER, room, controller.signal);
       if (disposed) return;
-      const checked = replayHistory(next, next.length);
-      let persisted: boolean;
-      try {
-        persisted = calendarFingerprint(checked) === calendarFingerprint(doc);
-      } finally {
-        checked.destroy();
-      }
+      const persisted = historyIsPersisted(next, doc);
       send({ type: "HISTORY_RECEIVED", updates: next });
       if (!persisted && fetchedRevision === revision) {
         if (attempt < 4) scheduleHistory(attempt + 1, 500 * 2 ** attempt);
