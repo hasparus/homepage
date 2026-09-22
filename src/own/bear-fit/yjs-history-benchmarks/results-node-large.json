@@ -57,59 +57,31 @@
       "heap": {
         "fresh": {
           "medianRetainedBytes": 744584,
-          "samples": [
-            -926136,
-            744584,
-            1087944
-          ]
+          "samples": [-926136, 744584, 1087944]
         },
         "fresh-batched": {
           "medianRetainedBytes": 802080,
-          "samples": [
-            -894648,
-            802080,
-            1048440
-          ]
+          "samples": [-894648, 802080, 1048440]
         },
         "incremental": {
           "medianRetainedBytes": 799608,
-          "samples": [
-            -7864,
-            799608,
-            1127632
-          ]
+          "samples": [-7864, 799608, 1127632]
         },
         "checkpoints": {
           "medianRetainedBytes": 844344,
-          "samples": [
-            111728,
-            844344,
-            1128688
-          ]
+          "samples": [111728, 844344, 1128688]
         },
         "calendar-cache": {
           "medianRetainedBytes": 948872,
-          "samples": [
-            731432,
-            948872,
-            958456
-          ]
+          "samples": [731432, 948872, 958456]
         },
         "article-cache": {
           "medianRetainedBytes": 954784,
-          "samples": [
-            733232,
-            954784,
-            965432
-          ]
+          "samples": [733232, 954784, 965432]
         },
         "yjs-snapshots": {
           "medianRetainedBytes": 3124648,
-          "samples": [
-            1428312,
-            3124648,
-            3423632
-          ]
+          "samples": [1428312, 3124648, 3423632]
         }
       },
       "measurements": [
@@ -1165,59 +1137,31 @@
       "heap": {
         "fresh": {
           "medianRetainedBytes": 285904,
-          "samples": [
-            142712,
-            285904,
-            532152
-          ]
+          "samples": [142712, 285904, 532152]
         },
         "fresh-batched": {
           "medianRetainedBytes": 1156728,
-          "samples": [
-            518472,
-            1156728,
-            1207040
-          ]
+          "samples": [518472, 1156728, 1207040]
         },
         "incremental": {
           "medianRetainedBytes": 1201192,
-          "samples": [
-            559968,
-            1201192,
-            1266200
-          ]
+          "samples": [559968, 1201192, 1266200]
         },
         "checkpoints": {
           "medianRetainedBytes": 844584,
-          "samples": [
-            321384,
-            844584,
-            1319216
-          ]
+          "samples": [321384, 844584, 1319216]
         },
         "calendar-cache": {
           "medianRetainedBytes": 483728,
-          "samples": [
-            191904,
-            483728,
-            485096
-          ]
+          "samples": [191904, 483728, 485096]
         },
         "article-cache": {
           "medianRetainedBytes": 404016,
-          "samples": [
-            38944,
-            404016,
-            545576
-          ]
+          "samples": [38944, 404016, 545576]
         },
         "yjs-snapshots": {
           "medianRetainedBytes": 3391680,
-          "samples": [
-            1691160,
-            3391680,
-            3781992
-          ]
+          "samples": [1691160, 3391680, 3781992]
         }
       },
       "measurements": [
@@ -2273,59 +2217,31 @@
       "heap": {
         "fresh": {
           "medianRetainedBytes": 157232,
-          "samples": [
-            -733424,
-            157232,
-            176856
-          ]
+          "samples": [-733424, 157232, 176856]
         },
         "fresh-batched": {
           "medianRetainedBytes": -196984,
-          "samples": [
-            -4786064,
-            -196984,
-            5001760
-          ]
+          "samples": [-4786064, -196984, 5001760]
         },
         "incremental": {
           "medianRetainedBytes": 4994336,
-          "samples": [
-            4715120,
-            4994336,
-            5049784
-          ]
+          "samples": [4715120, 4994336, 5049784]
         },
         "checkpoints": {
           "medianRetainedBytes": 148008,
-          "samples": [
-            131200,
-            148008,
-            4895160
-          ]
+          "samples": [131200, 148008, 4895160]
         },
         "calendar-cache": {
           "medianRetainedBytes": 953448,
-          "samples": [
-            731520,
-            953448,
-            962472
-          ]
+          "samples": [731520, 953448, 962472]
         },
         "article-cache": {
           "medianRetainedBytes": 964888,
-          "samples": [
-            701584,
-            964888,
-            986576
-          ]
+          "samples": [701584, 964888, 986576]
         },
         "yjs-snapshots": {
           "medianRetainedBytes": 10093504,
-          "samples": [
-            10022200,
-            10093504,
-            14625248
-          ]
+          "samples": [10022200, 10093504, 14625248]
         }
       },
       "measurements": [
@@ -3381,59 +3297,31 @@
       "heap": {
         "fresh": {
           "medianRetainedBytes": 484544,
-          "samples": [
-            -473976,
-            484544,
-            514296
-          ]
+          "samples": [-473976, 484544, 514296]
         },
         "fresh-batched": {
           "medianRetainedBytes": -379832,
-          "samples": [
-            -4472912,
-            -379832,
-            5391208
-          ]
+          "samples": [-4472912, -379832, 5391208]
         },
         "incremental": {
           "medianRetainedBytes": 5305584,
-          "samples": [
-            4507472,
-            5305584,
-            5342544
-          ]
+          "samples": [4507472, 5305584, 5342544]
         },
         "checkpoints": {
           "medianRetainedBytes": 4817512,
-          "samples": [
-            255408,
-            4817512,
-            5335192
-          ]
+          "samples": [255408, 4817512, 5335192]
         },
         "calendar-cache": {
           "medianRetainedBytes": 753288,
-          "samples": [
-            103032,
-            753288,
-            791280
-          ]
+          "samples": [103032, 753288, 791280]
         },
         "article-cache": {
           "medianRetainedBytes": 781968,
-          "samples": [
-            106120,
-            781968,
-            806920
-          ]
+          "samples": [106120, 781968, 806920]
         },
         "yjs-snapshots": {
           "medianRetainedBytes": 14761832,
-          "samples": [
-            10498072,
-            14761832,
-            15374280
-          ]
+          "samples": [10498072, 14761832, 15374280]
         }
       },
       "measurements": [
