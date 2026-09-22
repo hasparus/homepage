@@ -112,9 +112,11 @@ running any Y.js code. Rebuild the cache when the fetched history changes,
 including after compaction.
 
 In a [benchmark with 10,000 generated updates][replay-benchmark], rebuilding
-took about 59 ms per backward step. The cache took 24 ms to build, then lookups
-were below 0.1 ms. Those are medians in Chromium with 4× CPU throttling on an M1
-Pro, measuring JavaScript work without rendering.
+took about 61 ms per backward step. The cache took 31 ms to build, then lookups
+were too fast for the browser's clock to time; in Node they're about 80
+nanoseconds. Those are medians in Chromium with 4× CPU throttling on an M1 Pro,
+measuring JavaScript work without rendering. Unthrottled, a rebuild is 16.8 ms,
+which is still a dropped frame.
 
 <aside>
   Applying an old update to the live document doesn't undo later changes.

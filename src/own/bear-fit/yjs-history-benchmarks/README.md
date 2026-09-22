@@ -4,86 +4,105 @@ The y-travelling post claims that replaying a whole update log on every slider
 move gets slow, and that caching plain calendar states fixes it. These are the
 measurements behind that claim. The work is done; nothing here is a plan.
 
-Audited at `e1bf29d` against Yjs 13.6.24. The article comparison was rerun at
-`f4dbff4`, and the persistence-validation cache measured at `f8286b9`. Hardware
-throughout is an M1 Pro on darwin arm64, Node 24.13.0. `run-browser.mjs` records
-no commit, so the browser runs are dated but not pinned.
+Audited at `e1bf29d` against Yjs 13.6.24 and re-measured at `bde013f`. Hardware
+throughout is an M1 Pro on darwin arm64, Node 24.13.0.
+
+The first article run was contaminated: it started five seconds into a Node
+benchmark and reported 96.3 ms and 59.4 ms for forward and backward workloads
+that visit the same 24 positions and therefore do identical work. Everything
+below comes from a rerun where each phase had the machine to itself, and the
+article comparison was run twice to check that it reproduces. It does: naive
+replay lands at 60.7 and 60.8 ms across the two runs, with all eight workload
+medians inside 60.0-61.9 ms.
 
 ## What the post quotes
 
-The post gives three numbers: about 59 ms per backward step, 24 ms to build the
-cache, and below 0.1 ms for a cached lookup. They come from
-`results-article-browser.json`, at 10,000 sequential records in headless
-Chromium under 4x CPU throttling. The unrounded medians are 59.4 ms for naive
-replay, 24.3 ms for cache construction, and below the timer's useful resolution
-for lookups.
+At 10,000 sequential records in headless Chromium under 4x CPU throttling, naive
+replay costs about 61 ms per backward step and the cache takes about 31 ms to
+build. Cached lookups read as 0 in the browser because `performance.now()` is
+clamped to 100 us without cross-origin isolation. Node resolves them: 0.00008
+ms, roughly 80 nanoseconds, which is a table lookup.
 
-That last one is not zero work. It is work too small for the browser's clock to
-separate from noise, and the post should not be read as claiming otherwise. Node
-resolves it: `results-article-node.json` puts a cached lookup at 0.0002-0.0003
-ms.
-
-These figures come from `results-article-browser.json`, a different run from the
-strategy table below, which is why the naive number there reads 60.8 ms rather
-than 59.4 ms. That run is not trustworthy at this precision: forward and
-backward visit the same 24 positions and so do identical work, yet it reports
-96.3 ms and 59.4 ms for them, while the clean run holds all four workloads
-inside 60.3-61.0 ms. Its timestamp lands five seconds after the Node run
-started, so the machine was busy. The three quoted figures are each the minimum
-of a contaminated column and want a rerun on an idle machine before the post
-ships.
+Unthrottled, the same naive replay is 16.8 ms. That is the more honest number
+for a desktop reader, and it still sits on the wrong side of a 16.7 ms frame.
 
 The benchmarked file is `src/code-blocks/y-travelling/cacheCalendarHistory.ts`,
-the same file the post imports into its code block. Earlier runs measured a
-separate implementation of the same algorithm; this one does not.
+the same file the post imports into its code block.
 
 ## Strategies
 
-Six ways to show an old version, all at 10,000 sequential records, medians from
-the browser run, from `results-browser-4x.json`. Setup is counted, not hidden.
-Each column comes from its own measurement: the setup and backward columns from
-the backward run, the forward column from the forward run.
+Seven ways to show an old version, at 10,000 sequential records, medians over
+nine repeats with strategy order rotated per workload. Setup is counted, not
+hidden.
 
 | Strategy                                 |   Setup | First backward seek | Further backward | Further forward |
 | ---------------------------------------- | ------: | ------------------: | ---------------: | --------------: |
-| Fresh replay, as the demo does it        | <0.1 ms |             60.8 ms |          60.9 ms |         60.3 ms |
-| Fresh replay in one transaction          | <0.1 ms |             17.7 ms |          17.8 ms |         17.6 ms |
-| Reuse document forward, rebuild backward | <0.1 ms |             16.9 ms |          17.6 ms |         <0.1 ms |
-| Encoded checkpoints every 32 records     | 28.9 ms |              4.6 ms |           4.4 ms |         <0.1 ms |
-| Cache plain calendar states              | 24.2 ms |             <0.1 ms |          <0.1 ms |         <0.1 ms |
-| Yjs snapshots with `gc: false`           | 28.6 ms |              9.2 ms |           8.1 ms |          8.1 ms |
+| Fresh replay, as the demo does it        | <0.1 ms |             61.5 ms |          61.3 ms |         61.4 ms |
+| Fresh replay in one transaction          | <0.1 ms |             17.6 ms |          17.2 ms |         17.1 ms |
+| Reuse document forward, rebuild backward |  0.1 ms |             16.9 ms |          17.3 ms |         <0.1 ms |
+| Encoded checkpoints every 32 records     | 26.8 ms |              4.6 ms |           4.4 ms |         <0.1 ms |
+| Cache plain calendar states              | 30.8 ms |             <0.1 ms |          <0.1 ms |         <0.1 ms |
+| The post's cache                         | 31.1 ms |             <0.1 ms |          <0.1 ms |         <0.1 ms |
+| Yjs snapshots with `gc: false`           | 31.5 ms |              8.4 ms |           8.1 ms |          8.1 ms |
 
 Batching the existing replay loop inside one `doc.transact` is the small change:
-it keeps the helper stateless and still cuts the 10,000-record sequential case
-by about 3.4x. Caching the last 250 calendar states is the change that makes
-scrubbing smooth in both directions.
+it keeps the helper stateless and still cuts the case by 3.6x. Caching the last
+250 calendar states is the change that makes scrubbing smooth in both
+directions, and the next section is where it stops being free.
 
-Neither generalises. This calendar holds three small maps and the previews are
-read-only. An editor that needs a live `Y.Doc` for every preview gets nothing
-from either.
+## Width, not length, is what the cache costs
+
+Every earlier run held the document at 4 participants over 21 days, so at most
+84 availability keys. That is bear-fit's real shape, and it is also the
+narrowest thing the benchmark can measure. Widening it to 40 participants over
+365 days, at the same 10,000 records, moves the cached state from 41 keys to
+5,501 and changes which strategy wins:
+
+| Strategy                             | 41 keys, setup | 5,501 keys, setup | 41 keys, cache | 5,501 keys, cache |
+| ------------------------------------ | -------------: | ----------------: | -------------: | ----------------: |
+| Encoded checkpoints every 32 records |         8.0 ms |           29.3 ms |         228 KB |            2.9 MB |
+| Cache plain calendar states          |         9.4 ms |          583.3 ms |         469 KB |           55.8 MB |
+| Yjs snapshots with `gc: false`       |         9.8 ms |           29.9 ms |          53 KB |            1.4 MB |
+
+Seek times hold up, at 0.0001 ms cached against 6.4 ms for checkpoints. The cost
+moved entirely into construction and memory, because 250 snapshots of a wide map
+are 250 copies of a wide map. On the reordered four-client fixture the same
+cache takes 793 ms to build and holds 67.6 MB.
+
+So the post's advice is right for the calendar it is about and wrong as a
+general rule. Past roughly a few hundred keys, encoded checkpoints keep the
+sub-frame seeks without the memory, and the crossover is worth measuring rather
+than guessing. This is the axis the earlier rounds never varied.
 
 ## Where it stops mattering
 
-At 250 records the current implementation's backward median is 1.9 ms, and at
-1,000 it is 6.3 ms. Only at 10,000 does even the batched version threaten a 16.7
+At 250 records the current implementation's backward median is 1.8 ms, and at
+1,000 it is 6.1 ms. Only at 10,000 does even the batched version threaten a 16.7
 ms frame, and that is before anything renders.
 
 The real demo held one stored record and 332 update bytes when I sampled it.
 There is no performance problem at that size. Everything above is a scaling test
 against generated history.
 
-The adversarial fixture is worse than the sequential one. Four clients editing
-independently, groups of 13 updates reordered, one duplicate inserted: at 10,001
-records, fresh backward replay took 191.4 ms and checkpoints 6.9 ms, while
-cached lookup stayed below 0.1 ms. Building that cache took 164.4 ms. Moving
-work out of the slider handler does not delete it. A rebuild that large should
-yield between batches or run off the main thread.
+Length behaves the way you would expect and the cache does not care. At 50,000
+sequential records naive backward replay is 85.9 ms in Node against 16.8 ms at
+10,000, while the cache still answers in 0.0001 ms and still holds about 470 KB,
+because the document is no wider. Its construction does grow, from 9.4 ms to
+32.7 ms, since it replays the whole prefix once.
 
-The 251 cached states serialise to roughly 469-472 KB as JSON in the
-10,000-record fixtures. That is JSON size, not heap. Forced-GC heap sampling was
-noisy enough to produce negative deltas for some strategies, so I am not
-reporting memory comparisons at all. Yjs snapshots also pin an uncollected
-document, which their small encoded size hides.
+The adversarial fixture is worse than the sequential one. Four clients editing
+independently, groups of 13 updates reordered, one duplicate inserted: at 50,001
+records naive backward replay takes 197.5 ms and checkpoints 6.7 ms, while
+cached lookup stays at 0.0001 ms. Building that cache takes 125 ms. Moving work
+out of the slider handler does not delete it. A rebuild that large should yield
+between batches or run off the main thread.
+
+The 251 cached states serialise to 469 KB at 10,000 records and 472 KB at
+50,000, because the document stops getting wider long before the log stops
+getting longer. That is JSON size, not heap. Forced-GC heap sampling produced
+negative deltas for some strategies, so the suite records those numbers with a
+caveat field and this document draws nothing from them. Yjs snapshots also pin
+an uncollected document, which their small encoded size hides.
 
 ## Applying an old update does not rewind anything
 
@@ -167,43 +186,47 @@ Run from the repository root. Nothing here writes to production or needs extra
 dependencies.
 
 ```sh
-# the article comparison
+# the article comparison, Node and browser, plus a replicate
 node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-node.mjs \
-  --sizes=250,1000,10000 --strategies=article-cache \
+  --sizes=250,1000,10000 --strategies=fresh,article-cache --repeats=9 \
   --out=src/own/bear-fit/yjs-history-benchmarks/results-article-node.json
 
 node src/own/bear-fit/yjs-history-benchmarks/run-browser.mjs --rate=4 --sizes=10000 \
-  --sequential-only --strategies=fresh,article-cache \
+  --sequential-only --strategies=fresh,article-cache --repeats=9 \
   --out=src/own/bear-fit/yjs-history-benchmarks/results-article-browser.json
 
-# the full strategy comparison
+# the full strategy comparison, and how it scales with log length
 node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-node.mjs \
-  --sizes=250,1000 --steps=24 --repeats=3 \
-  --out=src/own/bear-fit/yjs-history-benchmarks/results-node-small.json
-
-node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-node.mjs \
-  --sizes=10000 --steps=24 --repeats=3 \
+  --sizes=10000,50000 --steps=24 --repeats=9 \
   --out=src/own/bear-fit/yjs-history-benchmarks/results-node-large.json
+
+# how it scales with document width, which is the axis that matters
+node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-node.mjs \
+  --sizes=10000 --users=40 --days=365 --repeats=9 \
+  --out=src/own/bear-fit/yjs-history-benchmarks/results-width-sweep.json
 
 node --import tsx src/own/bear-fit/yjs-history-benchmarks/undo-probes.mjs
 
 node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-validation.mjs
 
 # needs the Astro dev server on port 4323
-node src/own/bear-fit/yjs-history-benchmarks/run-browser.mjs --rate=4
+node src/own/bear-fit/yjs-history-benchmarks/run-browser.mjs --rate=4 --repeats=9
 ```
+
+Run the phases one at a time. Overlapping them is what spoiled the first article
+run.
 
 The browser runner serves an empty page through Playwright interception and
 imports a temporary bundle of `benchmark.mjs`. It never touches the live
 calendar. Set `HISTORY_DEMO_URL` to point at a different local origin.
 
-Fixtures model four participants over 21 days. Each run does 24 seeks and three
-repetitions after a warm-up, reporting setup, first seek and later seeks
-separately, across forward, backward, alternating and random paths within the
-last 250 versions. Expected states come from replaying updates one at a time.
-Validation visits every window position up to 1,000 records and 65 positions per
-strategy beyond that. Passing these fixtures is evidence, not proof for
-arbitrary Yjs types or logs.
+Fixtures model four participants over 21 days unless `--users` and `--days` say
+otherwise. Each run does 24 seeks and three repetitions after a warm-up,
+reporting setup, first seek and later seeks separately, across forward,
+backward, alternating and random paths within the last 250 versions. Expected
+states come from replaying updates one at a time. Validation visits every window
+position up to 1,000 records and 65 positions per strategy beyond that. Passing
+these fixtures is evidence, not proof for arbitrary Yjs types or logs.
 
 The browser numbers exclude DOM updates, paint, HTTP latency and WebSocket work.
 A 4x CPU throttle in headless Chromium is not a phone.
