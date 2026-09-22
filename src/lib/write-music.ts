@@ -76,17 +76,32 @@ export async function toggleWriteMusic() {
 }
 
 /**
+ * Titles and references that take a name or number after the period.
+ * ponytail: abbreviations that often do end a sentence ("etc.", "Inc.")
+ * stay out, since merging those is worse than splitting them.
+ */
+const ABBREVIATION =
+  /(?:^|[\s(])(?:mr|mrs|ms|dr|prof|sr|jr|st|rev|gen|vs|cf|fig|figs|e\.g|i\.e)\.$/i;
+
+/**
  * Intl.Segmenter breaks sentences after `?`/`.` inside quotes
  * (…asks “which days could work?”, not…). A segment continuing with a
  * lowercase letter, comma, dash, or an opening quote followed by
- * lowercase belongs to the previous sentence.
+ * lowercase belongs to the previous sentence, and so does one following
+ * an abbreviation's period.
  */
-function mergeFalseBreaks(segments: { index: number; segment: string }[]) {
+export function mergeFalseBreaks(
+  segments: { index: number; segment: string }[],
+) {
   const merged: { index: number; segment: string }[] = [];
   for (const { index, segment } of segments) {
     const prev = merged.at(-1);
     const head = segment.trimStart().replace(/^[“”"'‘’([]/, "");
-    if (prev && /^[\p{Ll}\p{Pd},;)\]]/u.test(head)) {
+    if (
+      prev &&
+      (/^[\p{Ll}\p{Pd},;)\]]/u.test(head) ||
+        ABBREVIATION.test(prev.segment.trimEnd()))
+    ) {
       prev.segment += segment;
     } else {
       merged.push({ index, segment });
