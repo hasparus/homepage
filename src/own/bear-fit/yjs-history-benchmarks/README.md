@@ -4,8 +4,10 @@ The y-travelling post claims that replaying a whole update log on every slider
 move gets slow, and that caching plain calendar states fixes it. These are the
 measurements behind that claim. The work is done; nothing here is a plan.
 
-Audited at `e1bf29d` against Yjs 13.6.24, with the article comparison rerun at
-`f8286b9`. Hardware throughout is an M1 Pro on darwin arm64, Node 24.13.0.
+Audited at `e1bf29d` against Yjs 13.6.24. The article comparison was rerun at
+`f4dbff4`, and the persistence-validation cache measured at `f8286b9`. Hardware
+throughout is an M1 Pro on darwin arm64, Node 24.13.0. `run-browser.mjs` records
+no commit, so the browser runs are dated but not pinned.
 
 ## What the post quotes
 
@@ -17,7 +19,19 @@ replay, 24.3 ms for cache construction, and below the timer's useful resolution
 for lookups.
 
 That last one is not zero work. It is work too small for the browser's clock to
-separate from noise, and the post should not be read as claiming otherwise.
+separate from noise, and the post should not be read as claiming otherwise. Node
+resolves it: `results-article-node.json` puts a cached lookup at 0.0002-0.0003
+ms.
+
+These figures come from `results-article-browser.json`, a different run from the
+strategy table below, which is why the naive number there reads 60.8 ms rather
+than 59.4 ms. That run is not trustworthy at this precision: forward and
+backward visit the same 24 positions and so do identical work, yet it reports
+96.3 ms and 59.4 ms for them, while the clean run holds all four workloads
+inside 60.3-61.0 ms. Its timestamp lands five seconds after the Node run
+started, so the machine was busy. The three quoted figures are each the minimum
+of a contaminated column and want a rerun on an idle machine before the post
+ships.
 
 The benchmarked file is `src/code-blocks/y-travelling/cacheCalendarHistory.ts`,
 the same file the post imports into its code block. Earlier runs measured a
@@ -26,7 +40,9 @@ separate implementation of the same algorithm; this one does not.
 ## Strategies
 
 Six ways to show an old version, all at 10,000 sequential records, medians from
-the browser run. Setup is counted, not hidden.
+the browser run, from `results-browser-4x.json`. Setup is counted, not hidden.
+Each column comes from its own measurement: the setup and backward columns from
+the backward run, the forward column from the forward run.
 
 | Strategy                                 |   Setup | First backward seek | Further backward | Further forward |
 | ---------------------------------------- | ------: | ------------------: | ---------------: | --------------: |
@@ -83,7 +99,7 @@ document already knows that deletion, so replaying its bytes deletes nothing.
 This is why bear-fit restores a version by reading its application data and
 writing it into the live document as a fresh change.
 
-Driving history through `UndoManager` alone looked attractive: after 27-43 ms of
+Driving history through `UndoManager` alone looked attractive: after 24-43 ms of
 setup, backward undo cost about 0.01 ms in Node at 10,000 sequential records.
 Both variants then produced wrong calendars on the reordered fixture. The
 default first differed at prefix 9, and `ignoreRemoteMapChanges: true` at
