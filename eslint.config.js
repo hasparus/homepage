@@ -8,8 +8,7 @@ export default [
       "**/*.mdx",
       "**/*.md",
       "**/*.gitignored.*",
-      // Finished measurement scripts, kept as the evidence behind the post.
-      "src/own/bear-fit/yjs-history-benchmarks/**",
+      "**/.generated/**",
     ],
   },
 
@@ -33,6 +32,20 @@ export default [
   },
 
   {
-    rules: { "unicorn/consistent-function-scoping": "off" },
+    rules: {
+      "unicorn/consistent-function-scoping": "off",
+      // Prettier lowercases hex literals, so the rule's uppercase default
+      // and the formatter overwrite each other's fixes.
+      "unicorn/number-literal-case": [
+        "error",
+        { hexadecimalValue: "lowercase" },
+      ],
+    },
+  },
+
+  {
+    // Command-line benchmark runners; their output is the console.
+    files: ["src/own/bear-fit/yjs-history-benchmarks/*.mjs"],
+    rules: { "no-console": "off" },
   },
 ];

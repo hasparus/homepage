@@ -25,11 +25,7 @@
       "heap": {
         "article-cache": {
           "medianRetainedBytes": 595432,
-          "samples": [
-            261664,
-            595432,
-            610352
-          ]
+          "samples": [261664, 595432, 610352]
         }
       },
       "measurements": [
@@ -176,11 +172,7 @@
       "heap": {
         "article-cache": {
           "medianRetainedBytes": 370544,
-          "samples": [
-            176576,
-            370544,
-            379080
-          ]
+          "samples": [176576, 370544, 379080]
         }
       },
       "measurements": [
@@ -327,11 +319,7 @@
       "heap": {
         "article-cache": {
           "medianRetainedBytes": 916952,
-          "samples": [
-            482264,
-            916952,
-            917232
-          ]
+          "samples": [482264, 916952, 917232]
         }
       },
       "measurements": [
@@ -478,11 +466,7 @@
       "heap": {
         "article-cache": {
           "medianRetainedBytes": 423280,
-          "samples": [
-            177696,
-            423280,
-            438424
-          ]
+          "samples": [177696, 423280, 438424]
         }
       },
       "measurements": [
@@ -629,11 +613,7 @@
       "heap": {
         "article-cache": {
           "medianRetainedBytes": 949528,
-          "samples": [
-            379168,
-            949528,
-            963792
-          ]
+          "samples": [379168, 949528, 963792]
         }
       },
       "measurements": [
@@ -780,11 +760,7 @@
       "heap": {
         "article-cache": {
           "medianRetainedBytes": 412240,
-          "samples": [
-            85472,
-            412240,
-            492840
-          ]
+          "samples": [85472, 412240, 492840]
         }
       },
       "measurements": [
