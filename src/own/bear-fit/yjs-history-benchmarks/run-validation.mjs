@@ -5,16 +5,10 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
 import { createHistoryPersistenceCheck } from "../historyPersistence.ts";
 import { replayHistory } from "../replayHistory.ts";
-import { calendar, fixture } from "./benchmark.mjs";
+import { numbers, option } from "./args.mjs";
+import { calendar, fixture } from "./fixtures.mjs";
 
-function option(name, fallback) {
-  return (
-    process.argv
-      .find((arg) => arg.startsWith(`--${name}=`))
-      ?.slice(name.length + 3) ?? fallback
-  );
-}
-const sizes = option("sizes", "250,1000,10000").split(",").map(Number);
+const sizes = numbers("sizes", "250,1000,10000");
 const repeats = Number(option("repeats", "9"));
 const warmups = 2;
 const copy = (updates) =>

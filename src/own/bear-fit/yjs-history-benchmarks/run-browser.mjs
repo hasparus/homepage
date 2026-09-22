@@ -1,7 +1,10 @@
-import { createRequire } from "node:module";
+import { execFileSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { resolve } from "node:path";
 import { chromium } from "@playwright/test";
+
+import { flag, numbers, option } from "./args.mjs";
 
 const require = createRequire(import.meta.resolve("tsx"));
 const { build } = require("esbuild");
@@ -15,18 +18,20 @@ await build({
   platform: "browser",
   target: "es2022",
 });
-const names = process.argv
-  .find((arg) => arg.startsWith("--strategies="))
-  ?.split("=")[1]
-  ?.split(",");
-const sizes = process.argv
-  .find((arg) => arg.startsWith("--sizes="))
-  ?.split("=")[1]
-  ?.split(",")
-  .map(Number) ?? [250, 1000, 10_000];
+
+const names = option("strategies", "")
+  ? option("strategies", "").split(",")
+  : null;
+const sizes = numbers("sizes", "250,1000,10000");
+const repeats = Number(option("repeats", "9"));
+const steps = Number(option("steps", "24"));
+const users = Number(option("users", "4"));
+const days = Number(option("days", "21"));
+const rate = Number(option("rate", "4"));
+
 const fixtures = sizes.map((size) => [size, false]);
-if (!process.argv.includes("--sequential-only"))
-  fixtures.push([sizes.at(-1), true]);
+if (!flag("sequential-only")) fixtures.push([sizes.at(-1), true]);
+
 const browser = await chromium.launch({ headless: true });
 try {
   const page = await browser.newPage();
@@ -41,59 +46,97 @@ try {
   );
   await page.goto(`${base}/benchmark-runner`);
   const cdp = await page.context().newCDPSession(page);
-  const rate = Number(
-    process.argv.find((arg) => arg.startsWith("--rate="))?.split("=")[1] ?? 4,
-  );
   await cdp.send("Emulation.setCPUThrottlingRate", { rate });
   const moduleUrl = `${base}/@fs${resolve("src/own/bear-fit/yjs-history-benchmarks/.generated/benchmark.js")}`;
   const report = {
     environment: {
       date: new Date().toISOString(),
+      commit: execFileSync("git", ["rev-parse", "--short", "HEAD"], {
+        encoding: "utf8",
+      }).trim(),
       chromium: browser.version(),
       cpuThrottlingRate: rate,
       timing:
         "JavaScript replay and snapshot extraction only; no DOM rendering, network or paint",
-      repeats: 3,
-      steps: 24,
+      timerNote:
+        "performance.now() is clamped to 100us without cross-origin isolation, so sub-0.1ms seeks read as 0.",
+      repeats,
+      steps,
+      users,
+      days,
     },
     fixtures: [],
   };
+  let rotation = 0;
   for (const [size, concurrent] of fixtures) {
     const result = await page.evaluate(
-      async ({ moduleUrl, size, concurrent, names }) => {
-        const { fixture, strategies, workloads, measure } = await import(
+      async ({
+        moduleUrl,
+        size,
+        concurrent,
+        names,
+        repeats,
+        steps,
+        users,
+        days,
+        rotation,
+      }) => {
+        const { fixture, strategies, width, workloads, measure } = await import(
           moduleUrl
         );
-        const updates = fixture(size, concurrent);
+        const updates = fixture(size, { concurrent, users, days });
+        const order = names ?? Object.keys(strategies);
         const measurements = [];
+        let turn = rotation;
         for (const [workload, targets] of Object.entries(
-          workloads(updates.length, 24),
+          workloads(updates.length, steps),
         )) {
-          for (const name of names ?? Object.keys(strategies))
+          const offset = turn++ % order.length;
+          for (const name of [
+            ...order.slice(offset),
+            ...order.slice(0, offset),
+          ])
             measurements.push({
               workload,
-              ...measure(updates, name, targets, 3),
+              ...measure(updates, name, targets, repeats),
             });
         }
         return {
           name: `${concurrent ? "concurrent-reordered" : "sequential"}-${size}`,
           records: updates.length,
+          width: width(updates),
           measurements,
+          rotations: turn - rotation,
         };
       },
-      { moduleUrl, size, concurrent, names },
+      {
+        moduleUrl,
+        size,
+        concurrent,
+        names,
+        repeats,
+        steps,
+        users,
+        days,
+        rotation,
+      },
     );
+    rotation += result.rotations;
+    delete result.rotations;
     report.fixtures.push(result);
-    const out =
-      process.argv.find((arg) => arg.startsWith("--out="))?.slice(6) ??
-      `src/own/bear-fit/yjs-history-benchmarks/results-browser-${rate}x.json`;
-    writeFileSync(out, JSON.stringify(report, null, 2) + "\n");
-    console.log(result.name);
+    writeFileSync(
+      option(
+        "out",
+        `src/own/bear-fit/yjs-history-benchmarks/results-browser-${rate}x.json`,
+      ),
+      JSON.stringify(report, null, 2) + "\n",
+    );
+    console.log(`${result.name}: ${result.width.availabilityKeys} keys`);
     for (const row of result.measurements.filter((row) =>
       ["forward", "backward"].includes(row.workload),
     ))
       console.log(
-        `${row.workload.padEnd(9)} ${row.strategy.padEnd(16)} setup=${row.setup.medianMs.toFixed(1)}ms first=${row.firstSeek.medianMs.toFixed(1)}ms seek p50=${row.warmSeek.medianMs.toFixed(2)}ms p95=${row.warmSeek.p95Ms.toFixed(2)}ms total=${row.total.medianMs.toFixed(1)}ms`,
+        `${row.workload.padEnd(9)} ${row.strategy.padEnd(16)} setup=${row.setup.medianMs.toFixed(1)}ms first=${row.firstSeek.medianMs.toFixed(1)}ms seek p50=${row.warmSeek.medianMs.toFixed(2)}ms total=${row.total.medianMs.toFixed(1)}ms`,
       );
   }
 } finally {

@@ -1,13 +1,11 @@
-import * as Y from "yjs";
 import { writeFileSync } from "node:fs";
-import {
-  calendar,
-  fixture,
-  strategies,
-  verify,
-  measure,
-  workloads,
-} from "./benchmark.mjs";
+import * as Y from "yjs";
+
+import { option } from "./args.mjs";
+import { calendar, fixture } from "./fixtures.mjs";
+import { measure, verify, workloads } from "./measure.mjs";
+
+const repeats = Number(option("repeats", "9"));
 
 function undoPreview(updates, ignoreRemoteMapChanges = false) {
   const doc = new Y.Doc();
@@ -58,8 +56,11 @@ function undoPreview(updates, ignoreRemoteMapChanges = false) {
     },
   };
 }
-strategies["undo-redo"] = (updates) => undoPreview(updates);
-strategies["undo-redo-ignore-remote"] = (updates) => undoPreview(updates, true);
+/** Local to this probe: the shared registry stays untouched. */
+const variants = {
+  "undo-redo": (updates) => undoPreview(updates),
+  "undo-redo-ignore-remote": (updates) => undoPreview(updates, true),
+};
 
 const source = new Y.Doc();
 source.clientID = 1;
@@ -97,30 +98,39 @@ const validation = [];
 for (const size of [8, 32, 250]) {
   for (const concurrent of [false, true]) {
     const input = fixture(size, concurrent);
-    for (const name of ["undo-redo", "undo-redo-ignore-remote"]) {
+    for (const name of Object.keys(variants)) {
       const result = {
         strategy: name,
         fixture: `${concurrent ? "concurrent-reordered" : "sequential"}-${size}`,
-        ...verify(input, name),
+        ...verify(input, variants[name]),
       };
       validation.push(result);
       console.log(JSON.stringify(result));
     }
   }
 }
-const performance = [];
+const timings = [];
 for (const size of [250, 1000, 10_000]) {
   const input = fixture(size);
-  for (const name of ["undo-redo", "undo-redo-ignore-remote"]) {
-    const check = verify(input, name);
+  for (const name of Object.keys(variants)) {
+    const check = verify(input, variants[name]);
     if (!check.passed) continue;
     for (const [workload, targets] of Object.entries(
       workloads(input.length, 24),
     ))
-      performance.push({ size, workload, ...measure(input, name, targets, 3) });
+      timings.push({
+        size,
+        workload,
+        strategy: name,
+        ...measure(input, variants[name], targets, repeats),
+      });
   }
 }
 writeFileSync(
-  "src/own/bear-fit/yjs-history-benchmarks/results-undo.json",
-  JSON.stringify({ counterexample, validation, performance }, null, 2) + "\n",
+  option("out", "src/own/bear-fit/yjs-history-benchmarks/results-undo.json"),
+  JSON.stringify(
+    { counterexample, validation, performance: timings },
+    null,
+    2,
+  ) + "\n",
 );
