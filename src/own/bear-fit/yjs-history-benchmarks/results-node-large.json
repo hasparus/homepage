@@ -1,0 +1,1718 @@
+{
+  "environment": {
+    "date": "2026-09-15T22:51:47.429Z",
+    "commit": "e1bf29d",
+    "node": "v24.13.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M1 Pro",
+    "yjs": "13.6.24",
+    "repeats": 3,
+    "steps": 24,
+    "gcExposed": true
+  },
+  "fixtures": [
+    {
+      "name": "sequential-10000",
+      "records": 10000,
+      "updateBytes": 98523,
+      "validation": {
+        "fresh": {
+          "passed": true,
+          "positions": 65
+        },
+        "fresh-batched": {
+          "passed": true,
+          "positions": 65
+        },
+        "incremental": {
+          "passed": true,
+          "positions": 65
+        },
+        "checkpoints": {
+          "passed": true,
+          "positions": 65
+        },
+        "calendar-cache": {
+          "passed": true,
+          "positions": 65
+        },
+        "yjs-snapshots": {
+          "passed": true,
+          "positions": 65
+        }
+      },
+      "heap": {
+        "fresh": {
+          "medianRetainedBytes": 695912,
+          "samples": [
+            -860776,
+            695912,
+            1021888
+          ]
+        },
+        "fresh-batched": {
+          "medianRetainedBytes": -222376,
+          "samples": [
+            -938280,
+            -222376,
+            1113856
+          ]
+        },
+        "incremental": {
+          "medianRetainedBytes": 831512,
+          "samples": [
+            113776,
+            831512,
+            1008400
+          ]
+        },
+        "checkpoints": {
+          "medianRetainedBytes": 122952,
+          "samples": [
+            75864,
+            122952,
+            831008
+          ]
+        },
+        "calendar-cache": {
+          "medianRetainedBytes": 943992,
+          "samples": [
+            745464,
+            943992,
+            946504
+          ]
+        },
+        "yjs-snapshots": {
+          "medianRetainedBytes": 3028704,
+          "samples": [
+            1434480,
+            3028704,
+            3443176
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.006040999999640917,
+            "p95Ms": 0.006292000000030384,
+            "maxMs": 0.006292000000030384
+          },
+          "firstSeek": {
+            "medianMs": 18.497457999999824,
+            "p95Ms": 19.303874999999607,
+            "maxMs": 19.303874999999607
+          },
+          "warmSeek": {
+            "medianMs": 17.600291999999627,
+            "p95Ms": 21.194584000000305,
+            "maxMs": 57.83591699999988
+          },
+          "total": {
+            "medianMs": 441.9536670000002,
+            "p95Ms": 478.16704200000004,
+            "maxMs": 478.16704200000004
+          },
+          "teardown": {
+            "medianMs": 0.0017920000000231084,
+            "p95Ms": 0.0019999999999527063,
+            "maxMs": 0.0019999999999527063
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.011291000000710483,
+            "p95Ms": 0.011625000000094587,
+            "maxMs": 0.011625000000094587
+          },
+          "firstSeek": {
+            "medianMs": 5.579958000000261,
+            "p95Ms": 6.176875000000109,
+            "maxMs": 6.176875000000109
+          },
+          "warmSeek": {
+            "medianMs": 5.524541999999201,
+            "p95Ms": 6.84912500000064,
+            "maxMs": 10.148916999999528
+          },
+          "total": {
+            "medianMs": 137.41279099999974,
+            "p95Ms": 138.30075000000033,
+            "maxMs": 138.30075000000033
+          },
+          "teardown": {
+            "medianMs": 0.0014169999994919635,
+            "p95Ms": 0.0024999999995998223,
+            "maxMs": 0.0024999999995998223
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.08016700000007404,
+            "p95Ms": 0.08449999999993452,
+            "maxMs": 0.08449999999993452
+          },
+          "firstSeek": {
+            "medianMs": 5.710374999999658,
+            "p95Ms": 5.882666000000427,
+            "maxMs": 5.882666000000427
+          },
+          "warmSeek": {
+            "medianMs": 0.010459000000082597,
+            "p95Ms": 0.028040999999575433,
+            "maxMs": 0.06929200000013225
+          },
+          "total": {
+            "medianMs": 6.092124999999214,
+            "p95Ms": 6.342166000000361,
+            "maxMs": 6.342166000000361
+          },
+          "teardown": {
+            "medianMs": 0.006084000000555534,
+            "p95Ms": 0.007250000000567525,
+            "maxMs": 0.007250000000567525
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 8.644624999999905,
+            "p95Ms": 10.50683299999946,
+            "maxMs": 10.50683299999946
+          },
+          "firstSeek": {
+            "medianMs": 1.4012080000002243,
+            "p95Ms": 1.669499999999971,
+            "maxMs": 1.669499999999971
+          },
+          "warmSeek": {
+            "medianMs": 0.009541999999783002,
+            "p95Ms": 0.014333999999507796,
+            "maxMs": 0.03800000000046566
+          },
+          "total": {
+            "medianMs": 10.304000000000087,
+            "p95Ms": 12.418040999999903,
+            "maxMs": 12.418040999999903
+          },
+          "teardown": {
+            "medianMs": 0.001999999999497959,
+            "p95Ms": 0.0033329999996567494,
+            "maxMs": 0.0033329999996567494
+          },
+          "serializedCacheBytes": 228415,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 8.282416999999441,
+            "p95Ms": 10.272875000000568,
+            "maxMs": 10.272875000000568
+          },
+          "firstSeek": {
+            "medianMs": 0.0007919999998193816,
+            "p95Ms": 0.0007919999998193816,
+            "maxMs": 0.0007919999998193816
+          },
+          "warmSeek": {
+            "medianMs": 0.00008400000024266774,
+            "p95Ms": 0.0001250000004802132,
+            "maxMs": 0.0001250000004802132
+          },
+          "total": {
+            "medianMs": 8.29895899999974,
+            "p95Ms": 10.288457999999991,
+            "maxMs": 10.288457999999991
+          },
+          "teardown": {
+            "medianMs": 0.0006250000005820766,
+            "p95Ms": 0.0011670000003505265,
+            "maxMs": 0.0011670000003505265
+          },
+          "serializedCacheBytes": 469167,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 8.231249999999818,
+            "p95Ms": 8.441249999999854,
+            "maxMs": 8.441249999999854
+          },
+          "firstSeek": {
+            "medianMs": 2.3493340000004537,
+            "p95Ms": 2.61133400000017,
+            "maxMs": 2.61133400000017
+          },
+          "warmSeek": {
+            "medianMs": 2.3024999999997817,
+            "p95Ms": 3.346292000000176,
+            "maxMs": 4.066291999999521
+          },
+          "total": {
+            "medianMs": 64.47883299999921,
+            "p95Ms": 68.54249999999956,
+            "maxMs": 68.54249999999956
+          },
+          "teardown": {
+            "medianMs": 0.0042920000005324255,
+            "p95Ms": 0.004332999999860476,
+            "maxMs": 0.004332999999860476
+          },
+          "serializedCacheBytes": 52972,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.008667000000059488,
+            "p95Ms": 0.012166999999863037,
+            "maxMs": 0.012166999999863037
+          },
+          "firstSeek": {
+            "medianMs": 16.989416000000347,
+            "p95Ms": 17.020250000000487,
+            "maxMs": 17.020250000000487
+          },
+          "warmSeek": {
+            "medianMs": 16.66637499999979,
+            "p95Ms": 17.326834000000417,
+            "maxMs": 17.639500000000226
+          },
+          "total": {
+            "medianMs": 401.3975840000003,
+            "p95Ms": 403.31866700000046,
+            "maxMs": 403.31866700000046
+          },
+          "teardown": {
+            "medianMs": 0.0016659999992043595,
+            "p95Ms": 0.0047079999994821264,
+            "maxMs": 0.0047079999994821264
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.006041999999979453,
+            "p95Ms": 0.01187500000014552,
+            "maxMs": 0.01187500000014552
+          },
+          "firstSeek": {
+            "medianMs": 4.887541999999485,
+            "p95Ms": 5.135833999999704,
+            "maxMs": 5.135833999999704
+          },
+          "warmSeek": {
+            "medianMs": 4.970624999999927,
+            "p95Ms": 5.282500000000255,
+            "maxMs": 6.0448749999995925
+          },
+          "total": {
+            "medianMs": 118.17091700000037,
+            "p95Ms": 120.8119999999999,
+            "maxMs": 120.8119999999999
+          },
+          "teardown": {
+            "medianMs": 0.0017910000005940674,
+            "p95Ms": 0.001833000000260654,
+            "maxMs": 0.001833000000260654
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.08254200000010314,
+            "p95Ms": 0.0996660000000702,
+            "maxMs": 0.0996660000000702
+          },
+          "firstSeek": {
+            "medianMs": 4.899833000000399,
+            "p95Ms": 5.080791999999747,
+            "maxMs": 5.080791999999747
+          },
+          "warmSeek": {
+            "medianMs": 4.96979199999987,
+            "p95Ms": 5.775416999999834,
+            "maxMs": 10.301708999999391
+          },
+          "total": {
+            "medianMs": 121.5102910000005,
+            "p95Ms": 125.3505839999998,
+            "maxMs": 125.3505839999998
+          },
+          "teardown": {
+            "medianMs": 0.007459000000380911,
+            "p95Ms": 0.03458299999965675,
+            "maxMs": 0.03458299999965675
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 7.793791000000056,
+            "p95Ms": 8.161999999999352,
+            "maxMs": 8.161999999999352
+          },
+          "firstSeek": {
+            "medianMs": 1.2298749999999927,
+            "p95Ms": 1.246541999999863,
+            "maxMs": 1.246541999999863
+          },
+          "warmSeek": {
+            "medianMs": 1.193540999999641,
+            "p95Ms": 1.3867920000002414,
+            "maxMs": 2.4360420000002705
+          },
+          "total": {
+            "medianMs": 37.92241599999943,
+            "p95Ms": 38.08695799999987,
+            "maxMs": 38.08695799999987
+          },
+          "teardown": {
+            "medianMs": 0.0020000000004074536,
+            "p95Ms": 0.012749999999869033,
+            "maxMs": 0.012749999999869033
+          },
+          "serializedCacheBytes": 228415,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 7.253582999999708,
+            "p95Ms": 7.9268749999992,
+            "maxMs": 7.9268749999992
+          },
+          "firstSeek": {
+            "medianMs": 0.0005000000001018634,
+            "p95Ms": 0.0005830000000059954,
+            "maxMs": 0.0005830000000059954
+          },
+          "warmSeek": {
+            "medianMs": 0.00008399999933317304,
+            "p95Ms": 0.0001250000004802132,
+            "maxMs": 0.0001250000004802132
+          },
+          "total": {
+            "medianMs": 7.267249999999876,
+            "p95Ms": 7.941915999999765,
+            "maxMs": 7.941915999999765
+          },
+          "teardown": {
+            "medianMs": 0.0006249999996725819,
+            "p95Ms": 0.0006669999993391684,
+            "maxMs": 0.0006669999993391684
+          },
+          "serializedCacheBytes": 469167,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 7.721082999999453,
+            "p95Ms": 8.162666999999601,
+            "maxMs": 8.162666999999601
+          },
+          "firstSeek": {
+            "medianMs": 2.4582909999999174,
+            "p95Ms": 3.550833999999668,
+            "maxMs": 3.550833999999668
+          },
+          "warmSeek": {
+            "medianMs": 2.1047080000007554,
+            "p95Ms": 3.1416250000002037,
+            "maxMs": 3.8054590000001554
+          },
+          "total": {
+            "medianMs": 62.348666999999296,
+            "p95Ms": 63.111957999999504,
+            "maxMs": 63.111957999999504
+          },
+          "teardown": {
+            "medianMs": 0.00408400000014808,
+            "p95Ms": 0.008499999999912689,
+            "maxMs": 0.008499999999912689
+          },
+          "serializedCacheBytes": 52972,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.00258399999984249,
+            "p95Ms": 0.0029169999997975538,
+            "maxMs": 0.0029169999997975538
+          },
+          "firstSeek": {
+            "medianMs": 16.812165999999706,
+            "p95Ms": 17.578041999999186,
+            "maxMs": 17.578041999999186
+          },
+          "warmSeek": {
+            "medianMs": 16.981958000000304,
+            "p95Ms": 17.555749999999534,
+            "maxMs": 17.722333000001527
+          },
+          "total": {
+            "medianMs": 405.70570900000075,
+            "p95Ms": 410.6389170000002,
+            "maxMs": 410.6389170000002
+          },
+          "teardown": {
+            "medianMs": 0.0017919999991136137,
+            "p95Ms": 0.002291999999215477,
+            "maxMs": 0.002291999999215477
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.0025420000001759036,
+            "p95Ms": 0.00258399999984249,
+            "maxMs": 0.00258399999984249
+          },
+          "firstSeek": {
+            "medianMs": 5.025209000001269,
+            "p95Ms": 5.056749999999738,
+            "maxMs": 5.056749999999738
+          },
+          "warmSeek": {
+            "medianMs": 5.096250000000509,
+            "p95Ms": 5.608750000001237,
+            "maxMs": 5.984709000000294
+          },
+          "total": {
+            "medianMs": 122.77299999999923,
+            "p95Ms": 122.89808300000004,
+            "maxMs": 122.89808300000004
+          },
+          "teardown": {
+            "medianMs": 0.001417000001310953,
+            "p95Ms": 0.0014580000006390037,
+            "maxMs": 0.0014580000006390037
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.06483299999854353,
+            "p95Ms": 0.07387500000004366,
+            "maxMs": 0.07387500000004366
+          },
+          "firstSeek": {
+            "medianMs": 5.445416999998997,
+            "p95Ms": 5.851249999999709,
+            "maxMs": 5.851249999999709
+          },
+          "warmSeek": {
+            "medianMs": 4.640625,
+            "p95Ms": 5.827707999998893,
+            "maxMs": 6.251040999999532
+          },
+          "total": {
+            "medianMs": 68.06341599999905,
+            "p95Ms": 70.87037500000042,
+            "maxMs": 70.87037500000042
+          },
+          "teardown": {
+            "medianMs": 0.0057079999987763586,
+            "p95Ms": 0.0059160000000701984,
+            "maxMs": 0.0059160000000701984
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 8.11120899999878,
+            "p95Ms": 9.704791000000114,
+            "maxMs": 9.704791000000114
+          },
+          "firstSeek": {
+            "medianMs": 1.269709000000148,
+            "p95Ms": 1.4323750000003201,
+            "maxMs": 1.4323750000003201
+          },
+          "warmSeek": {
+            "medianMs": 1.1681250000001455,
+            "p95Ms": 1.347208999999566,
+            "maxMs": 2.1985420000000886
+          },
+          "total": {
+            "medianMs": 25.387375000000247,
+            "p95Ms": 26.372583000000304,
+            "maxMs": 26.372583000000304
+          },
+          "teardown": {
+            "medianMs": 0.0019999999985884642,
+            "p95Ms": 0.0027079999999841675,
+            "maxMs": 0.0027079999999841675
+          },
+          "serializedCacheBytes": 228415,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 6.767458000000261,
+            "p95Ms": 7.721792000000278,
+            "maxMs": 7.721792000000278
+          },
+          "firstSeek": {
+            "medianMs": 0.0003749999996216502,
+            "p95Ms": 0.0007499999992433004,
+            "maxMs": 0.0007499999992433004
+          },
+          "warmSeek": {
+            "medianMs": 0.00008300000081362668,
+            "p95Ms": 0.0001250000004802132,
+            "maxMs": 0.0001250000004802132
+          },
+          "total": {
+            "medianMs": 6.778791000000638,
+            "p95Ms": 7.733416999999463,
+            "maxMs": 7.733416999999463
+          },
+          "teardown": {
+            "medianMs": 0.0007919999989098869,
+            "p95Ms": 0.0017079999997804407,
+            "maxMs": 0.0017079999997804407
+          },
+          "serializedCacheBytes": 469167,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 8.068166000000929,
+            "p95Ms": 8.43212499999936,
+            "maxMs": 8.43212499999936
+          },
+          "firstSeek": {
+            "medianMs": 2.620249999999942,
+            "p95Ms": 2.647957999999562,
+            "maxMs": 2.647957999999562
+          },
+          "warmSeek": {
+            "medianMs": 2.2535420000003796,
+            "p95Ms": 2.9899999999997817,
+            "maxMs": 3.777958000000581
+          },
+          "total": {
+            "medianMs": 64.10300000000097,
+            "p95Ms": 64.45337499999914,
+            "maxMs": 64.45337499999914
+          },
+          "teardown": {
+            "medianMs": 0.002125000000887667,
+            "p95Ms": 0.0031660000004194444,
+            "maxMs": 0.0031660000004194444
+          },
+          "serializedCacheBytes": 52972,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.0022499999995488906,
+            "p95Ms": 0.002291999999215477,
+            "maxMs": 0.002291999999215477
+          },
+          "firstSeek": {
+            "medianMs": 16.48266599999988,
+            "p95Ms": 16.674542000000656,
+            "maxMs": 16.674542000000656
+          },
+          "warmSeek": {
+            "medianMs": 16.897041000000172,
+            "p95Ms": 17.66374999999971,
+            "maxMs": 57.55829200000153
+          },
+          "total": {
+            "medianMs": 406.7034999999996,
+            "p95Ms": 450.22504200000003,
+            "maxMs": 450.22504200000003
+          },
+          "teardown": {
+            "medianMs": 0.0017920000009326031,
+            "p95Ms": 0.0019170000014128163,
+            "maxMs": 0.0019170000014128163
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3045,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.0028340000008029165,
+            "p95Ms": 0.005667000001267297,
+            "maxMs": 0.005667000001267297
+          },
+          "firstSeek": {
+            "medianMs": 4.822707999999693,
+            "p95Ms": 4.916916000000128,
+            "maxMs": 4.916916000000128
+          },
+          "warmSeek": {
+            "medianMs": 5.0005829999990965,
+            "p95Ms": 5.475625000000946,
+            "maxMs": 5.602291999999579
+          },
+          "total": {
+            "medianMs": 120.26012499999888,
+            "p95Ms": 120.35804199999984,
+            "maxMs": 120.35804199999984
+          },
+          "teardown": {
+            "medianMs": 0.0014579999988200143,
+            "p95Ms": 0.001540999999633641,
+            "maxMs": 0.001540999999633641
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3045,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.08195800000066811,
+            "p95Ms": 0.087666999999783,
+            "maxMs": 0.087666999999783
+          },
+          "firstSeek": {
+            "medianMs": 4.753250000001572,
+            "p95Ms": 4.845833000001221,
+            "maxMs": 4.845833000001221
+          },
+          "warmSeek": {
+            "medianMs": 0.1303329999991547,
+            "p95Ms": 5.371041999998852,
+            "maxMs": 5.731334000000061
+          },
+          "total": {
+            "medianMs": 61.60554199999933,
+            "p95Ms": 61.649084000000585,
+            "maxMs": 61.649084000000585
+          },
+          "teardown": {
+            "medianMs": 0.005250000000160071,
+            "p95Ms": 0.006207999998878222,
+            "maxMs": 0.006207999998878222
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3045,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 7.687040999999226,
+            "p95Ms": 7.920334000000366,
+            "maxMs": 7.920334000000366
+          },
+          "firstSeek": {
+            "medianMs": 1.2508749999997235,
+            "p95Ms": 1.294540999999299,
+            "maxMs": 1.294540999999299
+          },
+          "warmSeek": {
+            "medianMs": 1.1707919999989826,
+            "p95Ms": 1.4441249999999854,
+            "maxMs": 2.29241699999875
+          },
+          "total": {
+            "medianMs": 36.05758400000013,
+            "p95Ms": 36.72241700000086,
+            "maxMs": 36.72241700000086
+          },
+          "teardown": {
+            "medianMs": 0.002082999999402091,
+            "p95Ms": 0.0024169999996956903,
+            "maxMs": 0.0024169999996956903
+          },
+          "serializedCacheBytes": 228415,
+          "checksum": 3045,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 7.130041000000347,
+            "p95Ms": 7.785165999999663,
+            "maxMs": 7.785165999999663
+          },
+          "firstSeek": {
+            "medianMs": 0.001374999999825377,
+            "p95Ms": 0.0017500000012660166,
+            "maxMs": 0.0017500000012660166
+          },
+          "warmSeek": {
+            "medianMs": 0.00008399999933317304,
+            "p95Ms": 0.00016700000014679972,
+            "maxMs": 0.0002920000006270129
+          },
+          "total": {
+            "medianMs": 7.144791000000623,
+            "p95Ms": 7.804083000000901,
+            "maxMs": 7.804083000000901
+          },
+          "teardown": {
+            "medianMs": 0.0008330000000569271,
+            "p95Ms": 0.0008340000003954628,
+            "maxMs": 0.0008340000003954628
+          },
+          "serializedCacheBytes": 469167,
+          "checksum": 3045,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 7.780000000000655,
+            "p95Ms": 8.22558299999946,
+            "maxMs": 8.22558299999946
+          },
+          "firstSeek": {
+            "medianMs": 2.351083000001381,
+            "p95Ms": 2.6307080000005953,
+            "maxMs": 2.6307080000005953
+          },
+          "warmSeek": {
+            "medianMs": 2.168499999999767,
+            "p95Ms": 3.1970000000001164,
+            "maxMs": 3.748583000000508
+          },
+          "total": {
+            "medianMs": 63.09845800000039,
+            "p95Ms": 63.48091700000077,
+            "maxMs": 63.48091700000077
+          },
+          "teardown": {
+            "medianMs": 0.002540999999837368,
+            "p95Ms": 0.002624999999170541,
+            "maxMs": 0.002624999999170541
+          },
+          "serializedCacheBytes": 52972,
+          "checksum": 3045,
+          "samples": 69
+        }
+      ]
+    },
+    {
+      "name": "concurrent-reordered-10000",
+      "records": 10001,
+      "updateBytes": 108429,
+      "validation": {
+        "fresh": {
+          "passed": true,
+          "positions": 65
+        },
+        "fresh-batched": {
+          "passed": true,
+          "positions": 65
+        },
+        "incremental": {
+          "passed": true,
+          "positions": 65
+        },
+        "checkpoints": {
+          "passed": true,
+          "positions": 65
+        },
+        "calendar-cache": {
+          "passed": true,
+          "positions": 65
+        },
+        "yjs-snapshots": {
+          "passed": true,
+          "positions": 65
+        }
+      },
+      "heap": {
+        "fresh": {
+          "medianRetainedBytes": 148168,
+          "samples": [
+            -542648,
+            148168,
+            291456
+          ]
+        },
+        "fresh-batched": {
+          "medianRetainedBytes": 601016,
+          "samples": [
+            -929624,
+            601016,
+            1217768
+          ]
+        },
+        "incremental": {
+          "medianRetainedBytes": 632784,
+          "samples": [
+            166360,
+            632784,
+            1119968
+          ]
+        },
+        "checkpoints": {
+          "medianRetainedBytes": 775296,
+          "samples": [
+            232032,
+            775296,
+            1420728
+          ]
+        },
+        "calendar-cache": {
+          "medianRetainedBytes": 458600,
+          "samples": [
+            106712,
+            458600,
+            524808
+          ]
+        },
+        "yjs-snapshots": {
+          "medianRetainedBytes": 2732680,
+          "samples": [
+            2356136,
+            2732680,
+            3773776
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.0007919999989098869,
+            "p95Ms": 0.0010000000002037268,
+            "maxMs": 0.0010000000002037268
+          },
+          "firstSeek": {
+            "medianMs": 27.553082999998878,
+            "p95Ms": 27.720416000000114,
+            "maxMs": 27.720416000000114
+          },
+          "warmSeek": {
+            "medianMs": 27.922875000000204,
+            "p95Ms": 33.32879200000025,
+            "maxMs": 69.01737499999945
+          },
+          "total": {
+            "medianMs": 680.0046660000007,
+            "p95Ms": 713.260083000001,
+            "maxMs": 713.260083000001
+          },
+          "teardown": {
+            "medianMs": 0.0010409999995317776,
+            "p95Ms": 0.0011249999988649506,
+            "maxMs": 0.0011249999988649506
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.07262500000069849,
+            "p95Ms": 0.09683299999960582,
+            "maxMs": 0.09683299999960582
+          },
+          "firstSeek": {
+            "medianMs": 29.172082999997656,
+            "p95Ms": 30.042875000002823,
+            "maxMs": 30.042875000002823
+          },
+          "warmSeek": {
+            "medianMs": 0.017208000001119217,
+            "p95Ms": 0.06016599999929895,
+            "maxMs": 0.0654580000009446
+          },
+          "total": {
+            "medianMs": 29.76641699999891,
+            "p95Ms": 30.556291999997484,
+            "maxMs": 30.556291999997484
+          },
+          "teardown": {
+            "medianMs": 0.00412500000311411,
+            "p95Ms": 0.0043750000004365575,
+            "maxMs": 0.0043750000004365575
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 37.84154200000194,
+            "p95Ms": 39.57995899999878,
+            "maxMs": 39.57995899999878
+          },
+          "firstSeek": {
+            "medianMs": 1.550875000000815,
+            "p95Ms": 1.8270420000008016,
+            "maxMs": 1.8270420000008016
+          },
+          "warmSeek": {
+            "medianMs": 0.010500000000320142,
+            "p95Ms": 0.02595899999869289,
+            "maxMs": 0.03404200000295532
+          },
+          "total": {
+            "medianMs": 39.654709000002185,
+            "p95Ms": 41.760042000001704,
+            "maxMs": 41.760042000001704
+          },
+          "teardown": {
+            "medianMs": 0.0016669999968144111,
+            "p95Ms": 0.0020000000004074536,
+            "maxMs": 0.0020000000004074536
+          },
+          "serializedCacheBytes": 313254,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 30.53279200000179,
+            "p95Ms": 32.92870799999946,
+            "maxMs": 32.92870799999946
+          },
+          "firstSeek": {
+            "medianMs": 0.0008330000018759165,
+            "p95Ms": 0.0014170000031299423,
+            "maxMs": 0.0014170000031299423
+          },
+          "warmSeek": {
+            "medianMs": 0.00008299999899463728,
+            "p95Ms": 0.0001250000022992026,
+            "maxMs": 0.01825000000098953
+          },
+          "total": {
+            "medianMs": 30.56341700000121,
+            "p95Ms": 32.93854199999987,
+            "maxMs": 32.93854199999987
+          },
+          "teardown": {
+            "medianMs": 0.0005420000015874393,
+            "p95Ms": 0.0010409999995317776,
+            "maxMs": 0.0010409999995317776
+          },
+          "serializedCacheBytes": 472006,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 35.9821669999983,
+            "p95Ms": 44.43304200000057,
+            "maxMs": 44.43304200000057
+          },
+          "firstSeek": {
+            "medianMs": 2.7358750000021246,
+            "p95Ms": 3.3840000000018335,
+            "maxMs": 3.3840000000018335
+          },
+          "warmSeek": {
+            "medianMs": 2.438125000000582,
+            "p95Ms": 5.502250000001368,
+            "maxMs": 6.2479590000002645
+          },
+          "total": {
+            "medianMs": 100.3235829999976,
+            "p95Ms": 109.94558300000062,
+            "maxMs": 109.94558300000062
+          },
+          "teardown": {
+            "medianMs": 0.0032079999982670415,
+            "p95Ms": 0.006041999997250969,
+            "maxMs": 0.006041999997250969
+          },
+          "serializedCacheBytes": 68301,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.0007499999992433004,
+            "p95Ms": 0.001082999999198364,
+            "maxMs": 0.001082999999198364
+          },
+          "firstSeek": {
+            "medianMs": 42.42108300000109,
+            "p95Ms": 43.295374999997875,
+            "maxMs": 43.295374999997875
+          },
+          "warmSeek": {
+            "medianMs": 43.23741700000028,
+            "p95Ms": 47.95720799999981,
+            "maxMs": 77.99179200000071
+          },
+          "total": {
+            "medianMs": 1051.4881659999992,
+            "p95Ms": 1079.171709000002,
+            "maxMs": 1079.171709000002
+          },
+          "teardown": {
+            "medianMs": 0.0009580000005371403,
+            "p95Ms": 0.0010000000002037268,
+            "maxMs": 0.0010000000002037268
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.0009160000008705538,
+            "p95Ms": 0.0012920000008307397,
+            "maxMs": 0.0012920000008307397
+          },
+          "firstSeek": {
+            "medianMs": 26.981291999996756,
+            "p95Ms": 30.79145900000003,
+            "maxMs": 30.79145900000003
+          },
+          "warmSeek": {
+            "medianMs": 27.76204200000211,
+            "p95Ms": 32.322000000000116,
+            "maxMs": 71.77254099999845
+          },
+          "total": {
+            "medianMs": 689.5950840000005,
+            "p95Ms": 752.422208,
+            "maxMs": 752.422208
+          },
+          "teardown": {
+            "medianMs": 0.0007919999989098869,
+            "p95Ms": 0.0007919999989098869,
+            "maxMs": 0.0007919999989098869
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.07675000000017462,
+            "p95Ms": 0.09512499999982538,
+            "maxMs": 0.09512499999982538
+          },
+          "firstSeek": {
+            "medianMs": 28.392500000001746,
+            "p95Ms": 30.349708999998256,
+            "maxMs": 30.349708999998256
+          },
+          "warmSeek": {
+            "medianMs": 28.00133300000016,
+            "p95Ms": 36.12837500000023,
+            "maxMs": 83.79958299999998
+          },
+          "total": {
+            "medianMs": 703.6016249999993,
+            "p95Ms": 750.9387910000005,
+            "maxMs": 750.9387910000005
+          },
+          "teardown": {
+            "medianMs": 0.007458000000042375,
+            "p95Ms": 0.009916999999404652,
+            "maxMs": 0.009916999999404652
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 37.31649999999718,
+            "p95Ms": 39.35166599999866,
+            "maxMs": 39.35166599999866
+          },
+          "firstSeek": {
+            "medianMs": 1.5234999999993306,
+            "p95Ms": 1.6178749999999127,
+            "maxMs": 1.6178749999999127
+          },
+          "warmSeek": {
+            "medianMs": 1.452792000000045,
+            "p95Ms": 3.7877909999988333,
+            "maxMs": 4.609292000001005
+          },
+          "total": {
+            "medianMs": 77.21125000000029,
+            "p95Ms": 78.68816700000025,
+            "maxMs": 78.68816700000025
+          },
+          "teardown": {
+            "medianMs": 0.0021249999990686774,
+            "p95Ms": 0.002375000000029104,
+            "maxMs": 0.002375000000029104
+          },
+          "serializedCacheBytes": 313254,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 30.853541000000405,
+            "p95Ms": 32.33116700000028,
+            "maxMs": 32.33116700000028
+          },
+          "firstSeek": {
+            "medianMs": 0.0009589999972376972,
+            "p95Ms": 0.0011250000025029294,
+            "maxMs": 0.0011250000025029294
+          },
+          "warmSeek": {
+            "medianMs": 0.00008299999899463728,
+            "p95Ms": 0.0001250000022992026,
+            "maxMs": 0.00016700000196578912
+          },
+          "total": {
+            "medianMs": 30.862041000000318,
+            "p95Ms": 32.345375000000786,
+            "maxMs": 32.345375000000786
+          },
+          "teardown": {
+            "medianMs": 0.00008399999933317304,
+            "p95Ms": 0.000499999998282874,
+            "maxMs": 0.000499999998282874
+          },
+          "serializedCacheBytes": 472006,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 32.92912500000239,
+            "p95Ms": 74.81091700000252,
+            "maxMs": 74.81091700000252
+          },
+          "firstSeek": {
+            "medianMs": 2.5979169999991427,
+            "p95Ms": 5.129916999998386,
+            "maxMs": 5.129916999998386
+          },
+          "warmSeek": {
+            "medianMs": 2.432875000002241,
+            "p95Ms": 5.562083000000712,
+            "maxMs": 6.15166699999827
+          },
+          "total": {
+            "medianMs": 98.64787500000239,
+            "p95Ms": 144.2258750000001,
+            "maxMs": 144.2258750000001
+          },
+          "teardown": {
+            "medianMs": 0.0027079999999841675,
+            "p95Ms": 0.0031249999992724042,
+            "maxMs": 0.0031249999992724042
+          },
+          "serializedCacheBytes": 68301,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.0006670000002486631,
+            "p95Ms": 0.0016669999968144111,
+            "maxMs": 0.0016669999968144111
+          },
+          "firstSeek": {
+            "medianMs": 41.63508300000103,
+            "p95Ms": 43.67829200000415,
+            "maxMs": 43.67829200000415
+          },
+          "warmSeek": {
+            "medianMs": 42.827125000003434,
+            "p95Ms": 45.05762500000128,
+            "maxMs": 50.48374999999942
+          },
+          "total": {
+            "medianMs": 1024.0541250000024,
+            "p95Ms": 1043.230958,
+            "maxMs": 1043.230958
+          },
+          "teardown": {
+            "medianMs": 0.0007909999985713512,
+            "p95Ms": 0.0008750000051804818,
+            "maxMs": 0.0008750000051804818
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.0010000000038417056,
+            "p95Ms": 0.001167000002169516,
+            "maxMs": 0.001167000002169516
+          },
+          "firstSeek": {
+            "medianMs": 26.28533299999981,
+            "p95Ms": 29.804167000002053,
+            "maxMs": 29.804167000002053
+          },
+          "warmSeek": {
+            "medianMs": 27.52362500000163,
+            "p95Ms": 32.1417500000025,
+            "maxMs": 42.53041600000142
+          },
+          "total": {
+            "medianMs": 664.8538750000007,
+            "p95Ms": 711.3009160000001,
+            "maxMs": 711.3009160000001
+          },
+          "teardown": {
+            "medianMs": 0.0009170000048470683,
+            "p95Ms": 0.0010000000038417056,
+            "maxMs": 0.0010000000038417056
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3204,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.0758750000022701,
+            "p95Ms": 0.07879200000024866,
+            "maxMs": 0.07879200000024866
+          },
+          "firstSeek": {
+            "medianMs": 28.8159169999999,
+            "p95Ms": 29.833167000004323,
+            "maxMs": 29.833167000004323
+          },
+          "warmSeek": {
+            "medianMs": 25.91766700000153,
+            "p95Ms": 31.74787500000093,
+            "maxMs": 79.29741700000159
+          },
+          "total": {
+            "medianMs": 386.5149590000001,
+            "p95Ms": 419.53654200000165,
+            "maxMs": 419.53654200000165
+          },
+          "teardown": {
+            "medianMs": 0.005875000002561137,
+            "p95Ms": 0.00620800000615418,
+            "maxMs": 0.00620800000615418
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3204,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 37.490499999999884,
+            "p95Ms": 42.544167000000016,
+            "maxMs": 42.544167000000016
+          },
+          "firstSeek": {
+            "medianMs": 1.641542000004847,
+            "p95Ms": 2.1738750000004075,
+            "maxMs": 2.1738750000004075
+          },
+          "warmSeek": {
+            "medianMs": 1.4151249999995343,
+            "p95Ms": 1.974207999999635,
+            "maxMs": 4.581833000003826
+          },
+          "total": {
+            "medianMs": 60.53570800000307,
+            "p95Ms": 66.0694169999988,
+            "maxMs": 66.0694169999988
+          },
+          "teardown": {
+            "medianMs": 0.0018750000017462298,
+            "p95Ms": 0.006416999996872619,
+            "maxMs": 0.006416999996872619
+          },
+          "serializedCacheBytes": 313254,
+          "checksum": 3204,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 28.07549999999901,
+            "p95Ms": 28.179582999997365,
+            "maxMs": 28.179582999997365
+          },
+          "firstSeek": {
+            "medianMs": 0.0010410000031697564,
+            "p95Ms": 0.0010419999962323345,
+            "maxMs": 0.0010419999962323345
+          },
+          "warmSeek": {
+            "medianMs": 0.00008299999899463728,
+            "p95Ms": 0.0001249999986612238,
+            "maxMs": 0.00016699999832781032
+          },
+          "total": {
+            "medianMs": 28.0824999999968,
+            "p95Ms": 28.189917000003334,
+            "maxMs": 28.189917000003334
+          },
+          "teardown": {
+            "medianMs": 0.0010419999962323345,
+            "p95Ms": 0.0012920000008307397,
+            "maxMs": 0.0012920000008307397
+          },
+          "serializedCacheBytes": 472006,
+          "checksum": 3204,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 34.94483300000138,
+            "p95Ms": 35.309291999998095,
+            "maxMs": 35.309291999998095
+          },
+          "firstSeek": {
+            "medianMs": 2.5553340000042226,
+            "p95Ms": 2.877167000006011,
+            "maxMs": 2.877167000006011
+          },
+          "warmSeek": {
+            "medianMs": 2.4992090000014286,
+            "p95Ms": 4.1227079999953276,
+            "maxMs": 6.608208999998169
+          },
+          "total": {
+            "medianMs": 96.3927909999984,
+            "p95Ms": 108.55845799999952,
+            "maxMs": 108.55845799999952
+          },
+          "teardown": {
+            "medianMs": 0.004124999999476131,
+            "p95Ms": 0.010625000002619345,
+            "maxMs": 0.010625000002619345
+          },
+          "serializedCacheBytes": 68301,
+          "checksum": 3204,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.0007499999992433004,
+            "p95Ms": 0.001791999995475635,
+            "maxMs": 0.001791999995475635
+          },
+          "firstSeek": {
+            "medianMs": 55.30945899999642,
+            "p95Ms": 60.91595800000505,
+            "maxMs": 60.91595800000505
+          },
+          "warmSeek": {
+            "medianMs": 47.77524999999878,
+            "p95Ms": 66.72220799999923,
+            "maxMs": 113.52508300000045
+          },
+          "total": {
+            "medianMs": 1179.4159999999974,
+            "p95Ms": 1361.4897920000003,
+            "maxMs": 1361.4897920000003
+          },
+          "teardown": {
+            "medianMs": 0.0008329999982379377,
+            "p95Ms": 0.0008750000051804818,
+            "maxMs": 0.0008750000051804818
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3204,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "fresh-batched",
+          "setup": {
+            "medianMs": 0.000999999996565748,
+            "p95Ms": 0.0010420000035082921,
+            "maxMs": 0.0010420000035082921
+          },
+          "firstSeek": {
+            "medianMs": 28.323292000000947,
+            "p95Ms": 29.694000000003143,
+            "maxMs": 29.694000000003143
+          },
+          "warmSeek": {
+            "medianMs": 31.893167000001995,
+            "p95Ms": 49.43341599999985,
+            "maxMs": 64.4717079999973
+          },
+          "total": {
+            "medianMs": 827.0459589999955,
+            "p95Ms": 903.606292000004,
+            "maxMs": 903.606292000004
+          },
+          "teardown": {
+            "medianMs": 0.0029169999979785644,
+            "p95Ms": 0.0032910000008996576,
+            "maxMs": 0.0032910000008996576
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3090,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "incremental",
+          "setup": {
+            "medianMs": 0.0733330000002752,
+            "p95Ms": 0.07854199999565026,
+            "maxMs": 0.07854199999565026
+          },
+          "firstSeek": {
+            "medianMs": 29.9429999999993,
+            "p95Ms": 34.43141699999978,
+            "maxMs": 34.43141699999978
+          },
+          "warmSeek": {
+            "medianMs": 0.800374999998894,
+            "p95Ms": 36.621416999994835,
+            "maxMs": 92.2289579999997
+          },
+          "total": {
+            "medianMs": 382.68849999999657,
+            "p95Ms": 452.93641699999716,
+            "maxMs": 452.93641699999716
+          },
+          "teardown": {
+            "medianMs": 0.005708999997295905,
+            "p95Ms": 0.0077089999977033585,
+            "maxMs": 0.0077089999977033585
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3090,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "checkpoints",
+          "setup": {
+            "medianMs": 41.7665829999969,
+            "p95Ms": 48.11604200000147,
+            "maxMs": 48.11604200000147
+          },
+          "firstSeek": {
+            "medianMs": 1.4870420000006561,
+            "p95Ms": 1.87791599999764,
+            "maxMs": 1.87791599999764
+          },
+          "warmSeek": {
+            "medianMs": 1.4881250000034925,
+            "p95Ms": 3.8937910000022384,
+            "maxMs": 6.01024999999936
+          },
+          "total": {
+            "medianMs": 85.6883749999979,
+            "p95Ms": 87.54595800000243,
+            "maxMs": 87.54595800000243
+          },
+          "teardown": {
+            "medianMs": 0.002166999998735264,
+            "p95Ms": 0.003708000003825873,
+            "maxMs": 0.003708000003825873
+          },
+          "serializedCacheBytes": 313254,
+          "checksum": 3090,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "calendar-cache",
+          "setup": {
+            "medianMs": 31.295834000004106,
+            "p95Ms": 32.99762500000361,
+            "maxMs": 32.99762500000361
+          },
+          "firstSeek": {
+            "medianMs": 0.0012080000014975667,
+            "p95Ms": 0.0012919999935547821,
+            "maxMs": 0.0012919999935547821
+          },
+          "warmSeek": {
+            "medianMs": 0.00008299999899463728,
+            "p95Ms": 0.00016699999832781032,
+            "maxMs": 0.0002499999973224476
+          },
+          "total": {
+            "medianMs": 31.305709000000206,
+            "p95Ms": 33.0158750000046,
+            "maxMs": 33.0158750000046
+          },
+          "teardown": {
+            "medianMs": 0.00041700000292621553,
+            "p95Ms": 0.0007499999992433004,
+            "maxMs": 0.0007499999992433004
+          },
+          "serializedCacheBytes": 472006,
+          "checksum": 3090,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "yjs-snapshots",
+          "setup": {
+            "medianMs": 32.80091600000014,
+            "p95Ms": 33.62774999999965,
+            "maxMs": 33.62774999999965
+          },
+          "firstSeek": {
+            "medianMs": 2.4684999999954016,
+            "p95Ms": 2.541625000005297,
+            "maxMs": 2.541625000005297
+          },
+          "warmSeek": {
+            "medianMs": 2.5009160000045085,
+            "p95Ms": 5.84891599999537,
+            "maxMs": 13.605791000001773
+          },
+          "total": {
+            "medianMs": 99.41258299999754,
+            "p95Ms": 107.71512500000244,
+            "maxMs": 107.71512500000244
+          },
+          "teardown": {
+            "medianMs": 0.0026249999937135726,
+            "p95Ms": 0.0032920000012381934,
+            "maxMs": 0.0032920000012381934
+          },
+          "serializedCacheBytes": 68301,
+          "checksum": 3090,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0.0009169999975711107,
+            "p95Ms": 0.000999999996565748,
+            "maxMs": 0.000999999996565748
+          },
+          "firstSeek": {
+            "medianMs": 43.677167000001646,
+            "p95Ms": 48.659833000005165,
+            "maxMs": 48.659833000005165
+          },
+          "warmSeek": {
+            "medianMs": 43.20249999999942,
+            "p95Ms": 52.16687500000262,
+            "maxMs": 82.48633300000074
+          },
+          "total": {
+            "medianMs": 1083.5325840000005,
+            "p95Ms": 1100.9499159999978,
+            "maxMs": 1100.9499159999978
+          },
+          "teardown": {
+            "medianMs": 0.0009589999972376972,
+            "p95Ms": 0.004124999999476131,
+            "maxMs": 0.004124999999476131
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3090,
+          "samples": 69
+        }
+      ]
+    }
+  ]
+}

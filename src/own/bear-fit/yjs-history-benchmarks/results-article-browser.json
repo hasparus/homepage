@@ -1,0 +1,274 @@
+{
+  "environment": {
+    "date": "2026-09-15T23:11:45.508Z",
+    "chromium": "149.0.7827.55",
+    "cpuThrottlingRate": 4,
+    "timing": "JavaScript replay and snapshot extraction only; no DOM rendering, network or paint",
+    "repeats": 3,
+    "steps": 24
+  },
+  "fixtures": [
+    {
+      "name": "sequential-10000",
+      "records": 10000,
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "firstSeek": {
+            "medianMs": 89.90000000596046,
+            "p95Ms": 105.09999999403954,
+            "maxMs": 105.09999999403954
+          },
+          "warmSeek": {
+            "medianMs": 96.29999999701977,
+            "p95Ms": 112.5,
+            "maxMs": 126.1000000089407
+          },
+          "total": {
+            "medianMs": 2354.4000000059605,
+            "p95Ms": 2403.8999999910593,
+            "maxMs": 2403.8999999910593
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "forward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 28.299999997019768,
+            "p95Ms": 33.1000000089407,
+            "maxMs": 33.1000000089407
+          },
+          "firstSeek": {
+            "medianMs": 0,
+            "p95Ms": 0.09999999403953552,
+            "maxMs": 0.09999999403953552
+          },
+          "warmSeek": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "total": {
+            "medianMs": 28.299999997019768,
+            "p95Ms": 33.20000000298023,
+            "maxMs": 33.20000000298023
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "firstSeek": {
+            "medianMs": 60.1000000089407,
+            "p95Ms": 60.20000000298023,
+            "maxMs": 60.20000000298023
+          },
+          "warmSeek": {
+            "medianMs": 59.400000005960464,
+            "p95Ms": 61.1000000089407,
+            "maxMs": 61.70000000298023
+          },
+          "total": {
+            "medianMs": 1431.8999999910593,
+            "p95Ms": 1432.7000000029802,
+            "maxMs": 1432.7000000029802
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 24.299999997019768,
+            "p95Ms": 25,
+            "maxMs": 25
+          },
+          "firstSeek": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "warmSeek": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "total": {
+            "medianMs": 24.599999994039536,
+            "p95Ms": 25,
+            "maxMs": 25
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "firstSeek": {
+            "medianMs": 58.70000000298023,
+            "p95Ms": 60,
+            "maxMs": 60
+          },
+          "warmSeek": {
+            "medianMs": 59.599999994039536,
+            "p95Ms": 76.20000000298023,
+            "maxMs": 83.19999998807907
+          },
+          "total": {
+            "medianMs": 1424.7000000029802,
+            "p95Ms": 1611.2000000029802,
+            "maxMs": 1611.2000000029802
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 29.5,
+            "p95Ms": 29.700000002980232,
+            "maxMs": 29.700000002980232
+          },
+          "firstSeek": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "warmSeek": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "total": {
+            "medianMs": 29.5,
+            "p95Ms": 29.700000002980232,
+            "maxMs": 29.700000002980232
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "fresh",
+          "setup": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "firstSeek": {
+            "medianMs": 79.29999999701977,
+            "p95Ms": 82.5,
+            "maxMs": 82.5
+          },
+          "warmSeek": {
+            "medianMs": 83.09999999403954,
+            "p95Ms": 86.09999999403954,
+            "maxMs": 87
+          },
+          "total": {
+            "medianMs": 1896.5999999940395,
+            "p95Ms": 2027.9000000059605,
+            "maxMs": 2027.9000000059605
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 0,
+          "checksum": 3045,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 35,
+            "p95Ms": 35.20000000298023,
+            "maxMs": 35.20000000298023
+          },
+          "firstSeek": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "warmSeek": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "total": {
+            "medianMs": 35,
+            "p95Ms": 36,
+            "maxMs": 36
+          },
+          "teardown": {
+            "medianMs": 0,
+            "p95Ms": 0,
+            "maxMs": 0
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 3045,
+          "samples": 69
+        }
+      ]
+    }
+  ]
+}

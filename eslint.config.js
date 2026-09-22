@@ -3,7 +3,15 @@ import react from "@hasparus/eslint-config/react";
 import solid from "@hasparus/eslint-config/solid";
 
 export default [
-  { ignores: ["**/*.mdx", "**/*.md", "**/*.gitignored.*"] },
+  {
+    ignores: [
+      "**/*.mdx",
+      "**/*.md",
+      "**/*.gitignored.*",
+      // Finished measurement scripts, kept as the evidence behind the post.
+      "src/own/bear-fit/yjs-history-benchmarks/**",
+    ],
+  },
 
   ...astro,
   // homepage is Solid-first but keeps React for the three.js bits (*.react.tsx).

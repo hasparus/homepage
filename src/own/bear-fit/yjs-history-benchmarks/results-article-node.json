@@ -1,0 +1,922 @@
+{
+  "environment": {
+    "date": "2026-09-15T23:11:40.417Z",
+    "commit": "f4dbff4",
+    "node": "v24.13.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "cpu": "Apple M1 Pro",
+    "yjs": "13.6.24",
+    "repeats": 3,
+    "steps": 24,
+    "gcExposed": true
+  },
+  "fixtures": [
+    {
+      "name": "sequential-250",
+      "records": 250,
+      "updateBytes": 5861,
+      "validation": {
+        "article-cache": {
+          "passed": true,
+          "positions": 630
+        }
+      },
+      "heap": {
+        "article-cache": {
+          "medianRetainedBytes": 595432,
+          "samples": [
+            261664,
+            595432,
+            610352
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 7.057790999999952,
+            "p95Ms": 7.438750000000027,
+            "maxMs": 7.438750000000027
+          },
+          "firstSeek": {
+            "medianMs": 0.001458999999954358,
+            "p95Ms": 0.0015420000000858636,
+            "maxMs": 0.0015420000000858636
+          },
+          "warmSeek": {
+            "medianMs": 0.00033399999995253893,
+            "p95Ms": 0.0005840000000034706,
+            "maxMs": 0.0018750000000409273
+          },
+          "total": {
+            "medianMs": 7.163832999999954,
+            "p95Ms": 7.47462500000006,
+            "maxMs": 7.47462500000006
+          },
+          "teardown": {
+            "medianMs": 0.003333999999995285,
+            "p95Ms": 0.008500000000026375,
+            "maxMs": 0.008500000000026375
+          },
+          "serializedCacheBytes": 413513,
+          "checksum": 2820,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 5.571458000000007,
+            "p95Ms": 6.584874999999897,
+            "maxMs": 6.584874999999897
+          },
+          "firstSeek": {
+            "medianMs": 0.0007920000000467553,
+            "p95Ms": 0.0009169999999585343,
+            "maxMs": 0.0009169999999585343
+          },
+          "warmSeek": {
+            "medianMs": 0.0002919999999448919,
+            "p95Ms": 0.00041699999997035775,
+            "maxMs": 0.0006670000000212895
+          },
+          "total": {
+            "medianMs": 5.600791999999956,
+            "p95Ms": 6.613916999999901,
+            "maxMs": 6.613916999999901
+          },
+          "teardown": {
+            "medianMs": 0.0015830000000960354,
+            "p95Ms": 0.005291999999940344,
+            "maxMs": 0.005291999999940344
+          },
+          "serializedCacheBytes": 413513,
+          "checksum": 2820,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 5.577499999999986,
+            "p95Ms": 5.715165999999954,
+            "maxMs": 5.715165999999954
+          },
+          "firstSeek": {
+            "medianMs": 0.0006250000000136424,
+            "p95Ms": 0.0007499999999254214,
+            "maxMs": 0.0007499999999254214
+          },
+          "warmSeek": {
+            "medianMs": 0.0002910000000611035,
+            "p95Ms": 0.0003749999999627107,
+            "maxMs": 0.0365830000000642
+          },
+          "total": {
+            "medianMs": 5.604499999999916,
+            "p95Ms": 5.733749999999986,
+            "maxMs": 5.733749999999986
+          },
+          "teardown": {
+            "medianMs": 0.0006250000000136424,
+            "p95Ms": 0.0009579999999687061,
+            "maxMs": 0.0009579999999687061
+          },
+          "serializedCacheBytes": 413513,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 5.582666999999901,
+            "p95Ms": 5.984124999999949,
+            "maxMs": 5.984124999999949
+          },
+          "firstSeek": {
+            "medianMs": 0.0007919999999330685,
+            "p95Ms": 0.0008330000000569271,
+            "maxMs": 0.0008330000000569271
+          },
+          "warmSeek": {
+            "medianMs": 0.00024999999993724487,
+            "p95Ms": 0.0004999999999881766,
+            "maxMs": 0.0007499999999254214
+          },
+          "total": {
+            "medianMs": 5.612457999999947,
+            "p95Ms": 6.010582999999997,
+            "maxMs": 6.010582999999997
+          },
+          "teardown": {
+            "medianMs": 0.0007910000000492801,
+            "p95Ms": 0.0008329999999432403,
+            "maxMs": 0.0008329999999432403
+          },
+          "serializedCacheBytes": 413513,
+          "checksum": 2583,
+          "samples": 69
+        }
+      ]
+    },
+    {
+      "name": "concurrent-reordered-250",
+      "records": 251,
+      "updateBytes": 10373,
+      "validation": {
+        "article-cache": {
+          "passed": true,
+          "positions": 630
+        }
+      },
+      "heap": {
+        "article-cache": {
+          "medianRetainedBytes": 370544,
+          "samples": [
+            176576,
+            370544,
+            379080
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 14.798416999999972,
+            "p95Ms": 15.00691699999993,
+            "maxMs": 15.00691699999993
+          },
+          "firstSeek": {
+            "medianMs": 0.0008749999999508873,
+            "p95Ms": 0.0008749999999508873,
+            "maxMs": 0.0008749999999508873
+          },
+          "warmSeek": {
+            "medianMs": 0.00020900000004075991,
+            "p95Ms": 0.0003339999998388521,
+            "maxMs": 0.00045799999998052954
+          },
+          "total": {
+            "medianMs": 14.833249999999907,
+            "p95Ms": 15.03141699999992,
+            "maxMs": 15.03141699999992
+          },
+          "teardown": {
+            "medianMs": 0.0006250000001273293,
+            "p95Ms": 0.0024580000001606095,
+            "maxMs": 0.0024580000001606095
+          },
+          "serializedCacheBytes": 528859,
+          "checksum": 4530,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 13.323000000000093,
+            "p95Ms": 14.140458999999964,
+            "maxMs": 14.140458999999964
+          },
+          "firstSeek": {
+            "medianMs": 0.0007920000000467553,
+            "p95Ms": 0.0007920000000467553,
+            "maxMs": 0.0007920000000467553
+          },
+          "warmSeek": {
+            "medianMs": 0.00020899999981338624,
+            "p95Ms": 0.0002910000000611035,
+            "maxMs": 0.0002919999999448919
+          },
+          "total": {
+            "medianMs": 13.347208000000137,
+            "p95Ms": 14.16229199999998,
+            "maxMs": 14.16229199999998
+          },
+          "teardown": {
+            "medianMs": 0.0007499999999254214,
+            "p95Ms": 0.0008749999999508873,
+            "maxMs": 0.0008749999999508873
+          },
+          "serializedCacheBytes": 528859,
+          "checksum": 4530,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 11.598500000000058,
+            "p95Ms": 11.977624999999989,
+            "maxMs": 11.977624999999989
+          },
+          "firstSeek": {
+            "medianMs": 0.0007920000000467553,
+            "p95Ms": 0.0008339999999407155,
+            "maxMs": 0.0008339999999407155
+          },
+          "warmSeek": {
+            "medianMs": 0.0002080000001569715,
+            "p95Ms": 0.0002919999999448919,
+            "maxMs": 0.00037500000007639755
+          },
+          "total": {
+            "medianMs": 11.620084000000134,
+            "p95Ms": 11.999124999999822,
+            "maxMs": 11.999124999999822
+          },
+          "teardown": {
+            "medianMs": 0.0008749999999508873,
+            "p95Ms": 0.002416999999923064,
+            "maxMs": 0.002416999999923064
+          },
+          "serializedCacheBytes": 528859,
+          "checksum": 4680,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 10.718834000000015,
+            "p95Ms": 12.303499999999985,
+            "maxMs": 12.303499999999985
+          },
+          "firstSeek": {
+            "medianMs": 0.0010000000002037268,
+            "p95Ms": 0.001125000000001819,
+            "maxMs": 0.001125000000001819
+          },
+          "warmSeek": {
+            "medianMs": 0.0002500000000509317,
+            "p95Ms": 0.0005000000001018634,
+            "maxMs": 0.0005840000001171575
+          },
+          "total": {
+            "medianMs": 10.751334000000043,
+            "p95Ms": 12.344249999999874,
+            "maxMs": 12.344249999999874
+          },
+          "teardown": {
+            "medianMs": 0.001875000000154614,
+            "p95Ms": 0.002250000000003638,
+            "maxMs": 0.002250000000003638
+          },
+          "serializedCacheBytes": 528859,
+          "checksum": 3432,
+          "samples": 69
+        }
+      ]
+    },
+    {
+      "name": "sequential-1000",
+      "records": 1000,
+      "updateBytes": 13023,
+      "validation": {
+        "article-cache": {
+          "passed": true,
+          "positions": 630
+        }
+      },
+      "heap": {
+        "article-cache": {
+          "medianRetainedBytes": 916952,
+          "samples": [
+            482264,
+            916952,
+            917232
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 9.665915999999925,
+            "p95Ms": 11.343582999999853,
+            "maxMs": 11.343582999999853
+          },
+          "firstSeek": {
+            "medianMs": 0.0007089999999152496,
+            "p95Ms": 0.0007910000001629669,
+            "maxMs": 0.0007910000001629669
+          },
+          "warmSeek": {
+            "medianMs": 0.0002080000001569715,
+            "p95Ms": 0.0002500000000509317,
+            "maxMs": 0.0002500000000509317
+          },
+          "total": {
+            "medianMs": 9.687457999999879,
+            "p95Ms": 11.382040999999845,
+            "maxMs": 11.382040999999845
+          },
+          "teardown": {
+            "medianMs": 0.001334000000042579,
+            "p95Ms": 0.002125000000205546,
+            "maxMs": 0.002125000000205546
+          },
+          "serializedCacheBytes": 492857,
+          "checksum": 2862,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 8.067291999999952,
+            "p95Ms": 8.407542000000149,
+            "maxMs": 8.407542000000149
+          },
+          "firstSeek": {
+            "medianMs": 0.0006250000001273293,
+            "p95Ms": 0.0008749999999508873,
+            "maxMs": 0.0008749999999508873
+          },
+          "warmSeek": {
+            "medianMs": 0.0002080000001569715,
+            "p95Ms": 0.0002910000000611035,
+            "maxMs": 0.00033400000006622577
+          },
+          "total": {
+            "medianMs": 8.090000000000146,
+            "p95Ms": 8.429542000000083,
+            "maxMs": 8.429542000000083
+          },
+          "teardown": {
+            "medianMs": 0.0019999999999527063,
+            "p95Ms": 0.00200000000018008,
+            "maxMs": 0.00200000000018008
+          },
+          "serializedCacheBytes": 492857,
+          "checksum": 2862,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 6.871583000000101,
+            "p95Ms": 7.151666999999861,
+            "maxMs": 7.151666999999861
+          },
+          "firstSeek": {
+            "medianMs": 0.0006250000001273293,
+            "p95Ms": 0.0008330000000569271,
+            "maxMs": 0.0008330000000569271
+          },
+          "warmSeek": {
+            "medianMs": 0.0002080000001569715,
+            "p95Ms": 0.0002500000000509317,
+            "maxMs": 0.0002500000000509317
+          },
+          "total": {
+            "medianMs": 6.890833000000157,
+            "p95Ms": 7.1714170000000195,
+            "maxMs": 7.1714170000000195
+          },
+          "teardown": {
+            "medianMs": 0.0014169999999467109,
+            "p95Ms": 0.0017090000001189765,
+            "maxMs": 0.0017090000001189765
+          },
+          "serializedCacheBytes": 492857,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 6.839041999999836,
+            "p95Ms": 7.028958000000102,
+            "maxMs": 7.028958000000102
+          },
+          "firstSeek": {
+            "medianMs": 0.000875000000178261,
+            "p95Ms": 0.0009170000000722212,
+            "maxMs": 0.0009170000000722212
+          },
+          "warmSeek": {
+            "medianMs": 0.00020900000004075991,
+            "p95Ms": 0.0002919999999448919,
+            "maxMs": 0.00037500000007639755
+          },
+          "total": {
+            "medianMs": 6.881291999999803,
+            "p95Ms": 7.05662499999994,
+            "maxMs": 7.05662499999994
+          },
+          "teardown": {
+            "medianMs": 0.0007919999998193816,
+            "p95Ms": 0.001125000000001819,
+            "maxMs": 0.001125000000001819
+          },
+          "serializedCacheBytes": 492857,
+          "checksum": 3195,
+          "samples": 69
+        }
+      ]
+    },
+    {
+      "name": "concurrent-reordered-1000",
+      "records": 1001,
+      "updateBytes": 22635,
+      "validation": {
+        "article-cache": {
+          "passed": true,
+          "positions": 65
+        }
+      },
+      "heap": {
+        "article-cache": {
+          "medianRetainedBytes": 423280,
+          "samples": [
+            177696,
+            423280,
+            438424
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 23.036749999999984,
+            "p95Ms": 26.42254200000002,
+            "maxMs": 26.42254200000002
+          },
+          "firstSeek": {
+            "medianMs": 0.0007920000000467553,
+            "p95Ms": 0.0007920000000467553,
+            "maxMs": 0.0007920000000467553
+          },
+          "warmSeek": {
+            "medianMs": 0.0002080000001569715,
+            "p95Ms": 0.0002909999998337298,
+            "maxMs": 0.00033400000006622577
+          },
+          "total": {
+            "medianMs": 23.058457999999973,
+            "p95Ms": 26.451458999999886,
+            "maxMs": 26.451458999999886
+          },
+          "teardown": {
+            "medianMs": 0.0013750000000527507,
+            "p95Ms": 0.0014999999998508429,
+            "maxMs": 0.0014999999998508429
+          },
+          "serializedCacheBytes": 525345,
+          "checksum": 3513,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 18.79337499999997,
+            "p95Ms": 19.10583399999996,
+            "maxMs": 19.10583399999996
+          },
+          "firstSeek": {
+            "medianMs": 0.0007919999998193816,
+            "p95Ms": 0.0008330000000569271,
+            "maxMs": 0.0008330000000569271
+          },
+          "warmSeek": {
+            "medianMs": 0.0002080000001569715,
+            "p95Ms": 0.00029200000017226557,
+            "maxMs": 0.00037500000007639755
+          },
+          "total": {
+            "medianMs": 18.81770800000004,
+            "p95Ms": 19.12737500000003,
+            "maxMs": 19.12737500000003
+          },
+          "teardown": {
+            "medianMs": 0.0014160000000629225,
+            "p95Ms": 0.002666999999746622,
+            "maxMs": 0.002666999999746622
+          },
+          "serializedCacheBytes": 525345,
+          "checksum": 3513,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 16.413125000000036,
+            "p95Ms": 16.560500000000047,
+            "maxMs": 16.560500000000047
+          },
+          "firstSeek": {
+            "medianMs": 0.0007089999999152496,
+            "p95Ms": 0.0008330000000569271,
+            "maxMs": 0.0008330000000569271
+          },
+          "warmSeek": {
+            "medianMs": 0.00020800000038434519,
+            "p95Ms": 0.0002500000000509317,
+            "maxMs": 0.00037500000007639755
+          },
+          "total": {
+            "medianMs": 16.432166000000052,
+            "p95Ms": 16.5798749999999,
+            "maxMs": 16.5798749999999
+          },
+          "teardown": {
+            "medianMs": 0.0007909999999355932,
+            "p95Ms": 0.001958999999715161,
+            "maxMs": 0.001958999999715161
+          },
+          "serializedCacheBytes": 525345,
+          "checksum": 3492,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 16.60912499999995,
+            "p95Ms": 16.80033400000002,
+            "maxMs": 16.80033400000002
+          },
+          "firstSeek": {
+            "medianMs": 0.0008339999999407155,
+            "p95Ms": 0.0011250000002291927,
+            "maxMs": 0.0011250000002291927
+          },
+          "warmSeek": {
+            "medianMs": 0.00020899999981338624,
+            "p95Ms": 0.00041599999985919567,
+            "maxMs": 0.00045799999998052954
+          },
+          "total": {
+            "medianMs": 16.63541699999996,
+            "p95Ms": 16.847834000000148,
+            "maxMs": 16.847834000000148
+          },
+          "teardown": {
+            "medianMs": 0.0015830000002097222,
+            "p95Ms": 0.0027079999999841675,
+            "maxMs": 0.0027079999999841675
+          },
+          "serializedCacheBytes": 525345,
+          "checksum": 3417,
+          "samples": 69
+        }
+      ]
+    },
+    {
+      "name": "sequential-10000",
+      "records": 10000,
+      "updateBytes": 98523,
+      "validation": {
+        "article-cache": {
+          "passed": true,
+          "positions": 65
+        }
+      },
+      "heap": {
+        "article-cache": {
+          "medianRetainedBytes": 949528,
+          "samples": [
+            379168,
+            949528,
+            963792
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 21.612708999999995,
+            "p95Ms": 23.914999999999964,
+            "maxMs": 23.914999999999964
+          },
+          "firstSeek": {
+            "medianMs": 0.0009159999999610591,
+            "p95Ms": 0.0011250000002291927,
+            "maxMs": 0.0011250000002291927
+          },
+          "warmSeek": {
+            "medianMs": 0.00020799999992959783,
+            "p95Ms": 0.0002500000000509317,
+            "maxMs": 0.00029200000017226557
+          },
+          "total": {
+            "medianMs": 21.637208999999984,
+            "p95Ms": 23.95841700000028,
+            "maxMs": 23.95841700000028
+          },
+          "teardown": {
+            "medianMs": 0.0006659999999101274,
+            "p95Ms": 0.0013339999995878316,
+            "maxMs": 0.0013339999995878316
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 15.367125000000215,
+            "p95Ms": 17.19591700000001,
+            "maxMs": 17.19591700000001
+          },
+          "firstSeek": {
+            "medianMs": 0.0007499999996980478,
+            "p95Ms": 0.0007919999998193816,
+            "maxMs": 0.0007919999998193816
+          },
+          "warmSeek": {
+            "medianMs": 0.00020800000038434519,
+            "p95Ms": 0.0002500000000509317,
+            "maxMs": 0.0002500000000509317
+          },
+          "total": {
+            "medianMs": 15.389416999999867,
+            "p95Ms": 17.21849999999995,
+            "maxMs": 17.21849999999995
+          },
+          "teardown": {
+            "medianMs": 0.0015839999996387633,
+            "p95Ms": 0.0015840000000935106,
+            "maxMs": 0.0015840000000935106
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 2922,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 14.715999999999894,
+            "p95Ms": 14.931417000000238,
+            "maxMs": 14.931417000000238
+          },
+          "firstSeek": {
+            "medianMs": 0.0008330000000569271,
+            "p95Ms": 0.0008749999997235136,
+            "maxMs": 0.0008749999997235136
+          },
+          "warmSeek": {
+            "medianMs": 0.00020799999992959783,
+            "p95Ms": 0.0002500000000509317,
+            "maxMs": 0.0003329999999550637
+          },
+          "total": {
+            "medianMs": 14.736333999999715,
+            "p95Ms": 14.95233300000018,
+            "maxMs": 14.95233300000018
+          },
+          "teardown": {
+            "medianMs": 0.0012080000001333246,
+            "p95Ms": 0.002084000000195374,
+            "maxMs": 0.002084000000195374
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 2988,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 12.966625000000022,
+            "p95Ms": 13.676958999999897,
+            "maxMs": 13.676958999999897
+          },
+          "firstSeek": {
+            "medianMs": 0.0005839999998897838,
+            "p95Ms": 0.0008339999999407155,
+            "maxMs": 0.0008339999999407155
+          },
+          "warmSeek": {
+            "medianMs": 0.00020799999992959783,
+            "p95Ms": 0.0002909999998337298,
+            "maxMs": 0.0032499999997526174
+          },
+          "total": {
+            "medianMs": 12.991875000000164,
+            "p95Ms": 13.724208999999973,
+            "maxMs": 13.724208999999973
+          },
+          "teardown": {
+            "medianMs": 0.0009589999999661813,
+            "p95Ms": 0.0014580000001842564,
+            "maxMs": 0.0014580000001842564
+          },
+          "serializedCacheBytes": 474344,
+          "checksum": 3045,
+          "samples": 69
+        }
+      ]
+    },
+    {
+      "name": "concurrent-reordered-10000",
+      "records": 10001,
+      "updateBytes": 108429,
+      "validation": {
+        "article-cache": {
+          "passed": true,
+          "positions": 65
+        }
+      },
+      "heap": {
+        "article-cache": {
+          "medianRetainedBytes": 412240,
+          "samples": [
+            85472,
+            412240,
+            492840
+          ]
+        }
+      },
+      "measurements": [
+        {
+          "workload": "forward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 69.46166700000003,
+            "p95Ms": 80.19770800000015,
+            "maxMs": 80.19770800000015
+          },
+          "firstSeek": {
+            "medianMs": 0.0007500000001527951,
+            "p95Ms": 0.000875000000178261,
+            "maxMs": 0.000875000000178261
+          },
+          "warmSeek": {
+            "medianMs": 0.00016699999969205237,
+            "p95Ms": 0.00029200000017226557,
+            "maxMs": 0.00045899999986431794
+          },
+          "total": {
+            "medianMs": 69.47679199999993,
+            "p95Ms": 80.22358299999996,
+            "maxMs": 80.22358299999996
+          },
+          "teardown": {
+            "medianMs": 0.000875000000178261,
+            "p95Ms": 0.0028750000001309672,
+            "maxMs": 0.0028750000001309672
+          },
+          "serializedCacheBytes": 477191,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "backward",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 58.98725000000013,
+            "p95Ms": 61.706290999999965,
+            "maxMs": 61.706290999999965
+          },
+          "firstSeek": {
+            "medianMs": 0.0007080000000314612,
+            "p95Ms": 0.0009999999997489795,
+            "maxMs": 0.0009999999997489795
+          },
+          "warmSeek": {
+            "medianMs": 0.00016700000014679972,
+            "p95Ms": 0.0002920000006270129,
+            "maxMs": 0.0004590000003190653
+          },
+          "total": {
+            "medianMs": 59.001958000000286,
+            "p95Ms": 61.72204099999999,
+            "maxMs": 61.72204099999999
+          },
+          "teardown": {
+            "medianMs": 0.0011249999997744453,
+            "p95Ms": 0.0014999999998508429,
+            "maxMs": 0.0014999999998508429
+          },
+          "serializedCacheBytes": 477191,
+          "checksum": 3120,
+          "samples": 69
+        },
+        {
+          "workload": "alternating",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 52.7612079999999,
+            "p95Ms": 52.956083000000035,
+            "maxMs": 52.956083000000035
+          },
+          "firstSeek": {
+            "medianMs": 0.0006670000002486631,
+            "p95Ms": 0.0007500000001527951,
+            "maxMs": 0.0007500000001527951
+          },
+          "warmSeek": {
+            "medianMs": 0.00016599999980826396,
+            "p95Ms": 0.00020899999981338624,
+            "maxMs": 0.00033400000029359944
+          },
+          "total": {
+            "medianMs": 52.77399999999943,
+            "p95Ms": 52.96837500000038,
+            "maxMs": 52.96837500000038
+          },
+          "teardown": {
+            "medianMs": 0.0007080000004862086,
+            "p95Ms": 0.001291999999921245,
+            "maxMs": 0.001291999999921245
+          },
+          "serializedCacheBytes": 477191,
+          "checksum": 3204,
+          "samples": 69
+        },
+        {
+          "workload": "random",
+          "strategy": "article-cache",
+          "setup": {
+            "medianMs": 50.527665999999954,
+            "p95Ms": 50.934667000000445,
+            "maxMs": 50.934667000000445
+          },
+          "firstSeek": {
+            "medianMs": 0.0006249999996725819,
+            "p95Ms": 0.0007500000001527951,
+            "maxMs": 0.0007500000001527951
+          },
+          "warmSeek": {
+            "medianMs": 0.00016700000014679972,
+            "p95Ms": 0.0002919999997175182,
+            "maxMs": 0.0003749999996216502
+          },
+          "total": {
+            "medianMs": 50.54408299999977,
+            "p95Ms": 50.954499999999825,
+            "maxMs": 50.954499999999825
+          },
+          "teardown": {
+            "medianMs": 0.0011249999997744453,
+            "p95Ms": 0.0011249999997744453,
+            "maxMs": 0.0011249999997744453
+          },
+          "serializedCacheBytes": 477191,
+          "checksum": 3090,
+          "samples": 69
+        }
+      ]
+    }
+  ]
+}
