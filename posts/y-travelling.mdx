@@ -106,33 +106,17 @@ instead replay it once and keep the last 250 versions as plain data:
 
 ```
 
-Each snapshot copies the maps, so applying the next update doesn't change the
-versions already saved. The slider can read `versions[index].snapshot` without
-running any Y.js code. Rebuild the cache when the fetched history changes,
-including after compaction.
+Each snapshot copies the maps, so the slider reads old versions without running
+any Y.js code. Rebuild the cache when the fetched history changes, including
+after compaction.
 
-I [benchmarked this][replay-benchmark] with 10,000 generated updates, in
-Chromium with 4× CPU throttling on an M1 Pro. Rebuilding took about 17 ms per
-backward step. The cache took 31 ms to build, and lookups after that were too
-fast for the browser's clock. Node puts them at about 80 nanoseconds.
+In [a benchmark][replay-benchmark] with 10,000 updates and 4× CPU throttling,
+replaying took 17 ms per step, or 61 ms without the `doc.transact`. The cache
+took 31 ms to build, then lookups were free.
 
-The 17 ms is thanks to the `doc.transact` in `replayHistory`. Without it, Y.js
-finishes a transaction after every single update, and the same rebuild took 61
-ms.
-
-In Node, without the throttling, a rebuild is 5 ms and fits in a frame. At
-50,000 updates it's 29 ms, and that's where I'd reach for the cache.
-
-The cache is cheap here because the calendar is tiny. Four people, three weeks,
-84 keys at most. Every version copies all of them, so you pay for how **wide**
-the document is.
-
-I widened the benchmark to 40 people over a year. Same 10,000 updates, 5,501
-keys. In Node, building the cache went from 9 ms to 583 ms, and it held 56 MB.
-
-For a document like that, store an encoded Y.js update every 32 versions and
-replay the few updates past it. That took 29 ms to build and 3 MB to keep, and a
-seek cost about 6 ms.
+That's because the calendar is tiny. At 40 people over a year, building the
+cache took 583 ms and 56 MB in Node. For wide documents, keep an encoded update
+every 32 versions and replay from the nearest one instead.
 
 <aside>
   Applying an old update to the live document doesn't undo later changes.
