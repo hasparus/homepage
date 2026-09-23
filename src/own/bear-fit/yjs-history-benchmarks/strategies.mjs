@@ -22,20 +22,17 @@ function readAndDestroy(doc) {
 export const strategies = {
   fresh(updates) {
     return {
-      seek: (count) => readAndDestroy(replayHistory(updates, count)),
+      seek(count) {
+        const doc = new Y.Doc();
+        for (const update of updates.slice(0, count))
+          Y.applyUpdate(doc, update.value);
+        return readAndDestroy(doc);
+      },
     };
   },
   "fresh-batched"(updates) {
     return {
-      seek(count) {
-        const doc = new Y.Doc();
-        try {
-          applyRange(doc, updates, 0, count);
-          return calendar(doc);
-        } finally {
-          doc.destroy();
-        }
-      },
+      seek: (count) => readAndDestroy(replayHistory(updates, count)),
     };
   },
   incremental(updates) {

@@ -17,14 +17,19 @@ medians inside 60.0-61.9 ms.
 
 ## What the post quotes
 
-At 10,000 sequential records in headless Chromium under 4x CPU throttling, naive
-replay costs about 61 ms per backward step and the cache takes about 31 ms to
-build. Cached lookups read as 0 in the browser because `performance.now()` is
-clamped to 100 us without cross-origin isolation. Node resolves them: 0.00008
+At 10,000 sequential records in headless Chromium under 4x CPU throttling,
+`replayHistory` costs about 17 ms per backward step and the cache takes about 31
+ms to build. Cached lookups read as 0 in the browser because `performance.now()`
+is clamped to 100 us without cross-origin isolation. Node resolves them: 0.00008
 ms, roughly 80 nanoseconds, which is a table lookup.
 
-Unthrottled, the same naive replay is 16.8 ms. That is the more honest number
-for a desktop reader, and it still sits on the wrong side of a 16.7 ms frame.
+`replayHistory` runs its loop inside one `doc.transact`. Applying the updates
+one by one, which is what the `fresh` strategy still measures, costs 61 ms for
+the same step.
+
+In Node, without the throttle, `replayHistory` takes 5.0 ms at 10,000 updates
+and 28.5 ms at 50,000. The second is where a frame is lost and the cache starts
+paying for itself.
 
 The benchmarked file is `src/code-blocks/y-travelling/cacheCalendarHistory.ts`,
 the same file the post imports into its code block.
@@ -35,20 +40,23 @@ Seven ways to show an old version, at 10,000 sequential records, medians over
 nine repeats with strategy order rotated per workload. Setup is counted, not
 hidden.
 
-| Strategy                                 |   Setup | First backward seek | Further backward | Further forward |
-| ---------------------------------------- | ------: | ------------------: | ---------------: | --------------: |
-| Fresh replay, as the demo does it        | <0.1 ms |             61.5 ms |          61.3 ms |         61.4 ms |
-| Fresh replay in one transaction          | <0.1 ms |             17.6 ms |          17.2 ms |         17.1 ms |
-| Reuse document forward, rebuild backward |  0.1 ms |             16.9 ms |          17.3 ms |         <0.1 ms |
-| Encoded checkpoints every 32 records     | 26.8 ms |              4.6 ms |           4.4 ms |         <0.1 ms |
-| Cache plain calendar states              | 30.8 ms |             <0.1 ms |          <0.1 ms |         <0.1 ms |
-| The post's cache                         | 31.1 ms |             <0.1 ms |          <0.1 ms |         <0.1 ms |
-| Yjs snapshots with `gc: false`           | 31.5 ms |              8.4 ms |           8.1 ms |          8.1 ms |
+| Strategy                                  |   Setup | First backward seek | Further backward | Further forward |
+| ----------------------------------------- | ------: | ------------------: | ---------------: | --------------: |
+| Fresh replay, update by update            | <0.1 ms |             61.5 ms |          61.3 ms |         61.4 ms |
+| Fresh replay in one transaction (shipped) | <0.1 ms |             17.6 ms |          17.2 ms |         17.1 ms |
+| Reuse document forward, rebuild backward  |  0.1 ms |             16.9 ms |          17.3 ms |         <0.1 ms |
+| Encoded checkpoints every 32 records      | 26.8 ms |              4.6 ms |           4.4 ms |         <0.1 ms |
+| Cache plain calendar states               | 30.8 ms |             <0.1 ms |          <0.1 ms |         <0.1 ms |
+| The post's cache                          | 31.1 ms |             <0.1 ms |          <0.1 ms |         <0.1 ms |
+| Yjs snapshots with `gc: false`            | 31.5 ms |              8.4 ms |           8.1 ms |          8.1 ms |
 
-Batching the existing replay loop inside one `doc.transact` is the small change:
-it keeps the helper stateless and still cuts the case by 3.6x. Caching the last
-250 calendar states is the change that makes scrubbing smooth in both
-directions, and the next section is where it stops being free.
+Batching the replay inside one `doc.transact` is the small change, and
+`replayHistory` now does it: 3.6x faster with the helper still stateless. The
+table's batched row timed an inline copy of that loop. Measured head to head in
+one Node process, `replayHistory` itself is within 7% of it (5.0 ms against 4.7
+ms), the difference being its `slice`. Caching the last 250 calendar states is
+the change that makes scrubbing smooth in both directions, and the next section
+is where it stops being free.
 
 ## Width, not length, is what the cache costs
 

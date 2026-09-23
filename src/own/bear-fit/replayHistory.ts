@@ -10,8 +10,10 @@ export function replayHistory(
     throw new RangeError("Invalid history position");
   const doc = new Doc();
   try {
-    for (const update of updates.slice(0, count))
-      applyUpdate(doc, update.value);
+    doc.transact(() => {
+      for (const update of updates.slice(0, count))
+        applyUpdate(doc, update.value);
+    });
     return doc;
   } catch (error) {
     doc.destroy();
