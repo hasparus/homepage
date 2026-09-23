@@ -60,27 +60,28 @@ is where it stops being free.
 
 ## Width, not length, is what the cache costs
 
-Every earlier run held the document at 4 participants over 21 days, so at most
-84 availability keys. That is bear-fit's real shape, and it is also the
-narrowest thing the benchmark can measure. Widening it to 40 participants over
-365 days, at the same 10,000 records, moves the cached state from 41 keys to
-5,501 and changes which strategy wins:
+The default fixture is 4 people over 21 days, which caps it at 84 availability
+keys. Two wider runs at the same 10,000 records: 12 people over 61 days, a big
+real bear-fit calendar, and 40 people over 365 days. Build time and size in
+Node, backward workload:
 
-| Strategy                             | 41 keys, setup | 5,501 keys, setup | 41 keys, cache | 5,501 keys, cache |
-| ------------------------------------ | -------------: | ----------------: | -------------: | ----------------: |
-| Encoded checkpoints every 32 records |         8.0 ms |           29.3 ms |         228 KB |            2.9 MB |
-| Cache plain calendar states          |         9.4 ms |          583.3 ms |         469 KB |           55.8 MB |
-| Yjs snapshots with `gc: false`       |         9.8 ms |           29.9 ms |          53 KB |            1.4 MB |
+| Calendar            |  Keys | Checkpoints every 32 | Cached plain states |   Yjs snapshots |
+| ------------------- | ----: | -------------------: | ------------------: | --------------: |
+| 4 people, 3 weeks   |    41 |       8.0 ms, 228 KB |      9.4 ms, 469 KB |   9.8 ms, 53 KB |
+| 12 people, 2 months |   355 |       9.4 ms, 469 KB |     30.2 ms, 3.7 MB | 10.4 ms, 205 KB |
+| 40 people, a year   | 5,501 |      29.3 ms, 2.9 MB |   583.3 ms, 55.8 MB | 29.9 ms, 1.4 MB |
 
-Seek times hold up, at 0.0001 ms cached against 6.4 ms for checkpoints. The cost
-moved entirely into construction and memory, because 250 snapshots of a wide map
-are 250 copies of a wide map. On the reordered four-client fixture the same
-cache takes 793 ms to build and holds 67.6 MB.
+Cached seeks stay at 0.0001 ms throughout. The cost is all construction and
+memory, because 250 snapshots of a wide map are 250 copies of it. The post's own
+`cacheCalendarHistory` tracks the plain-states column: 30.4 ms and 3.7 MB for
+the realistic calendar, 628.8 ms and 55.6 MB for the year-long one.
 
-So the post's advice is right for the calendar it is about and wrong as a
-general rule. Past roughly a few hundred keys, encoded checkpoints keep the
-sub-frame seeks without the memory, and the crossover is worth measuring rather
-than guessing. This is the axis the earlier rounds never varied.
+A big bear-fit calendar is comfortably inside what the cache handles. Somewhere
+between it and the year-long one, encoded checkpoints become the better trade,
+keeping seeks around 2-6 ms without the memory.
+
+The 12-person run happened with a load average around 3 from other work on the
+machine, so treat its timings as a little pessimistic.
 
 ## Where it stops mattering
 
@@ -209,6 +210,10 @@ node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-node.m
   --out=src/own/bear-fit/yjs-history-benchmarks/results-node-large.json
 
 # how it scales with document width, which is the axis that matters
+node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-node.mjs \
+  --sizes=10000 --users=12 --days=61 --repeats=9 \
+  --out=src/own/bear-fit/yjs-history-benchmarks/results-width-bear-fit.json
+
 node --expose-gc --import tsx src/own/bear-fit/yjs-history-benchmarks/run-node.mjs \
   --sizes=10000 --users=40 --days=365 --repeats=9 \
   --out=src/own/bear-fit/yjs-history-benchmarks/results-width-sweep.json

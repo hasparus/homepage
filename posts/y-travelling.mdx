@@ -108,11 +108,12 @@ versions as plain data:
 ```
 
 Rebuild it when the fetched history changes. In [a benchmark][replay-benchmark]
-with 10,000 updates, the cache took 31 ms to build, then lookups were free.
+with 10,000 updates, a big bear-fit calendar, 12 people over two months, took 30
+ms to cache and 3.7 MB to keep, then lookups were free.
 
-Every version copies the whole calendar, though. At 40 people over a year the
-cache took 583 ms and 56 MB, so for documents that wide, keep an encoded update
-every 32 versions instead.
+The cache copies the whole calendar per version, so at 40 people over a year
+it's 629 ms and 56 MB. For documents that wide, keep an encoded update every 32
+versions instead.
 
 <aside>
   Applying an old update to the live document doesn't undo later changes.
