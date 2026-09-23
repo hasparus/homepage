@@ -99,24 +99,20 @@ the replayed document before destroying it:
 
 ## Caching the previews
 
-The demo rebuilds the document on every slider move. For a longer log, we can
-instead replay it once and keep the last 250 versions as plain data:
+The demo rebuilds the document on every slider move, which is cheap thanks to
+the `doc.transact`. For a longer log, replay it once and keep the last 250
+versions as plain data:
 
 ```ts twoslash file=../src/code-blocks/y-travelling/cacheCalendarHistory.ts
 
 ```
 
-Each snapshot copies the maps, so the slider reads old versions without running
-any Y.js code. Rebuild the cache when the fetched history changes, including
-after compaction.
+Rebuild it when the fetched history changes. In [a benchmark][replay-benchmark]
+with 10,000 updates, the cache took 31 ms to build, then lookups were free.
 
-In [a benchmark][replay-benchmark] with 10,000 updates and 4× CPU throttling,
-replaying took 17 ms per step, or 61 ms without the `doc.transact`. The cache
-took 31 ms to build, then lookups were free.
-
-That's because the calendar is tiny. At 40 people over a year, building the
-cache took 583 ms and 56 MB in Node. For wide documents, keep an encoded update
-every 32 versions and replay from the nearest one instead.
+Every version copies the whole calendar, though. At 40 people over a year the
+cache took 583 ms and 56 MB, so for documents that wide, keep an encoded update
+every 32 versions instead.
 
 <aside>
   Applying an old update to the live document doesn't undo later changes.
