@@ -108,8 +108,9 @@ instead replay it once and keep the last 250 versions as plain data:
 
 Each snapshot copies the maps, so applying the next update doesn't change the
 versions already saved. The slider can read `versions[index].snapshot` without
-running any Y.js code. Rebuild the cache when the fetched history changes,
-including after compaction.
+running any Y.js code. It gets the cached object itself, though, so treat it as
+read-only. Rebuild the cache when the fetched history changes, including after
+compaction.
 
 In a [benchmark with 10,000 generated updates][replay-benchmark], rebuilding
 took about 61 ms per backward step. The cache took 31 ms to build, then lookups
@@ -117,6 +118,20 @@ were too fast for the browser's clock to time; in Node they're about 80
 nanoseconds. Those are medians in Chromium with 4× CPU throttling on an M1 Pro,
 measuring JavaScript work without rendering. Unthrottled, a rebuild is 16.8 ms,
 which is still a dropped frame.
+
+If you only want the slider to stop stuttering, wrap the replay loop in one
+`doc.transact`. That alone made it 3.6× faster.
+
+The cache is cheap here because the calendar is tiny. Four people, three weeks,
+84 keys at most. Every version copies all of them, so the cost grows with how
+**wide** the document is, not how long the log is.
+
+I widened the benchmark to 40 people over a year. Same 10,000 updates, 5,501
+keys. In Node, building the cache went from 9 ms to 583 ms, and it held 56 MB.
+
+For a document like that, store an encoded Y.js update every 32 versions and
+replay the few updates past it. That took 29 ms to build and 3 MB to keep, and a
+seek cost about 6 ms.
 
 <aside>
   Applying an old update to the live document doesn't undo later changes.
