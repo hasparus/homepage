@@ -1,7 +1,7 @@
 # Yjs history replay benchmarks
 
-Numbers behind the [y-travelling] post. M1 Pro, Node 24.13.0, Yjs 13.6.24.
-Browser runs are headless Chromium with 4x CPU throttling.
+These are the numbers behind the [y-travelling] post. M1 Pro, Node 24.13.0, Yjs
+13.6.24. Browser runs are headless Chromium with 4x CPU throttling.
 
 My first run of the article comparison overlapped a Node benchmark and gave 96
 ms and 59 ms for two workloads that do the same work. Everything below is from
@@ -25,8 +25,7 @@ of 9 repeats.
 The browser can't time anything under 0.1 ms. Node says a cached seek is about
 80 ns.
 
-The transaction is the cheap win, 3.6x. The cache is the one that makes the
-slider smooth.
+The transaction makes a step 3.6x faster. The caches get a seek under 0.1 ms.
 
 ## Width
 
@@ -54,15 +53,15 @@ Node, backward seek:
 |  10,000 |    16.8 ms |          5.0 ms |      9.9 ms |
 |  50,000 |    85.9 ms |         28.5 ms |     32.7 ms |
 
-At 50,000 `replayHistory` drops frames, so that's where the cache earns its
-keep. With four clients editing out of order it's worse: 197 ms one by one, 125
-ms to build the cache.
+At 50,000 updates `replayHistory` takes 28.5 ms, longer than a frame, so that's
+where the cache is worth building. Four clients editing out of order make it
+worse. Replaying one by one takes 197 ms, and building the cache takes 125 ms.
 
 The real demo had one stored update, 332 bytes. Everything here is generated.
 
 ## Undo doesn't rewind
 
-`undo-probes.mjs`:
+`undo-probes.mjs` shows why:
 
 1. Mark a day available.
 2. Delete the mark.
@@ -73,15 +72,16 @@ Undo writes new operations. The doc has already seen that delete, so replaying
 it does nothing. That's why bear-fit restores a version by writing its data as a
 new change.
 
-Scrubbing with `UndoManager` was fast, about 0.01 ms a step, and wrong on
-reordered updates: off from update 9, or update 36 with
-`ignoreRemoteMapChanges`. Counterexamples are in `results-undo.json`.
+Scrubbing with `UndoManager` took about 0.01 ms a step, and it showed the wrong
+calendar on reordered updates. The default settings went wrong at update 9, and
+`ignoreRemoteMapChanges` at update 36. The counterexamples are in
+`results-undo.json`.
 
 ## Persistence check
 
 `historyPersistence.ts` skips re-replaying a history response it has already
 seen. Identical responses drop to 0.14-0.38 ms. Changed ones cost about what
-they did before, sometimes a bit more. Numbers in
+they did before, sometimes a bit more. The numbers are in
 `results-validation-node.json`.
 
 ## Caveats
@@ -93,7 +93,8 @@ they did before, sometimes a bit more. Numbers in
 
 ## Running
 
-From the repo root. The browser runs need the Astro dev server on port 4323.
+Run these from the repo root. The browser runs need the Astro dev server on
+port 4323.
 
 ```sh
 B=src/own/bear-fit/yjs-history-benchmarks
