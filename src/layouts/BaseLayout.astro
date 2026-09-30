@@ -82,26 +82,42 @@ const websiteData = websiteSchema({
       ))
     }
 
-    <SocialCardMetaTags ogImage={ogImage} />
+    <SocialCardMetaTags ogImage={ogImage ?? "https://haspar.us/og.png"} />
+    <meta property="og:type" content={isPostRoute ? "article" : "website"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
 
     <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
     {
-      isPostRoute && (
-        <link rel="alternate" type="text/markdown" href={markdownAlt} />
+      (isPostRoute || rawPathname === "/") && (
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={
+            rawPathname === "/" ? "https://haspar.us/index.md" : markdownAlt
+          }
+        />
       )
     }
+    <link
+      rel="service-desc"
+      type="application/vnd.oai.openapi+json"
+      href="/openapi.json"
+    />
+    <link rel="help" href="/docs/" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
 
     <title>{title}</title>
     <JsonLd data={websiteData} />
+    <JsonLd data={{ "@context": "https://schema.org", ...AUTHOR }} />
     <slot name="head" />
     <InitColorScheme />
     <Analytics />
   </head>
   <body>
-    <div class="mx-auto max-w-container px-4">
+    <div class="max-w-container mx-auto px-4">
       <header
         class="-mt-2 flex items-center justify-between"
         style={{ height: "37.5px" }}

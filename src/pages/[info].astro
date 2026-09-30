@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pages } from "../lib/agents/content";
+import { Heading } from "../lib/prose/Heading";
+import { Paragraph } from "../lib/prose/Paragraph";
+
+export function getStaticPaths() {
+  return Object.entries(pages).map(([info, page]) => ({
+    params: { info },
+    props: { page },
+  }));
+}
+const { page } = Astro.props;
+---
+
+<BaseLayout title={page.title} description={page.description}>
+  <main class="zaduma-prose py-10">
+    <Heading level="h1">{page.title}</Heading>
+    {
+      page.paragraphs.map((paragraph: string) => (
+        <Paragraph>{paragraph}</Paragraph>
+      ))
+    }
+    <ul>
+      {
+        page.links.map((link: { title: string; href: string }) => (
+          <li>
+            <a href={link.href}>{link.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</BaseLayout>

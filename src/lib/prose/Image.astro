@@ -22,6 +22,8 @@ import {
 import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
+import { fetchRemoteImage } from "./fetchRemoteImage";
+
 import "./Image.css";
 
 // All* images with `src`s starting from / are imported from `src/images/` folder.
@@ -129,15 +131,15 @@ if (isRaw) {
     }
   }
 
-  let imageForPlaceholder: Buffer;
+  let imageForPlaceholder: Buffer | undefined;
   if (pathToImage.startsWith("http")) {
-    const res = await fetch(pathToImage);
-    if (!res.ok) {
-      throw new Error(
-        `Failed to fetch image ${pathToImage}: ${res.status} ${res.statusText}`,
+    imageForPlaceholder = await fetchRemoteImage(pathToImage);
+    if (!imageForPlaceholder) {
+      console.warn(
+        `Could not fetch ${pathToImage}; keeping the original image URL without a placeholder.`,
       );
+      isRaw = true;
     }
-    imageForPlaceholder = Buffer.from(await res.arrayBuffer());
   } else {
     // `pathToImage` is written relative to this file (src/lib/prose); resolve it
     // against the project root instead of `import.meta.url`, which no longer
@@ -148,16 +150,20 @@ if (isRaw) {
     );
   }
 
-  const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
-    size: 10,
-  });
-  placeholder = css;
+  if (imageForPlaceholder) {
+    const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
+      size: 10,
+    });
+    placeholder = css;
 
-  if (!width && !height && !props.aspectRatio) {
-    width ??= metadata.width;
-    props.aspectRatio ??= metadata.width / metadata.height;
-    width = Math.min(width, isThin ? PARAGRAPH_WIDTH : WIDE_CONTAINER_WIDTH);
-    height = Math.round(width / Number.parseFloat(props.aspectRatio as string));
+    if (!width && !height && !props.aspectRatio) {
+      width ??= metadata.width;
+      props.aspectRatio ??= metadata.width / metadata.height;
+      width = Math.min(width, isThin ? PARAGRAPH_WIDTH : WIDE_CONTAINER_WIDTH);
+      height = Math.round(
+        width / Number.parseFloat(props.aspectRatio as string),
+      );
+    }
   }
 }
 
@@ -167,7 +173,14 @@ height ??=
     : undefined;
 
 props.alt ||= "";
-let attrs = { src, class: "", width, height, aspectRatio: props.aspectRatio };
+let attrs = {
+  src,
+  alt: props.alt,
+  class: "",
+  width,
+  height,
+  aspectRatio: props.aspectRatio,
+};
 
 if (!isRaw) {
   let attributes;
