@@ -295,6 +295,38 @@ test("agent guide, API catalog, docs, trust pages, and metadata are discoverable
   expect(person.sameAs).toContain("https://github.com/hasparus");
 });
 
+test("homepage and About share the author's copy and metadata", async ({
+  page,
+  request,
+}) => {
+  const profile = await (await request.get("/api/profile.json")).json();
+  for (const path of ["/", "/about/"]) {
+    await page.goto(path);
+    await expect(
+      page.getByText(profile.description, { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "zagrajmy.net", exact: true }),
+    ).toHaveAttribute("href", "https://zagrajmy.net");
+    await expect(page).toHaveTitle("hasparus");
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      "an online abode of Piotr Monwid-Olechnowicz",
+    );
+  }
+  await expect(page.getByRole("main")).not.toContainText("I'm");
+  await expect(page.getByRole("main")).not.toContainText(
+    "The homepage has my writing;",
+  );
+  for (const path of ["/index.md", "/about.md"]) {
+    const markdown = await (await request.get(path)).text();
+    expect(markdown).toContain("# hasparus\n");
+    expect(markdown).toContain(
+      "building [zagrajmy.net](https://zagrajmy.net). hobbyist designer of games for nerds.",
+    );
+  }
+});
+
 test("existing operational endpoints keep success behavior and OG errors become structured JSON", async ({
   request,
 }) => {

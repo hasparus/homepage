@@ -4,6 +4,8 @@ import { formatDate } from "../lib/formatDate";
 import { isPostVisible } from "../lib/isPostVisible";
 import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
+import AuthorBio from "../lib/prose/AuthorBio.astro";
+import { SITE_BLURB, SITE_NAME } from "../lib/siteMeta";
 import type { PostFrontmatter } from "../types";
 
 const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
@@ -22,10 +24,7 @@ posts.sort((a, b) => {
 });
 ---
 
-<BaseLayout
-  title="hasparus"
-  description="an online abode of Piotr Monwid-Olechnowicz"
->
+<BaseLayout title={SITE_NAME} description={SITE_BLURB}>
   <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">
     hasparus
   </h1>
@@ -34,12 +33,7 @@ posts.sort((a, b) => {
       Piotr Monwid-Olechnowicz
     </h1>
     <div class="zaduma-prose">
-      <Paragraph>
-        a software sculptor, clanker cowboy, interested in human computer
-        interaction, and tools that push into the <em>pit of success</em>.
-        building <Link href="https://zagrajmy.net">zagrajmy.net</Link>. hobbyist
-        designer of games for nerds.
-      </Paragraph>
+      <AuthorBio />
       <Paragraph>Nice to have you here.</Paragraph>
     </div>
   </main>

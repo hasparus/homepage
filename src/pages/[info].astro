@@ -3,6 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { pages } from "../lib/agents/content";
 import { Heading } from "../lib/prose/Heading";
 import { Paragraph } from "../lib/prose/Paragraph";
+import AuthorBio from "../lib/prose/AuthorBio.astro";
+import { AUTHOR_BIO } from "../lib/siteMeta";
 
 export function getStaticPaths() {
   return Object.entries(pages).map(([info, page]) => ({
@@ -17,9 +19,13 @@ const { page } = Astro.props;
   <main class="zaduma-prose py-10">
     <Heading level="h1">{page.title}</Heading>
     {
-      page.paragraphs.map((paragraph: string) => (
-        <Paragraph>{paragraph}</Paragraph>
-      ))
+      page.paragraphs.map((paragraph: string) =>
+        paragraph === AUTHOR_BIO ? (
+          <AuthorBio />
+        ) : (
+          <Paragraph>{paragraph}</Paragraph>
+        ),
+      )
     }
     <ul>
       {
