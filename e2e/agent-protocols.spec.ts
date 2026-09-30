@@ -7,6 +7,8 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import { run } from "../packages/cli/bin/hasparus.mjs";
 import { fetchRemoteImage } from "../src/lib/prose/fetchRemoteImage";
 import { prefersMarkdown } from "../src/lib/agents/http";
+import middleware from "../middleware";
+import { parseSearchParams } from "../api/og";
 
 const base = "http://localhost:4321";
 const mcpHeaders = {
@@ -307,6 +309,48 @@ test("existing operational endpoints keep success behavior and OG errors become 
     message: expect.any(String),
     hint: expect.any(String),
   });
+});
+
+test("Markdown paths cannot turn into cross-origin requests", async () => {
+  const originalFetch = globalThis.fetch;
+  const targets: URL[] = [];
+  globalThis.fetch = async (input) => {
+    targets.push(new URL(String(input)));
+    return new Response("# Same-site Markdown", {
+      headers: { "Content-Type": "text/markdown" },
+    });
+  };
+  try {
+    for (const path of [
+      "//outside.example/article",
+      "/%2F%2Foutside.example/article",
+    ]) {
+      const response = await middleware(
+        new Request(`https://haspar.us${path}?ignored=true`, {
+          headers: { Accept: "text/markdown" },
+        }),
+      );
+      expect(response.status).toBe(200);
+    }
+    expect(targets).toHaveLength(2);
+    for (const target of targets) {
+      expect(target.origin).toBe("https://haspar.us");
+      expect(target.search).toBe("");
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("OG parameters preserve literal percent signs and encoded-looking titles", () => {
+  for (const title of ["100% useful", "Literal %20 and %2F"]) {
+    const source = `1700000000000\t3\t${title}\t`;
+    const query = new URLSearchParams({ post: source, token: "test-token" });
+    const parsed = parseSearchParams(new URLSearchParams(query.toString()));
+    expect(parsed.stringifiedPost).toBe(source);
+    expect(parsed.post.title).toBe(title);
+    expect(parsed.token).toBe("test-token");
+  }
 });
 
 test("media negotiation ignores disabled and malformed quality values", () => {

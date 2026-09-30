@@ -260,10 +260,8 @@ export type OgFunctionSearchParams = {
   token?: string;
 };
 
-function parseSearchParams(searchParams: URLSearchParams) {
-  const stringifiedPost = decodeURIComponent(
-    searchParams.get("post") || "",
-  ) as StringifiedPost;
+export function parseSearchParams(searchParams: URLSearchParams) {
+  const stringifiedPost = (searchParams.get("post") || "") as StringifiedPost;
 
   const postArray = stringifiedPost.split(SEPARATOR);
 

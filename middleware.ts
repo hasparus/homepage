@@ -41,10 +41,9 @@ export default async function middleware(request: Request): Promise<Response> {
   }
 
   const hasExtension = /\.[^/]+$/.test(path);
-  const markdownUrl = new URL(
-    path === "/" ? "/index.md" : `${path}.md`,
-    url.origin,
-  );
+  const markdownUrl = new URL(url);
+  markdownUrl.pathname = path === "/" ? "/index.md" : `${path}.md`;
+  markdownUrl.search = "";
   const markdown = hasExtension
     ? null
     : await fetch(markdownUrl, {
