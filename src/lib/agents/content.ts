@@ -22,7 +22,7 @@ export const pages = {
     description:
       "Piotr Monwid-Olechnowicz's personal website and software work.",
     paragraphs: [
-      "I'm Piotr Monwid-Olechnowicz, or hasparus. A software sculptor and clanker cowboy. I'm interested in human computer interaction and tooling that push us into the pit of success. I'm building zagrajmy.net. I'm a hobbyist designer of games for nerds. The homepage has my writing; check the date before trying code from an old post.",
+      "I'm Piotr Monwid-Olechnowicz, or hasparus. A software sculptor and clanker cowboy. I'm interested in human computer interaction and tools that push into the pit of success. I'm building zagrajmy.net. I'm a hobbyist designer of games for nerds. The homepage has my writing; check the date before trying code from an old post.",
       "I maintained Theme UI and worked on TypeScript tooling, including TypeChain. I've also built software for myself and my friends, like bear-fit and a modded Minecraft launcher for Apple Silicon. My résumé has more on my work. The contributions page links to other repositories I've worked on. My code is on GitHub; my email is on the contact page.",
     ],
     links: [

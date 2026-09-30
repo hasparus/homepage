@@ -290,7 +290,7 @@ test("agent guide, API catalog, docs, trust pages, and metadata are discoverable
     .map((text) => JSON.parse(text))
     .find((data) => data["@type"] === "Person");
   expect(person.description).toBe(
-    "a software sculptor, clanker cowboy, interested in human computer interaction, and tooling that push us into the pit of success. building zagrajmy.net. hobbyist designer of games for nerds.",
+    "a software sculptor, clanker cowboy, interested in human computer interaction, and tools that push into the pit of success. building zagrajmy.net. hobbyist designer of games for nerds.",
   );
   expect(person.sameAs).toContain("https://github.com/hasparus");
 });
