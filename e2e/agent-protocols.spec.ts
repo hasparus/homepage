@@ -258,7 +258,14 @@ test("agent guide, API catalog, docs, trust pages, and metadata are discoverable
   await expect(
     page.getByText("a software sculptor, clanker cowboy", { exact: false }),
   ).toContainText(
-    "building zagrajmy.net, hobbyist designer of games for nerds",
+    "building zagrajmy.net. designing games for nerds in spare time",
+  );
+  await expect(
+    page.getByRole("link", { name: "zagrajmy.net", exact: true }),
+  ).toHaveAttribute("href", "https://zagrajmy.net");
+  const markdownBio = await (await request.get("/index.md")).text();
+  expect(markdownBio).toContain(
+    "building [zagrajmy.net](https://zagrajmy.net). designing games for nerds in spare time",
   );
   await expect(page.locator('meta[name="description"]')).toHaveAttribute(
     "content",
@@ -281,7 +288,7 @@ test("agent guide, API catalog, docs, trust pages, and metadata are discoverable
     .map((text) => JSON.parse(text))
     .find((data) => data["@type"] === "Person");
   expect(person.description).toBe(
-    "a software sculptor, clanker cowboy, interested in human computer interaction, and tools that push us into the pit of success. building zagrajmy.net, hobbyist designer of games for nerds",
+    "a software sculptor, clanker cowboy, interested in human computer interaction, and tooling that push us into the pit of success. building zagrajmy.net. designing games for nerds in spare time",
   );
   expect(person.sameAs).toContain("https://github.com/hasparus");
 });

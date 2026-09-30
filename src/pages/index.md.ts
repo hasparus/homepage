@@ -7,7 +7,10 @@ export const GET: APIRoute = () =>
     [
       `# hasparus`,
       `an online abode of ${profile.name}`,
-      profile.description,
+      profile.description.replace(
+        "zagrajmy.net",
+        "[zagrajmy.net](https://zagrajmy.net)",
+      ),
       "Nice to have you here.",
       whenToUse.trim(),
       "## Developer resources\n\n- [Developer documentation](https://haspar.us/docs/)\n- [OpenAPI specification](https://haspar.us/openapi.json)\n- [Agent guide](https://haspar.us/llms.txt)\n- [About](https://haspar.us/about/)\n- [Contact](https://haspar.us/contact/)\n- [Privacy](https://haspar.us/privacy/)",
