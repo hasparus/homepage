@@ -4,20 +4,13 @@ import { z } from "zod";
 
 import { pageMarkdown, profile, whenToUse } from "./content.js";
 
-const postSchema = z.object({
-  slug: z.string(),
-  title: z.string(),
-  description: z.string(),
-  date: z.string(),
-  url: z.string().url(),
-  markdownUrl: z.string().url(),
-});
-const postsSchema = z.object({ posts: z.array(postSchema) });
+import { postsSchema } from "./schemas.js";
 
 function allowedHost(host: string): boolean {
   const configured = [
     "haspar.us",
     "www.haspar.us",
+    "hasparus.vercel.app",
     process.env.VERCEL_URL,
     process.env.VERCEL_BRANCH_URL,
     process.env.DEPLOYMENT_ALIAS,
@@ -141,8 +134,7 @@ export async function handleMcp(request: Request): Promise<Response> {
     "https://haspar.us/docs.md",
     {
       title: "hasparus developer documentation",
-      description:
-        "REST, Markdown, MCP, and CLI usage; authentication and operational limits.",
+      description: "REST, Markdown, MCP, and CLI usage.",
       mimeType: "text/markdown",
     },
     async (uri) => ({

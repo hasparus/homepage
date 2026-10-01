@@ -1,11 +1,12 @@
 import { AUTHOR, AUTHOR_BIO, SITE_BLURB, SITE_NAME } from "../siteMeta.js";
+import type { PublicProfile } from "./schemas.js";
 
 export const authorBioMarkdown = AUTHOR_BIO.replace(
   "zagrajmy.net",
   "[zagrajmy.net](https://zagrajmy.net)",
 );
 
-export const profile = {
+export const profile: PublicProfile = {
   name: AUTHOR.name,
   handle: SITE_NAME,
   url: "https://haspar.us/",

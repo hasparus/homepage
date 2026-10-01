@@ -2,17 +2,12 @@
 import type { MarkdownInstance } from "astro";
 
 import PostLayout from "../layouts/PostLayout.astro";
+import { allPosts } from "../build-time/posts";
 import { mdxComponents } from "../lib/mdxComponents";
 import type { PostFrontmatter } from "../types";
 
 export const getStaticPaths = async () => {
-  const postModules = import.meta.glob<MarkdownInstance<PostFrontmatter>>(
-    "../../posts/**/*.mdx",
-    { eager: true },
-  );
-  const posts = Object.values(postModules);
-
-  return posts.map((post) => {
+  return allPosts.map(({ module: post }) => {
     return {
       params: {
         path: post.frontmatter.path.replace(/^\//, ""),

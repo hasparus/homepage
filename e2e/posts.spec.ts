@@ -2,13 +2,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 
-type PublicPost = {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  url: string;
-};
+import type { PublicPost } from "../src/lib/agents/schemas";
 
 test("publication dates preserve the calendar day in a positive-offset timezone", () => {
   const formatter = new URL("../src/lib/formatDate.tsx", import.meta.url).href;

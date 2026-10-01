@@ -80,12 +80,14 @@ jobs:
         run: pnpm test
 
       - name: Deploy Production to Vercel
+        id: deploy-production
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
         run:
           node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
           --prod
 
       - name: Deploy Preview to Vercel
+        id: deploy-preview
         if:
           ${{ github.event_name != 'push' &&
           ((!github.event.pull_request.head.repo.fork && github.actor !=
@@ -93,13 +95,15 @@ jobs:
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         run: node .github/scripts/deploy.mjs --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Verify hosted agent endpoints
+      - name: Verify deployed agent endpoints
         if:
-          ${{ github.event_name != 'push' &&
-          ((!github.event.pull_request.head.repo.fork && github.actor !=
-          'dependabot[bot]') || (github.event_name == 'pull_request_target' &&
-          contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
+          ${{ steps.deploy-production.outcome == 'success' ||
+          steps.deploy-preview.outcome == 'success' }}
         run: pnpm verify:agents https://${{ env.DEPLOYMENT_ALIAS }}
+
+      - name: Verify advertised production hostname
+        if: ${{ steps.deploy-production.outcome == 'success' }}
+        run: pnpm verify:agents https://${{ env.PRODUCTION_HOSTNAME }}
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}

@@ -53,8 +53,10 @@ pnpm verify:agents https://your-deployment.vercel.app
 
 This command runs `e2e/agent-protocols.spec.ts` with the deployment as its base
 URL. It checks negotiated content, machine-readable files, every public article,
-MCP resources and tools, and signed OG images. It uses the same suite in CI;
-there is no local replacement for Vercel routing or header configuration.
+MCP resources and tools, and signed OG images. CI uses the same suite after
+preview and production deployments, before recording success. Production also
+verifies the advertised public hostname. There is no local replacement for
+Vercel routing or header configuration.
 
 Remote-image fetch and decoding errors fail the build, including images marked
 raw. Repair the asset rather than masking the failure with a placeholder.
