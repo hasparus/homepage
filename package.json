@@ -37,7 +37,7 @@
     "@hasparus/tailwind": "^1.1.7",
     "@mdx-js/mdx": "3.1.1",
     "@modelcontextprotocol/sdk": "1.30.1",
-    "@next/env": "^14.2.3",
+    "@next/env": "^16.3.6",
     "@react-three/drei": "^9.106.0",
     "@react-three/fiber": "^8.16.7",
     "@react-three/postprocessing": "^2.16.2",
