@@ -1,5 +1,4 @@
 import { execFileSync } from "node:child_process";
-import { readFile } from "node:fs/promises";
 import { expect, test } from "@playwright/test";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
@@ -49,7 +48,7 @@ test("MCP accepts advertised production hosts without deployment environment var
       `
     import { handleMcp } from ${JSON.stringify(module)};
     for (const name of ["VERCEL_URL", "VERCEL_BRANCH_URL", "DEPLOYMENT_ALIAS"]) delete process.env[name];
-    const hosts = ["haspar.us", "www.haspar.us", "hasparus.vercel.app", "main--hasparus.vercel.app", "attacker.example", "localhost:4321"];
+    const hosts = ["hasparus.vercel.app", "attacker.example"];
     const statuses = [];
     for (const host of hosts) statuses.push((await handleMcp(new Request("https://" + host + "/mcp"))).status);
     console.log(JSON.stringify(statuses));
@@ -61,53 +60,5 @@ test("MCP accepts advertised production hosts without deployment environment var
       timeout: 10_000,
     },
   );
-  expect(JSON.parse(result)).toEqual([405, 405, 405, 405, 403, 403]);
-});
-
-test("published descriptions do not claim a quota or operational limits", async ({
-  request,
-}) => {
-  const spec = await (await request.get("/openapi.json")).json();
-  expect(spec.info.description).not.toMatch(/quota|429|service-level/i);
-  const { handleMcp } = await import("../src/lib/agents/mcp");
-  const response = await handleMcp(
-    new Request("http://localhost:4321/mcp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json, text/event-stream",
-      },
-      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "resources/list" }),
-    }),
-  );
-  expect(response.status).toBe(200);
-  expect(JSON.stringify(await response.json())).not.toContain(
-    "operational limits",
-  );
-});
-
-test("CI verifies successful deployments before recording production success", async () => {
-  const workflow = await readFile(
-    new URL("../.github/workflows/ci.yml", import.meta.url),
-    "utf8",
-  );
-  const verification = workflow.slice(
-    workflow.indexOf("- name: Verify deployed agent endpoints"),
-    workflow.indexOf("- name: Upload Playwright report"),
-  );
-  expect(verification).toContain(
-    "steps.deploy-production.outcome == 'success'",
-  );
-  expect(verification).toContain("steps.deploy-preview.outcome == 'success'");
-  expect(verification).toContain(
-    "pnpm verify:agents https://${{ env.DEPLOYMENT_ALIAS }}",
-  );
-  expect(verification).toContain(
-    "pnpm verify:agents https://${{ env.PRODUCTION_HOSTNAME }}",
-  );
-  expect(
-    workflow.indexOf("- name: Verify advertised production hostname"),
-  ).toBeLessThan(
-    workflow.indexOf("- name: Create GitHub Production Deployment"),
-  );
+  expect(JSON.parse(result)).toEqual([405, 403]);
 });

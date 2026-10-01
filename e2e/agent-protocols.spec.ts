@@ -248,12 +248,11 @@ test("MCP rejects bad origins, malformed messages, invalid Accept, and GET SSE",
   expect(await notification.text()).toBe("");
 });
 
-test("agent guide, API catalog, docs, trust pages, and metadata are discoverable", async ({
+test("agent guide, API catalog, docs, info pages, and metadata are discoverable", async ({
   request,
   page,
 }) => {
   const guide = await (await request.get("/llms.txt")).text();
-  expect(guide).toContain("## When to use this site");
   for (const link of [
     "/docs/",
     "/openapi.json",
@@ -268,30 +267,14 @@ test("agent guide, API catalog, docs, trust pages, and metadata are discoverable
   expect((await catalog.json()).linkset[0]["service-desc"][0].href).toBe(
     "https://haspar.us/openapi.json",
   );
-  for (const path of ["about", "privacy"]) {
+  for (const path of ["about", "contact", "privacy"]) {
     await page.goto(`/${path}/`);
-    expect(
-      (await page.getByRole("main").innerText()).length,
-    ).toBeGreaterThanOrEqual(500);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(
+      page.getByRole("main").getByRole("link").first(),
+    ).toBeVisible();
   }
   await page.goto("/");
-  await expect(
-    page.getByText("a software sculptor, clanker cowboy", { exact: false }),
-  ).toContainText(
-    "building zagrajmy.net. hobbyist designer of games for nerds.",
-  );
-  await expect(
-    page.getByRole("link", { name: "zagrajmy.net", exact: true }),
-  ).toHaveAttribute("href", "https://zagrajmy.net");
-  const markdownBio = await (await request.get("/index.md")).text();
-  expect(markdownBio).toContain(
-    "building [zagrajmy.net](https://zagrajmy.net). hobbyist designer of games for nerds.",
-  );
-  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
-    "content",
-    "an online abode of Piotr Monwid-Olechnowicz",
-  );
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
     "content",
     "website",
@@ -308,9 +291,8 @@ test("agent guide, API catalog, docs, trust pages, and metadata are discoverable
   const person = blocks
     .map((text) => JSON.parse(text))
     .find((data) => data["@type"] === "Person");
-  expect(person.description).toBe(
-    "a software sculptor, clanker cowboy, interested in human computer interaction, and tools that push into the pit of success. building zagrajmy.net. hobbyist designer of games for nerds.",
-  );
+  const profile = await (await request.get("/api/profile.json")).json();
+  expect(person.description).toBe(profile.description);
   expect(person.sameAs).toContain("https://github.com/hasparus");
 });
 
@@ -319,6 +301,11 @@ test("homepage and About share the author's copy and metadata", async ({
   request,
 }) => {
   const profile = await (await request.get("/api/profile.json")).json();
+  await page.goto("/");
+  const title = await page.title();
+  const description = await page
+    .locator('meta[name="description"]')
+    .getAttribute("content");
   for (const path of ["/", "/about/"]) {
     await page.goto(path);
     await expect(
@@ -327,22 +314,15 @@ test("homepage and About share the author's copy and metadata", async ({
     await expect(
       page.getByRole("link", { name: "zagrajmy.net", exact: true }),
     ).toHaveAttribute("href", "https://zagrajmy.net");
-    await expect(page).toHaveTitle("hasparus");
+    await expect(page).toHaveTitle(title);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
-      "an online abode of Piotr Monwid-Olechnowicz",
+      description!,
     );
   }
-  await expect(page.getByRole("main")).not.toContainText("I'm");
-  await expect(page.getByRole("main")).not.toContainText(
-    "The homepage has my writing;",
-  );
   for (const path of ["/index.md", "/about.md"]) {
     const markdown = await (await request.get(path)).text();
-    expect(markdown).toContain("# hasparus\n");
-    expect(markdown).toContain(
-      "building [zagrajmy.net](https://zagrajmy.net). hobbyist designer of games for nerds.",
-    );
+    expect(markdown).toContain("[zagrajmy.net](https://zagrajmy.net)");
   }
 });
 

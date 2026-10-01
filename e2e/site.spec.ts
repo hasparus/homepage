@@ -11,6 +11,18 @@ test.describe("Homepage", () => {
   });
 });
 
+test("Contact in the command menu opens the site's contact page", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "⌘", exact: true }).click();
+  await page.getByRole("option", { name: "Contact", exact: true }).click();
+  await expect(page).toHaveURL(/\/contact\/$/);
+  await expect(
+    page.getByRole("main").getByRole("heading", { level: 1 }),
+  ).toBeVisible();
+});
+
 test.describe("Dark/light mode toggle", () => {
   test("command palette switches color scheme", async ({ page }) => {
     await page.goto("/");
