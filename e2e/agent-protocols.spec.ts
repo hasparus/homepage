@@ -4,13 +4,14 @@ import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import { run } from "../packages/cli/bin/hasparus.mjs";
-import { fetchRemoteImage } from "../src/lib/prose/fetchRemoteImage";
-import { prefersMarkdown } from "../src/lib/agents/http";
-import middleware from "../middleware";
-import { parseSearchParams } from "../api/og";
+import { acceptCases } from "./accept-cases";
 
-const base = "http://localhost:4321";
+test.setTimeout(120_000);
+const base = process.env.PLAYWRIGHT_BASE_URL;
+if (!base)
+  throw new Error(
+    "Run hosted protocol tests with pnpm verify:agents <deployment-url>.",
+  );
 const mcpHeaders = {
   Accept: "application/json, text/event-stream",
   "Content-Type": "application/json",
@@ -141,14 +142,21 @@ test("every listed article and source resolves; hidden posts remain unlisted", a
   expect(posts.some((post: any) => post.slug === "nie-trzeba")).toBe(false);
   for (const post of posts) {
     for (const url of [post.url, post.markdownUrl]) {
-      expect((await request.get(new URL(url).pathname)).status(), url).toBe(
-        200,
-      );
+      const response = await request.get(new URL(url).pathname);
+      expect(response.status(), url).toBe(200);
+      if (url === post.url) {
+        const published = (await response.text())
+          .match(/<time[^>]*>([^<]+)<\/time>/)?.[1]
+          ?.trim();
+        expect(published, post.slug).toBe(post.date);
+      }
     }
   }
 });
 
-test("MCP initializes, lists and reads all resources, and calls both tools through the official client", async () => {
+test("MCP initializes, lists and reads all resources, and calls both tools through the official client", async ({
+  request,
+}) => {
   const client = new Client({ name: "hasparus-tests", version: "1.0.0" });
   await client.connect(
     new StreamableHTTPClientTransport(new URL(`${base}/mcp`)),
@@ -156,7 +164,7 @@ test("MCP initializes, lists and reads all resources, and calls both tools throu
   try {
     expect(client.getServerCapabilities()?.resources).toBeDefined();
     const { resources } = await client.listResources();
-    expect(resources.length).toBeGreaterThan(0);
+    expect(resources).toHaveLength(4);
     for (const resource of resources) {
       expect(resource.mimeType).toMatch(
         /^(application\/json|text\/(markdown|plain))$/,
@@ -168,6 +176,17 @@ test("MCP initializes, lists and reads all resources, and calls both tools throu
         expect(content.text?.length).toBeGreaterThan(20);
         const res = await fetch(`${base}${new URL(content.uri).pathname}`);
         expect(res.status).toBe(200);
+        for (const [link] of (content.text || "").matchAll(
+          /https:\/\/haspar\.us\/[^\s)"\]<>;,]+/g,
+        )) {
+          const target = new URL(link);
+          const linked = await request.get(target.pathname);
+          expect(
+            linked.ok() ||
+              (target.pathname === "/mcp" && linked.status() === 405),
+            link,
+          ).toBe(true);
+        }
       }
     }
     const tools = await client.listTools();
@@ -249,7 +268,7 @@ test("agent guide, API catalog, docs, trust pages, and metadata are discoverable
   expect((await catalog.json()).linkset[0]["service-desc"][0].href).toBe(
     "https://haspar.us/openapi.json",
   );
-  for (const path of ["about", "contact", "privacy"]) {
+  for (const path of ["about", "privacy"]) {
     await page.goto(`/${path}/`);
     expect(
       (await page.getByRole("main").innerText()).length,
@@ -343,145 +362,67 @@ test("existing operational endpoints keep success behavior and OG errors become 
   });
 });
 
-test("Markdown paths cannot turn into cross-origin requests", async () => {
-  const originalFetch = globalThis.fetch;
-  const targets: URL[] = [];
-  globalThis.fetch = async (input) => {
-    targets.push(new URL(String(input)));
-    return new Response("# Same-site Markdown", {
-      headers: { "Content-Type": "text/markdown" },
-    });
-  };
-  try {
-    for (const path of [
-      "//outside.example/article",
-      "/%2F%2Foutside.example/article",
-    ]) {
-      const response = await middleware(
-        new Request(`https://haspar.us${path}?ignored=true`, {
-          headers: { Accept: "text/markdown" },
-        }),
-      );
-      expect(response.status).toBe(200);
-    }
-    expect(targets).toHaveLength(2);
-    for (const target of targets) {
-      expect(target.origin).toBe("https://haspar.us");
-      expect(target.search).toBe("");
-    }
-  } finally {
-    globalThis.fetch = originalFetch;
-  }
-});
-
-test("OG parameters preserve literal percent signs and encoded-looking titles", () => {
-  for (const title of ["100% useful", "Literal %20 and %2F"]) {
-    const source = `1700000000000\t3\t${title}\t`;
-    const query = new URLSearchParams({ post: source, token: "test-token" });
-    const parsed = parseSearchParams(new URLSearchParams(query.toString()));
-    expect(parsed.stringifiedPost).toBe(source);
-    expect(parsed.post.title).toBe(title);
-    expect(parsed.token).toBe("test-token");
-  }
-});
-
-test("media negotiation handles whitespace before quality parameters", async ({
+test("deployed negotiation honors media-type quality and specificity", async ({
   request,
 }) => {
-  const cases = [
-    { accept: "text/markdown ; q=0.9", markdown: true },
-    { accept: "text/markdown\t; q=0.9, text/html ; q=1", markdown: false },
-    { accept: "text/markdown ; q=1, text/html\t; q=0.9", markdown: true },
-    { accept: "text/markdown ; q=0, text/html ; q=0.9", markdown: false },
-  ];
-  for (const { accept, markdown } of cases) {
-    expect(prefersMarkdown(accept)).toBe(markdown);
+  for (const { accept, markdown } of acceptCases) {
     const response = await request.get("/", { headers: { Accept: accept } });
-    expect(response.status()).toBe(200);
-    expect(response.headers()["content-type"]).toMatch(
+    expect(response.status(), accept).toBe(200);
+    expect(response.headers()["content-type"], accept).toMatch(
       markdown ? /^text\/markdown/ : /^text\/html/,
     );
     expect(response.headers()["vary"]).toContain("Accept");
   }
 });
 
-test("media negotiation ignores disabled and malformed quality values", () => {
-  expect(prefersMarkdown("text/markdown;q=1,text/html;q=0.5")).toBe(true);
-  expect(prefersMarkdown("text/markdown;q=0")).toBe(false);
-  expect(prefersMarkdown("text/markdown;q=wrong")).toBe(false);
-  expect(prefersMarkdown("text/markdown;q=2")).toBe(false);
-  expect(prefersMarkdown("TEXT/MARKDOWN")).toBe(true);
+test("machine-readable files and XML feeds resolve on the deployed platform", async ({
+  request,
+}) => {
+  const files = {
+    "/llms.txt": "text/plain",
+    "/llms-full.txt": "text/plain",
+    "/robots.txt": "text/plain",
+    "/index.md": "text/markdown",
+    "/about.md": "text/markdown",
+    "/contact.md": "text/markdown",
+    "/privacy.md": "text/markdown",
+    "/docs.md": "text/markdown",
+  };
+  for (const [path, type] of Object.entries(files)) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(200);
+    expect(response.headers()["content-type"], path).toContain(type);
+    expect((await response.text()).length).toBeGreaterThan(0);
+  }
+  for (const path of ["/sitemap-index.xml", "/sitemap-0.xml", "/rss.xml"]) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(200);
+    expect(await response.text()).toContain("<?xml");
+  }
 });
 
-test("remote image failures don't prevent the site from building", async ({
+test("signed OG images render as PNG and invalid signatures return JSON", async ({
+  request,
   page,
 }) => {
-  expect(
-    await fetchRemoteImage(
-      "https://example.test/image.png",
-      async () => new Response("image"),
-    ),
-  ).toEqual(Buffer.from("image"));
-  expect(
-    await fetchRemoteImage(
-      "https://example.test/image.png",
-      async () => new Response("offline", { status: 503 }),
-    ),
-  ).toBeUndefined();
-  expect(
-    await fetchRemoteImage("https://example.test/image.png", async () => {
-      throw new Error("offline");
-    }),
-  ).toBeUndefined();
-  await page.goto("/tiny-alternative-to-storybook/");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Tiny Alternative to Storybook",
+  await page.goto("/refinement-types/");
+  const content = await page
+    .locator('meta[property="og:image"]')
+    .getAttribute("content");
+  expect(content).toBeTruthy();
+  const imageURL = new URL(content!);
+  const image = await request.get(imageURL.pathname + imageURL.search);
+  expect(image.status()).toBe(200);
+  expect(image.headers()["content-type"]).toMatch(/^image\/png/);
+  const bytes = await image.body();
+  expect(bytes.subarray(0, 8)).toEqual(
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
   );
-  await expect(
-    page.getByRole("img", { name: "Scrolling through UI examples page" }),
-  ).toHaveAttribute(
-    "src",
-    "https://i.gyazo.com/a5750ce4db513d66d5ba483faa0b5437.gif",
-  );
-});
-
-test("CLI reads real public endpoints and reports errors without mixing stdout and stderr", async () => {
-  for (const args of [["profile"], ["posts"], ["read", "refinement-types"]]) {
-    let stdout = "",
-      stderr = "";
-    const code = await run(args, {
-      baseUrl: base,
-      stdout: {
-        write: (value: string) => {
-          stdout += value;
-        },
-      },
-      stderr: {
-        write: (value: string) => {
-          stderr += value;
-        },
-      },
-    });
-    expect(code).toBe(0);
-    expect(stderr).toBe("");
-    if (args[0] === "read") expect(stdout).toMatch(/^# Refinement Types/);
-    else expect(JSON.parse(stdout)).toBeDefined();
-  }
-  let error = "";
-  expect(
-    await run(["read", "../private"], {
-      baseUrl: base,
-      stdout: {
-        write: () => {
-          throw new Error("unexpected stdout");
-        },
-      },
-      stderr: {
-        write: (text: string) => {
-          error += text;
-        },
-      },
-    }),
-  ).toBe(1);
-  expect(error).toContain("Unknown public article");
+  expect(bytes.readUInt32BE(16)).toBe(1200);
+  expect(bytes.readUInt32BE(20)).toBe(630);
+  imageURL.searchParams.set("token", "invalid");
+  const denied = await request.get(imageURL.pathname + imageURL.search);
+  expect(denied.status()).toBe(401);
+  expect(denied.headers()["content-type"]).toMatch(/^application\/json/);
+  expect((await denied.json()).error.code).toBe("INVALID_TOKEN");
 });

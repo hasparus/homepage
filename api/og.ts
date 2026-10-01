@@ -30,12 +30,7 @@ export default async function og(req: Request) {
     await assertTokenIsValid(stringifiedPost, token);
 
     const { ImageResponse } = await import("@vercel/og");
-    const interRegular = fetchFont(
-      new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
-    );
-    const interBlack = fetchFont(
-      new URL("../assets/og/Inter-Black.ttf", import.meta.url),
-    );
+    const [interRegular, interBlack] = await loadFonts();
 
     console.log("returning ImageResponse for", stringifiedPost);
 
@@ -74,13 +69,13 @@ export default async function og(req: Request) {
         fonts: [
           {
             name: "Inter",
-            data: await interRegular,
+            data: interRegular,
             weight: 400,
             style: "normal",
           },
           {
             name: "Inter",
-            data: await interBlack,
+            data: interBlack,
             weight: 900,
             style: "normal",
           },
@@ -230,8 +225,27 @@ function h<T extends React.ElementType>(
   };
 }
 
-function fetchFont(url: URL) {
-  return fetch(url).then((res) => res.arrayBuffer());
+let fontData: Promise<[ArrayBuffer, ArrayBuffer]> | undefined;
+
+export function loadFonts(): Promise<[ArrayBuffer, ArrayBuffer]> {
+  if (!fontData) {
+    fontData = Promise.all([
+      fetchFont(new URL("../assets/og/Inter-Regular.ttf", import.meta.url)),
+      fetchFont(new URL("../assets/og/Inter-Black.ttf", import.meta.url)),
+    ]).catch((error: unknown) => {
+      fontData = undefined;
+      throw error;
+    });
+  }
+
+  return fontData;
+}
+
+async function fetchFont(url: URL) {
+  const response = await fetch(url);
+  if (!response.ok)
+    throw new Error(`Failed to load OG font: HTTP ${response.status}`);
+  return response.arrayBuffer();
 }
 
 type Post = {

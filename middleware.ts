@@ -1,4 +1,4 @@
-import { next } from "@vercel/edge";
+import { next, rewrite } from "@vercel/edge";
 
 import {
   jsonError,
@@ -47,6 +47,7 @@ export default async function middleware(request: Request): Promise<Response> {
   const markdown = hasExtension
     ? null
     : await fetch(markdownUrl, {
+        method: "HEAD",
         headers: { Accept: "text/html" },
         redirect: "follow",
       });
@@ -54,22 +55,16 @@ export default async function middleware(request: Request): Promise<Response> {
     markdown?.ok &&
     markdown.headers.get("content-type")?.startsWith("text/markdown")
   ) {
-    const headers = new Headers(markdown.headers);
-    headers.set("Vary", "Accept");
-    headers.delete("content-length");
-    headers.delete("content-encoding");
-    return new Response(request.method === "HEAD" ? null : markdown.body, {
-      status: 200,
-      headers,
-    });
+    return rewrite(markdownUrl, { headers: { Vary: "Accept" } });
   }
 
   const html = await fetch(url, {
+    method: "HEAD",
     headers: { Accept: "text/html" },
     redirect: "follow",
   });
   if (html.status === 404) {
-    return new Response(request.method === "HEAD" ? null : markdown404, {
+    return new Response(markdown404, {
       status: 404,
       headers: {
         "Content-Type": "text/markdown; charset=utf-8",
@@ -77,12 +72,5 @@ export default async function middleware(request: Request): Promise<Response> {
       },
     });
   }
-  const headers = new Headers(html.headers);
-  headers.set("Vary", "Accept");
-  headers.delete("content-length");
-  headers.delete("content-encoding");
-  return new Response(request.method === "HEAD" ? null : html.body, {
-    status: html.status,
-    headers,
-  });
+  return next({ headers: { Vary: "Accept" } });
 }

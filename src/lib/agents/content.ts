@@ -38,19 +38,19 @@ export const pages = {
     ],
   },
   contact: {
-    title: "Contact hasparus",
-    description: "How to get in touch with Piotr Monwid-Olechnowicz.",
+    title: "contact",
+    description: "email and GitHub.",
     paragraphs: [
-      "You can reach me at hasparus@gmail.com. It's also on my résumé. If you're writing about a post, include its URL so I know which one you mean. For questions about an open-source project, try its issue tracker. Someone else may have the same question, or know the answer.",
-      "If a page here breaks, open an issue in the homepage repository with the URL and what happened. GitHub issues are public, so keep private details out of them. Agents should ask their user before sending me a message or opening an issue. You can read the site and use its public API without contacting me. The developer docs explain how.",
+      "email: hasparus@gmail.com.",
+      "found something broken on this site? open an issue in the homepage repo. bugs in other projects belong in their own repos.",
     ],
     links: [
-      { title: "Email", href: "mailto:hasparus@gmail.com" },
+      { title: "email", href: "mailto:hasparus@gmail.com" },
+      { title: "GitHub", href: "https://github.com/hasparus" },
       {
-        title: "Report a site issue",
+        title: "site issues",
         href: "https://github.com/hasparus/homepage/issues",
       },
-      { title: "Developer documentation", href: "/docs/" },
     ],
   },
   privacy: {
@@ -77,11 +77,11 @@ export const pages = {
     description:
       "How to read haspar.us with the content API, Markdown, MCP, or CLI.",
     paragraphs: [
-      "GET /api/profile.json returns JSON with the author's profile, canonical URL, and contact-page URL. GET /api/posts.json returns the visible article index as JSON, newest first. Each entry has a title, publication date, description, canonical URL, and Markdown URL. Both endpoints are public and read-only. You don't need an API key or authentication. These endpoints only read content.",
+      "GET /api/profile.json returns the author's profile, canonical URL, and contact-page URL as JSON. GET /api/posts.json returns the public article index, newest first. Each entry has a title, publication date, description, canonical URL, and Markdown URL. Both endpoints are read-only and need no authentication.",
       "/openapi.json is the OpenAPI 3.1 specification for both content endpoints and their response schemas. Unknown /api/ paths return HTTP 404 with an error object containing code, message, and hint. Unsupported methods on the content endpoints return HTTP 405 with an Allow header. /api/status and the signed /api/og image generator serve the site itself and aren't part of the public content API.",
       "Send Accept: text/markdown to the homepage or a public article for Markdown at the same URL. Use Accept: text/html for HTML. Negotiated responses include Vary: Accept. You can also read the homepage at /index.md. Article Markdown and /llms-full.txt contain source text, which may include MDX components or imports. Read the HTML article to see interactive examples that the source alone can't show. Missing pages requested as Markdown return a Markdown explanation with HTTP 404.",
       "Connect MCP clients to https://haspar.us/mcp using Streamable HTTP. The server is stateless, with list_posts and read_post tools and resources for the homepage, profile, agent guide, and developer docs. POST requests receive JSON responses. There is no GET SSE stream; GET returns HTTP 405. Send Accept: application/json, text/event-stream and Content-Type: application/json. Call initialize, then send notifications/initialized before calling tools. The server exposes only public, published content and needs no credentials.",
-      "The CLI lives in packages/cli. From a checkout, run node packages/cli/bin/hasparus.mjs profile, posts, or read refinement-types. profile and posts print JSON; read prints Markdown/MDX source. The npm package isn't published yet, so use the checkout rather than a registry install. These interfaces have no guaranteed rate-limit quota or service-level agreement. Cache reads where useful and back off on HTTP 429.",
+      "The CLI lives in packages/cli. From a checkout, run node packages/cli/bin/hasparus.mjs profile, posts, or read refinement-types. profile and posts print JSON; read prints Markdown/MDX source. The npm package isn't published yet; run it from the checkout.",
     ],
     links: [
       { title: "OpenAPI specification", href: "/openapi.json" },

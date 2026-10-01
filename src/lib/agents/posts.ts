@@ -1,3 +1,4 @@
+import { formatDate } from "../formatDate";
 import { isPostVisible } from "../isPostVisible";
 import type { PostFrontmatter } from "../../types";
 
@@ -18,7 +19,7 @@ export function publicPosts() {
       slug: frontmatter.path.replace(/^\//, "").replace(/\/$/, ""),
       title: frontmatter.title,
       description: frontmatter.description?.trim() ?? "",
-      date: new Date(frontmatter.date).toISOString().slice(0, 10),
+      date: formatDate(frontmatter.date),
       url: new URL(frontmatter.path, "https://haspar.us/").href,
       markdownUrl: new URL(
         `${frontmatter.path.replace(/\/$/, "")}.md`,

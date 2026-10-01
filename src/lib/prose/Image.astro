@@ -90,6 +90,9 @@ let placeholder: null | {
 } = null;
 
 if (isRaw) {
+  if (pathToImage.startsWith("http")) {
+    await getPlaiceholder(await fetchRemoteImage(pathToImage), { size: 10 });
+  }
   if (inPublicDir) {
     const globbed = import.meta.glob<false, string, { default: ImageMetadata }>(
       "../../../public/content/**/*",
@@ -102,8 +105,10 @@ if (isRaw) {
     // the 'raw' images can contain text or important details that should
     // not be cut off.
     height =
-      Number.parseFloat(props.width as string) /
-      Number.parseFloat(props.aspectRatio as string);
+      Number.parseFloat(String(width ?? imported.width)) /
+      Number.parseFloat(
+        String(props.aspectRatio ?? imported.width / imported.height),
+      );
     props.aspectRatio = imported.width / imported.height;
     width = height * (imported.width / imported.height);
   }
@@ -131,15 +136,9 @@ if (isRaw) {
     }
   }
 
-  let imageForPlaceholder: Buffer | undefined;
+  let imageForPlaceholder: Buffer;
   if (pathToImage.startsWith("http")) {
     imageForPlaceholder = await fetchRemoteImage(pathToImage);
-    if (!imageForPlaceholder) {
-      console.warn(
-        `Could not fetch ${pathToImage}; keeping the original image URL without a placeholder.`,
-      );
-      isRaw = true;
-    }
   } else {
     // `pathToImage` is written relative to this file (src/lib/prose); resolve it
     // against the project root instead of `import.meta.url`, which no longer
@@ -150,20 +149,16 @@ if (isRaw) {
     );
   }
 
-  if (imageForPlaceholder) {
-    const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
-      size: 10,
-    });
-    placeholder = css;
+  const { metadata, css } = await getPlaiceholder(imageForPlaceholder, {
+    size: 10,
+  });
+  placeholder = css;
 
-    if (!width && !height && !props.aspectRatio) {
-      width ??= metadata.width;
-      props.aspectRatio ??= metadata.width / metadata.height;
-      width = Math.min(width, isThin ? PARAGRAPH_WIDTH : WIDE_CONTAINER_WIDTH);
-      height = Math.round(
-        width / Number.parseFloat(props.aspectRatio as string),
-      );
-    }
+  if (!width && !height && !props.aspectRatio) {
+    width ??= metadata.width;
+    props.aspectRatio ??= metadata.width / metadata.height;
+    width = Math.min(width, isThin ? PARAGRAPH_WIDTH : WIDE_CONTAINER_WIDTH);
+    height = Math.round(width / Number.parseFloat(props.aspectRatio as string));
   }
 }
 

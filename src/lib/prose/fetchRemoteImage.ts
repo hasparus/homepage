@@ -1,14 +1,12 @@
 export async function fetchRemoteImage(
   url: string,
   fetchImpl: typeof fetch = fetch,
-): Promise<Buffer | undefined> {
-  try {
-    const response = await fetchImpl(url, {
-      signal: AbortSignal.timeout(15000),
-    });
-    if (response.ok) return Buffer.from(await response.arrayBuffer());
-  } catch {
-    return undefined;
+): Promise<Buffer> {
+  const response = await fetchImpl(url, {
+    signal: AbortSignal.timeout(15000),
+  });
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image ${url}: HTTP ${response.status}`);
   }
-  return undefined;
+  return Buffer.from(await response.arrayBuffer());
 }

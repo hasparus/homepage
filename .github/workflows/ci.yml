@@ -79,14 +79,6 @@ jobs:
         id: test
         run: pnpm test
 
-      - name: Upload Playwright report
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-
       - name: Deploy Production to Vercel
         if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
         run:
@@ -108,6 +100,16 @@ jobs:
           'dependabot[bot]') || (github.event_name == 'pull_request_target' &&
           contains(github.event.pull_request.labels.*.name, 'trusted'))) }}
         run: pnpm verify:agents https://${{ env.DEPLOYMENT_ALIAS }}
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
 
       - name: Create GitHub Preview Deployment
         if:

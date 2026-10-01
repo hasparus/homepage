@@ -40,30 +40,24 @@ pnpm build
 pnpm test
 ```
 
-For endpoint checks, start the preview in a separate terminal:
+The local tests use Astro's static preview for page rendering, visual snapshots,
+and isolated unit tests. Astro preview doesn't run Vercel middleware or
+root-level API functions.
+
+After deploying a Vercel preview, run the protocol suite against that
+deployment:
 
 ```sh
-pnpm preview:agents
-```
-
-Then run:
-
-```sh
-pnpm verify:agents
 pnpm verify:agents https://your-deployment.vercel.app
 ```
 
-`preview:agents` runs the middleware and API handlers in front of Astro's static
-preview. Astro preview alone doesn't run Vercel middleware or root-level API
-functions. Playwright uses this wrapper.
+This command runs `e2e/agent-protocols.spec.ts` with the deployment as its base
+URL. It checks negotiated content, machine-readable files, every public article,
+MCP resources and tools, and signed OG images. It uses the same suite in CI;
+there is no local replacement for Vercel routing or header configuration.
 
-The verifier checks the machine-readable files and every public article URL. It
-uses the official MCP client to initialize the server and read each resource. On
-hosted deployments it also checks a signed OG image and rejection of a bad
-token.
-
-CI runs the local tests and checks hosted endpoints after deploying a preview.
-Existing visual snapshots cover article rendering.
+Remote-image fetch and decoding errors fail the build, including images marked
+raw. Repair the asset rather than masking the failure with a placeholder.
 
 ## Publishing and indexing
 

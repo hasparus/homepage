@@ -27,7 +27,11 @@ export async function run(
   }
   try {
     const get = async (path) => {
-      const response = await fetchImpl(new URL(path, baseUrl), {
+      const url = new URL(baseUrl);
+      url.pathname = path;
+      url.search = "";
+      url.hash = "";
+      const response = await fetchImpl(url, {
         signal: AbortSignal.timeout(15000),
       });
       if (!response.ok) {

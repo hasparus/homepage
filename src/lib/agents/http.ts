@@ -12,22 +12,27 @@ export function jsonError(
 }
 
 export function prefersMarkdown(accept: string): boolean {
-  const ranges = accept
-    .toLowerCase()
-    .split(",")
-    .map((range) => {
-      const [type = "", ...parameters] = range.trim().split(";");
-      const quality = parameters.find((value) => value.trim().startsWith("q="));
-      const q = quality ? Number(quality.trim().slice(2)) : 1;
-      return {
-        type: type.trim(),
-        q: Number.isFinite(q) && q >= 0 && q <= 1 ? q : 0,
-      };
-    });
-  const markdown =
-    ranges.find((range) => range.type === "text/markdown")?.q ?? 0;
-  const html = ranges.find((range) => range.type === "text/html")?.q ?? 0;
-  return markdown > 0 && markdown >= html;
+  const ranges = new Map<string, number>();
+  for (const range of accept.toLowerCase().split(",")) {
+    const [type = "", ...parameters] = range.split(";");
+    const weight = parameters.find((value) => value.trim().startsWith("q="));
+    const value = weight?.trim().slice(2);
+    const quality =
+      value === undefined
+        ? 1
+        : /^(0(\.\d{0,3})?|1(\.0{0,3})?)$/.test(value)
+          ? Number(value)
+          : 0;
+    const mediaType = type.trim();
+    ranges.set(mediaType, Math.max(ranges.get(mediaType) ?? 0, quality));
+  }
+  const wildcard = ranges.get("text/*") ?? ranges.get("*/*") ?? 0;
+  const markdown = ranges.get("text/markdown") ?? wildcard;
+  const html = ranges.get("text/html") ?? wildcard;
+  return (
+    markdown > 0 &&
+    (markdown > html || (markdown === html && ranges.has("text/markdown")))
+  );
 }
 
 export const markdown404 = `# 404: Page not found

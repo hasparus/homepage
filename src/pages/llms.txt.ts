@@ -1,27 +1,15 @@
 import type { APIRoute } from "astro";
 
 import { whenToUse } from "../lib/agents/content";
-import { isPostVisible } from "../lib/isPostVisible";
+import { publicPosts } from "../lib/agents/posts";
 import { SITE_BLURB, SITE_NAME } from "../lib/siteMeta";
-import type { PostFrontmatter } from "../types";
-
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
-  "../../posts/**/*.mdx",
-  { eager: true },
-);
 
 export const GET: APIRoute = ({ site }) => {
   if (!site) {
     throw new Error("`site` must be set in astro.config for llms.txt");
   }
 
-  const posts = Object.values(postModules)
-    .filter((p) => isPostVisible(p.frontmatter))
-    .sort(
-      (a, b) =>
-        new Date(b.frontmatter.date).getTime() -
-        new Date(a.frontmatter.date).getTime(),
-    );
+  const posts = publicPosts();
 
   const lines: string[] = [
     `# ${SITE_NAME}`,
@@ -50,11 +38,9 @@ export const GET: APIRoute = ({ site }) => {
     "",
   ];
 
-  for (const { frontmatter } of posts) {
-    const url = new URL(frontmatter.path, site).href;
-    const desc = frontmatter.description?.trim() ?? "";
-    const suffix = desc ? `: ${desc}` : "";
-    lines.push(`- [${frontmatter.title}](${url})${suffix}`);
+  for (const { title, url, description } of posts) {
+    const suffix = description ? `: ${description}` : "";
+    lines.push(`- [${title}](${url})${suffix}`);
   }
 
   return new Response(lines.join("\n") + "\n", {

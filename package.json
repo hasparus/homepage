@@ -13,7 +13,6 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "preview:agents": "tsx scripts/agent-preview.ts",
     "verify:agents": "tsx scripts/verify-agent-endpoints.ts",
     "serve": "astro preview",
     "astro": "astro",
