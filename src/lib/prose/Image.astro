@@ -22,6 +22,8 @@ import {
 import { readFile } from "node:fs/promises";
 import { getPlaiceholder } from "plaiceholder";
 
+import { fetchRemoteImage } from "./fetchRemoteImage";
+
 import "./Image.css";
 
 // All* images with `src`s starting from / are imported from `src/images/` folder.
@@ -88,6 +90,9 @@ let placeholder: null | {
 } = null;
 
 if (isRaw) {
+  if (pathToImage.startsWith("http")) {
+    await getPlaiceholder(await fetchRemoteImage(pathToImage), { size: 10 });
+  }
   if (inPublicDir) {
     const globbed = import.meta.glob<false, string, { default: ImageMetadata }>(
       "../../../public/content/**/*",
@@ -100,8 +105,10 @@ if (isRaw) {
     // the 'raw' images can contain text or important details that should
     // not be cut off.
     height =
-      Number.parseFloat(props.width as string) /
-      Number.parseFloat(props.aspectRatio as string);
+      Number.parseFloat(String(width ?? imported.width)) /
+      Number.parseFloat(
+        String(props.aspectRatio ?? imported.width / imported.height),
+      );
     props.aspectRatio = imported.width / imported.height;
     width = height * (imported.width / imported.height);
   }
@@ -131,13 +138,7 @@ if (isRaw) {
 
   let imageForPlaceholder: Buffer;
   if (pathToImage.startsWith("http")) {
-    const res = await fetch(pathToImage);
-    if (!res.ok) {
-      throw new Error(
-        `Failed to fetch image ${pathToImage}: ${res.status} ${res.statusText}`,
-      );
-    }
-    imageForPlaceholder = Buffer.from(await res.arrayBuffer());
+    imageForPlaceholder = await fetchRemoteImage(pathToImage);
   } else {
     // `pathToImage` is written relative to this file (src/lib/prose); resolve it
     // against the project root instead of `import.meta.url`, which no longer
@@ -167,7 +168,14 @@ height ??=
     : undefined;
 
 props.alt ||= "";
-let attrs = { src, class: "", width, height, aspectRatio: props.aspectRatio };
+let attrs = {
+  src,
+  alt: props.alt,
+  class: "",
+  width,
+  height,
+  aspectRatio: props.aspectRatio,
+};
 
 if (!isRaw) {
   let attributes;

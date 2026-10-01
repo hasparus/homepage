@@ -93,9 +93,7 @@ test.describe("head metadata for agents", () => {
       /https?:\/\/.+\/refinement-types\/?$/,
     );
 
-    const mdAlt = page.locator(
-      'link[rel="alternate"][type="text/markdown"]',
-    );
+    const mdAlt = page.locator('link[rel="alternate"][type="text/markdown"]');
     await expect(mdAlt).toHaveAttribute(
       "href",
       /https?:\/\/.+\/refinement-types\.md$/,
@@ -115,7 +113,7 @@ test.describe("head metadata for agents", () => {
     expect(post.mainEntityOfPage["@id"]).toMatch(/\/refinement-types\/?$/);
   });
 
-  test("homepage has canonical but no markdown alternate", async ({ page }) => {
+  test("homepage has canonical and a markdown alternate", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       "href",
@@ -123,6 +121,6 @@ test.describe("head metadata for agents", () => {
     );
     await expect(
       page.locator('link[rel="alternate"][type="text/markdown"]'),
-    ).toHaveCount(0);
+    ).toHaveAttribute("href", "https://haspar.us/index.md");
   });
 });

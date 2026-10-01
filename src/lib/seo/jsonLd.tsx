@@ -2,6 +2,9 @@ export interface AuthorRef {
   "@type": "Person" | "Organization";
   name: string;
   url?: string;
+  description?: string;
+  sameAs?: string[];
+  jobTitle?: string;
 }
 
 export interface WebSiteSchema {

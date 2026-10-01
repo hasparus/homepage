@@ -1,31 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate } from "../lib/formatDate";
-import { isPostVisible } from "../lib/isPostVisible";
+import { orderedPosts } from "../build-time/posts";
 import { Link } from "../lib/Link";
 import { Paragraph } from "../lib/prose/Paragraph";
-import type { PostFrontmatter } from "../types";
-
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
-  "../../posts/**/*.mdx",
-  { eager: true },
-);
-let posts = Object.values(postModules);
-
-posts = posts.filter((post) => isPostVisible(post.frontmatter));
-
-posts.sort((a, b) => {
-  return (
-    new Date(b.frontmatter.date).getTime() -
-    new Date(a.frontmatter.date).getTime()
-  );
-});
+import AuthorBio from "../lib/prose/AuthorBio.astro";
+import { SITE_BLURB, SITE_NAME } from "../lib/siteMeta";
 ---
 
-<BaseLayout
-  title="hasparus"
-  description="an online abode of Piotr Monwid-Olechnowicz"
->
+<BaseLayout title={SITE_NAME} description={SITE_BLURB}>
   <h1 slot="header-content" class="text-gray-600 dark:text-gray-500">
     hasparus
   </h1>
@@ -34,17 +17,13 @@ posts.sort((a, b) => {
       Piotr Monwid-Olechnowicz
     </h1>
     <div class="zaduma-prose">
-      <Paragraph>
-        a software sculptor, devoted to details, interested in human computer
-        interaction, and tooling that pushes us into the <em>pit of success</em
-        >, to build better tomorrow.
-      </Paragraph>
+      <AuthorBio />
       <Paragraph>Nice to have you here.</Paragraph>
     </div>
   </main>
   <ul>
     {
-      posts.map(({ frontmatter }) => {
+      orderedPosts.map(({ module: { frontmatter } }) => {
         const date = new Date(frontmatter.date);
 
         return (
@@ -59,7 +38,7 @@ posts.sort((a, b) => {
               </h2>
               <time
                 datetime={date.toISOString()}
-                class="shrink-0 tabular-nums tracking-tighter text-gray-600 dark:text-gray-400"
+                class="shrink-0 tracking-tighter text-gray-600 tabular-nums dark:text-gray-400"
               >
                 {formatDate(date)}
               </time>

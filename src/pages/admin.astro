@@ -2,16 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { createOgImageLink } from "../lib/createOgImageLink";
 import { Link } from "../lib/Link";
-import type { PostFrontmatter } from "../types";
+import { allPosts } from "../build-time/posts";
 
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
-  "../../posts/**/*.mdx",
-  { eager: true },
-);
-const posts = Object.values(postModules);
-
-const linksToOGImages = posts.map((post) =>
-  createOgImageLink(post.frontmatter),
+const linksToOGImages = allPosts.map(({ module }) =>
+  createOgImageLink(module.frontmatter),
 );
 ---
 

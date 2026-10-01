@@ -1,0 +1,26 @@
+{
+  "name": "@hasparus/cli",
+  "version": "0.1.0",
+  "description": "Read public haspar.us profile and articles from the command line",
+  "type": "module",
+  "bin": {
+    "hasparus": "bin/hasparus.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasparus/homepage.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://haspar.us/docs/",
+  "publishConfig": {
+    "access": "public"
+  }
+}

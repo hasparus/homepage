@@ -6,14 +6,13 @@ import Analytics from "../lib/Analytics.astro";
 import InitColorScheme from "../lib/color-scheme/InitColorScheme.astro";
 import { Commands } from "../lib/Commands";
 import GrainOverlay from "../lib/GrainOverlay/GrainOverlay.astro";
-import { isPostVisible } from "../lib/isPostVisible";
+import { orderedPosts } from "../build-time/posts";
 import { Link } from "../lib/Link";
 import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
 import { AUTHOR, SITE_NAME } from "../lib/siteMeta";
 import { websiteSchema } from "../lib/seo/jsonLd";
 import JsonLd from "../lib/seo/JsonLd.astro";
 import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
-import type { PostFrontmatter } from "../types";
 
 import "../global-styles/base.css";
 import "../global-styles/controls.css";
@@ -31,18 +30,11 @@ interface Props {
 
 const { title, description, ogImage } = Astro.props;
 
-const postModules = import.meta.glob<{ frontmatter: PostFrontmatter }>(
-  "../../posts/**/*.mdx",
-  { eager: true },
-);
-const posts = Object.values(postModules)
-  .filter((p) => isPostVisible(p.frontmatter))
-  .map((p) => ({
-    href: p.frontmatter.path,
-    title: p.frontmatter.title,
-    date: p.frontmatter.date,
-  }))
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const posts = orderedPosts.map(({ module: { frontmatter } }) => ({
+  href: frontmatter.path,
+  title: frontmatter.title,
+  date: frontmatter.date,
+}));
 
 const postPaths = new Set(posts.map((p) => p.href));
 
@@ -82,26 +74,42 @@ const websiteData = websiteSchema({
       ))
     }
 
-    <SocialCardMetaTags ogImage={ogImage} />
+    <SocialCardMetaTags ogImage={ogImage ?? "https://haspar.us/og.png"} />
+    <meta property="og:type" content={isPostRoute ? "article" : "website"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
 
     <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
     {
-      isPostRoute && (
-        <link rel="alternate" type="text/markdown" href={markdownAlt} />
+      (isPostRoute || rawPathname === "/") && (
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={
+            rawPathname === "/" ? "https://haspar.us/index.md" : markdownAlt
+          }
+        />
       )
     }
+    <link
+      rel="service-desc"
+      type="application/vnd.oai.openapi+json"
+      href="/openapi.json"
+    />
+    <link rel="help" href="/docs/" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
 
     <title>{title}</title>
     <JsonLd data={websiteData} />
+    <JsonLd data={{ "@context": "https://schema.org", ...AUTHOR }} />
     <slot name="head" />
     <InitColorScheme />
     <Analytics />
   </head>
   <body>
-    <div class="mx-auto max-w-container px-4">
+    <div class="max-w-container mx-auto px-4">
       <header
         class="-mt-2 flex items-center justify-between"
         style={{ height: "37.5px" }}
