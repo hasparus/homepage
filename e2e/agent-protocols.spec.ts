@@ -385,6 +385,26 @@ test("OG parameters preserve literal percent signs and encoded-looking titles", 
   }
 });
 
+test("media negotiation handles whitespace before quality parameters", async ({
+  request,
+}) => {
+  const cases = [
+    { accept: "text/markdown ; q=0.9", markdown: true },
+    { accept: "text/markdown\t; q=0.9, text/html ; q=1", markdown: false },
+    { accept: "text/markdown ; q=1, text/html\t; q=0.9", markdown: true },
+    { accept: "text/markdown ; q=0, text/html ; q=0.9", markdown: false },
+  ];
+  for (const { accept, markdown } of cases) {
+    expect(prefersMarkdown(accept)).toBe(markdown);
+    const response = await request.get("/", { headers: { Accept: accept } });
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toMatch(
+      markdown ? /^text\/markdown/ : /^text\/html/,
+    );
+    expect(response.headers()["vary"]).toContain("Accept");
+  }
+});
+
 test("media negotiation ignores disabled and malformed quality values", () => {
   expect(prefersMarkdown("text/markdown;q=1,text/html;q=0.5")).toBe(true);
   expect(prefersMarkdown("text/markdown;q=0")).toBe(false);
