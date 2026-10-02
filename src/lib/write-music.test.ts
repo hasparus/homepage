@@ -1,12 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { mergeFalseBreaks } from "./write-music";
-
-const SENTENCES = new Intl.Segmenter("en", { granularity: "sentence" });
+import { splitSentences } from "./write-music";
 
 const split = (text: string) =>
-  mergeFalseBreaks([...SENTENCES.segment(text)]).map((s) => s.segment.trim());
+  splitSentences(text).map((s) => s.segment.trim());
 
 void test("splits on sentence boundaries", () => {
   assert.deepEqual(split("One two three. Four five."), [
@@ -42,10 +40,16 @@ void test("still breaks after an abbreviation that ends a sentence", () => {
   ]);
 });
 
+void test("still breaks after a suffix that ends a sentence", () => {
+  assert.deepEqual(split("It was built by Bob Smith Jr. He left."), [
+    "It was built by Bob Smith Jr.",
+    "He left.",
+  ]);
+});
+
 void test("keeps offsets pointing into the original text", () => {
-  const merged = mergeFalseBreaks([...SENTENCES.segment("Alpha beta. Gamma.")]);
   assert.deepEqual(
-    merged.map((s) => s.index),
-    [0, 12],
+    splitSentences("Mr. Alpha beta. Gamma.").map((s) => s.index),
+    [0, 16],
   );
 });
