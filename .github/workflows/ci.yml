@@ -23,6 +23,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          submodules: true
           ref: "${{ github.event.pull_request.merge_commit_sha }}"
 
       - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093

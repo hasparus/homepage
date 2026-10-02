@@ -7,7 +7,7 @@ export interface HistoryUpdate {
 }
 
 export const HEADER_SIZE = 8;
-export const MAX_FIELD_SIZE = 0xffffffff;
+export const MAX_FIELD_SIZE = 2 ** 32 - 1;
 
 export function validateFieldLengths(clockLength: number, valueLength: number) {
   if (clockLength === 0) {
@@ -53,20 +53,12 @@ export function encodeHistoryUpdates(
 export async function getLevelUpdates(
   db: Party.Storage,
   docName: string,
-  opts: {
-    keys: boolean;
-    limit?: number;
-    reverse?: boolean;
-    values: boolean;
-  } = {
-    keys: false,
-    values: true,
-  },
 ): Promise<Datum[]> {
   return getLevelBulkData(db, {
     gte: createDocumentUpdateKey(docName, 0),
     lt: createDocumentUpdateKey(docName, BINARY_BITS_32),
-    ...opts,
+    keys: false,
+    values: true,
   });
 }
 
@@ -86,4 +78,4 @@ function createDocumentUpdateKey(
   return ["v1", docName, "update", clock];
 }
 
-const BINARY_BITS_32 = 0xffffffff;
+const BINARY_BITS_32 = 2 ** 32 - 1;
