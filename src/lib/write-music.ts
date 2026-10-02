@@ -17,7 +17,6 @@ export async function toggleWriteMusic() {
   const { highlight } = await import("@highlighters/core");
   marks = [];
 
-  const sentences = new Intl.Segmenter("en", { granularity: "sentence" });
   const words = new Intl.Segmenter("en", { granularity: "word" });
 
   for (const block of document.querySelectorAll(".zaduma-prose :is(p, li)")) {
@@ -37,7 +36,7 @@ export async function toggleWriteMusic() {
         : node.data.replaceAll(/\s/g, " ");
     }
 
-    for (const sentence of mergeFalseBreaks([...sentences.segment(text)])) {
+    for (const sentence of splitSentences(text)) {
       const count = [...words.segment(sentence.segment)].filter(
         (w) => w.isWordLike,
       ).length;
@@ -75,39 +74,46 @@ export async function toggleWriteMusic() {
   }
 }
 
-/**
- * Titles and references that take a name or number after the period.
- * ponytail: abbreviations that often do end a sentence ("etc.", "Inc.")
- * stay out, since merging those is worse than splitting them.
- */
-const ABBREVIATION =
-  /(?:^|[\s(])(?:mr|mrs|ms|dr|prof|sr|jr|st|rev|gen|vs|cf|fig|figs|e\.g|i\.e)\.$/i;
+type Sentence = { index: number; segment: string };
+
+const SENTENCES = new Intl.Segmenter("en", { granularity: "sentence" });
 
 /**
  * Intl.Segmenter breaks sentences after `?`/`.` inside quotes
- * (…asks “which days could work?”, not…). A segment continuing with a
- * lowercase letter, comma, dash, or an opening quote followed by
- * lowercase belongs to the previous sentence, and so does one following
- * an abbreviation's period.
+ * (…asks “which days could work?”, not…) and after abbreviations
+ * (Mr. Smith). Such false breaks are merged back into one sentence.
  */
-export function mergeFalseBreaks(
-  segments: { index: number; segment: string }[],
-) {
-  const merged: { index: number; segment: string }[] = [];
-  for (const { index, segment } of segments) {
+export function splitSentences(text: string): Sentence[] {
+  const merged: Sentence[] = [];
+  for (const { index, segment } of SENTENCES.segment(text)) {
     const prev = merged.at(-1);
-    const head = segment.trimStart().replace(/^[“”"'‘’([]/, "");
-    if (
-      prev &&
-      (/^[\p{Ll}\p{Pd},;)\]]/u.test(head) ||
-        ABBREVIATION.test(prev.segment.trimEnd()))
-    ) {
+    if (prev && isFalseBreak(prev.segment, segment)) {
       prev.segment += segment;
     } else {
       merged.push({ index, segment });
     }
   }
   return merged;
+}
+
+/**
+ * A lowercase letter, dash, comma, semicolon, or closing bracket,
+ * optionally behind an opening quote, continues the previous sentence.
+ */
+const CONTINUATION = /^[“”"'‘’([]?[\p{Ll}\p{Pd},;)\]]/u;
+
+/**
+ * Abbreviations that take a name or number after the period.
+ * ponytail: ones that often end a sentence ("etc.", "Inc.", "Jr.") stay
+ * out, since merging those is worse than splitting them.
+ */
+const ABBREVIATION =
+  /(?:^|[\s(])(?:mr|mrs|ms|dr|prof|st|rev|gen|vs|cf|fig|figs|e\.g|i\.e)\.$/i;
+
+function isFalseBreak(before: string, after: string) {
+  return (
+    CONTINUATION.test(after.trimStart()) || ABBREVIATION.test(before.trimEnd())
+  );
 }
 
 function locate(
