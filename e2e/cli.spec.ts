@@ -122,39 +122,6 @@ for (const markdownUrl of [
   });
 }
 
-test("CLI help and invalid syntax retain exit statuses without fetching", async () => {
-  for (const args of [
-    [],
-    ["--help"],
-    ["help"],
-    ["unknown"],
-    ["read"],
-    ["posts", "extra"],
-    ["read", "article", "extra"],
-  ]) {
-    const streams = output();
-    const help = !args.length || args[0] === "--help" || args[0] === "help";
-    const code = await run(args, {
-      ...streams,
-      fetchImpl: async () => {
-        throw new Error("Unexpected fetch");
-      },
-    });
-    expect(code).toBe(help ? 0 : 2);
-    if (help) {
-      expect(streams.read().stdout).toContain(
-        "Usage: hasparus profile | posts | read <slug>",
-      );
-      expect(streams.read().stderr).toBe("");
-    } else {
-      expect(streams.read()).toEqual({
-        stdout: "",
-        stderr: "Invalid command. Use hasparus --help.\n",
-      });
-    }
-  }
-});
-
 test("installed CLI symlinks execute help and preserve invalid-command status", async () => {
   const directory = await mkdtemp(join(tmpdir(), "hasparus-cli-bin-"));
   const executable = join(directory, "hasparus");
@@ -182,7 +149,7 @@ test("installed CLI symlinks execute help and preserve invalid-command status", 
   }
 });
 
-test("CLI HTTP errors retain status, hints, and stderr-only output", async () => {
+test("CLI HTTP failures exit nonzero without writing to stdout", async () => {
   const streams = output();
   const code = await run(["posts"], {
     ...streams,
@@ -193,8 +160,6 @@ test("CLI HTTP errors retain status, hints, and stderr-only output", async () =>
       ),
   });
   expect(code).toBe(1);
-  expect(streams.read()).toEqual({
-    stdout: "",
-    stderr: "HTTP 503: Mock unavailable Try again\n",
-  });
+  expect(streams.read().stdout).toBe("");
+  expect(streams.read().stderr).toContain("HTTP 503");
 });

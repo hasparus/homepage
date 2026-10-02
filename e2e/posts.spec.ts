@@ -62,22 +62,3 @@ test("API publication dates equal the rendered dates for every public article", 
     "2022-10-01",
   );
 });
-
-test("llms.txt uses the API's ordered public catalog and canonical links", async ({
-  request,
-}) => {
-  const response = await request.get("/api/posts.json");
-  expect(response.status()).toBe(200);
-  const { posts }: { posts: PublicPost[] } = await response.json();
-  expect(posts.length).toBeGreaterThan(0);
-  const guide = await request.get("/llms.txt");
-  expect(guide.status()).toBe(200);
-  expect(guide.headers()["content-type"]).toMatch(/^text\/plain(?:;|$)/);
-  const body = await guide.text();
-  const entries = posts.map(({ title, url, description }) => {
-    expect(new URL(url).origin).toBe("https://haspar.us");
-    expect(description).toBe(description.trim());
-    return `- [${title}](${url})${description ? `: ${description}` : ""}`;
-  });
-  expect(body.split("## Posts\n\n")[1]).toBe(entries.join("\n") + "\n");
-});

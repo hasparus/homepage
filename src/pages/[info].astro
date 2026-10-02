@@ -1,10 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { pages } from "../lib/agents/content";
+import { pages, type InfoPage } from "../lib/agents/content";
+import { Link } from "../lib/Link";
 import { Heading } from "../lib/prose/Heading";
 import { Paragraph } from "../lib/prose/Paragraph";
 import AuthorBio from "../lib/prose/AuthorBio.astro";
 import { AUTHOR_BIO } from "../lib/siteMeta";
+
+interface Props {
+  page: InfoPage;
+}
 
 export function getStaticPaths() {
   return Object.entries(pages).map(([info, page]) => ({
@@ -19,22 +24,34 @@ const { page } = Astro.props;
   <main class="zaduma-prose py-10">
     <Heading level="h1">{page.title}</Heading>
     {
-      page.paragraphs.map((paragraph: string) =>
+      page.paragraphs.map((paragraph) =>
         paragraph === AUTHOR_BIO ? (
           <AuthorBio />
         ) : (
-          <Paragraph>{paragraph}</Paragraph>
+          <Paragraph>
+            {typeof paragraph === "string"
+              ? paragraph
+              : paragraph.map((part) =>
+                  typeof part === "string" ? (
+                    part
+                  ) : (
+                    <Link href={part.href}>{part.title}</Link>
+                  ),
+                )}
+          </Paragraph>
         ),
       )
     }
-    <ul>
-      {
-        page.links.map((link: { title: string; href: string }) => (
-          <li>
-            <a href={link.href}>{link.title}</a>
-          </li>
-        ))
-      }
-    </ul>
+    {
+      page.links && (
+        <ul>
+          {page.links.map((link) => (
+            <li>
+              <Link href={link.href}>{link.title}</Link>
+            </li>
+          ))}
+        </ul>
+      )
+    }
   </main>
 </BaseLayout>

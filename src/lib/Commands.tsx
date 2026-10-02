@@ -184,9 +184,7 @@ export function CommandsPalette(props: {
                   GitHub
                 </CommandItem>
                 <CommandItem href="/resume">Resume</CommandItem>
-                <CommandItem href="https://github.com/hasparus/zaduma/issues">
-                  Contact
-                </CommandItem>
+                <CommandItem href="/contact/">Contact</CommandItem>
                 <CommandItem href="/rss.xml">RSS</CommandItem>
               </CommandGroup>
             </>
