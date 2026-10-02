@@ -20,6 +20,8 @@ interface ImportMetaEnv {
    * @see import.meta.env.SITE for the canonical URL
    */
   readonly PUBLIC_URL: string;
+  /** Overrides the bear-fit PartyKit host in the y-travelling demos. */
+  readonly PUBLIC_BEAR_FIT_SERVER?: string;
 }
 
 declare module "*.svg" {
