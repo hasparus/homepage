@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 
 test.describe("Homepage", () => {
   test("renders with article list", async ({ page }) => {
@@ -21,6 +22,29 @@ test("Contact in the command menu opens the site's contact page", async ({
   await expect(
     page.getByRole("main").getByRole("heading", { level: 1 }),
   ).toBeVisible();
+});
+
+test("MDX page Markdown preserves main content and links without page chrome", async ({
+  page,
+  request,
+}) => {
+  const processor = await createMarkdownProcessor();
+  const content = () =>
+    page.getByRole("main").evaluate((main) => ({
+      text: main.textContent?.replace(/\s+/g, " ").trim(),
+      links: [...main.querySelectorAll("a")].map((link) => ({
+        text: link.textContent,
+        href: link.getAttribute("href"),
+      })),
+    }));
+  for (const name of ["about", "contact", "privacy", "docs"]) {
+    await page.goto(`/${name}/`);
+    const html = await content();
+    const markdown = await (await request.get(`/${name}.md`)).text();
+    const rendered = await processor.render(markdown);
+    await page.setContent(`<main>${rendered.code}</main>`);
+    expect(await content()).toEqual(html);
+  }
 });
 
 test.describe("Dark/light mode toggle", () => {
