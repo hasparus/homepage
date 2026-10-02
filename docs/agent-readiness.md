@@ -29,6 +29,11 @@ Article Markdown exports contain MDX source and may include imports or
 components. Use the HTML page to see interactive examples. Hidden articles and
 production drafts stay out of the public index and MCP tools.
 
+The site pages and developer docs are authored in `src/content/pages/*.mdx`.
+Their Markdown exports render the same documents with Astro and convert the
+content to Markdown, including shared components such as the author bio. MCP
+reads the published `/docs.md`; it doesn't keep another copy of the prose.
+
 ## Verification
 
 ```sh
