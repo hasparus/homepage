@@ -5,14 +5,14 @@ import { pages } from "../build-time/pages";
 import { Heading } from "../lib/prose/Heading";
 
 export function getStaticPaths() {
-  return pages.map(({ slug, document }) => ({
+  return pages.map(({ slug, document, metadata }) => ({
     params: { info: slug },
-    props: { document },
+    props: { document, metadata },
   }));
 }
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
-const { document } = Astro.props;
-const { title, description } = document.frontmatter;
+const { document, metadata } = Astro.props;
+const { title, description } = metadata;
 const Content = document.Content;
 ---
 
