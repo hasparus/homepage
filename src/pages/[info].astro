@@ -1,57 +1,24 @@
 ---
+import type { InferGetStaticPropsType } from "astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { pages, type InfoPage } from "../lib/agents/content";
-import { Link } from "../lib/Link";
+import { pages } from "../build-time/pages";
 import { Heading } from "../lib/prose/Heading";
-import { Paragraph } from "../lib/prose/Paragraph";
-import AuthorBio from "../lib/prose/AuthorBio.astro";
-import { AUTHOR_BIO } from "../lib/siteMeta";
-
-interface Props {
-  page: InfoPage;
-}
 
 export function getStaticPaths() {
-  return Object.entries(pages).map(([info, page]) => ({
-    params: { info },
-    props: { page },
+  return pages.map(({ slug, document, metadata }) => ({
+    params: { info: slug },
+    props: { document, metadata },
   }));
 }
-const { page } = Astro.props;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { document, metadata } = Astro.props;
+const { title, description } = metadata;
+const Content = document.Content;
 ---
 
-<BaseLayout title={page.title} description={page.description}>
+<BaseLayout title={title} description={description}>
   <main class="zaduma-prose py-10">
-    <Heading level="h1">{page.title}</Heading>
-    {
-      page.paragraphs.map((paragraph) =>
-        paragraph === AUTHOR_BIO ? (
-          <AuthorBio />
-        ) : (
-          <Paragraph>
-            {typeof paragraph === "string"
-              ? paragraph
-              : paragraph.map((part) =>
-                  typeof part === "string" ? (
-                    part
-                  ) : (
-                    <Link href={part.href}>{part.title}</Link>
-                  ),
-                )}
-          </Paragraph>
-        ),
-      )
-    }
-    {
-      page.links && (
-        <ul>
-          {page.links.map((link) => (
-            <li>
-              <Link href={link.href}>{link.title}</Link>
-            </li>
-          ))}
-        </ul>
-      )
-    }
+    <Heading level="h1">{title}</Heading>
+    <Content />
   </main>
 </BaseLayout>

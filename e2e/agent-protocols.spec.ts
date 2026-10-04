@@ -176,6 +176,10 @@ test("MCP initializes, lists and reads all resources, and calls both tools throu
         expect(content.text?.length).toBeGreaterThan(20);
         const res = await fetch(`${base}${new URL(content.uri).pathname}`);
         expect(res.status).toBe(200);
+        if (resource.name === "developer-docs") {
+          expect(content.text).toBe(await res.text());
+          expect(content.text).toContain("(https://haspar.us/openapi.json)");
+        }
         for (const [link] of (content.text || "").matchAll(
           /https:\/\/haspar\.us\/[^\s)"\]<>;,]+/g,
         )) {

@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 
 test.describe("Homepage", () => {
   test("renders with article list", async ({ page }) => {
@@ -21,6 +22,35 @@ test("Contact in the command menu opens the site's contact page", async ({
   await expect(
     page.getByRole("main").getByRole("heading", { level: 1 }),
   ).toBeVisible();
+});
+
+test("MDX page Markdown preserves main content and links without page chrome", async ({
+  page,
+  request,
+}) => {
+  const processor = await createMarkdownProcessor();
+  const content = (base: string) =>
+    page.getByRole("main").evaluate(
+      (main, base) => ({
+        text: main.textContent?.replace(/\s+/g, " ").trim(),
+        links: [...main.querySelectorAll("a")].map((link) => ({
+          text: link.textContent,
+          href: new URL(link.getAttribute("href")!, base).href,
+        })),
+      }),
+      base,
+    );
+  for (const name of ["about", "contact", "privacy", "docs"]) {
+    await page.goto(`/${name}/`);
+    const base = `https://haspar.us/${name}/`;
+    const html = await content(base);
+    const markdown = await (await request.get(`/${name}.md`)).text();
+    if (name === "docs")
+      expect(markdown).toContain("(https://haspar.us/openapi.json)");
+    const rendered = await processor.render(markdown);
+    await page.setContent(`<main>${rendered.code}</main>`);
+    expect(await content(base)).toEqual(html);
+  }
 });
 
 test.describe("Dark/light mode toggle", () => {

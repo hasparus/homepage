@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { z } from "zod";
 
-import { pageMarkdown, profile, whenToUse } from "./content.js";
+import { profile, whenToUse } from "./content.js";
 
 import { postsSchema } from "./schemas.js";
 
@@ -142,7 +142,7 @@ export async function handleMcp(request: Request): Promise<Response> {
         {
           uri: uri.href,
           mimeType: "text/markdown",
-          text: pageMarkdown("docs"),
+          text: await loadText("/docs.md"),
         },
       ],
     }),
