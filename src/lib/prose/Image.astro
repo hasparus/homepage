@@ -100,8 +100,10 @@ if (isRaw) {
     // the 'raw' images can contain text or important details that should
     // not be cut off.
     height =
-      Number.parseFloat(props.width as string) /
-      Number.parseFloat(props.aspectRatio as string);
+      Number.parseFloat(String(width ?? imported.width)) /
+      Number.parseFloat(
+        String(props.aspectRatio ?? imported.width / imported.height),
+      );
     props.aspectRatio = imported.width / imported.height;
     width = height * (imported.width / imported.height);
   }
