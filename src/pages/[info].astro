@@ -1,0 +1,24 @@
+---
+import type { InferGetStaticPropsType } from "astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pages } from "../build-time/pages";
+import { Heading } from "../lib/prose/Heading";
+
+export function getStaticPaths() {
+  return pages.map(({ slug, document, metadata }) => ({
+    params: { info: slug },
+    props: { document, metadata },
+  }));
+}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const { document, metadata } = Astro.props;
+const { title, description } = metadata;
+const Content = document.Content;
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="zaduma-prose py-10">
+    <Heading level="h1">{title}</Heading>
+    <Content />
+  </main>
+</BaseLayout>
