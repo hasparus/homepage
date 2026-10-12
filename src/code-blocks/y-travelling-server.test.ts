@@ -22,8 +22,9 @@ void test("canonical encoder and demo decoder preserve replayable Yjs history", 
     updates.push({ clock: String(updates.length), value });
   });
   const availability = doc.getMap<boolean>("availability");
-  availability.set("demo-you〷2077-09-06", true);
-  availability.set("demo-you〷2077-09-06", false);
+  for (const available of [true, false]) {
+    availability.set("demo-you〷2077-09-06", available);
+  }
   const decoded = decodeHistoryUpdates(encodeHistoryUpdates(updates));
   const before = replayHistory(decoded, 1);
   const after = replayHistory(decoded, 2);

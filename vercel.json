@@ -1,4 +1,19 @@
 {
+  "rewrites": [{ "source": "/mcp", "destination": "/api/mcp" }],
+  "headers": [
+    {
+      "source": "/:path(.*\\.md)",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/.well-known/api-catalog",
+      "headers": [
+        { "key": "Content-Type", "value": "application/linkset+json" }
+      ]
+    }
+  ],
   "redirects": [
     {
       "source": "/s/:path*",
@@ -13,7 +28,7 @@
     {
       "source": "/:path(.*)",
       "has": [{ "type": "host", "value": "bear-fit.haspar.us" }],
-      "destination": "https://bear-fit.hasparus.partykit.dev/:path"
+      "destination": "https://bear-fit.hasparus.workers.dev/:path"
     }
   ]
 }
