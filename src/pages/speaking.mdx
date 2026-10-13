@@ -1,0 +1,108 @@
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export { mdxComponents as components } from "../lib/mdxComponents";
+import { mdxComponents as components } from "../lib/mdxComponents";
+
+<BaseLayout
+  title="hasparus | speaking"
+  description="Meetup talks by Piotr Monwid-Olechnowicz, mostly about TypeScript."
+>
+<main class="zaduma-prose py-10">
+
+# Speaking
+
+Meetup talks, mostly at [Wrocław TypeScript](https://github.com/WrocTypeScript).
+Some of them aged better than others.
+
+## A tiny calendar with sync engines and CRDTs
+
+TypeScript Fireside #4, Wrocław · May 2025 \
+How I built [bear-fit](https://bear-fit.haspar.us), a calendar for finding a day
+that works for all my friends, on a sync engine and CRDTs. \
+[Code](https://github.com/hasparus/bear-fit)
+
+## Refinement Types
+
+- Wrocław TypeScript #7, Wrocław · Sep 2019 · 5-minute lightning talk
+- KTUG #5, Kraków · Feb 2020 · [recording](https://youtu.be/4ccCeAbwmbU) (pretty
+  bad quality)
+- Paris TypeScript #27, online · Nov 2020 ·
+  [recording](https://youtu.be/4ldPQxxlf24?t=520)
+
+What refinement types are, a research paper that adds them to TypeScript, and
+live-coding a userland refinement type you can use today. \
+[Code](https://github.com/hasparus/refinement-types-in-typescript) ·
+[extended slides](https://github.com/hasparus/refinement-types-in-typescript/tree/extended-15-minutes)
+· [follow-up post](/refinement-types/)
+
+## Building a Branded Styling DSL in TypeScript
+
+Wrocław TypeScript Online #17 · Jul 2020 \
+Module augmentation and declaration merging to make Theme UI's `sx` prop accept
+only your design tokens. The live demo at the end goes wrong. \
+[Recording](https://youtu.be/-0smYzH1m3s) ·
+[Theme UI PR](https://github.com/system-ui/theme-ui/pull/1090)
+
+## Progressive Web Apps Demystified
+
+Chop-Chop · May 2020 · in Polish \
+A PWA is just an app that fulfils a checklist. What's on it, and a case study
+with Next.js and Apollo. \
+[Recording](https://youtu.be/B-XeNkjl4Ls)
+
+## Fixing JSX.IntrinsicElements conflict in react-three-fiber
+
+Wrocław TypeScript #12, Wrocław · Feb 2020 \
+How I used the TypeScript Compiler API to generate react-three-fiber's JSX types
+from three.js and stop them clashing with `@types/react`. \
+[Slides](https://github.com/hasparus/r3fts) ·
+[PR](https://github.com/pmndrs/react-three-fiber/pull/233)
+
+## Maybe-ts. A softer approach to optionals
+
+Wrocław TypeScript #10, Wrocław · Dec 2019 \
+The problems with `Option` from Rich Hickey's
+["Maybe Not"](https://youtu.be/YR5WdGrpoug), and a nullable `Maybe` for fp-ts
+that avoids them. It turned out not to be a lawful functor. \
+[Slides](https://maybe-ts.vercel.app) ·
+[library](https://github.com/hasparus/maybe-ts)
+
+## Reducers and Hooks in the Wild
+
+Chop-Chop Academy, Wrocław · Dec 2019 \
+Live-coding reducers, a Notification API hook and a Web Audio alarm into a
+pomodoro app. \
+[Code](https://github.com/ChopChopOrg/academy) ·
+[app](https://chop-chop-academy.netlify.app)
+
+## Power of Preconditions
+
+Wrocław TypeScript #8, Wrocław · Oct 2019 \
+Why TypeScript 3.7 assertion signatures are huge: partial vs total functions,
+throwing vs returning errors, and safer React code. \
+[Slides](https://github.com/hasparus/power-of-preconditions)
+
+## Linter Overload
+
+Wrocław TypeScript #6, Wrocław · Jun 2019 \
+So many linters for TypeScript. Which one should I use, and how do I configure
+it? \
+[Slides](https://linter-overload.vercel.app)
+
+## Matryoshka Code
+
+- Wrocław TypeScript #5, Wrocław · May 2019
+- Chop-Chop Academy, Wrocław · [recording](https://youtu.be/DmoC3TFPGJU?t=2446)
+
+A rant about over-abstracted code, DRY as the dunes of Arrakis, and how to deal
+with it. \
+[Slides](https://matryoshka-code.vercel.app) · [notes](/matryoshka-code/)
+
+## Using React with TypeScript
+
+Wrocław TypeScript #1, Wrocław · Jan 2019 \
+Why and how to use TypeScript in React apps. \
+[Slides](https://github.com/hasparus/react-typescript-talk)
+
+</main>
+</BaseLayout>

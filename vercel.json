@@ -15,6 +15,7 @@
     }
   ],
   "redirects": [
+    { "source": "/speaking/:slug", "destination": "/speaking/" },
     {
       "source": "/s/:path*",
       "has": [{ "type": "host", "value": "haspar.us" }],
