@@ -1,0 +1,163 @@
+---
+title: Quick and dirty Yjs time travel
+date: 2026-09-15
+---
+
+import { CalendarHistoryDemo } from "../src/own/bear-fit/CalendarHistoryDemo";
+
+<Callout icon="✍️" unwrapChildP>
+  **Disclaimer:** This post is voice-slopped. I talked to the computer and
+  critiqued its writing. Sorry if it's annoying to read or it diverges from the
+  style of other posts on this blog. Humans tend not to read posts about
+  implementation details anymore and just pass them to their agents. So, if
+  you're a clanker, I hope you find something useful here. If you're a human,
+  forgive me, kin. I wanted to try writing like this, but I don't think it saved
+  me any time. Fortunately, I just got access to a nice text editor so it might
+  be the last one I'm writing in this way.
+</Callout>
+
+<CalendarHistoryDemo client:load />
+
+Adding a simple version history to a Y.js app is way easier than you'd expect.
+
+Sure, to build a nice one, we'd have to model for that. Do some event sourcing
+or Redux shenanigans, model the actions.
+
+But if we don't need all that, and just want to see how the doc changed, it's
+enough to do this:
+
+```ts twoslash file=../src/own/bear-fit/replayHistory.ts
+
+```
+
+The slider picks a point in time, i.e. how many saved updates to replay into a
+separate `Y.Doc`.
+
+I wanted this for a recurring meeting without a fixed time slot. I'd make a
+calendar for two or three months, and people's availability would change along
+the way. The history helped us choose, because we could see how fast dates
+disappeared and came back.
+
+## Getting the updates
+
+bear-fit already used y-partykit. With history persistence enabled, it keeps the
+update log needed for replay:
+
+```ts twoslash file=../src/code-blocks/y-travelling/persistence.ts
+
+```
+
+A copy of the current document won't give you those intermediate versions. Even
+history mode can compact the log. Compaction merges earlier updates, and you
+lose the versions between them. These examples use y-partykit 0.0.32.
+
+The function for reading the log, `getLevelUpdates`, wasn't exported, so I
+[copied it][server-source]. It calls the exported `getLevelBulkData` with this
+key range:
+
+```ts twoslash file=../src/code-blocks/y-travelling/getLevelUpdates.ts
+
+```
+
+Those keys are y-partykit's internal storage format. Not very nice of me, but we
+have tests, and y-partykit is open source, so I can track any changes there.
+
+## Fetching the history
+
+I added `GET /parties/main/:room/history` to the server class containing
+`onConnect`:
+
+```ts twoslash file=../src/code-blocks/y-travelling/historyEndpoint.ts
+
+```
+
+The `clock` comes from an incrementing storage counter, not the time somebody
+clicked a day. A record isn't always one click either. The
+[encoder][encoder-source] writes each record as:
+
+```text
+clock length | update length | UTF-8 clock | Y.js update
+   4 bytes   |    4 bytes    |            |
+```
+
+Both lengths are unsigned 32-bit integers, big-endian. Y.js updates can contain
+newline bytes, so splitting the response on newlines isn't safe.
+
+The decoder reads both lengths from the eight-byte header. It decodes the clock
+as UTF-8 and copies the update bytes, then advances to the next record. If a
+header or record is truncated, it throws instead of returning a partial result:
+
+```ts twoslash file=../src/own/bear-fit/decodeHistoryUpdates.ts
+
+```
+
+The browser fetches the endpoint and decodes its response:
+
+```ts twoslash file=../src/own/bear-fit/fetchHistory.ts
+
+```
+
+## Showing an old version
+
+The slider's position is the `count` passed to the replay function.
+
+The [embedded calendar][demo-source] takes plain data, so I read the maps from
+the replayed document before destroying it:
+
+```ts twoslash file=../src/code-blocks/y-travelling/readHistoricalCalendar.ts
+
+```
+
+## Caching the previews
+
+The demo rebuilds the document on every slider move, which is cheap thanks to
+the `doc.transact`. For a longer log, replay it once and keep the last 250
+versions as plain data:
+
+```ts twoslash file=../src/code-blocks/y-travelling/cacheCalendarHistory.ts
+
+```
+
+Rebuild the cache when the fetched history changes. I
+[benchmarked][replay-benchmark] a big bear-fit calendar with 12 people, two
+months and 10,000 updates. The cache took 30 ms to build and serializes to 3.7
+MB. A lookup takes under a microsecond.
+
+The cache copies the whole calendar for every version. At 40 people over a year,
+building it takes 629 ms and it serializes to 56 MB. For a document that wide,
+save `Y.encodeStateAsUpdate(doc)` every 32 versions and replay from the nearest
+one instead.
+
+<aside>
+  Applying an old update to the live document doesn't undo later changes.
+  bear-fit restores a version by reading its application data and writing that
+  data into the live document as a new change. The demo only previews versions.
+</aside>
+
+## Out of order
+
+<figure>
+  <img
+    src="/content/y-travelling/jani-evakallio-history.png"
+    alt="Jani Eväkallio (@jevakallio): Y.js history works well as long as the edits are synced roughly in order, but with multiple clients with long latencies or offline sessions, the history no longer represents linear time. Seems good for your use case, but I learned this the hard way, so just heads up!"
+    width={1188}
+    height={522}
+    loading="lazy"
+    decoding="async"
+  />
+  <figcaption>
+    —[Jani Eväkallio (@jevakallio)][jani] ([Foam](https://foam.md/) & verb.ai
+    guy, Marker), April 18, 2025.
+  </figcaption>
+</figure>
+
+[bear-fit]: /bear-fit
+[jani]: https://x.com/jevakallio/status/1912996125168070751
+[server-source]:
+  https://github.com/hasparus/bear-fit/blob/37d31b5/party/server.ts
+[encoder-source]:
+  https://github.com/hasparus/bear-fit/blob/37d31b5/app/encodeHistoryUpdates.ts
+[demo-source]:
+  https://github.com/hasparus/homepage/blob/6ebc4de/src/own/bear-fit/CalendarHistoryDemo.tsx
+[replay-benchmark]:
+  https://github.com/hasparus/homepage/tree/062b8dc/src/own/bear-fit/yjs-history-benchmarks

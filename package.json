@@ -72,7 +72,9 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "vercel": "^51.7.0",
+    "y-partykit": "0.0.32",
     "yargs-parser": "^22.0.0",
+    "yjs": "13.6.24",
     "zod": "4.6.5"
   },
   "devDependencies": {
@@ -89,9 +91,11 @@
     "eslint": "^10.11.0",
     "impeccable": "3.6.0",
     "linkedom": "0.18.13",
+    "partykit": "0.0.111",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "0.14.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "remark-code-import": "1.2.0",
     "tsx": "^4.23.1",
     "turndown": "7.2.4",
     "typescript": "^5.8.3"
