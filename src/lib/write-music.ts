@@ -108,7 +108,7 @@ const CONTINUATION = /^[“”"'‘’([]?[\p{Ll}\p{Pd},;)\]]/u;
  * out, since merging those is worse than splitting them.
  */
 const ABBREVIATION =
-  /(?:^|[\s(])(?:mr|mrs|ms|dr|prof|st|rev|gen|vs|cf|fig|figs|e\.g|i\.e)\.$/i;
+  /(?:^|[\s(“"'‘[])(?:mr|mrs|ms|dr|prof|st|rev|gen|vs|cf|fig|figs|e\.g|i\.e)\.$/i;
 
 function isFalseBreak(before: string, after: string) {
   return (

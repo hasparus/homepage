@@ -26,6 +26,13 @@ void test("does not break after an abbreviated title", () => {
   ]);
 });
 
+void test("does not break after a title behind an opening quote", () => {
+  assert.deepEqual(split("“Mr. Smith arrived.” Then he left."), [
+    "“Mr. Smith arrived.”",
+    "Then he left.",
+  ]);
+});
+
 void test("does not break inside e.g. or i.e.", () => {
   assert.deepEqual(split("Pick a day, e.g. Monday. Then tell them."), [
     "Pick a day, e.g. Monday.",
