@@ -23,7 +23,12 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: "${{ github.event.pull_request.merge_commit_sha }}"
+          # On `pull_request`, github.sha is this push's merge commit; the
+          # payload's merge_commit_sha can still point at the previous push's.
+          # `pull_request_target` runs on the base, so it needs the payload's.
+          ref:
+            "${{ github.event_name == 'pull_request' && github.sha ||
+            github.event.pull_request.merge_commit_sha }}"
           # src/pages/og/bear-fit.astro reads bear-fit's font from aux/bear-fit.
           submodules: true
 
