@@ -29,7 +29,12 @@ export function ChatConversation(props: ChatConversationProps) {
             class="group grid max-w-md cursor-pointer pr-16"
             classList={props.classList}
           >
-            <input id={inputId} type="checkbox" class="peer sr-only" />
+            <input
+              id={inputId}
+              type="checkbox"
+              aria-label="Show the original screenshot"
+              class="peer sr-only"
+            />
             <div class="z-10 col-start-1 row-start-1 transition-[transform,translate,scale,rotate,opacity,filter] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] select-none group-hover:-translate-x-4 peer-checked:z-0 peer-checked:-translate-x-5 peer-checked:scale-95 peer-checked:-rotate-3 peer-checked:opacity-65 motion-reduce:transition-none group-hover:pointer-fine:group-hover:-rotate-2 peer-checked:pointer-fine:group-hover:-translate-x-8 peer-checked:pointer-fine:group-hover:-rotate-4 [&_p]:leading-snug!">
               {transcript}
             </div>
