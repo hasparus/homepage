@@ -24,6 +24,8 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           ref: "${{ github.event.pull_request.merge_commit_sha }}"
+          # src/pages/og/bear-fit.astro reads bear-fit's font from aux/bear-fit.
+          submodules: true
 
       - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093
 
