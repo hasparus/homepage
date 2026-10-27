@@ -60,10 +60,10 @@ export default defineConfig({
           twoslashOptions: {
             compilerOptions: {
               strict: true,
-              module: 199,
-              moduleResolution: 99,
-              target: 99,
-              jsx: 4,
+              module: 199 /* NodeNext */,
+              moduleResolution: 99 /* NodeNext */,
+              target: 99 /* ESNext */,
+              jsx: 4 /* react-jsx */,
               jsxImportSource: "react",
               types: ["node"],
             },

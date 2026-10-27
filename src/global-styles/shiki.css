@@ -100,11 +100,6 @@ html.dark .twoslash-popup-container::-webkit-scrollbar-thumb {
 }
 
 @supports (anchor-name: --x) {
-  pre.twoslash {
-    anchor-name: --twoslash-block;
-    anchor-scope: --twoslash-block, --twoslash-hover;
-  }
-
   .twoslash-hover:hover {
     anchor-name: --twoslash-hover;
   }
@@ -113,21 +108,12 @@ html.dark .twoslash-popup-container::-webkit-scrollbar-thumb {
     position: fixed;
     transform: none;
     position-anchor: --twoslash-hover;
-    top: anchor(--twoslash-hover bottom);
-    left: max(1rem, anchor(--twoslash-block left));
-    right: max(1rem, anchor(--twoslash-block right));
-    justify-self: anchor-center;
-    max-width: min(
-      42rem,
-      calc(100vw - 2rem),
-      anchor-size(--twoslash-block width)
-    );
+    position-area: bottom;
     position-try-fallbacks: --above;
   }
 
   @position-try --above {
-    top: auto;
-    bottom: anchor(--twoslash-hover top);
+    position-area: top;
   }
 }
 
@@ -138,9 +124,7 @@ html.dark .twoslash-popup-container::-webkit-scrollbar-thumb {
 /* The type signature acts as a header: it stays pinned while the docs below
    scroll (matching the Fumadocs code-snippet feel). When the signature itself
    is taller than the tooltip it simply scrolls, so overloads stay readable. */
-pre .twoslash-popup-container .twoslash-popup-code {
-  width: auto;
-  min-width: 0;
+.twoslash-popup-code {
   position: sticky;
   top: 0;
   display: block;

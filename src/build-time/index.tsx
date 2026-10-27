@@ -1,5 +1,4 @@
 import { resolve } from "node:path";
-import codeImport from "remark-code-import";
 import remarkSupersub from "remark-supersub";
 import type { Pluggable } from "unified";
 
@@ -15,7 +14,6 @@ import { urlOutsideOfPagesDirPlugin } from "./urlOutsideOfPagesDirPlugin";
 
 export const remarkPlugins = (projectDir: string): Pluggable[] => {
   return checkOptions(
-    [codeImport, { rootDir: projectDir }],
     [
       urlOutsideOfPagesDirPlugin,
       { absoluteDirPath: resolve(projectDir, "./posts") },
