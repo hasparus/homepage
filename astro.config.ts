@@ -87,10 +87,14 @@ export default defineConfig({
     solidJs({ exclude: ["**/*.react.tsx"] }),
     react({ include: ["**/*.react.tsx"] }),
     sitemap({
-      filter: (page) => !hiddenPaths.has(new URL(page).pathname),
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return !hiddenPaths.has(pathname) && !pathname.startsWith("/og/");
+      },
     }),
   ],
   vite: {
+    optimizeDeps: { include: ["@highlighters/core"] },
     ssr: {
       noExternal: [
         "@fontsource-variable/inter",

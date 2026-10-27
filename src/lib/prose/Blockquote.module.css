@@ -27,10 +27,11 @@
   &:before {
     @apply text-4xl leading-none font-black text-gray-300;
     position: absolute;
+  }
 
-    :global(.dark) & {
-      @apply text-gray-600;
-    }
+  :global(.dark) &:after,
+  :global(.dark) &:before {
+    @apply text-gray-600;
   }
 
   &:before {

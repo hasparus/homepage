@@ -117,6 +117,16 @@ export function CommandsPalette(props: {
         setPage("posts");
       },
     ],
+    [
+      "alt+m",
+      () => {
+        void import("./write-music")
+          .then((m) => m.toggleWriteMusic())
+          // eslint-disable-next-line no-console
+          .catch(console.error);
+        dialog?.close();
+      },
+    ],
   ]);
 
   createEffect(() => {
@@ -153,7 +163,9 @@ export function CommandsPalette(props: {
     >
       <div class="flex justify-end">
         <DialogCloseButton class="group cursor-pointer p-2 focus:outline-hidden">
-          <Kbd aria-hidden>esc</Kbd>
+          <Kbd aria-hidden hint>
+            esc
+          </Kbd>
           <span class="sr-only">Close</span>
         </DialogCloseButton>
       </div>
@@ -187,6 +199,11 @@ export function CommandsPalette(props: {
                 <CommandItem href="/speaking/">Speaking</CommandItem>
                 <CommandItem href="/contact/">Contact</CommandItem>
                 <CommandItem href="/rss.xml">RSS</CommandItem>
+              </CommandGroup>
+              <CommandGroup heading={<GroupHeading>Authoring</GroupHeading>}>
+                <CommandItem shortcut="alt+m" onClick={handleShortcut}>
+                  /write-music
+                </CommandItem>
               </CommandGroup>
             </>
           }

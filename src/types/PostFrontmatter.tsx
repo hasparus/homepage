@@ -12,7 +12,7 @@ export interface PostFrontmatter {
   img?:
     | string
     | {
-        /** Image for the Open Graph social card. */
+        /** Image for the Open Graph social card. Prefix with `static!` to use the file as-is instead of composing it in /api/og. */
         og?: string;
         /** Image for the post header.` */
         src?: string;

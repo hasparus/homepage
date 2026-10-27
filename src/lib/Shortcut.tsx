@@ -35,13 +35,18 @@ export function Shortcut(props: ShortcutProps) {
           if (!IS_MAC && key === "cmd") {
             key = "ctrl";
           } else if (key === "shift") {
+            // impeccable-disable-next-line overused-font -- matches the site typeface
             style = "font-family: Inter";
             key = "⇧";
           } else if (key === "slash") {
             key = "/";
           }
 
-          return <Kbd style={style}>{key}</Kbd>;
+          return (
+            <Kbd hint style={style}>
+              {key}
+            </Kbd>
+          );
         }}
       </For>
     </span>
