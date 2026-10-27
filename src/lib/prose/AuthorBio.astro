@@ -1,0 +1,19 @@
+---
+import { AUTHOR_BIO } from "../siteMeta";
+import { Link } from "../Link";
+import { Paragraph } from "./Paragraph";
+---
+
+<Paragraph>
+  {
+    AUTHOR_BIO.split(/(pit of success|zagrajmy\.net)/).map((part) =>
+      part === "pit of success" ? (
+        <em>{part}</em>
+      ) : part === "zagrajmy.net" ? (
+        <Link href="https://zagrajmy.net">{part}</Link>
+      ) : (
+        part
+      ),
+    )
+  }
+</Paragraph>
