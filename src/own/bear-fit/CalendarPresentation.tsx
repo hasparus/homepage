@@ -80,7 +80,7 @@ export function AvailabilityGridCell(props: AvailabilityGridCellProps) {
       })}
       aria-pressed={props.isMine}
       aria-disabled={props.readOnly || undefined}
-      class="flex size-(--cell) touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,filter,opacity,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-disabled:active:scale-100 aria-pressed:border-[5px] aria-pressed:border-gray-200 data-peeked:border-4 data-peeked:border-gray-200 data-strong:text-white motion-reduce:transition-none motion-reduce:active:scale-100 dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-peeked:border-gray-600 dark:data-strong:text-gray-950"
+      class="flex size-(--cell) touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,filter,opacity,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-disabled:touch-pan-y aria-disabled:active:scale-100 aria-pressed:border-[5px] aria-pressed:border-gray-200 data-peeked:border-4 data-peeked:border-gray-200 data-strong:text-white motion-reduce:transition-none motion-reduce:active:scale-100 dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-peeked:border-gray-600 dark:data-strong:text-gray-950"
       data-peeked={props.emphasis === "ring" ? "" : undefined}
       data-strong={fill() > 0.5 ? "" : undefined}
       ref={props.ref}
