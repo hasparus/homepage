@@ -80,8 +80,9 @@
         border-color: var(--color-gray-700);
       }
 
+      /* Only float beside the text once the layout is side by side. */
       &.zaduma-aside-bare {
-        @apply relative sm:h-0 sm:border-l-0 sm:pl-0 *:sm:absolute;
+        @apply relative min-[1281px]:h-0 min-[1281px]:border-l-0 min-[1281px]:pl-0 *:min-[1281px]:absolute;
       }
     }
 
