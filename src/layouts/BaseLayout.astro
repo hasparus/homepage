@@ -26,9 +26,10 @@ interface Props {
   description: string;
   children: astroHTML.JSX.Element;
   ogImage?: string;
+  ogVideo?: string;
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, ogVideo } = Astro.props;
 
 const posts = orderedPosts.map(({ module: { frontmatter } }) => ({
   href: frontmatter.path,
@@ -74,7 +75,10 @@ const websiteData = websiteSchema({
       ))
     }
 
-    <SocialCardMetaTags ogImage={ogImage ?? "https://haspar.us/og.png"} />
+    <SocialCardMetaTags
+      ogImage={ogImage ?? "https://haspar.us/og.png"}
+      ogVideo={ogVideo}
+    />
     <meta property="og:type" content={isPostRoute ? "article" : "website"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
