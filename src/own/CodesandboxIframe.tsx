@@ -1,7 +1,6 @@
 import { createSignal, type JSX, Match, Show, Switch } from "solid-js";
 
 import { Link } from "../lib/Link";
-import { tap } from "../lib/tap";
 
 export const CodesandboxIframe = (
   props: JSX.IframeHTMLAttributes<HTMLIFrameElement>,
@@ -27,10 +26,8 @@ export const CodesandboxIframe = (
               <button
                 class="rounded-md bg-gray-200/50 p-2 px-3 text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700/50"
                 disabled={state() === "loading"}
-                onClick={() => {
-                  tap();
-                  setState("loading");
-                }}
+                data-cuelume-tap
+                onClick={() => setState("loading")}
               >
                 Load CodeSandbox
               </button>

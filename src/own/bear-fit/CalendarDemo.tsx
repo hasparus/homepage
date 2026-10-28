@@ -1,6 +1,6 @@
 import { createSignal, For, Index, onCleanup, onMount } from "solid-js";
 
-import { tap } from "../../lib/tap";
+import { inputOf, tap } from "../../lib/sound";
 import {
   AvailabilityGridCell,
   CALENDAR_CLASS,
@@ -80,6 +80,7 @@ export function CalendarDemo(props: { class?: string }) {
   let visible = false;
   let dragMode: "clearing" | "none" | "painting" = "none";
   let lastToggled: null | string = null;
+  let dragInput: ReturnType<typeof inputOf>;
 
   const totalUsers = () =>
     (mine().size > 0 ? 1 : 0) + (theirs().size > 0 ? 1 : 0) + 1;
@@ -93,11 +94,12 @@ export function CalendarDemo(props: { class?: string }) {
     });
   };
 
-  const handlePointerDown = (date: string) => {
+  const handlePointerDown = (date: string, event: PointerEvent) => {
     const available = mine().has(date);
     dragMode = available ? "clearing" : "painting";
     setAvailability(date, !available);
-    tap();
+    dragInput = inputOf(event);
+    tap(dragInput);
     lastToggled = date;
   };
 
@@ -121,7 +123,7 @@ export function CalendarDemo(props: { class?: string }) {
     setHovered(date);
     if (dragMode === "none" || lastToggled === date) return;
     const value = dragMode === "painting";
-    if (mine().has(date) !== value) tap();
+    if (mine().has(date) !== value) tap(dragInput);
     setAvailability(date, value);
     lastToggled = date;
   };
@@ -278,15 +280,16 @@ export function CalendarDemo(props: { class?: string }) {
                   totalUsers={totalUsers()}
                   onKeyDown={(event) => {
                     moveFocusWithArrowKeys(event, () => {
+                      if (event.repeat) return;
                       setAvailability(date, !mine().has(date));
-                      tap();
+                      tap("keyboard");
                     });
                   }}
                   onPointerDown={(event) => {
                     if (event.pointerType === "mouse" && event.button !== 0) {
                       return;
                     }
-                    handlePointerDown(date);
+                    handlePointerDown(date, event);
                     event.currentTarget.releasePointerCapture(event.pointerId);
                   }}
                   onPointerEnter={() => handlePointerEnter(date)}
@@ -315,15 +318,14 @@ export function CalendarDemo(props: { class?: string }) {
               count={participant.count}
               name={participant.name}
               pinned={pinned().has(participant.name)}
-              onClick={() => {
-                tap();
+              onClick={() =>
                 setPinned((prev) => {
                   const next = new Set(prev);
                   if (!next.delete(participant.name))
                     next.add(participant.name);
                   return next;
-                });
-              }}
+                })
+              }
               onMouseEnter={() => setHoveredName(participant.name)}
             />
           )}
