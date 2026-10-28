@@ -1,5 +1,6 @@
 import { createSignal, For, Index, onCleanup, onMount } from "solid-js";
 
+import { tap } from "../../lib/tap";
 import {
   AvailabilityGridCell,
   CALENDAR_CLASS,
@@ -96,6 +97,7 @@ export function CalendarDemo(props: { class?: string }) {
     const available = mine().has(date);
     dragMode = available ? "clearing" : "painting";
     setAvailability(date, !available);
+    tap();
     lastToggled = date;
   };
 
@@ -118,7 +120,9 @@ export function CalendarDemo(props: { class?: string }) {
   const handlePointerEnter = (date: string) => {
     setHovered(date);
     if (dragMode === "none" || lastToggled === date) return;
-    setAvailability(date, dragMode === "painting");
+    const value = dragMode === "painting";
+    if (mine().has(date) !== value) tap();
+    setAvailability(date, value);
     lastToggled = date;
   };
 
@@ -273,9 +277,10 @@ export function CalendarDemo(props: { class?: string }) {
                   tabIndex={i() === 0 ? 0 : -1}
                   totalUsers={totalUsers()}
                   onKeyDown={(event) => {
-                    moveFocusWithArrowKeys(event, () =>
-                      setAvailability(date, !mine().has(date)),
-                    );
+                    moveFocusWithArrowKeys(event, () => {
+                      setAvailability(date, !mine().has(date));
+                      tap();
+                    });
                   }}
                   onPointerDown={(event) => {
                     if (event.pointerType === "mouse" && event.button !== 0) {
@@ -310,14 +315,15 @@ export function CalendarDemo(props: { class?: string }) {
               count={participant.count}
               name={participant.name}
               pinned={pinned().has(participant.name)}
-              onClick={() =>
+              onClick={() => {
+                tap();
                 setPinned((prev) => {
                   const next = new Set(prev);
                   if (!next.delete(participant.name))
                     next.add(participant.name);
                   return next;
-                })
-              }
+                });
+              }}
               onMouseEnter={() => setHoveredName(participant.name)}
             />
           )}

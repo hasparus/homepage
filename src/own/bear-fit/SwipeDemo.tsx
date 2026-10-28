@@ -1,6 +1,7 @@
 import { DragGesture } from "@use-gesture/vanilla";
 import { createSignal, For, onCleanup, onMount } from "solid-js";
 
+import { tap } from "../../lib/tap";
 import { Cursor, type CursorState } from "./Cursor";
 
 const HOURS = [17, 18, 19, 20, 21];
@@ -60,6 +61,8 @@ export function SwipeDemo() {
 
   const decide = (hour: number, verdict: "busy" | "free") => {
     const bit = hours(hour);
+    if ((verdict === "free" ? free() : busy()) & bit) return;
+    tap();
     setFree((prev) => (verdict === "free" ? prev | bit : prev & ~bit));
     setBusy((prev) => (verdict === "busy" ? prev | bit : prev & ~bit));
   };
