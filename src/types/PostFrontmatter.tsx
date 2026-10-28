@@ -14,6 +14,8 @@ export interface PostFrontmatter {
     | {
         /** Image for the Open Graph social card. Prefix with `static!` to use the file as-is instead of composing it in /api/og. */
         og?: string;
+        /** Looping mp4 for the social card, with `og` as its still frame. */
+        ogVideo?: string;
         /** Image for the post header.` */
         src?: string;
         class?: string;

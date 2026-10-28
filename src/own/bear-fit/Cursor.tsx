@@ -1,4 +1,8 @@
+import { CURSOR_EASE, FADE_TRANSITION } from "./choreography";
+
 export type CursorState = "gone" | "idle" | "pressed";
+
+export const PRESSED_SCALE = 0.88;
 
 export function Cursor(props: {
   name: string;
@@ -8,14 +12,16 @@ export function Cursor(props: {
   return (
     <div
       aria-hidden="true"
-      class="pointer-events-none absolute top-0 left-0 z-20 transition-transform ease-[cubic-bezier(0.77,0,0.175,1)]"
+      class="pointer-events-none absolute top-0 left-0 z-20 transition-transform"
       ref={props.ref}
+      style={{ "transition-timing-function": `cubic-bezier(${CURSOR_EASE})` }}
     >
       <div
-        class="flex origin-top-left items-start drop-shadow-[0_2px_4px_rgb(0_0_0/0.28)] transition-[opacity,scale] duration-150 ease-out"
+        class="flex origin-top-left items-start drop-shadow-[0_2px_4px_rgb(0_0_0/0.28)] transition-[opacity,scale]"
         style={{
+          ...FADE_TRANSITION,
           opacity: props.state === "gone" ? 0 : 1,
-          scale: props.state === "pressed" ? "0.88" : "1",
+          scale: props.state === "pressed" ? PRESSED_SCALE : 1,
         }}
       >
         <svg fill="none" height="26" viewBox="-3 -3 18 24" width="18">

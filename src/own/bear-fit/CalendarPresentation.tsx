@@ -1,5 +1,7 @@
 import { For } from "solid-js";
 
+import { FADE_TRANSITION } from "./choreography";
+
 /** Shared by the local collaboration demo and the backend history demo. */
 export const CALENDAR_CLASS =
   "@container mx-auto w-[328px] max-w-full rounded-lg border-2 border-gray-100 bg-white p-[10px] text-gray-900 [--accent:#05e] [--cell:min(40px,calc((100cqw-24px)/7))] [--cursor:oklch(58%_0.2_18)] dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:[--accent:#d7ae64] dark:[--cursor:oklch(58%_0.2_268)]";
@@ -81,11 +83,12 @@ export function AvailabilityGridCell(props: AvailabilityGridCellProps) {
       })}
       aria-pressed={props.isMine}
       aria-disabled={props.readOnly || undefined}
-      class="flex size-(--cell) touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,filter,opacity,transform] duration-150 ease-out select-none hover:border-gray-200 active:scale-[0.96] aria-disabled:active:scale-100 aria-pressed:border-[5px] aria-pressed:border-gray-200 data-peeked:border-4 data-peeked:border-gray-200 data-strong:text-white motion-reduce:transition-none motion-reduce:active:scale-100 dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-peeked:border-gray-600 dark:data-strong:text-gray-950"
+      class="flex size-(--cell) touch-pan-y touch-pinch-zoom items-center justify-center rounded-md border-2 border-transparent bg-gray-100 tabular-nums transition-[background-color,border-color,filter,opacity,transform] select-none hover:border-gray-200 active:scale-[0.96] aria-disabled:active:scale-100 aria-pressed:border-[5px] aria-pressed:border-gray-200 data-peeked:border-4 data-peeked:border-gray-200 data-strong:text-white motion-reduce:transition-none motion-reduce:active:scale-100 dark:bg-gray-800 dark:hover:border-gray-600 dark:aria-pressed:border-gray-700 dark:data-peeked:border-gray-600 dark:data-strong:text-gray-950"
       data-peeked={props.emphasis === "ring" ? "" : undefined}
       data-strong={fill() > 0.5 ? "" : undefined}
       ref={props.ref}
       style={{
+        ...FADE_TRANSITION,
         "background-color": fill()
           ? `color(from var(--accent) display-p3 r g b / ${fill()})`
           : undefined,
