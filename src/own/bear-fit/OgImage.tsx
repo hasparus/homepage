@@ -1,22 +1,109 @@
-import { For, Index } from "solid-js";
+import { createMemo, createSignal, For, Index, onMount } from "solid-js";
 
-import { Cursor } from "./Cursor";
+import {
+  compileTimeline,
+  CURSOR_EASE,
+  cubicBezier,
+  ENTER_OFFSET,
+  FADE,
+  type Step,
+  FADE_EASE,
+} from "./choreography";
+import { Cursor, PRESSED_SCALE } from "./Cursor";
 
 const ACCENT = "#05e";
 const DAYS = Array.from({ length: 26 }, (_, i) => i + 4); // Sep 4–29, 2024
 const PADDING_DAYS = 2; // Sep 4 is a Wednesday
 const MINE = [9, 10, 11, 13];
-const PEOPLE = [
-  { dates: MINE, name: "you" },
-  { dates: [10, 11, 12, 18, 19, 25, 26], name: "Wojtek" },
-  { dates: [10, 11, 17, 18, 19, 25], name: "Piotr" },
-];
-const CURSOR_ON = 18;
+const WOJTEK = [10, 11, 12, 18, 19, 25, 26];
 
-/** 1200×630 social card: bear-fit's dialog, mid-paint. Screenshot with `node scripts/og/shoot.mjs bear-fit`. */
+const PATTERN: Step<number>[] = [
+  { date: 10, travel: 560 },
+  { date: 11, held: true, travel: 190 },
+  { date: 19, travel: 440 },
+  { date: 25, travel: 440 },
+  { date: 17, travel: 520 },
+  { date: 18, held: true, travel: 190 },
+];
+const TIMELINE = compileTimeline(PATTERN);
+const PAINTED_AT = new Map(TIMELINE.marks.map(({ at, date }) => [date, at]));
+
+const CURSOR_IN_CELL = { x: 24, y: 26 };
+
+const cellOf = (day: number) => {
+  const i = 7 + PADDING_DAYS + day - DAYS[0]!;
+  return { col: i % 7, row: Math.floor(i / 7) };
+};
+
+const glide = cubicBezier(CURSOR_EASE);
+const easeOut = cubicBezier(FADE_EASE);
+const clamp01 = (x: number) => Math.min(Math.max(x, 0), 1);
+/** Progress at `t` of the widget's fade transition that started at `at`. */
+const fade = (t: number, at: number) => easeOut(clamp01((t - at) / FADE));
+
+/** CalendarDemo's cursor and fills at `t`, computed instead of transitioned so any frame can be shot. */
+const sceneAt = (t: number) => {
+  const move =
+    TIMELINE.moves.findLast((m) => m.start <= t) ?? TIMELINE.moves[0]!;
+  const p = glide(clamp01((t - move.start) / move.travel));
+  const from = cellOf(move.from ?? move.to);
+  const to = cellOf(move.to);
+  const pressed = TIMELINE.presses.reduce(
+    (sum, [down, up]) => sum + fade(t, down) - fade(t, up),
+    0,
+  );
+  return {
+    cursor: {
+      col: from.col + (to.col - from.col) * p,
+      enter: move.from === undefined ? 1 - p : 0,
+      opacity: fade(t, TIMELINE.showAt) - fade(t, TIMELINE.hideAt),
+      row: from.row + (to.row - from.row) * p,
+      scale: 1 - (1 - PRESSED_SCALE) * pressed,
+    },
+    piotr: (day: number) => {
+      const at = PAINTED_AT.get(day);
+      return at === undefined ? 0 : fade(t, at) - fade(t, TIMELINE.clearAt);
+    },
+    piotrCount: TIMELINE.marks.filter(
+      ({ at }) => at <= t && t < TIMELINE.clearAt,
+    ).length,
+  };
+};
+
+/**
+ * 1200×630 social card: bear-fit's dialog, mid-paint. `window.ogScene.seek(ms)` scrubs the loop.
+ * Shoot with `node scripts/og/shoot.mjs bear-fit --video`.
+ */
 export function OgImage() {
+  const [t, setT] = createSignal(TIMELINE.settledAt);
+  onMount(() => {
+    window.ogScene = {
+      duration: TIMELINE.end,
+      seek: (ms) => setT(ms % TIMELINE.end),
+    };
+  });
+
+  const scene = createMemo(() => sceneAt(t()));
+  const people = [
+    {
+      count: () => MINE.length,
+      fill: (day: number) => +MINE.includes(day),
+      me: true,
+      name: "you",
+    },
+    {
+      count: () => WOJTEK.length,
+      fill: (day: number) => +WOJTEK.includes(day),
+      name: "Wojtek",
+    },
+    {
+      count: () => scene().piotrCount,
+      fill: (day: number) => scene().piotr(day),
+      name: "Piotr",
+    },
+  ];
   const fillOf = (day: number) =>
-    PEOPLE.filter((p) => p.dates.includes(day)).length / PEOPLE.length;
+    people.reduce((sum, person) => sum + person.fill(day), 0) / people.length;
 
   return (
     <div
@@ -67,25 +154,31 @@ export function OgImage() {
                 }}
               >
                 {day}
-                {day === CURSOR_ON && (
-                  <div class="absolute top-[26px] left-[24px] [--cursor:oklch(58%_0.2_18)]">
-                    <Cursor name="Piotr" state="idle" />
-                  </div>
-                )}
               </div>
             )}
           </For>
+          <div
+            class="absolute origin-top-left"
+            style={{
+              left: `calc(${CURSOR_IN_CELL.x}px + (100% - 40px) * ${scene().cursor.col / 6} + ${ENTER_OFFSET.x * scene().cursor.enter}rem)`,
+              opacity: scene().cursor.opacity,
+              scale: scene().cursor.scale,
+              top: `calc(${CURSOR_IN_CELL.y}px + var(--spacing) * 11 * ${scene().cursor.row} + ${ENTER_OFFSET.y * scene().cursor.enter}rem)`,
+            }}
+          >
+            <Cursor name="Piotr" state="idle" />
+          </div>
         </div>
 
         <dl class="grid gap-0.5 font-mono text-sm text-gray-500">
-          <For each={PEOPLE}>
+          <For each={people}>
             {(person) => (
               <div
                 class="flex justify-between"
-                classList={{ "text-black": person.name === "you" }}
+                classList={{ "text-black": person.me }}
               >
-                <dt>{person.name === "you" ? "✓ you" : person.name}</dt>
-                <dd class="tabular-nums">{person.dates.length}</dd>
+                <dt>{person.me ? `✓ ${person.name}` : person.name}</dt>
+                <dd class="tabular-nums">{person.count()}</dd>
               </div>
             )}
           </For>

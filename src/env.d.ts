@@ -31,6 +31,8 @@ interface Window {
   // Vercel Analytics
   va?: unknown;
   vaq?: unknown[];
+  /** Set by social card scenes that scripts/og/shoot.mjs records frame by frame. */
+  ogScene?: { duration: number; seek: (ms: number) => void };
 }
 
 // -----------------------------------------------------
