@@ -1,6 +1,6 @@
 import { createSignal, For, Index, onCleanup, onMount } from "solid-js";
 
-import { inputOf, tap, unlockSound } from "../../lib/sound";
+import { tap, unlockSound } from "../../lib/sound";
 import {
   AvailabilityGridCell,
   CALENDAR_CLASS,
@@ -78,7 +78,6 @@ export function CalendarDemo(props: { class?: string }) {
   let visible = false;
   let dragMode: "clearing" | "none" | "painting" = "none";
   let lastToggled: null | string = null;
-  let dragInput: ReturnType<typeof inputOf>;
 
   const totalUsers = () =>
     (mine().size > 0 ? 1 : 0) + (theirs().size > 0 ? 1 : 0) + 1;
@@ -92,12 +91,11 @@ export function CalendarDemo(props: { class?: string }) {
     });
   };
 
-  const handlePointerDown = (date: string, event: PointerEvent) => {
+  const handlePointerDown = (date: string) => {
     const available = mine().has(date);
     dragMode = available ? "clearing" : "painting";
     setAvailability(date, !available);
-    dragInput = inputOf(event);
-    tap(dragInput);
+    tap();
     lastToggled = date;
   };
 
@@ -121,7 +119,7 @@ export function CalendarDemo(props: { class?: string }) {
     setHovered(date);
     if (dragMode === "none" || lastToggled === date) return;
     const value = dragMode === "painting";
-    if (mine().has(date) !== value) tap(dragInput);
+    if (mine().has(date) !== value) tap();
     setAvailability(date, value);
     lastToggled = date;
   };
@@ -278,7 +276,7 @@ export function CalendarDemo(props: { class?: string }) {
                     moveFocusWithArrowKeys(event, () => {
                       if (event.repeat) return;
                       setAvailability(date, !mine().has(date));
-                      tap("keyboard");
+                      tap();
                     });
                   }}
                   onClick={unlockSound}
@@ -286,7 +284,7 @@ export function CalendarDemo(props: { class?: string }) {
                     if (event.pointerType === "mouse" && event.button !== 0) {
                       return;
                     }
-                    handlePointerDown(date, event);
+                    handlePointerDown(date);
                     event.currentTarget.releasePointerCapture(event.pointerId);
                   }}
                   onPointerEnter={() => handlePointerEnter(date)}

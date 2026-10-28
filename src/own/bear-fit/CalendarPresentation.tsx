@@ -39,7 +39,7 @@ export function Participant(props: {
   return (
     <button
       aria-pressed={props.pinned}
-      data-cuelume-tap
+      data-tap
       class="group -mx-1 flex w-[calc(100%+0.5rem)] cursor-pointer justify-between gap-2 rounded-sm px-1 py-0.5 text-left transition-colors duration-100 ease-out hover:bg-gray-100 hover:text-gray-800 aria-pressed:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-200 dark:aria-pressed:text-gray-100"
       type="button"
       onClick={() => props.onClick()}
