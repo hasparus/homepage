@@ -12,15 +12,18 @@ type Input = NonNullable<PlayOptions["input"]>;
 const STORAGE_KEY = "sound";
 const POINTERS: ReadonlySet<string> = new Set(["mouse", "pen", "touch"]);
 
-export function isSoundOn() {
+let soundOn = (() => {
   try {
     return localStorage.getItem(STORAGE_KEY) !== "off";
   } catch {
     return true;
   }
-}
+})();
+
+export const isSoundOn = () => soundOn;
 
 export function setSound(on: boolean) {
+  soundOn = on;
   setEnabled(on);
   try {
     localStorage.setItem(STORAGE_KEY, on ? "on" : "off");
@@ -31,7 +34,7 @@ export function setSound(on: boolean) {
 
 if (typeof window !== "undefined") {
   setTheme("press");
-  setEnabled(isSoundOn());
+  setEnabled(soundOn);
   bind();
 }
 
