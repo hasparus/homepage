@@ -130,3 +130,15 @@ test("buttons click quietly until sound is turned off", async ({ page }) => {
   await page.getByRole("button", { name: "⌘", exact: true }).click();
   expect(await clicks()).toBe(silenced);
 });
+
+test("buttons still work without Web Audio", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    Reflect.deleteProperty(window, "AudioContext");
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "⌘", exact: true }).click();
+  await expect(page.getByRole("option").first()).toBeVisible();
+  expect(errors).toEqual([]);
+});

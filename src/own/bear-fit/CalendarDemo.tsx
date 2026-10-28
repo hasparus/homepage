@@ -95,8 +95,8 @@ export function CalendarDemo(props: { class?: string }) {
     const available = mine().has(date);
     dragMode = available ? "clearing" : "painting";
     setAvailability(date, !available);
-    tap();
     lastToggled = date;
+    tap();
   };
 
   const namesOn = (date: string) =>
