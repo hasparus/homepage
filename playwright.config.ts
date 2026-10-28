@@ -8,7 +8,7 @@ export default defineConfig({
     : {
         testIgnore: "**/agent-protocols.spec.ts",
         webServer: {
-          command: "pnpm preview",
+          command: "pnpm preview --ignore-lock",
           url: "http://localhost:4321",
           reuseExistingServer: !process.env.CI,
         },
