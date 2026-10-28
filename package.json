@@ -55,6 +55,7 @@
     "@vercel/og": "^0.11.1",
     "astro": "^7.4.3",
     "astro-eslint-parser": "^3.1.0",
+    "cuelume": "0.2.8",
     "eslint-plugin-markdown": "^5.0.0",
     "estree-util-value-to-estree": "^3.5.0",
     "plaiceholder": "^3.0.0",

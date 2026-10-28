@@ -1,5 +1,6 @@
 import { createSignal, For, Index, onCleanup, onMount } from "solid-js";
 
+import { inputOf, tap, unlockSound } from "../../lib/sound";
 import {
   AvailabilityGridCell,
   CALENDAR_CLASS,
@@ -77,6 +78,7 @@ export function CalendarDemo(props: { class?: string }) {
   let visible = false;
   let dragMode: "clearing" | "none" | "painting" = "none";
   let lastToggled: null | string = null;
+  let dragInput: ReturnType<typeof inputOf>;
 
   const totalUsers = () =>
     (mine().size > 0 ? 1 : 0) + (theirs().size > 0 ? 1 : 0) + 1;
@@ -90,10 +92,12 @@ export function CalendarDemo(props: { class?: string }) {
     });
   };
 
-  const handlePointerDown = (date: string) => {
+  const handlePointerDown = (date: string, event: PointerEvent) => {
     const available = mine().has(date);
     dragMode = available ? "clearing" : "painting";
     setAvailability(date, !available);
+    dragInput = inputOf(event);
+    tap(dragInput);
     lastToggled = date;
   };
 
@@ -116,7 +120,9 @@ export function CalendarDemo(props: { class?: string }) {
   const handlePointerEnter = (date: string) => {
     setHovered(date);
     if (dragMode === "none" || lastToggled === date) return;
-    setAvailability(date, dragMode === "painting");
+    const value = dragMode === "painting";
+    if (mine().has(date) !== value) tap(dragInput);
+    setAvailability(date, value);
     lastToggled = date;
   };
 
@@ -269,15 +275,18 @@ export function CalendarDemo(props: { class?: string }) {
                   tabIndex={i() === 0 ? 0 : -1}
                   totalUsers={totalUsers()}
                   onKeyDown={(event) => {
-                    moveFocusWithArrowKeys(event, () =>
-                      setAvailability(date, !mine().has(date)),
-                    );
+                    moveFocusWithArrowKeys(event, () => {
+                      if (event.repeat) return;
+                      setAvailability(date, !mine().has(date));
+                      tap("keyboard");
+                    });
                   }}
+                  onClick={unlockSound}
                   onPointerDown={(event) => {
                     if (event.pointerType === "mouse" && event.button !== 0) {
                       return;
                     }
-                    handlePointerDown(date);
+                    handlePointerDown(date, event);
                     event.currentTarget.releasePointerCapture(event.pointerId);
                   }}
                   onPointerEnter={() => handlePointerEnter(date)}
