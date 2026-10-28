@@ -87,14 +87,14 @@ test.describe("Twoslash visual snapshots", () => {
     test(`screenshot ${pagePath} first twoslash block`, async ({ page }) => {
       test.skip(
         test.info().project.name === "mobile",
-        "Screenshots only on desktop",
+        "Screenshots only on desktop"
       );
       await page.goto(pagePath);
       const firstBlock = page.locator("pre.twoslash").first();
       await expect(firstBlock).toBeVisible();
       await expect(firstBlock).toHaveScreenshot(
         `${pagePath.slice(1)}-twoslash.png`,
-        { maxDiffPixelRatio: 0.05 },
+        { maxDiffPixelRatio: 0.05 }
       );
     });
   }
