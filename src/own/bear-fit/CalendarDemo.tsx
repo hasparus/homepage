@@ -12,6 +12,7 @@ import {
   moveFocusWithArrowKeys,
   Participant,
 } from "./CalendarPresentation";
+import { compileTimeline, ENTER_OFFSET, type Step } from "./choreography";
 import { Cursor, type CursorState } from "./Cursor";
 
 const WEEK_STARTS_ON = 1;
@@ -31,8 +32,7 @@ const EARLY_BIRD_DATES: ReadonlySet<string> = new Set([
   "2024-09-26",
 ]);
 
-/** The cursor travels to a date, presses, marks it. `held` keeps the button down. */
-const PATTERNS = [
+const PATTERNS: Step<string>[][] = [
   [
     { date: "2024-09-09", travel: 560 },
     { date: "2024-09-10", held: true, travel: 190 },
@@ -49,8 +49,6 @@ const PATTERNS = [
     { date: "2024-09-25", held: true, travel: 190 },
   ],
 ];
-
-const REST_BETWEEN_PATTERNS = 2600;
 
 const TOOLTIP_PADDING_X = 16;
 const TOOLTIP_OFFSET_Y = 8;
@@ -154,31 +152,36 @@ export function CalendarDemo(props: { class?: string }) {
       return true;
     };
 
-    const runPattern = async (pattern: (typeof PATTERNS)[number]) => {
+    const runPattern = async (pattern: Step<string>[]) => {
       if (!moveTo(pattern[0]!.date, 0)) return;
-      cursor.style.transform += " translate(-2.5rem, 5rem)";
-      await sleep(500);
-      if (stopped) return;
-      setCursorState("idle");
+      cursor.style.transform += ` translate(${ENTER_OFFSET.x}rem, ${ENTER_OFFSET.y}rem)`;
 
-      for (const [i, step] of pattern.entries()) {
-        if (stopped || !moveTo(step.date, step.travel)) return;
+      const timeline = compileTimeline(pattern);
+      const at = (ms: number, run: () => unknown) => ({ ms, run });
+      const events = [
+        at(timeline.showAt, () => setCursorState("idle")),
+        ...timeline.moves.map(({ start, to, travel }) =>
+          at(start, () => moveTo(to, travel)),
+        ),
+        ...timeline.presses.flatMap(([down, up]) => [
+          at(down, () => setCursorState("pressed")),
+          at(up, () => setCursorState("idle")),
+        ]),
+        ...timeline.marks.map(({ at: ms, date }) =>
+          at(ms, () => setTheirs((prev) => new Set(prev).add(date))),
+        ),
+        at(timeline.hideAt, () => setCursorState("gone")),
+        at(timeline.clearAt, () => setTheirs(new Set<string>())),
+      ].sort((a, b) => a.ms - b.ms);
 
-        await sleep(step.travel);
+      let now = 0;
+      for (const event of events) {
+        await sleep(event.ms - now);
+        now = event.ms;
         if (stopped) return;
-
-        setCursorState("pressed");
-        setTheirs((prev) => new Set(prev).add(step.date));
-
-        if (!pattern[i + 1]?.held) {
-          await sleep(120);
-          setCursorState("idle");
-          await sleep(180);
-        }
+        event.run();
       }
-
-      await sleep(900);
-      if (!stopped) setCursorState("gone");
+      await sleep(timeline.end - now);
     };
 
     const play = async () => {
@@ -190,14 +193,7 @@ export function CalendarDemo(props: { class?: string }) {
       for (let round = 0; !stopped; round++) {
         while (!visible && !stopped) await sleep(300);
         if (stopped) return;
-
-        if (theirs().size > 0) {
-          setTheirs(new Set<string>());
-          await sleep(700);
-        }
-
         await runPattern(PATTERNS[round % PATTERNS.length]!);
-        await sleep(REST_BETWEEN_PATTERNS);
       }
     };
 

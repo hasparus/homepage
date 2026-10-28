@@ -1,7 +1,7 @@
 ---
 import type { MarkdownLayoutProps } from "astro";
 
-import { createOgImageLink } from "../lib/createOgImageLink";
+import { socialCardOf } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
 import Image, { WIDE_CONTAINER_WIDTH } from "../lib/prose/Image.astro";
 import { blogPostingSchema } from "../lib/seo/jsonLd";
@@ -27,7 +27,7 @@ interface Props
 
 const { frontmatter, headings } = Astro.props;
 
-const ogImage = createOgImageLink(frontmatter);
+const socialCard = socialCardOf(frontmatter);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
 const imgSrc =
@@ -47,7 +47,7 @@ const postSchema = blogPostingSchema({
 });
 ---
 
-<BaseLayout title={frontmatter.title} ogImage={ogImage} description={description}>
+<BaseLayout title={frontmatter.title} socialCard={socialCard} description={description}>
   <JsonLd data={postSchema} slot="head" />
   <main class="zaduma-prose py-4">
     <header
