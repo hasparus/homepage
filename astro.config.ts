@@ -1,8 +1,14 @@
+import {
+  type RehypePlugins,
+  type RemarkPlugins,
+  unified,
+} from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import solidJs from "@astrojs/solid-js";
 import { transformerTwoslash } from "@shikijs/twoslash";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -23,6 +29,11 @@ const hiddenPaths = getHiddenPostUrls(resolve(__dirname, "./posts"));
 export default defineConfig({
   site,
   markdown: {
+    processor: unified({
+      // Third-party plugins type their transformers on unist `Node`, not mdast/hast `Root`.
+      remarkPlugins: remarkPlugins(__dirname) as RemarkPlugins,
+      rehypePlugins: rehypePlugins as RehypePlugins,
+    }),
     syntaxHighlight: "shiki",
     shikiConfig: {
       themes: {
@@ -75,15 +86,9 @@ export default defineConfig({
         }) as unknown as ShikiTransformer,
       ],
     },
-    gfm: true,
   },
   integrations: [
-    mdx({
-      extendMarkdownConfig: true,
-      // MDX integration inherits all remark plugins from markdown.remarkPlugins
-      remarkPlugins: remarkPlugins(__dirname),
-      rehypePlugins: rehypePlugins,
-    }),
+    mdx({ extendMarkdownConfig: true }),
     solidJs({ exclude: ["**/*.react.tsx"] }),
     react({ include: ["**/*.react.tsx"] }),
     sitemap({
@@ -94,6 +99,7 @@ export default defineConfig({
     }),
   ],
   vite: {
+    plugins: [tailwindcss()],
     optimizeDeps: { include: ["@highlighters/core"] },
     ssr: {
       noExternal: [

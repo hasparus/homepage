@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@plugin "@hasparus/tailwind/scrollview-fade";
+@plugin "./scrollview-fade.js";
 
 @source "../**/*.{astro,ts,tsx,css}";
 
