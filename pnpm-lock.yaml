@@ -41,8 +41,8 @@ importers:
         specifier: ^5.3.0
         version: 5.3.0
       '@hasparus/tailwind':
-        specifier: ^1.1.7
-        version: 1.1.7(tailwindcss@4.3.2)
+        specifier: ^1.1.8
+        version: 1.1.8(tailwindcss@4.3.2)
       '@highlighters/core':
         specifier: 1.2.0
         version: 1.2.0
@@ -1231,8 +1231,8 @@ packages:
       eslint: ^9.0.0 || ^10.0.0
       typescript: ^5.0.0
 
-  '@hasparus/tailwind@1.1.7':
-    resolution: {integrity: sha512-Xcu9wolWMUf/SRMx8xITGFU9HJxoPPPheLVhJDwSnI9ApUG+01w91NRymfFCEZV56RaYcpqSkP7qc1mbEK8uJQ==}
+  '@hasparus/tailwind@1.1.8':
+    resolution: {integrity: sha512-8xiV+xjZvOPC9nVPemOWRx+rgAKujjO64x2JbKxv8yhq98eJp147qg5vnXm6BC1VlBM2kjN2rUJCuRLq6OZsZA==}
     peerDependencies:
       tailwindcss: '>=3.0.0'
 
@@ -8407,7 +8407,7 @@ snapshots:
       - supports-color
       - tailwindcss
 
-  '@hasparus/tailwind@1.1.7(tailwindcss@4.3.2)':
+  '@hasparus/tailwind@1.1.8(tailwindcss@4.3.2)':
     dependencies:
       tailwindcss: 4.3.2
 
