@@ -1,4 +1,11 @@
-import { bind, type PlayOptions, play, setEnabled, setTheme } from "cuelume";
+import {
+  bind,
+  type PlayOptions,
+  play,
+  setEnabled,
+  setTheme,
+  unlock,
+} from "cuelume";
 
 type Input = NonNullable<PlayOptions["input"]>;
 
@@ -29,8 +36,7 @@ if (typeof window !== "undefined") {
 }
 
 /** For controls whose sound depends on state; plain buttons use `data-cuelume-tap`. */
-export const tap = (input: Input | undefined) =>
-  play("tap", input && { input });
+export const tap = (input?: Input) => play("tap", input && { input });
 
 /** What activated `event`, the way cuelume shapes `tap`: a click from Enter or Space reports `detail` 0. */
 export function inputOf(event: Event): Input | undefined {
@@ -39,4 +45,9 @@ export function inputOf(event: Event): Input | undefined {
     return "keyboard";
   const { pointerType } = event as PointerEvent;
   return POINTERS.has(pointerType) ? (pointerType as Input) : undefined;
+}
+
+/** iOS resumes audio only from a click, so controls that play on `pointerdown` call this on click. */
+export function unlockSound() {
+  if (isSoundOn()) void unlock();
 }

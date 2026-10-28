@@ -1,7 +1,6 @@
-import { unlock } from "cuelume";
 import { createSignal, For, Index, onCleanup, onMount } from "solid-js";
 
-import { inputOf, tap } from "../../lib/sound";
+import { inputOf, tap, unlockSound } from "../../lib/sound";
 import {
   AvailabilityGridCell,
   CALENDAR_CLASS,
@@ -286,7 +285,7 @@ export function CalendarDemo(props: { class?: string }) {
                       tap("keyboard");
                     });
                   }}
-                  onClick={() => void unlock()}
+                  onClick={unlockSound}
                   onPointerDown={(event) => {
                     if (event.pointerType === "mouse" && event.button !== 0) {
                       return;

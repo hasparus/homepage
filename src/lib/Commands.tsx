@@ -11,8 +11,6 @@ import {
   For,
 } from "solid-js";
 
-import { play } from "cuelume";
-
 import { type ColorScheme, setScheme } from "./color-scheme";
 import {
   CommandCenter,
@@ -30,7 +28,7 @@ import { isMac } from "./isMac";
 import { Kbd } from "./Kbd";
 import { parseKeys } from "./parseKeys";
 import { Shortcut } from "./Shortcut";
-import { isSoundOn, setSound } from "./sound";
+import { isSoundOn, setSound, tap } from "./sound";
 
 const INPUT_ID = "command-input";
 
@@ -122,7 +120,7 @@ export function CommandsPalette(props: {
         const on = !soundOn();
         setSound(on);
         setSoundOn(on);
-        if (on) void play("tap");
+        if (on) tap();
       },
     ],
     [
