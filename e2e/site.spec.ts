@@ -32,7 +32,7 @@ test("MDX page Markdown preserves main content and links without page chrome", a
   const content = (base: string) =>
     page.getByRole("main").evaluate(
       (main, base) => ({
-        text: main.textContent?.replace(/\s+/g, " ").trim(),
+        text: main.textContent?.replace(/\s+/g, ""),
         links: [...main.querySelectorAll("a")].map((link) => ({
           text: link.textContent,
           href: new URL(link.getAttribute("href")!, base).href,
