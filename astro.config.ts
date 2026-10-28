@@ -1,8 +1,4 @@
-import {
-  type RehypePlugins,
-  type RemarkPlugins,
-  unified,
-} from "@astrojs/markdown-remark";
+import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -30,9 +26,8 @@ export default defineConfig({
   site,
   markdown: {
     processor: unified({
-      // Third-party plugins type their transformers on unist `Node`, not mdast/hast `Root`.
-      remarkPlugins: remarkPlugins(__dirname) as RemarkPlugins,
-      rehypePlugins: rehypePlugins as RehypePlugins,
+      remarkPlugins: remarkPlugins(__dirname),
+      rehypePlugins,
     }),
     syntaxHighlight: "shiki",
     shikiConfig: {
@@ -88,7 +83,7 @@ export default defineConfig({
     },
   },
   integrations: [
-    mdx({ extendMarkdownConfig: true }),
+    mdx(),
     solidJs({ exclude: ["**/*.react.tsx"] }),
     react({ include: ["**/*.react.tsx"] }),
     sitemap({

@@ -1,10 +1,10 @@
-import type { Plugin } from "unified";
+import type { RemarkPlugin } from "@astrojs/markdown-remark";
 
 import type { PostProps } from "../types";
 
 import { postPath } from "./postPath";
 
-export const urlOutsideOfPagesDirPlugin: Plugin<
+export const urlOutsideOfPagesDirPlugin: RemarkPlugin<
   [{ absoluteDirPath: string }]
 > = ({ absoluteDirPath }) => {
   return (_tree, file) => {
