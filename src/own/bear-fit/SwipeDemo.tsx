@@ -62,9 +62,9 @@ export function SwipeDemo() {
   const decide = (hour: number, verdict: "busy" | "free") => {
     const bit = hours(hour);
     if ((verdict === "free" ? free() : busy()) & bit) return;
-    tap();
     setFree((prev) => (verdict === "free" ? prev | bit : prev & ~bit));
     setBusy((prev) => (verdict === "busy" ? prev | bit : prev & ~bit));
+    tap();
   };
 
   const shared = () => free() & everyoneElse();
