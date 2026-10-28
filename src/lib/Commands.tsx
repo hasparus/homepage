@@ -39,7 +39,7 @@ export function Commands(props: { posts: { title: string; href: string }[] }) {
   return (
     <CommandCenter inputId={INPUT_ID}>
       <CommandCenterTrigger
-        data-cuelume-tap
+        data-tap
         class="zaduma-hover-before -mx-4 size-12 rounded-xs dark:text-gray-400 dark:hover:text-gray-300"
       />
       <Show when={clientside()} keyed>
@@ -177,7 +177,7 @@ export function CommandsPalette(props: {
     >
       <div class="flex justify-end">
         <DialogCloseButton
-          data-cuelume-tap
+          data-tap
           class="group cursor-pointer p-2 focus:outline-hidden"
         >
           <Kbd aria-hidden hint>
@@ -282,7 +282,7 @@ function CommandItem(props: CommandItemProps) {
     <CommandCenterItem
       class="zaduma-hover-before relative flex w-full cursor-pointer justify-between p-2 text-gray-700 focus-visible:outline-black dark:text-gray-300"
       tabIndex={-1}
-      data-cuelume-tap
+      data-tap
       onClick={() => {
         if (own.shortcut) own.onClick!(own.shortcut);
       }}

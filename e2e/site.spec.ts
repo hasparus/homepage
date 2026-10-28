@@ -105,3 +105,28 @@ test("bear-fit's social card loops as og:video and an X player card", async ({
   await page.goto(player.pathname);
   await expect(page.locator("video")).toHaveAttribute("src", video.pathname);
 });
+
+test("buttons click quietly until sound is turned off", async ({ page }) => {
+  await page.addInitScript(() => {
+    const start = AudioBufferSourceNode.prototype.start;
+    Object.assign(window, { clicks: 0 });
+    AudioBufferSourceNode.prototype.start = function (...args) {
+      Object.assign(window, {
+        clicks: (window as unknown as { clicks: number }).clicks + 1,
+      });
+      return start.apply(this, args);
+    };
+  });
+  const clicks = () =>
+    page.evaluate(() => (window as unknown as { clicks: number }).clicks);
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "⌘", exact: true }).click();
+  await expect.poll(clicks).toBeGreaterThan(0);
+
+  await page.getByRole("option", { name: "Turn Sound Off" }).click();
+  await page.keyboard.press("Escape");
+  const silenced = await clicks();
+  await page.getByRole("button", { name: "⌘", exact: true }).click();
+  expect(await clicks()).toBe(silenced);
+});

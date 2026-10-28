@@ -1,7 +1,7 @@
 import { DragGesture } from "@use-gesture/vanilla";
 import { createSignal, For, onCleanup, onMount } from "solid-js";
 
-import { inputOf, tap } from "../../lib/sound";
+import { tap } from "../../lib/sound";
 import { Cursor, type CursorState } from "./Cursor";
 
 const HOURS = [17, 18, 19, 20, 21];
@@ -59,10 +59,10 @@ export function SwipeDemo() {
   const [free, setFree] = createSignal(hours(19));
   const [busy, setBusy] = createSignal(hours(20));
 
-  const decide = (hour: number, verdict: "busy" | "free", event: Event) => {
+  const decide = (hour: number, verdict: "busy" | "free") => {
     const bit = hours(hour);
     if ((verdict === "free" ? free() : busy()) & bit) return;
-    tap(inputOf(event));
+    tap();
     setFree((prev) => (verdict === "free" ? prev | bit : prev & ~bit));
     setBusy((prev) => (verdict === "busy" ? prev | bit : prev & ~bit));
   };
@@ -208,7 +208,7 @@ export function SwipeDemo() {
                 busy={(busy() & hours(hour)) !== 0}
                 free={(free() & hours(hour)) !== 0}
                 hour={hour}
-                onDecide={(verdict, event) => decide(hour, verdict, event)}
+                onDecide={(verdict) => decide(hour, verdict)}
               />
             )}
           </For>
@@ -238,7 +238,7 @@ interface SlotRowProps {
   busy: boolean;
   free: boolean;
   hour: number;
-  onDecide: (verdict: "busy" | "free", event: Event) => void;
+  onDecide: (verdict: "busy" | "free") => void;
 }
 
 function SlotRow(props: SlotRowProps) {
@@ -277,14 +277,7 @@ function SlotRow(props: SlotRowProps) {
     const gesture = new DragGesture(
       node,
       // eslint-disable-next-line solid/reactivity -- a DOM listener, so props are read when it fires
-      ({
-        active,
-        direction: [dx],
-        event,
-        last,
-        movement: [mx],
-        velocity: [vx],
-      }) => {
+      ({ active, direction: [dx], last, movement: [mx], velocity: [vx] }) => {
         if (active) {
           drag(mx);
           return;
@@ -298,7 +291,7 @@ function SlotRow(props: SlotRowProps) {
           Math.abs(mx) > DISTANCE_THRESHOLD ||
           (vx > VELOCITY_THRESHOLD && Math.abs(mx) > 16);
 
-        if (flung) props.onDecide(dx > 0 || mx > 0 ? "free" : "busy", event);
+        if (flung) props.onDecide(dx > 0 || mx > 0 ? "free" : "busy");
       },
       { axis: "x", filterTaps: true },
     );
@@ -326,7 +319,7 @@ function SlotRow(props: SlotRowProps) {
               : undefined,
         }}
         type="button"
-        onClick={(event) => props.onDecide(props.free ? "busy" : "free", event)}
+        onClick={() => props.onDecide(props.free ? "busy" : "free")}
       >
         <span class="text-xs tabular-nums">{props.hour}:00</span>
         <span class="flex">
