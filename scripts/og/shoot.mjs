@@ -17,12 +17,8 @@ try {
     viewport: { width: 1200, height: 630 },
     deviceScaleFactor: 2,
   });
-  await page.goto(
-    `${process.env.ORIGIN ?? "http://localhost:4321"}/og/${name}`,
-    {
-      waitUntil: "networkidle",
-    },
-  );
+  const origin = process.env.ORIGIN || "http://localhost:4321";
+  await page.goto(`${origin}/og/${name}`, { waitUntil: "networkidle" });
   await page.evaluate(() => {
     document.querySelector("astro-dev-toolbar")?.remove();
     return document.fonts.ready;
