@@ -26,7 +26,7 @@ export const CodesandboxIframe = (
               <button
                 class="rounded-md bg-gray-200/50 p-2 px-3 text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700/50"
                 disabled={state() === "loading"}
-                data-cuelume-tap
+                data-tap
                 onClick={() => setState("loading")}
               >
                 Load CodeSandbox
