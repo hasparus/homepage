@@ -1,4 +1,4 @@
-import { CURSOR_EASE } from "./choreography";
+import { CURSOR_EASE, FADE_TRANSITION } from "./choreography";
 
 export type CursorState = "gone" | "idle" | "pressed";
 
@@ -17,8 +17,9 @@ export function Cursor(props: {
       style={{ "transition-timing-function": `cubic-bezier(${CURSOR_EASE})` }}
     >
       <div
-        class="flex origin-top-left items-start drop-shadow-[0_2px_4px_rgb(0_0_0/0.28)] transition-[opacity,scale] duration-150 ease-out"
+        class="flex origin-top-left items-start drop-shadow-[0_2px_4px_rgb(0_0_0/0.28)] transition-[opacity,scale]"
         style={{
+          ...FADE_TRANSITION,
           opacity: props.state === "gone" ? 0 : 1,
           scale: props.state === "pressed" ? PRESSED_SCALE : 1,
         }}

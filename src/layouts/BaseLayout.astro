@@ -12,6 +12,7 @@ import ScrollbarStyles from "../lib/ScrollbarStyles.astro";
 import { AUTHOR, SITE_NAME } from "../lib/siteMeta";
 import { websiteSchema } from "../lib/seo/jsonLd";
 import JsonLd from "../lib/seo/JsonLd.astro";
+import type { SocialCard } from "../lib/createOgImageLink";
 import SocialCardMetaTags from "../lib/SocialCardMetaTags.astro";
 
 import "../global-styles/base.css";
@@ -25,11 +26,10 @@ interface Props {
   title: string;
   description: string;
   children: astroHTML.JSX.Element;
-  ogImage?: string;
-  ogVideo?: string;
+  socialCard?: SocialCard;
 }
 
-const { title, description, ogImage, ogVideo } = Astro.props;
+const { title, description, socialCard } = Astro.props;
 
 const posts = orderedPosts.map(({ module: { frontmatter } }) => ({
   href: frontmatter.path,
@@ -76,8 +76,7 @@ const websiteData = websiteSchema({
     }
 
     <SocialCardMetaTags
-      ogImage={ogImage ?? "https://haspar.us/og.png"}
-      ogVideo={ogVideo}
+      {...socialCard ?? { image: "https://haspar.us/og.png" }}
     />
     <meta property="og:type" content={isPostRoute ? "article" : "website"} />
     <meta property="og:title" content={title} />

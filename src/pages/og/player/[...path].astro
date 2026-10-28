@@ -1,3 +1,18 @@
+---
+import { allPosts } from "../../../build-time/posts";
+import { ogVideoOf } from "../../../lib/createOgImageLink";
+
+export const getStaticPaths = () =>
+  allPosts.flatMap(({ module: { frontmatter } }) => {
+    const src = ogVideoOf(frontmatter);
+    return src
+      ? [{ params: { path: frontmatter.path.slice(1) }, props: { src } }]
+      : [];
+  });
+
+const { src } = Astro.props;
+---
+
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -20,17 +35,6 @@
     </style>
   </head>
   <body>
-    <video autoplay loop muted playsinline></video>
-    <script is:inline>
-      const src = new URL(
-        new URLSearchParams(location.search).get("v") ?? "",
-        location.origin,
-      );
-      if (
-        src.origin === location.origin &&
-        src.pathname.startsWith("/content/")
-      )
-        document.querySelector("video").src = src.pathname;
-    </script>
+    <video src={src} autoplay loop muted playsinline></video>
   </body>
 </html>

@@ -4,7 +4,7 @@ import {
   compileTimeline,
   CURSOR_EASE,
   cubicBezier,
-  TAILWIND_EASE_OUT,
+  FADE_EASE,
 } from "../src/own/bear-fit/choreography";
 
 test("compileTimeline keeps the button down through held steps", () => {
@@ -34,7 +34,7 @@ test("compileTimeline keeps the button down through held steps", () => {
 });
 
 test("cubicBezier matches the browser's cubic-bezier()", async ({ page }) => {
-  for (const curve of [CURSOR_EASE, TAILWIND_EASE_OUT]) {
+  for (const curve of [CURSOR_EASE, FADE_EASE]) {
     const ease = cubicBezier(curve);
     for (const x of [0.1, 0.3, 0.5, 0.7, 0.9]) {
       const browser = await page.evaluate(

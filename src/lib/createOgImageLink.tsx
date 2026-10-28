@@ -15,15 +15,28 @@ const OG_IMAGE_SECRET =
     throw new Error("OG_IMAGE_SECRET is not set");
   })();
 
-/** The post's Open Graph image and, when `img.ogVideo` is set, its looping video. */
-export function socialCardOf(frontmatter: PostFrontmatter) {
+export interface SocialCard {
+  image: string;
+  /** A looping mp4 and the page X's player card embeds to play it. */
+  video?: { player: string; src: string };
+}
+
+export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
+  const src = ogVideoOf(frontmatter);
+  return {
+    image: createOgImageLink(frontmatter),
+    ...(src && { video: { player: `/og/player${frontmatter.path}/`, src } }),
+  };
+}
+
+export function ogVideoOf(frontmatter: PostFrontmatter) {
   const video =
     typeof frontmatter.img === "object" ? frontmatter.img.ogVideo : undefined;
   if (video !== undefined && !/^\/content\/.+\.mp4$/.test(video))
     throw new Error(
       `${frontmatter.path}: img.ogVideo must be a /content/**/*.mp4 path served from public/, got ${video}`,
     );
-  return { image: createOgImageLink(frontmatter), video };
+  return video;
 }
 
 export function createOgImageLink(frontmatter: PostFrontmatter) {

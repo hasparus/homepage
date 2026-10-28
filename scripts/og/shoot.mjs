@@ -51,11 +51,11 @@ try {
       ],
       { stdio: ["pipe", "inherit", "inherit"] },
     );
-    const [[code]] = await Promise.all([
+    const [[code, signal]] = await Promise.all([
       once(ffmpeg, "exit"),
       pipeline(Readable.from(frames()), ffmpeg.stdin),
     ]);
-    if (code) throw new Error(`ffmpeg exited with ${code}`);
+    if (code !== 0) throw new Error(`ffmpeg exited with ${code ?? signal}`);
     await rename(`${dir}/og.tmp.mp4`, `${dir}/og.mp4`);
   }
 } finally {

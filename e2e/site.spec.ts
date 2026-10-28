@@ -102,15 +102,6 @@ test("bear-fit's social card loops as og:video and an X player card", async ({
   );
 
   const player = new URL((await meta('name="twitter:player"'))!);
-  await page.goto(player.pathname + player.search);
+  await page.goto(player.pathname);
   await expect(page.locator("video")).toHaveAttribute("src", video.pathname);
-
-  for (const v of [
-    "//evil.example/content/x.mp4",
-    "https://evil.example/content/x.mp4",
-    "/og.png",
-  ]) {
-    await page.goto(`/og/player/?v=${encodeURIComponent(v)}`);
-    await expect(page.locator("video")).not.toHaveAttribute("src");
-  }
 });

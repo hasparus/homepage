@@ -6,8 +6,14 @@ export interface Step<TDate> {
 }
 
 export const CURSOR_EASE = [0.77, 0, 0.175, 1] as const;
-export const TAILWIND_EASE_OUT = [0, 0, 0.2, 1] as const;
+export const FADE_EASE = [0, 0, 0.2, 1] as const;
 export const FADE = 150;
+
+/** The widget's press and fill transitions, which OgImage replays with `cubicBezier(FADE_EASE)`. */
+export const FADE_TRANSITION = {
+  "transition-duration": `${FADE}ms`,
+  "transition-timing-function": `cubic-bezier(${FADE_EASE})`,
+};
 
 /** Where the cursor starts before gliding to its first date, in rem from that date. */
 export const ENTER_OFFSET = { x: -2.5, y: 5 };

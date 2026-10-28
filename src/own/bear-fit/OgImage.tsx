@@ -7,7 +7,7 @@ import {
   ENTER_OFFSET,
   FADE,
   type Step,
-  TAILWIND_EASE_OUT,
+  FADE_EASE,
 } from "./choreography";
 import { Cursor, PRESSED_SCALE } from "./Cursor";
 
@@ -16,7 +16,6 @@ const DAYS = Array.from({ length: 26 }, (_, i) => i + 4); // Sep 4–29, 2024
 const PADDING_DAYS = 2; // Sep 4 is a Wednesday
 const MINE = [9, 10, 11, 13];
 const WOJTEK = [10, 11, 12, 18, 19, 25, 26];
-const PEOPLE_COUNT = 3;
 
 const PATTERN: Step<number>[] = [
   { date: 10, travel: 560 },
@@ -37,7 +36,7 @@ const cellOf = (day: number) => {
 };
 
 const glide = cubicBezier(CURSOR_EASE);
-const easeOut = cubicBezier(TAILWIND_EASE_OUT);
+const easeOut = cubicBezier(FADE_EASE);
 const clamp01 = (x: number) => Math.min(Math.max(x, 0), 1);
 /** Progress at `t` of the widget's fade transition that started at `at`. */
 const fade = (t: number, at: number) => easeOut(clamp01((t - at) / FADE));
@@ -85,14 +84,31 @@ export function OgImage() {
   });
 
   const scene = createMemo(() => sceneAt(t()));
+  const people = [
+    {
+      count: () => MINE.length,
+      fill: (day: number) => +MINE.includes(day),
+      me: true,
+      name: "you",
+    },
+    {
+      count: () => WOJTEK.length,
+      fill: (day: number) => +WOJTEK.includes(day),
+      name: "Wojtek",
+    },
+    {
+      count: () => scene().piotrCount,
+      fill: (day: number) => scene().piotr(day),
+      name: "Piotr",
+    },
+  ];
   const fillOf = (day: number) =>
-    (+MINE.includes(day) + +WOJTEK.includes(day) + scene().piotr(day)) /
-    PEOPLE_COUNT;
+    people.reduce((sum, person) => sum + person.fill(day), 0) / people.length;
 
   return (
     <div
       id="og"
-      class="flex h-[630px] w-[1200px] items-center gap-14 overflow-hidden px-16 font-[Czikago,sans-serif] text-black [--cursor:oklch(58%_0.2_18)] [&_*]:transition-none!"
+      class="flex h-[630px] w-[1200px] items-center gap-14 overflow-hidden px-16 font-[Czikago,sans-serif] text-black [--cursor:oklch(58%_0.2_18)]"
       style={{
         background:
           "linear-gradient(90deg, #fff 21px, transparent 1%) 50%, linear-gradient(#fff 21px, transparent 1%) 50%, #000",
@@ -155,19 +171,13 @@ export function OgImage() {
         </div>
 
         <dl class="grid gap-0.5 font-mono text-sm text-gray-500">
-          <For
-            each={[
-              { count: () => MINE.length, name: "✓ you" },
-              { count: () => WOJTEK.length, name: "Wojtek" },
-              { count: () => scene().piotrCount, name: "Piotr" },
-            ]}
-          >
+          <For each={people}>
             {(person) => (
               <div
                 class="flex justify-between"
-                classList={{ "text-black": person.name === "✓ you" }}
+                classList={{ "text-black": person.me }}
               >
-                <dt>{person.name}</dt>
+                <dt>{person.me ? `✓ ${person.name}` : person.name}</dt>
                 <dd class="tabular-nums">{person.count()}</dd>
               </div>
             )}
