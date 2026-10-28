@@ -1,4 +1,4 @@
-import { type PlayOptions, play, setEnabled, setTheme } from "cuelume";
+import { bind, type PlayOptions, play, setEnabled, setTheme } from "cuelume";
 
 type Input = NonNullable<PlayOptions["input"]>;
 
@@ -17,20 +17,20 @@ export function setSound(on: boolean) {
   setEnabled(on);
   try {
     localStorage.setItem(STORAGE_KEY, on ? "on" : "off");
-    return true;
   } catch {
-    return false;
+    // Sound still follows `on` until the page reloads.
   }
 }
 
 if (typeof window !== "undefined") {
   setTheme("press");
   setEnabled(isSoundOn());
+  bind();
 }
 
 /** For controls whose sound depends on state; plain buttons use `data-cuelume-tap`. */
 export const tap = (input: Input | undefined) =>
-  play("tap", { theme: "press", ...(input && { input }) });
+  play("tap", input && { input });
 
 /** What activated `event`, the way cuelume shapes `tap`: a click from Enter or Space reports `detail` 0. */
 export function inputOf(event: Event): Input | undefined {

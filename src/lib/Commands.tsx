@@ -11,7 +11,7 @@ import {
   For,
 } from "solid-js";
 
-import { bind, unlock } from "cuelume";
+import { play } from "cuelume";
 
 import { type ColorScheme, setScheme } from "./color-scheme";
 import {
@@ -37,7 +37,6 @@ const INPUT_ID = "command-input";
 export function Commands(props: { posts: { title: string; href: string }[] }) {
   const [clientside, setClientside] = createSignal(false);
   onMount(() => setClientside(true)); // workaround for Astro + Solid Hydration issue
-  onMount(() => onCleanup(bind()));
 
   return (
     <CommandCenter inputId={INPUT_ID}>
@@ -123,7 +122,7 @@ export function CommandsPalette(props: {
         const on = !soundOn();
         setSound(on);
         setSoundOn(on);
-        if (on) void unlock();
+        if (on) void play("tap");
       },
     ],
     [
