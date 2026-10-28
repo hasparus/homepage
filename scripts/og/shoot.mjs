@@ -1,4 +1,4 @@
-// Screenshots /og/<name> from a running dev server into public/content/<name>/og.png at 2x, and with --video, its looping og.mp4.
+// Screenshots /og/<name> from a running server ($ORIGIN, default http://localhost:4321) into public/content/<name>/og.png at 2x, and with --video, its looping og.mp4.
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { rename } from "node:fs/promises";
@@ -17,14 +17,18 @@ try {
     viewport: { width: 1200, height: 630 },
     deviceScaleFactor: 2,
   });
-  await page.goto(`http://localhost:4321/og/${name}`, {
-    waitUntil: "networkidle",
-  });
+  await page.goto(
+    `${process.env.ORIGIN ?? "http://localhost:4321"}/og/${name}`,
+    {
+      waitUntil: "networkidle",
+    },
+  );
   await page.evaluate(() => {
     document.querySelector("astro-dev-toolbar")?.remove();
     return document.fonts.ready;
   });
-  await page.locator("#og").screenshot({ path: `${dir}/og.png` });
+  const og = page.locator("#og");
+  await og.screenshot({ path: `${dir}/og.png` });
 
   if (flag === "--video") {
     await page.waitForFunction(() => window.ogScene);
@@ -34,7 +38,7 @@ try {
       for (let frame = 0; frame < frameCount; frame++) {
         const t = (frame * 1000) / FPS;
         await page.evaluate((t) => window.ogScene.seek(t), t);
-        yield await page.screenshot();
+        yield await og.screenshot();
       }
     }
 

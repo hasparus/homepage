@@ -25,9 +25,15 @@ export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
   const src = ogVideoOf(frontmatter);
   return {
     image: createOgImageLink(frontmatter),
-    ...(src && { video: { player: `/og/player${frontmatter.path}/`, src } }),
+    ...(src && {
+      video: { player: `/og/player/${playerPathOf(frontmatter)}/`, src },
+    }),
   };
 }
+
+/** The `[...path]` param of the post's X player page. */
+export const playerPathOf = (frontmatter: PostFrontmatter) =>
+  frontmatter.path.slice(1);
 
 export function ogVideoOf(frontmatter: PostFrontmatter) {
   const video =
