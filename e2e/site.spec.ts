@@ -87,3 +87,30 @@ test.describe("Mobile responsive layout", () => {
     expect(box!.width).toBeLessThanOrEqual(375);
   });
 });
+
+test("bear-fit's social card loops as og:video and an X player card", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/bear-fit/");
+  const meta = (attribute: string) =>
+    page.locator(`meta[${attribute}]`).getAttribute("content");
+  expect(await meta('name="twitter:card"')).toBe("player");
+  const video = new URL((await meta('property="og:video"'))!);
+  expect((await request.get(video.pathname)).headers()["content-type"]).toMatch(
+    /^video\/mp4/,
+  );
+
+  const player = new URL((await meta('name="twitter:player"'))!);
+  await page.goto(player.pathname + player.search);
+  await expect(page.locator("video")).toHaveAttribute("src", video.pathname);
+
+  for (const v of [
+    "//evil.example/content/x.mp4",
+    "https://evil.example/content/x.mp4",
+    "/og.png",
+  ]) {
+    await page.goto(`/og/player/?v=${encodeURIComponent(v)}`);
+    await expect(page.locator("video")).not.toHaveAttribute("src");
+  }
+});

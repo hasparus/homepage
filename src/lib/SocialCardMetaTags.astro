@@ -1,33 +1,31 @@
 ---
+import { X_HANDLE } from "./siteMeta";
+
 interface Props {
-  ogImage: string | undefined;
-  ogVideo?: string | undefined;
+  ogImage: string;
+  ogVideo: string | undefined;
 }
 
 const { ogImage, ogVideo } = Astro.props;
 
 const absolute = (url: string) =>
   url.startsWith("/") ? new URL(url, import.meta.env.PUBLIC_URL).href : url;
+const image = absolute(ogImage);
+const video = ogVideo && absolute(ogVideo);
 ---
 
+<meta property="og:image" content={image} />
+<meta name="twitter:card" content={video ? "player" : "summary_large_image"} />
+<meta name="twitter:site" content={X_HANDLE} />
+<meta name="twitter:image" content={image} />
 {
-  ogImage && (
+  ogVideo && (
     <>
-      <meta property="og:image" content={absolute(ogImage)} />
-      <meta name="twitter:image" content={absolute(ogImage)} />
-    </>
-  )
-}
-{
-  ogVideo ? (
-    <>
-      <meta property="og:video" content={absolute(ogVideo)} />
-      <meta property="og:video:secure_url" content={absolute(ogVideo)} />
+      <meta property="og:video" content={video} />
+      <meta property="og:video:secure_url" content={video} />
       <meta property="og:video:type" content="video/mp4" />
       <meta property="og:video:width" content="1200" />
       <meta property="og:video:height" content="630" />
-      <meta name="twitter:card" content="player" />
-      <meta name="twitter:site" content="@hasparus" />
       <meta
         name="twitter:player"
         content={absolute(`/og/player/?v=${encodeURIComponent(ogVideo)}`)}
@@ -35,7 +33,5 @@ const absolute = (url: string) =>
       <meta name="twitter:player:width" content="1200" />
       <meta name="twitter:player:height" content="630" />
     </>
-  ) : (
-    ogImage && <meta name="twitter:card" content="summary_large_image" />
   )
 }

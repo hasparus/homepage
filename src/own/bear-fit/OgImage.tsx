@@ -1,6 +1,15 @@
-import { createSignal, For, Index, onMount } from "solid-js";
+import { createMemo, createSignal, For, Index, onMount } from "solid-js";
 
-import { Cursor } from "./Cursor";
+import {
+  compileTimeline,
+  CURSOR_EASE,
+  cubicBezier,
+  ENTER_OFFSET,
+  FADE,
+  type Step,
+  TAILWIND_EASE_OUT,
+} from "./choreography";
+import { Cursor, PRESSED_SCALE } from "./Cursor";
 
 const ACCENT = "#05e";
 const DAYS = Array.from({ length: 26 }, (_, i) => i + 4); // Sep 4–29, 2024
@@ -9,96 +18,56 @@ const MINE = [9, 10, 11, 13];
 const WOJTEK = [10, 11, 12, 18, 19, 25, 26];
 const PEOPLE_COUNT = 3;
 
-/** Piotr's pass over the calendar, timed like CalendarDemo's PATTERNS. */
-const PATTERN = [
-  { day: 10, travel: 560 },
-  { day: 11, held: true, travel: 190 },
-  { day: 19, travel: 440 },
-  { day: 25, travel: 440 },
-  { day: 17, travel: 520 },
-  { day: 18, held: true, travel: 190 },
+const PATTERN: Step<number>[] = [
+  { date: 10, travel: 560 },
+  { date: 11, held: true, travel: 190 },
+  { date: 19, travel: 440 },
+  { date: 25, travel: 440 },
+  { date: 17, travel: 520 },
+  { date: 18, held: true, travel: 190 },
 ];
+const TIMELINE = compileTimeline(PATTERN);
+const PAINTED_AT = new Map(TIMELINE.marks.map(({ at, date }) => [date, at]));
 
 const CURSOR_IN_CELL = { x: 24, y: 26 };
 
-/** A grid column and row plus pixels, resolved in CSS against the grid's own size. */
-const cellPoint = (day: number) => {
+const cellOf = (day: number) => {
   const i = 7 + PADDING_DAYS + day - DAYS[0]!;
-  return {
-    col: i % 7,
-    row: Math.floor(i / 7),
-    x: CURSOR_IN_CELL.x,
-    y: CURSOR_IN_CELL.y,
-  };
+  return { col: i % 7, row: Math.floor(i / 7) };
 };
 
-const easeInOutQuart = (x: number) =>
-  x < 0.5 ? 8 * x ** 4 : 1 - (-2 * x + 2) ** 4 / 2;
-const easeOut = (x: number) => 1 - (1 - x) ** 2;
+const glide = cubicBezier(CURSOR_EASE);
+const easeOut = cubicBezier(TAILWIND_EASE_OUT);
 const clamp01 = (x: number) => Math.min(Math.max(x, 0), 1);
-/** The widget's 150ms ease-out transition, started at `at`. */
-const fade = (t: number, at: number) => easeOut(clamp01((t - at) / 150));
+/** Progress at `t` of the widget's fade transition that started at `at`. */
+const fade = (t: number, at: number) => easeOut(clamp01((t - at) / FADE));
 
-type Point = ReturnType<typeof cellPoint>;
-
-/** Replays CalendarDemo's runPattern on a clock, so any frame is a function of time. */
-const moves: { from: Point; start: number; to: Point; travel: number }[] = [];
-const presses: [down: number, up: number][] = [];
-const paintedAt = new Map<number, number>();
-
-const SHOW_AT = 500;
-const ENTER_OFFSET = { x: -40, y: 80 };
-const firstCell = cellPoint(PATTERN[0]!.day);
-let from = {
-  ...firstCell,
-  x: firstCell.x + ENTER_OFFSET.x,
-  y: firstCell.y + ENTER_OFFSET.y,
-};
-let now = SHOW_AT;
-let downAt: number | undefined;
-for (const [i, step] of PATTERN.entries()) {
-  const to = cellPoint(step.day);
-  moves.push({ from, start: now, to, travel: step.travel });
-  now += step.travel;
-  from = to;
-  downAt ??= now;
-  paintedAt.set(step.day, now);
-  if (!PATTERN[i + 1]?.held) {
-    presses.push([downAt, now + 120]);
-    downAt = undefined;
-    now += 300;
-  }
-}
-/** Every date painted, the cursor resting on the last one. The still og.png. */
-const POSTER_AT = now;
-const HIDE_AT = now + 900;
-const CLEAR_AT = HIDE_AT + 2600;
-const DURATION = CLEAR_AT + 700;
-
+/** CalendarDemo's cursor and fills at `t`, computed instead of transitioned so any frame can be shot. */
 const sceneAt = (t: number) => {
-  const move = moves.findLast((m) => m.start <= t) ?? moves[0]!;
-  const p = easeInOutQuart(clamp01((t - move.start) / move.travel));
-  const pressed = presses.reduce(
+  const move =
+    TIMELINE.moves.findLast((m) => m.start <= t) ?? TIMELINE.moves[0]!;
+  const p = glide(clamp01((t - move.start) / move.travel));
+  const from = cellOf(move.from ?? move.to);
+  const to = cellOf(move.to);
+  const pressed = TIMELINE.presses.reduce(
     (sum, [down, up]) => sum + fade(t, down) - fade(t, up),
     0,
   );
-  const lerp = (key: keyof Point) =>
-    move.from[key] + (move.to[key] - move.from[key]) * p;
   return {
     cursor: {
-      col: lerp("col"),
-      row: lerp("row"),
-      opacity: fade(t, SHOW_AT) - fade(t, HIDE_AT),
-      scale: 1 - 0.12 * pressed,
-      x: lerp("x"),
-      y: lerp("y"),
+      col: from.col + (to.col - from.col) * p,
+      enter: move.from === undefined ? 1 - p : 0,
+      opacity: fade(t, TIMELINE.showAt) - fade(t, TIMELINE.hideAt),
+      row: from.row + (to.row - from.row) * p,
+      scale: 1 - (1 - PRESSED_SCALE) * pressed,
     },
     piotr: (day: number) => {
-      const at = paintedAt.get(day);
-      return at === undefined ? 0 : fade(t, at) - fade(t, CLEAR_AT);
+      const at = PAINTED_AT.get(day);
+      return at === undefined ? 0 : fade(t, at) - fade(t, TIMELINE.clearAt);
     },
-    piotrCount: [...paintedAt.values()].filter((at) => at <= t && t < CLEAR_AT)
-      .length,
+    piotrCount: TIMELINE.marks.filter(
+      ({ at }) => at <= t && t < TIMELINE.clearAt,
+    ).length,
   };
 };
 
@@ -107,17 +76,15 @@ const sceneAt = (t: number) => {
  * Shoot with `node scripts/og/shoot.mjs bear-fit --video`.
  */
 export function OgImage() {
-  const [t, setT] = createSignal(POSTER_AT);
-  onMount(() =>
-    Object.assign(window, {
-      ogScene: {
-        duration: DURATION,
-        seek: (ms: number) => setT(ms % DURATION),
-      },
-    }),
-  );
+  const [t, setT] = createSignal(TIMELINE.settledAt);
+  onMount(() => {
+    window.ogScene = {
+      duration: TIMELINE.end,
+      seek: (ms) => setT(ms % TIMELINE.end),
+    };
+  });
 
-  const scene = () => sceneAt(t());
+  const scene = createMemo(() => sceneAt(t()));
   const fillOf = (day: number) =>
     (+MINE.includes(day) + +WOJTEK.includes(day) + scene().piotr(day)) /
     PEOPLE_COUNT;
@@ -177,10 +144,10 @@ export function OgImage() {
           <div
             class="absolute origin-top-left"
             style={{
-              left: `calc(${scene().cursor.x}px + (100% - 40px) * ${scene().cursor.col / 6})`,
+              left: `calc(${CURSOR_IN_CELL.x}px + (100% - 40px) * ${scene().cursor.col / 6} + ${ENTER_OFFSET.x * scene().cursor.enter}rem)`,
               opacity: scene().cursor.opacity,
               scale: scene().cursor.scale,
-              top: `calc(${scene().cursor.y}px + var(--spacing) * 11 * ${scene().cursor.row})`,
+              top: `calc(${CURSOR_IN_CELL.y}px + var(--spacing) * 11 * ${scene().cursor.row} + ${ENTER_OFFSET.y * scene().cursor.enter}rem)`,
             }}
           >
             <Cursor name="Piotr" state="idle" />
