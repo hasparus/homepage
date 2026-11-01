@@ -82,7 +82,7 @@
     "@hasparus/eslint-config": "3.0.0",
     "@playwright/test": "1.63.0",
     "@types/hast": "3.0.4",
-    "@types/node": "24.1.0",
+    "@types/node": "26.6.5",
     "@types/turndown": "5.0.6",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
