@@ -68,7 +68,7 @@
     "shiki": "^4.4.3",
     "solid-js": "^1.8.17",
     "tailwindcss": "^4.3.1",
-    "three": "0.185.1",
+    "three": "0.186.1",
     "twoslash": "^0.3.8",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
