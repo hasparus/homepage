@@ -44,8 +44,8 @@ importers:
         specifier: ^1.1.7
         version: 1.1.7(tailwindcss@4.3.2)
       '@highlighters/core':
-        specifier: 1.2.0
-        version: 1.2.0
+        specifier: 2.1.0
+        version: 2.1.0
       '@mdx-js/mdx':
         specifier: 3.1.1
         version: 3.1.1
@@ -1125,8 +1125,8 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0'
 
-  '@highlighters/core@1.2.0':
-    resolution: {integrity: sha512-+mUjhN+S0fFPBx8RFWg03rwR9SmcAZzkSx820iz/Vl44jSnUdeGxL7rt8YgIoH3KeBTBNqWQlBlmwB8xnOfI6A==}
+  '@highlighters/core@2.1.0':
+    resolution: {integrity: sha512-nZJBH1ym+nQ37ZKTnX4XBHq9TwucQyZp3AQodEanTcdlt5Pn9bKyIZV5hkT0wuxSC/9rwk3+3GLM3+zcyvatRw==}
     engines: {node: '>=18'}
 
   '@hono/node-server@2.1.1':
@@ -8299,7 +8299,7 @@ snapshots:
     dependencies:
       tailwindcss: 4.3.2
 
-  '@highlighters/core@1.2.0': {}
+  '@highlighters/core@2.1.0': {}
 
   '@hono/node-server@2.1.1(hono@4.13.8)':
     dependencies:
