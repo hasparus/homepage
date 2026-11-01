@@ -80,7 +80,7 @@
     "@apidevtools/swagger-parser": "13.1.0",
     "@astrojs/rss": "^4.0.18",
     "@hasparus/eslint-config": "3.0.0",
-    "@playwright/test": "1.63.0",
+    "@playwright/test": "1.64.1",
     "@types/hast": "3.0.4",
     "@types/node": "24.1.0",
     "@types/turndown": "5.0.6",
