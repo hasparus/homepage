@@ -71,7 +71,7 @@
     "three": "0.186.1",
     "twoslash": "^0.3.8",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.1.0",
+    "unist-util-visit": "^5.2.0",
     "vercel": "^51.7.0",
     "yargs-parser": "^22.0.0",
     "zod": "4.6.5"
