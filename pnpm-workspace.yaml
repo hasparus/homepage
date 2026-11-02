@@ -5,3 +5,15 @@ minimumReleaseAgeExclude:
   - "astro"
   - "@astrojs/*"
   - "impeccable@3.6.0"
+patchedDependencies:
+  prettier-plugin-astro@0.14.0: patches/prettier-plugin-astro@0.14.0.patch
+peerDependencyRules:
+  ignoreMissing:
+    - "@babel/core"
+    - rollup
+allowBuilds:
+  esbuild: true
+  core-js-pure: true
+  puppeteer: true
+  sharp: true
+  unrs-resolver: false

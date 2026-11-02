@@ -3,7 +3,7 @@
   "type": "module",
   "version": "2.0.0",
   "private": true,
-  "packageManager": "pnpm@10.30.1+sha512.3590e550d5384caa39bd5c7c739f72270234b2f6059e13018f975c313b1eb9fefcc09714048765d4d9efe961382c312e624572c0420762bdc5d5940cdf9be73a",
+  "packageManager": "pnpm@12.16.1",
   "engines": {
     "node": ">=22"
   },
@@ -99,22 +99,5 @@
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "prettier-plugin-astro@0.14.0": "patches/prettier-plugin-astro@0.14.0.patch"
-    },
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@babel/core",
-        "rollup"
-      ]
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "core-js-pure",
-      "puppeteer",
-      "sharp"
-    ]
   }
 }
