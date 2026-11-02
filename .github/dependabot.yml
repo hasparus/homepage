@@ -8,6 +8,9 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
+      # 1.x traces sharp into the Edge og function, which Vercel rejects.
+      - dependency-name: "@vercel/og"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
