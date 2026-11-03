@@ -21,7 +21,9 @@ const fauxFrontmatter = {
 let repositories = filteredRepositories;
 
 if (import.meta.env.PROD) {
-  repositories = filteredRepositories.filter(repo => repo.pullRequestsMerged > 1);
+  repositories = filteredRepositories.filter(
+    (repo) => repo.pullRequestsMerged > 1,
+  );
 }
 
 // TODO: Star icon.
@@ -30,19 +32,20 @@ if (import.meta.env.PROD) {
 
 <PostLayout frontmatter={fauxFrontmatter} headings={[]}>
   <p>
-    I believe in community-driven collaboration through open source.
-    It's what makes the web the most expansive and accessible ecosystem in the industry.
+    I believe in community-driven collaboration through open source. It's what
+    makes the web the most expansive and accessible ecosystem in the industry.
     I've seen it change people's lives, including my own.
   </p>
   <p>
-    More than <strong>{numberOfPRsMergedToPublicRepos}</strong> of my PRs were merged to public repositories.
-    Below you can find some of the projects I've contributed to. <sup>some of them I was paid to do, so it doesn't count for real :)</sup>
+    More than <strong>{numberOfPRsMergedToPublicRepos}</strong> of my PRs were merged
+    to public repositories. Below you can find some of the projects I've contributed
+    to. <sup>some of them I was paid to do, so it doesn't count for real :)</sup
+    >
   </p>
-  {/* eslint-disable-next-line better-tailwindcss/no-unknown-classes -- `contribs` is a scoped-CSS styling hook, not a Tailwind class */}
-  <ul class="contribs">
+  <ul class="!pl-0">
     {
       repositories.map((repo) => {
-        const href = `https://github.com/${repo.nameWithOwner}`
+        const href = `https://github.com/${repo.nameWithOwner}`;
         const [owner, repoName] = repo.nameWithOwner.split("/");
 
         return (
@@ -50,20 +53,20 @@ if (import.meta.env.PROD) {
             <article>
               <Link
                 href={href}
-                class="flex flex-row gap-2 justify-between items-center"
+                class="flex flex-row items-center justify-between gap-2"
                 noUnderline
               >
-                <h2 class="!m-0">
-                  <!-- prettier-ignore -->
-                  <span class="!font-normal">{owner}/</span><span class="!font-semibold">{repoName}</span>
+                <h2 class="!m-0 !font-semibold">
+                  {/* an array, so no whitespace renders between owner and repo */}
+                  {[<span class="!font-normal">{owner}/</span>, repoName]}
                 </h2>
-                <span class="tabular-nums tracking-tighter flex gap-1.5">
-                  <span class="bg-gray-400/20 dark:bg-gray-700/40 py-1 px-1.5 rounded-md inline-flex items-center gap-1">
-                    <PullRequestIcon class="opacity-50 dark:filter dark:invert w-3.5 h-3.5 translate-y-[0.125px]" />
+                <span class="flex gap-1.5 tracking-tighter tabular-nums">
+                  <span class="inline-flex items-center gap-1 rounded-md bg-gray-400/20 px-1.5 py-1 dark:bg-gray-700/40">
+                    <PullRequestIcon class="h-3.5 w-3.5 translate-y-[0.125px] opacity-50 dark:invert dark:filter" />
                     {repo.pullRequestsMerged}
                   </span>
-                  <span class="bg-gray-400/20 dark:bg-gray-700/40 py-1 px-1.5 rounded-md inline-flex items-center gap-1">
-                    <StarIcon class="opacity-50 dark:filter dark:invert w-3.5 h-3.5 translate-y-[0.125px]" />
+                  <span class="inline-flex items-center gap-1 rounded-md bg-gray-400/20 px-1.5 py-1 dark:bg-gray-700/40">
+                    <StarIcon class="h-3.5 w-3.5 translate-y-[0.125px] opacity-50 dark:invert dark:filter" />
                     {repo.stargazerCount}
                   </span>
                 </span>
@@ -87,9 +90,6 @@ if (import.meta.env.PROD) {
     content: ":";
   }
 
-  ul.contribs.contribs {
-    padding-left: 0;
-  }
   li {
     list-style: none;
   }

@@ -7,9 +7,9 @@ const DRAFT = /^\s*draft:\s*true\s*$/m;
 
 function postUrl(postsDir: string, absPath: string): string {
   const slug = relative(postsDir, absPath)
-    .replaceAll('\\', "/")
+    .replaceAll("\\", "/")
     .replace(/\.mdx$/, "")
-    .replaceAll(' ', "-");
+    .replaceAll(" ", "-");
   return `/${slug}/`;
 }
 
