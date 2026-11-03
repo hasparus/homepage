@@ -1,8 +1,6 @@
-// Note: `vercel dev` doesn't run `.tsx` endpoints
-//        and it can't run @vercel/og because of
-//        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
-//        The only way to work with this file is repeatedly pushing and checking
-//        the result on Vercel Preview Deployments.
+// Preview locally through `vercel dev`, or call the default export's `fetch`
+// directly under `bun` or `node --import tsx`. Requests need a token signed
+// with OG_IMAGE_SECRET (see src/lib/createOgImageLink.tsx).
 
 import fs from "node:fs/promises";
 import type * as React from "react";
@@ -18,10 +16,12 @@ type Author = typeof author;
 
 export const config = { runtime: "nodejs" };
 
+export default { fetch: og };
+
 const width = 1200;
 const height = 630;
 
-export default async function og(req: Request) {
+async function og(req: Request) {
   try {
     const url = new URL(req.url);
     const { post, stringifiedPost, token } = parseSearchParams(

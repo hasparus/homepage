@@ -18,7 +18,7 @@ async function checkFonts(source: string) {
       `
         import assert from "node:assert/strict";
         import fs from "node:fs/promises";
-        const { default: og, loadFonts } = await import("./api/og.ts");
+        const { default: { fetch: og }, loadFonts } = await import("./api/og.ts");
         ${source}
       `,
     ],
