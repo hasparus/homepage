@@ -131,7 +131,7 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       sharp:
-        specifier: ^0.35.5
+        specifier: 0.35.5
         version: 0.35.5(@types/node@26.6.5)
       shiki:
         specifier: ^4.5.0
