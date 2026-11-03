@@ -17,6 +17,7 @@ async function checkFonts(source: string) {
       "--eval",
       `
         import assert from "node:assert/strict";
+        import fs from "node:fs/promises";
         const { default: og, loadFonts } = await import("./api/og.ts");
         ${source}
       `,
@@ -31,11 +32,9 @@ async function checkFonts(source: string) {
 test("OG fonts reuse the same reads for concurrent and later warm requests", async () => {
   await checkFonts(`
     const urls = [];
-    let bodyReads = 0;
-    globalThis.fetch = async (url) => {
+    fs.readFile = async (url) => {
       urls.push(url);
-      const bytes = new Uint8Array([urls.length]).buffer;
-      return { ok: true, arrayBuffer: async () => { bodyReads++; return bytes; } };
+      return Buffer.from([urls.length]);
     };
 
     const first = loadFonts();
@@ -46,8 +45,7 @@ test("OG fonts reuse the same reads for concurrent and later warm requests", asy
     assert.equal(loadFonts(), first);
     assert.equal(await loadFonts(), fonts);
     assert.equal(urls.length, 2);
-    assert.equal(bodyReads, 2);
-    assert.deepEqual(fonts.map((data) => [...new Uint8Array(data)]), [[1], [2]]);
+    assert.deepEqual(fonts.map((data) => [...data]), [[1], [2]]);
     assert.ok(urls.every((url) => url instanceof URL));
     assert.ok(urls[0].pathname.endsWith("/assets/og/Inter-Regular.ttf"));
     assert.ok(urls[1].pathname.endsWith("/assets/og/Inter-Black.ttf"));
@@ -59,7 +57,7 @@ test("OG fonts observe both simultaneous failures without an unhandled rejection
     const unhandled = [];
     process.on("unhandledRejection", (error) => unhandled.push(error));
     const rejects = [];
-    globalThis.fetch = () => new Promise((resolve, reject) => rejects.push(reject));
+    fs.readFile = () => new Promise((resolve, reject) => rejects.push(reject));
 
     const regularFailure = new Error("regular font unavailable");
     const blackFailure = new Error("black font unavailable");
@@ -75,24 +73,19 @@ test("OG fonts observe both simultaneous failures without an unhandled rejection
 
 test("OG fonts retry after failure and cache the successful retry", async () => {
   await checkFonts(`
-    let fetches = 0;
-    let bodyReads = 0;
-    globalThis.fetch = async () => {
-      fetches++;
-      return { ok: true, arrayBuffer: async () => {
-        bodyReads++;
-        throw new Error("font body unavailable");
-      } };
+    let reads = 0;
+    fs.readFile = async () => {
+      reads++;
+      throw new Error("font file unavailable");
     };
     const failed = loadFonts();
-    await assert.rejects(failed, /font body unavailable/);
-    assert.equal(fetches, 2);
-    assert.equal(bodyReads, 2);
+    await assert.rejects(failed, /font file unavailable/);
+    assert.equal(reads, 2);
 
-    const bytes = new Uint8Array([42]).buffer;
-    globalThis.fetch = async () => {
-      fetches++;
-      return { ok: true, arrayBuffer: async () => { bodyReads++; return bytes; } };
+    const bytes = Buffer.from([42]);
+    fs.readFile = async () => {
+      reads++;
+      return bytes;
     };
     const retry = loadFonts();
     assert.notEqual(retry, failed);
@@ -100,29 +93,15 @@ test("OG fonts retry after failure and cache the successful retry", async () => 
     assert.deepEqual(await retry, [bytes, bytes]);
     assert.equal(loadFonts(), retry);
     await loadFonts();
-    assert.equal(fetches, 4);
-    assert.equal(bodyReads, 4);
-  `);
-});
-
-test("OG font HTTP failures reject and allow a later retry", async () => {
-  await checkFonts(`
-    let fetches = 0;
-    globalThis.fetch = async () => { fetches++; return new Response("offline", { status: 503 }); };
-    await assert.rejects(loadFonts(), /HTTP 503/);
-    assert.equal(fetches, 2);
-    globalThis.fetch = async () => { fetches++; return new Response(new Uint8Array([42])); };
-    const result = await loadFonts();
-    assert.deepEqual(result.map(bytes => [...new Uint8Array(bytes)]), [[42], [42]]);
-    assert.equal(fetches, 4);
+    assert.equal(reads, 4);
   `);
 });
 
 test("unauthorized OG requests never start font I/O", async () => {
   await checkFonts(`
-    let fetches = 0;
-    globalThis.fetch = async () => {
-      fetches++;
+    let reads = 0;
+    fs.readFile = async () => {
+      reads++;
       throw new Error("unexpected font I/O");
     };
     console.error = () => {};
@@ -141,6 +120,6 @@ test("unauthorized OG requests never start font I/O", async () => {
         },
       });
     }
-    assert.equal(fetches, 0);
+    assert.equal(reads, 0);
   `);
 });

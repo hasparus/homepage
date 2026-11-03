@@ -4,6 +4,7 @@
 //        The only way to work with this file is repeatedly pushing and checking
 //        the result on Vercel Preview Deployments.
 
+import fs from "node:fs/promises";
 import type * as React from "react";
 
 import { jsonError } from "../src/lib/agents/http.js";
@@ -15,7 +16,7 @@ const author = {
 
 type Author = typeof author;
 
-export const config = { runtime: "edge" };
+export const config = { runtime: "nodejs" };
 
 const width = 1200;
 const height = 630;
@@ -29,7 +30,7 @@ export default async function og(req: Request) {
 
     await assertTokenIsValid(stringifiedPost, token);
 
-    const { ImageResponse } = await import("@vercel/og");
+    const { ImageResponse } = await import("@hasparus/definitely-not-vercel-og");
     const [interRegular, interBlack] = await loadFonts();
 
     console.log("returning ImageResponse for", stringifiedPost);
@@ -225,13 +226,13 @@ function h<T extends React.ElementType>(
   };
 }
 
-let fontData: Promise<[ArrayBuffer, ArrayBuffer]> | undefined;
+let fontData: Promise<[Buffer, Buffer]> | undefined;
 
-export function loadFonts(): Promise<[ArrayBuffer, ArrayBuffer]> {
+export function loadFonts(): Promise<[Buffer, Buffer]> {
   if (!fontData) {
     fontData = Promise.all([
-      fetchFont(new URL("../assets/og/Inter-Regular.ttf", import.meta.url)),
-      fetchFont(new URL("../assets/og/Inter-Black.ttf", import.meta.url)),
+      fs.readFile(new URL("../assets/og/Inter-Regular.ttf", import.meta.url)),
+      fs.readFile(new URL("../assets/og/Inter-Black.ttf", import.meta.url)),
     ]).catch((error: unknown) => {
       fontData = undefined;
       throw error;
@@ -239,13 +240,6 @@ export function loadFonts(): Promise<[ArrayBuffer, ArrayBuffer]> {
   }
 
   return fontData;
-}
-
-async function fetchFont(url: URL) {
-  const response = await fetch(url);
-  if (!response.ok)
-    throw new Error(`Failed to load OG font: HTTP ${response.status}`);
-  return response.arrayBuffer();
 }
 
 type Post = {
