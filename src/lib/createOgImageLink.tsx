@@ -1,7 +1,6 @@
-import { createHmac } from "node:crypto";
-
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
+import { signOgPost } from "./ogToken";
 
 declare global {
   interface ImportMetaEnv {
@@ -61,9 +60,7 @@ export function createOgImageLink(frontmatter: PostFrontmatter) {
     img?.replace(/^raw!/, "") || ""
   }`;
 
-  const hmac = createHmac("sha256", OG_IMAGE_SECRET);
-  hmac.update(stringifiedPost);
-  const token = hmac.digest("hex");
+  const token = signOgPost(OG_IMAGE_SECRET, stringifiedPost);
 
   return `/api/og?post=${encodeURIComponent(stringifiedPost)}&token=${token}`;
 }
