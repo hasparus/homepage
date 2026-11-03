@@ -2,10 +2,11 @@
 // directly under `bun` or `node --import tsx`. Requests need a token signed
 // with OG_IMAGE_SECRET (see src/lib/createOgImageLink.tsx).
 
-import fs from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import type * as React from "react";
 
 import { jsonError } from "../src/lib/agents/http.js";
+import { isValidOgToken } from "../src/lib/ogToken.js";
 
 const author = {
   name: "Piotr Monwid-Olechnowicz",
@@ -14,12 +15,17 @@ const author = {
 
 type Author = typeof author;
 
-export const config = { runtime: "nodejs" };
-
 export default { fetch: og };
 
 const width = 1200;
 const height = 630;
+
+const interRegular = readFileSync(
+  new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
+);
+const interBlack = readFileSync(
+  new URL("../assets/og/Inter-Black.ttf", import.meta.url),
+);
 
 async function og(req: Request) {
   try {
@@ -28,10 +34,10 @@ async function og(req: Request) {
       url.searchParams,
     );
 
-    await assertTokenIsValid(stringifiedPost, token);
+    assertTokenIsValid(stringifiedPost, token);
 
-    const { ImageResponse } = await import("@hasparus/definitely-not-vercel-og");
-    const [interRegular, interBlack] = await loadFonts();
+    const { ImageResponse } =
+      await import("@hasparus/definitely-not-vercel-og");
 
     console.log("returning ImageResponse for", stringifiedPost);
 
@@ -225,22 +231,6 @@ function h<T extends React.ElementType>(
   };
 }
 
-let fontData: Promise<[Buffer, Buffer]> | undefined;
-
-export function loadFonts(): Promise<[Buffer, Buffer]> {
-  if (!fontData) {
-    fontData = Promise.all([
-      fs.readFile(new URL("../assets/og/Inter-Regular.ttf", import.meta.url)),
-      fs.readFile(new URL("../assets/og/Inter-Black.ttf", import.meta.url)),
-    ]).catch((error: unknown) => {
-      fontData = undefined;
-      throw error;
-    });
-  }
-
-  return fontData;
-}
-
 type Post = {
   date: Date;
   title: string;
@@ -299,40 +289,14 @@ class HttpError extends Error {
   }
 }
 
-/**
- * @see https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
- */
-async function assertTokenIsValid(
-  post: StringifiedPost,
-  receivedToken: string,
-): Promise<void> {
+function assertTokenIsValid(post: StringifiedPost, receivedToken: string) {
   const secret = process.env.OG_IMAGE_SECRET;
 
   if (!secret) {
     throw new Error("process.env.OG_IMAGE_SECRET is missing");
   }
 
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(secret),
-    { name: "HMAC", hash: { name: "SHA-256" } },
-    false,
-    ["sign"],
-  );
-
-  const arrayBuffer = await crypto.subtle.sign(
-    "HMAC",
-    key,
-    new TextEncoder().encode(post),
-  );
-
-  const token = Array.prototype.map
-    .call(new Uint8Array(arrayBuffer), (n: number) =>
-      n.toString(16).padStart(2, "0"),
-    )
-    .join("");
-
-  if (receivedToken !== token) {
+  if (!isValidOgToken(secret, post, receivedToken)) {
     throw new HttpError("Invalid token.", 401);
   }
 }
