@@ -1,10 +1,12 @@
-import { next, rewrite } from "@vercel/edge";
+import { next, rewrite } from "@vercel/functions/middleware";
 
 import {
   jsonError,
   markdown404,
   prefersMarkdown,
 } from "./src/lib/agents/http.js";
+
+export const config = { runtime: "nodejs" };
 
 const staticApi = new Set(["/api/profile.json", "/api/posts.json"]);
 const functions = new Set(["/api/status", "/api/og", "/api/mcp", "/mcp"]);

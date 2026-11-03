@@ -2,6 +2,7 @@ packages: []
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
   - "@hasparus/tailwind"
+  - "@hasparus/definitely-not-vercel-og"
   - "astro"
   - "@astrojs/*"
   - "impeccable@3.6.0"

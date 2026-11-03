@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import middleware from "../middleware";
 import { parseSearchParams } from "../api/og";
 import { prefersMarkdown } from "../src/lib/agents/http";
+import { isValidOgToken, signOgPost } from "../src/lib/ogToken";
 import { acceptCases } from "./accept-cases";
 
 test("Markdown paths cannot turn into cross-origin requests", async () => {
@@ -47,6 +48,16 @@ test("OG parameters preserve literal percent signs and encoded-looking titles", 
     expect(parsed.post.title).toBe(title);
     expect(parsed.token).toBe("test-token");
   }
+});
+
+test("OG tokens accept only the site's signature for the exact post", () => {
+  const post = "1700000000000\t3\tTitle\t";
+  const token = signOgPost("secret", post);
+  expect(isValidOgToken("secret", post, token)).toBe(true);
+  expect(isValidOgToken("secret", `${post}x`, token)).toBe(false);
+  expect(isValidOgToken("other", post, token)).toBe(false);
+  expect(isValidOgToken("secret", post, token.slice(1))).toBe(false);
+  expect(isValidOgToken("secret", post, "")).toBe(false);
 });
 
 test("media negotiation uses whitespace, valid quality values, and wildcard specificity", () => {

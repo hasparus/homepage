@@ -1,12 +1,12 @@
-// Note: `vercel dev` doesn't run `.tsx` endpoints
-//        and it can't run @vercel/og because of
-//        > Invalid URL: ../vendor/noto-sans-v27-latin-regular.ttf
-//        The only way to work with this file is repeatedly pushing and checking
-//        the result on Vercel Preview Deployments.
+// Preview locally through `vercel dev`, or call the default export's `fetch`
+// directly under `bun` or `node --import tsx`. Requests need a token signed
+// with OG_IMAGE_SECRET (see src/lib/createOgImageLink.tsx).
 
+import { readFileSync } from "node:fs";
 import type * as React from "react";
 
 import { jsonError } from "../src/lib/agents/http.js";
+import { isValidOgToken } from "../src/lib/ogToken.js";
 
 const author = {
   name: "Piotr Monwid-Olechnowicz",
@@ -15,22 +15,29 @@ const author = {
 
 type Author = typeof author;
 
-export const config = { runtime: "edge" };
+export default { fetch: og };
 
 const width = 1200;
 const height = 630;
 
-export default async function og(req: Request) {
+const interRegular = readFileSync(
+  new URL("../assets/og/Inter-Regular.ttf", import.meta.url),
+);
+const interBlack = readFileSync(
+  new URL("../assets/og/Inter-Black.ttf", import.meta.url),
+);
+
+async function og(req: Request) {
   try {
     const url = new URL(req.url);
     const { post, stringifiedPost, token } = parseSearchParams(
       url.searchParams,
     );
 
-    await assertTokenIsValid(stringifiedPost, token);
+    assertTokenIsValid(stringifiedPost, token);
 
-    const { ImageResponse } = await import("@vercel/og");
-    const [interRegular, interBlack] = await loadFonts();
+    const { ImageResponse } =
+      await import("@hasparus/definitely-not-vercel-og");
 
     console.log("returning ImageResponse for", stringifiedPost);
 
@@ -52,7 +59,6 @@ export default async function og(req: Request) {
         {
           tw: `
             w-full h-full
-            font-[Inter]
             flex flex-col
           `,
         },
@@ -225,29 +231,6 @@ function h<T extends React.ElementType>(
   };
 }
 
-let fontData: Promise<[ArrayBuffer, ArrayBuffer]> | undefined;
-
-export function loadFonts(): Promise<[ArrayBuffer, ArrayBuffer]> {
-  if (!fontData) {
-    fontData = Promise.all([
-      fetchFont(new URL("../assets/og/Inter-Regular.ttf", import.meta.url)),
-      fetchFont(new URL("../assets/og/Inter-Black.ttf", import.meta.url)),
-    ]).catch((error: unknown) => {
-      fontData = undefined;
-      throw error;
-    });
-  }
-
-  return fontData;
-}
-
-async function fetchFont(url: URL) {
-  const response = await fetch(url);
-  if (!response.ok)
-    throw new Error(`Failed to load OG font: HTTP ${response.status}`);
-  return response.arrayBuffer();
-}
-
 type Post = {
   date: Date;
   title: string;
@@ -306,40 +289,14 @@ class HttpError extends Error {
   }
 }
 
-/**
- * @see https://vercel.com/docs/concepts/functions/edge-functions/og-image-examples#encrypting-parameters
- */
-async function assertTokenIsValid(
-  post: StringifiedPost,
-  receivedToken: string,
-): Promise<void> {
+function assertTokenIsValid(post: StringifiedPost, receivedToken: string) {
   const secret = process.env.OG_IMAGE_SECRET;
 
   if (!secret) {
     throw new Error("process.env.OG_IMAGE_SECRET is missing");
   }
 
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(secret),
-    { name: "HMAC", hash: { name: "SHA-256" } },
-    false,
-    ["sign"],
-  );
-
-  const arrayBuffer = await crypto.subtle.sign(
-    "HMAC",
-    key,
-    new TextEncoder().encode(post),
-  );
-
-  const token = Array.prototype.map
-    .call(new Uint8Array(arrayBuffer), (n: number) =>
-      n.toString(16).padStart(2, "0"),
-    )
-    .join("");
-
-  if (receivedToken !== token) {
+  if (!isValidOgToken(secret, post, receivedToken)) {
     throw new HttpError("Invalid token.", 401);
   }
 }
