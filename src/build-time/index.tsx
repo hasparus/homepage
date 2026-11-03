@@ -1,5 +1,4 @@
 import type {
-  RehypePlugin,
   RehypePlugins,
   RemarkPlugin,
   RemarkPlugins,
@@ -10,7 +9,7 @@ import type { Pluggable } from "unified";
 
 import { titleCase } from "../lib/titleCase";
 
-import { asidesPlugin, type AsidesPluginOptions } from "./asidesPlugin";
+import { asidesPlugin } from "./asidesPlugin";
 import { derivedTitleAndDatePlugin } from "./derivedTitleAndDatePlugin";
 import {
   readingTimePlugin,
@@ -32,11 +31,7 @@ export const remarkPlugins = (projectDir: string): RemarkPlugins => {
   );
 };
 
-export const rehypePlugins: RehypePlugins = checkOptions([
-  // Walks MDX JSX nodes, which Astro's `hast.Root` doesn't model.
-  asidesPlugin as RehypePlugin<[AsidesPluginOptions]>,
-  {},
-]);
+export const rehypePlugins: RehypePlugins = checkOptions([asidesPlugin, {}]);
 
 /**
  * Adds autocomplete and typechecking to plugin tuples.

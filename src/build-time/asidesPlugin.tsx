@@ -1,5 +1,6 @@
-import type * as hast from "hast";
-import type { Plugin } from "unified";
+import type { RehypePlugin } from "@astrojs/markdown-remark";
+import type { RootContent } from "hast";
+import type { MdxJsxFlowElementHast } from "mdast-util-mdx-jsx";
 
 export const FLEX_CONTAINER_CLASS = "zaduma-aside";
 
@@ -10,9 +11,7 @@ export type AsidesPluginOptions = {};
  *
  * Read posts/features/asides.mdx for more information.
  */
-export const asidesPlugin: Plugin<[AsidesPluginOptions], Root, Root> = (
-  _options,
-) => {
+export const asidesPlugin: RehypePlugin<[AsidesPluginOptions]> = (_options) => {
   return (root) => {
     let children = [...root.children];
 
@@ -60,7 +59,7 @@ export const asidesPlugin: Plugin<[AsidesPluginOptions], Root, Root> = (
                 },
                 node,
               ],
-            };
+            } satisfies MdxJsxFlowElementHast;
 
             break;
           }
@@ -73,34 +72,3 @@ export const asidesPlugin: Plugin<[AsidesPluginOptions], Root, Root> = (
     return { ...root, children };
   };
 };
-
-interface RootContentMap extends hast.RootContentMap {
-  mdxJsxFlowElement: MdxJsxFlowElement;
-}
-
-type RootContent = RootContentMap[keyof RootContentMap];
-
-interface Root {
-  type: "root";
-  children: RootContent[];
-}
-
-interface ElementContentMap extends hast.ElementContentMap {
-  mdxJsxFlowElement: MdxJsxFlowElement;
-}
-
-type ElementContent = ElementContentMap[keyof ElementContentMap];
-
-interface MdxJsxFlowElement {
-  type: "mdxJsxFlowElement";
-  name: string;
-  attributes: { type: "mdxJsxAttribute"; name: string; value: unknown }[];
-  children: ElementContent[];
-  position?:
-    | undefined
-    | {
-        start: { line: number; column: number; offset?: number | undefined };
-        end: { line: number; column: number; offset?: number | undefined };
-      };
-  data?: unknown;
-}
