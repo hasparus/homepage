@@ -106,19 +106,22 @@ test("bear-fit's social card loops as og:video and an X player card", async ({
   await expect(page.locator("video")).toHaveAttribute("src", video.pathname);
 });
 
+declare global {
+  interface Window {
+    clicks: number;
+  }
+}
+
 test("buttons click quietly until sound is turned off", async ({ page }) => {
   await page.addInitScript(() => {
     const start = AudioBufferSourceNode.prototype.start;
-    Object.assign(window, { clicks: 0 });
+    window.clicks = 0;
     AudioBufferSourceNode.prototype.start = function (...args) {
-      Object.assign(window, {
-        clicks: (window as unknown as { clicks: number }).clicks + 1,
-      });
+      window.clicks++;
       return start.apply(this, args);
     };
   });
-  const clicks = () =>
-    page.evaluate(() => (window as unknown as { clicks: number }).clicks);
+  const clicks = () => page.evaluate(() => window.clicks);
   await page.goto("/");
 
   await page.getByRole("button", { name: "⌘", exact: true }).click();
@@ -129,6 +132,11 @@ test("buttons click quietly until sound is turned off", async ({ page }) => {
   const silenced = await clicks();
   await page.getByRole("button", { name: "⌘", exact: true }).click();
   expect(await clicks()).toBe(silenced);
+
+  await page.getByRole("option", { name: "Turn Sound On" }).click();
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "⌘", exact: true }).click();
+  await expect.poll(clicks).toBeGreaterThan(silenced);
 });
 
 test("buttons still work without Web Audio", async ({ page }) => {
