@@ -53,7 +53,6 @@ async function og(req: Request) {
         {
           tw: `
             w-full h-full
-            font-[Inter]
             flex flex-col
           `,
         },
