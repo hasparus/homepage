@@ -1,3 +1,8 @@
+import type {
+  RehypePlugins,
+  RemarkPlugin,
+  RemarkPlugins,
+} from "@astrojs/markdown-remark";
 import { resolve } from "node:path";
 import remarkSupersub from "remark-supersub";
 import type { Pluggable } from "unified";
@@ -12,20 +17,21 @@ import {
 } from "./readingTimePlugin";
 import { urlOutsideOfPagesDirPlugin } from "./urlOutsideOfPagesDirPlugin";
 
-export const remarkPlugins = (projectDir: string): Pluggable[] => {
+export const remarkPlugins = (projectDir: string): RemarkPlugins => {
   return checkOptions(
     [
       urlOutsideOfPagesDirPlugin,
       { absoluteDirPath: resolve(projectDir, "./posts") },
     ],
     [derivedTitleAndDatePlugin, { title: titleCase }],
-    remarkSupersub,
+    // Types its transformer on unist `Node`, not mdast `Root`.
+    remarkSupersub as unknown as RemarkPlugin,
     readingTimePlugin,
     remarkMdxReadingTimePlugin,
   );
 };
 
-export const rehypePlugins: Pluggable[] = checkOptions([asidesPlugin, {}]);
+export const rehypePlugins: RehypePlugins = checkOptions([asidesPlugin, {}]);
 
 /**
  * Adds autocomplete and typechecking to plugin tuples.
