@@ -1,0 +1,3 @@
+# Prettier's MDX parser only understands MDX 1; these pages wrap Markdown in JSX.
+src/pages/resume.mdx
+src/pages/speaking.mdx

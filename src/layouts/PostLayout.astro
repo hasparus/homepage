@@ -17,13 +17,17 @@ import "../global-styles/shiki.css";
 
 // They're all accessible, but we're not using all of them, and I want to
 // reuse PostLayout in other pages, so I'm just picking the ones I need.
-interface AllPropsFromMarkdownLayout
-  extends Omit<MarkdownLayoutProps<{}>, "frontmatter"> {
+interface AllPropsFromMarkdownLayout extends Omit<
+  MarkdownLayoutProps<{}>,
+  "frontmatter"
+> {
   frontmatter: PostFrontmatter;
 }
 
-interface Props
-  extends Pick<AllPropsFromMarkdownLayout, "frontmatter" | "headings"> {}
+interface Props extends Pick<
+  AllPropsFromMarkdownLayout,
+  "frontmatter" | "headings"
+> {}
 
 const { frontmatter, headings } = Astro.props;
 
@@ -32,7 +36,7 @@ const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
 const imgSrc =
   typeof frontmatter.img === "object" ? frontmatter.img.src : frontmatter.img;
-const description = frontmatter.description || ""
+const description = frontmatter.description || "";
 
 const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site).href
@@ -47,15 +51,19 @@ const postSchema = blogPostingSchema({
 });
 ---
 
-<BaseLayout title={frontmatter.title} socialCard={socialCard} description={description}>
+<BaseLayout
+  title={frontmatter.title}
+  socialCard={socialCard}
+  description={description}
+>
   <JsonLd data={postSchema} slot="head" />
   <main class="zaduma-prose py-4">
     <header
-      class="flex justify-between items-start sm:items-center flex-col sm:flex-row"
+      class="flex flex-col items-start justify-between sm:flex-row sm:items-center"
     >
       <h1 id={TOP_HEADING_ID} class="!my-0">{frontmatter.title}</h1>
-      
-      <div class="text-gray-600 dark:text-gray-400 text-right">
+
+      <div class="text-right text-gray-600 dark:text-gray-400">
         {
           readingTime.minutes > 1 && (
             <>
@@ -66,7 +74,7 @@ const postSchema = blogPostingSchema({
         }
         <time
           datetime={date.toISOString()}
-          class="tabular-nums tracking-tighter"
+          class="tracking-tighter tabular-nums"
         >
           {formatDate(date)}
         </time>
@@ -74,7 +82,17 @@ const postSchema = blogPostingSchema({
     </header>
     {
       imgSrc && (
-        <Image alt="" src={imgSrc} format="webp" width={WIDE_CONTAINER_WIDTH} aspectRatio={2} class:list={["aspect-[2]", typeof frontmatter.img === "object" ? frontmatter.img.class : ""]} />
+        <Image
+          alt=""
+          src={imgSrc}
+          format="webp"
+          width={WIDE_CONTAINER_WIDTH}
+          aspectRatio={2}
+          class:list={[
+            "aspect-[2]",
+            typeof frontmatter.img === "object" ? frontmatter.img.class : "",
+          ]}
+        />
       )
     }
     <slot />
