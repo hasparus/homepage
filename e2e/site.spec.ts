@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
+import { parseHTML } from "linkedom";
 
 test.describe("Homepage", () => {
   test("renders with article list", async ({ page }) => {
@@ -92,18 +93,46 @@ test("bear-fit's social card loops as og:video and an X player card", async ({
   page,
   request,
 }) => {
-  await page.goto("/bear-fit/");
+  const response = await request.get("/bear-fit/", {
+    headers: { "User-Agent": "Twitterbot/1.0" },
+  });
+  expect(response.ok()).toBe(true);
+  const { document } = parseHTML(await response.text());
   const meta = (attribute: string) =>
-    page.locator(`meta[${attribute}]`).getAttribute("content");
-  expect(await meta('name="twitter:card"')).toBe("player");
-  const video = new URL((await meta('property="og:video"'))!);
-  expect((await request.get(video.pathname)).headers()["content-type"]).toMatch(
-    /^video\/mp4/,
+    document.querySelector(`meta[${attribute}]`)?.getAttribute("content");
+  const description = meta('name="description"');
+  expect(description).toBe(
+    "I built a thing to make meeting my friends dead simple. On two-click UX, absorbing complexity, and deciding what not to build.",
   );
+  expect(meta('property="og:description"')).toBe(description);
+  expect(meta('name="twitter:description"')).toBe(description);
+  expect(meta('property="og:site_name"')).toBe("hasparus");
+  expect(meta('name="twitter:title"')).toBe(meta('property="og:title"'));
+  expect(meta('name="twitter:card"')).toBe("player");
+  expect(meta('name="twitter:image"')).toBe(meta('property="og:image"'));
+  const video = new URL(meta('property="og:video"')!);
+  expect(video.protocol).toBe("https:");
+  expect(meta('name="twitter:player:stream"')).toBe(video.href);
+  expect(meta('name="twitter:player:stream:content_type"')).toBe("video/mp4");
+  const mp4 = await request.get(video.pathname);
+  expect(mp4.ok()).toBe(true);
+  expect(mp4.headers()["content-type"]).toMatch(/^video\/mp4/);
 
-  const player = new URL((await meta('name="twitter:player"'))!);
+  const player = new URL(meta('name="twitter:player"')!);
+  expect(player.protocol).toBe("https:");
+  expect(meta('name="twitter:player:width"')).toBe("1200");
+  expect(meta('name="twitter:player:height"')).toBe("630");
   await page.goto(player.pathname);
-  await expect(page.locator("video")).toHaveAttribute("src", video.pathname);
+  const embeddedVideo = page.locator("video");
+  await expect(embeddedVideo).toHaveAttribute("src", video.pathname);
+  await expect(embeddedVideo).toHaveAttribute("controls", "");
+  await expect(embeddedVideo).toHaveJSProperty("loop", true);
+  await expect(embeddedVideo).toHaveJSProperty("muted", true);
+  await expect
+    .poll(() =>
+      embeddedVideo.evaluate((video: HTMLVideoElement) => video.currentTime),
+    )
+    .toBeGreaterThan(0);
 });
 
 declare global {

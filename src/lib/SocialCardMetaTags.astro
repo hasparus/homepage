@@ -25,6 +25,8 @@ const absolute = (url: string) =>
       <meta name="twitter:player" content={absolute(video.player)} />
       <meta name="twitter:player:width" content="1200" />
       <meta name="twitter:player:height" content="630" />
+      <meta name="twitter:player:stream" content={absolute(video.src)} />
+      <meta name="twitter:player:stream:content_type" content="video/mp4" />
     </>
   )
 }

@@ -81,6 +81,9 @@ const websiteData = websiteSchema({
     <meta property="og:type" content={isPostRoute ? "article" : "website"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
 
     <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
