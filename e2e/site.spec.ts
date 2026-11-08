@@ -110,8 +110,9 @@ test("bear-fit's social card loops as og:video and an X player card", async ({
   expect(meta('name="twitter:title"')).toBe(meta('property="og:title"'));
   expect(meta('name="twitter:card"')).toBe("player");
   expect(meta('name="twitter:image"')).toBe(meta('property="og:image"'));
+  const { origin } = new URL(meta('property="og:image"')!);
   const video = new URL(meta('property="og:video"')!);
-  expect(video.protocol).toBe("https:");
+  expect(video.origin).toBe(origin);
   expect(meta('name="twitter:player:stream"')).toBe(video.href);
   expect(meta('name="twitter:player:stream:content_type"')).toBe("video/mp4");
   const mp4 = await request.get(video.pathname);
@@ -119,7 +120,7 @@ test("bear-fit's social card loops as og:video and an X player card", async ({
   expect(mp4.headers()["content-type"]).toMatch(/^video\/mp4/);
 
   const player = new URL(meta('name="twitter:player"')!);
-  expect(player.protocol).toBe("https:");
+  expect(player.origin).toBe(origin);
   expect(meta('name="twitter:player:width"')).toBe("1200");
   expect(meta('name="twitter:player:height"')).toBe("630");
   await page.goto(player.pathname);
