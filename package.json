@@ -52,7 +52,7 @@
     "@types/unist": "^3.0.3",
     "@use-gesture/vanilla": "10.3.1",
     "@vercel/analytics": "^2.0.1",
-    "@vercel/functions": "^3.10.5",
+    "@vercel/functions": "^3.11.0",
     "astro": "^7.4.7",
     "astro-eslint-parser": "^3.2.0",
     "eslint-plugin-markdown": "^5.0.0",
