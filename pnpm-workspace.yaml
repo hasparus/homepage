@@ -17,4 +17,5 @@ allowBuilds:
   core-js-pure: true
   puppeteer: true
   sharp: true
+  koffi: false
   unrs-resolver: false
