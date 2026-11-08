@@ -6,6 +6,12 @@ minimumReleaseAgeExclude:
   - "astro"
   - "@astrojs/*"
   - "impeccable@3.6.0"
+  - "@vercel/functions@3.11.0"
+  - "@vercel/oidc@4.0.7"
+  - "@vercel/cli-config@0.3.7"
+overrides:
+  # @vercel/oidc 3.x (via @vercel/blob) pins a @vercel/cli-config with zod 4.1.11.
+  "@vercel/cli-config>zod": ^4.6.7
 patchedDependencies:
   prettier-plugin-astro@0.14.0: patches/prettier-plugin-astro@0.14.0.patch
 peerDependencyRules:
@@ -17,4 +23,5 @@ allowBuilds:
   core-js-pure: true
   puppeteer: true
   sharp: true
+  koffi: false
   unrs-resolver: false
