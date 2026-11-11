@@ -1,11 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { createOgImageLink } from "../lib/createOgImageLink";
+import { socialCardOf } from "../lib/createOgImageLink";
 import { Link } from "../lib/Link";
+import { resolvePostImages } from "../lib/postImages";
 import { allPosts } from "../build-time/posts";
 
-const linksToOGImages = allPosts.map(({ module }) =>
-  createOgImageLink(module.frontmatter),
+const linksToOGImages = await Promise.all(
+  allPosts.map(async ({ module: { frontmatter, file } }) => {
+    const { og } = await resolvePostImages(frontmatter, file);
+    return socialCardOf(frontmatter, og).image;
+  }),
 );
 ---
 

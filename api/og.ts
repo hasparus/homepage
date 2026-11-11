@@ -41,17 +41,7 @@ async function og(req: Request) {
 
     console.log("returning ImageResponse for", stringifiedPost);
 
-    let postImage = post.img;
-    if (
-      postImage &&
-      postImage.startsWith("/") &&
-      !postImage.startsWith("/content/")
-    ) {
-      // we copy in deploy.mjs
-      // the files from `src` are imported in Astro for processing,
-      // but for OG images we just use them as they are
-      postImage = "/for-og" + postImage;
-    }
+    const postImage = post.img;
 
     return new ImageResponse(
       h(
@@ -118,7 +108,9 @@ function Illustration({
   imageHref: string | null | undefined;
   style?: React.CSSProperties;
 }) {
-  imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
+  imageHref = imageHref?.startsWith("/")
+    ? `https://${process.env.VERCEL_URL}${imageHref}`
+    : (imageHref ?? "");
 
   const searchParams = imageHref ? new URL(imageHref).searchParams : null;
 

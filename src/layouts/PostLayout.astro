@@ -3,6 +3,7 @@ import type { MarkdownLayoutProps } from "astro";
 
 import { socialCardOf } from "../lib/createOgImageLink";
 import { formatDate } from "../lib/formatDate";
+import { resolvePostImages } from "../lib/postImages";
 import Image, { WIDE_CONTAINER_WIDTH } from "../lib/prose/Image.astro";
 import { blogPostingSchema } from "../lib/seo/jsonLd";
 import JsonLd from "../lib/seo/JsonLd.astro";
@@ -27,15 +28,22 @@ interface AllPropsFromMarkdownLayout extends Omit<
 interface Props extends Pick<
   AllPropsFromMarkdownLayout,
   "frontmatter" | "headings"
-> {}
+> {
+  /** The post's `.mdx` path, to resolve images next to it. Pages without images can omit it. */
+  file?: string;
+}
 
-const { frontmatter, headings } = Astro.props;
+const { frontmatter, headings, file } = Astro.props;
 
-const socialCard = socialCardOf(frontmatter);
+const { img, og } = file
+  ? await resolvePostImages(frontmatter, file)
+  : {
+      img: undefined,
+      og: { image: undefined, backgroundImage: undefined, video: undefined },
+    };
+const socialCard = socialCardOf(frontmatter, og);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
-const imgSrc =
-  typeof frontmatter.img === "object" ? frontmatter.img.src : frontmatter.img;
 const description = frontmatter.description || "";
 
 const canonical = Astro.site
@@ -81,17 +89,14 @@ const postSchema = blogPostingSchema({
       </div>
     </header>
     {
-      imgSrc && (
+      img && (
         <Image
           alt=""
-          src={imgSrc}
+          src={img}
           format="webp"
           width={WIDE_CONTAINER_WIDTH}
           aspectRatio={2}
-          class:list={[
-            "aspect-[2]",
-            typeof frontmatter.img === "object" ? frontmatter.img.class : "",
-          ]}
+          class="aspect-[2]"
         />
       )
     }

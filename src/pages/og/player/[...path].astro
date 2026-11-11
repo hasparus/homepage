@@ -1,10 +1,10 @@
 ---
 import { allPosts } from "../../../build-time/posts";
-import { ogVideoOf, playerPathOf } from "../../../lib/createOgImageLink";
+import { playerPathOf } from "../../../lib/createOgImageLink";
 
 export const getStaticPaths = () =>
   allPosts.flatMap(({ module: { frontmatter } }) => {
-    const src = ogVideoOf(frontmatter);
+    const src = frontmatter.og?.video;
     return src
       ? [{ params: { path: playerPathOf(frontmatter) }, props: { src } }]
       : [];
