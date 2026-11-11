@@ -37,7 +37,10 @@ const { frontmatter, headings, file } = Astro.props;
 
 const { img, og } = file
   ? await resolvePostImages(frontmatter, file)
-  : { img: undefined, og: {} };
+  : {
+      img: undefined,
+      og: { image: undefined, backgroundImage: undefined, video: undefined },
+    };
 const socialCard = socialCardOf(frontmatter, og);
 const readingTime = frontmatter.readingTime;
 const date = new Date(frontmatter.date);
