@@ -108,7 +108,9 @@ function Illustration({
   imageHref: string | null | undefined;
   style?: React.CSSProperties;
 }) {
-  imageHref = imageHref ? `https://${process.env.VERCEL_URL}${imageHref}` : "";
+  imageHref = imageHref?.startsWith("/")
+    ? `https://${process.env.VERCEL_URL}${imageHref}`
+    : (imageHref ?? "");
 
   const searchParams = imageHref ? new URL(imageHref).searchParams : null;
 
