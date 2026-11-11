@@ -1,6 +1,7 @@
 import type { StringifiedPost } from "../../api/og";
 import type { PostFrontmatter } from "../types/PostFrontmatter";
 import { signOgPost } from "./ogToken";
+import type { ResolvedPostImages } from "./postImages";
 
 declare global {
   interface ImportMetaEnv {
@@ -20,12 +21,15 @@ export interface SocialCard {
   video?: { player: string; src: string };
 }
 
-export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
-  const src = ogVideoOf(frontmatter);
+/** A ready-made `og.image` is served as is. Otherwise `/api/og` draws a card over `og.backgroundImage`. */
+export function socialCardOf(
+  frontmatter: PostFrontmatter,
+  { image, backgroundImage, video }: ResolvedPostImages["og"],
+): SocialCard {
   return {
-    image: createOgImageLink(frontmatter),
-    ...(src && {
-      video: { player: `/og/player/${playerPathOf(frontmatter)}/`, src },
+    image: image ?? createOgImageLink(frontmatter, backgroundImage),
+    ...(video && {
+      video: { player: `/og/player/${playerPathOf(frontmatter)}/`, src: video },
     }),
   };
 }
@@ -34,21 +38,10 @@ export function socialCardOf(frontmatter: PostFrontmatter): SocialCard {
 export const playerPathOf = (frontmatter: PostFrontmatter) =>
   frontmatter.path.slice(1);
 
-export function ogVideoOf(frontmatter: PostFrontmatter) {
-  const video =
-    typeof frontmatter.img === "object" ? frontmatter.img.ogVideo : undefined;
-  if (video !== undefined && !/^\/content\/.+\.mp4$/.test(video))
-    throw new Error(
-      `${frontmatter.path}: img.ogVideo must be a /content/**/*.mp4 path served from public/, got ${video}`,
-    );
-  return video;
-}
-
-export function createOgImageLink(frontmatter: PostFrontmatter) {
-  let img = frontmatter.img;
-  if (typeof img === "object") img = img.og || img.src;
-  if (img?.startsWith("static!")) return img.slice("static!".length);
-
+function createOgImageLink(
+  frontmatter: PostFrontmatter,
+  img: string | undefined,
+) {
   // prettier-ignore
   const stringifiedPost: StringifiedPost = `${
     new Date(frontmatter.date).getTime()

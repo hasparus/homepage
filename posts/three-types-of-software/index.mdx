@@ -1,6 +1,6 @@
 ---
-img:
-  og: /three-types-of-software/og.png?paddingBottom=112px
+og:
+  backgroundImage: ./og.png?paddingBottom=112px
 ---
 
 Imagine there are only three programming languages: C, Haskell, and Ruby.
@@ -26,7 +26,7 @@ You're probably familiar with the "Good, Cheap and Fast" Venn diagram. My
 question about programming language choice in an imaginary reduced world isn't
 just a polyglot flex. It `is, at least for me, more useful.
 
-import { VennDiagram } from "../src/own/VennDiagram";
+import { VennDiagram } from "../../src/own/VennDiagram";
 
 <VennDiagram
   style={{ transform: "translate(-8px)" }}
@@ -86,7 +86,7 @@ question of preference.
 In reality, with a finite focus to spend, balancing between 3 qualities is like
 picking a point on a sphere octant.
 
-import { SphereOctant } from "../src/own/three-types-of-software/SphereOctant.react.tsx";
+import { SphereOctant } from "../../src/own/three-types-of-software/SphereOctant.react.tsx";
 
 <figure>
   <SphereOctant client:only="react" />

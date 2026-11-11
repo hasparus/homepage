@@ -37,7 +37,7 @@ On [my old website](https://old-hasparus.netlify.app/) I handwrote and animated
 an actual SVG sandwich for the menu icon. And then I overengineered it to work
 without JavaScript with `#menu-id:target ~ &` trick.
 
-import Hamburger from "../src/own/2023-homepage-rebuild/Hamburger.astro";
+import Hamburger from "../../src/own/2023-homepage-rebuild/Hamburger.astro";
 
 <aside>
   You've made some of my friends laugh, but it's time for you to go, my dear
@@ -128,7 +128,13 @@ pay off.
 There are some perf improvements that could have been done on my old site, but
 it was still all green.
 
-import TableCellImage from "../src/own/2023-homepage-rebuild/TableCellImage.astro";
+import TableCellImage from "../../src/own/2023-homepage-rebuild/TableCellImage.astro";
+import oldMobile from "./old-mobile.png";
+import oldDesktop from "./old-desktop.png";
+import zadumaMobile from "./zaduma-mobile.png";
+import zadumaDesktop from "./zaduma-desktop.png";
+import zadumaWithImageMobile from "./zaduma-with-image-mobile.png";
+import zadumaWithImageDesktop from "./zaduma-with-image-desktop.png";
 
 <Table class="hsp--measurements">
   <thead>
@@ -139,8 +145,8 @@ import TableCellImage from "../src/own/2023-homepage-rebuild/TableCellImage.astr
   </thead>
   <tbody>
     <tr>
-      <TableCellImage src="/2023-homepage-rebuild/old-mobile.png" />
-      <TableCellImage src="/2023-homepage-rebuild/old-desktop.png" />
+      <TableCellImage src={oldMobile} />
+      <TableCellImage src={oldDesktop} />
     </tr>
   </tbody>
 </Table>
@@ -160,12 +166,12 @@ bit.
   </thead>
   <tbody>
     <tr>
-      <TableCellImage src="/2023-homepage-rebuild/zaduma-mobile.png" />
-      <TableCellImage src="/2023-homepage-rebuild/zaduma-desktop.png" />
+      <TableCellImage src={zadumaMobile} />
+      <TableCellImage src={zadumaDesktop} />
     </tr>
     <tr>
-      <TableCellImage src="/2023-homepage-rebuild/zaduma-with-image-mobile.png" />
-      <TableCellImage src="/2023-homepage-rebuild/zaduma-with-image-desktop.png" />
+      <TableCellImage src={zadumaWithImageMobile} />
+      <TableCellImage src={zadumaWithImageDesktop} />
     </tr>
   </tbody>
 </Table>
