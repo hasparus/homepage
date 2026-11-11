@@ -126,11 +126,11 @@ async function resolveSource(
   const isRaw = rawParam || raw !== path;
 
   if (raw.startsWith("http")) {
-    // Fetched even when served as is, so a broken URL fails the build.
     const bytes = await fetchRemoteImage(raw);
-    return isRaw
-      ? { optimize: false, src: raw }
-      : { optimize: true, image: raw, bytes };
+    if (!isRaw) return { optimize: true, image: raw, bytes };
+    // Decoded even when served as is, so a broken image fails the build.
+    await sharp(bytes).metadata();
+    return { optimize: false, src: raw };
   }
 
   if (raw.startsWith("/content/")) {
