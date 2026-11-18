@@ -9,6 +9,8 @@ minimumReleaseAgeExclude:
   - "@vercel/functions@3.11.0"
   - "@vercel/oidc@4.0.7"
   - "@vercel/cli-config@0.3.7"
+  # Asked for by name; no dependencies, no install scripts.
+  - "@xeet/core@0.1.0"
 overrides:
   # @vercel/oidc 3.x (via @vercel/blob) pins a @vercel/cli-config with zod 4.1.11.
   "@vercel/cli-config>zod": ^4.6.7
